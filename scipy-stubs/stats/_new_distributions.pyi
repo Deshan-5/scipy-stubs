@@ -113,8 +113,8 @@ class Normal(ContinuousDistribution[_FloatT_co, _ShapeT_co], Generic[_ShapeT_co,
     ) -> None: ...
 
 class StandardNormal(Normal[tuple[()], np.float64]):  # undocumented
-    mu: ClassVar[np.float64] = ...  # pyright: ignore[reportIncompatibleMethodOverride]
-    sigma: ClassVar[np.float64] = ...  # pyright: ignore[reportIncompatibleMethodOverride]
+    mu: ClassVar[np.float64] = ...  # pyright: ignore[reportIncompatibleMethodOverride]  # pyrefly: ignore[bad-override]
+    sigma: ClassVar[np.float64] = ...  # pyright: ignore[reportIncompatibleMethodOverride]  # pyrefly: ignore[bad-override]
 
     def __init__(self, /, **kw: Unpack[_DistOpts]) -> None: ...
 

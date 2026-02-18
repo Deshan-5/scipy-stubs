@@ -184,15 +184,15 @@ class _Interval(_Domain[_XT_co], Generic[_XT_co]):
     #
     def __init__(self, /, endpoints: _ToDomain = ..., inclusive: tuple[bool, bool] = (False, False)) -> None: ...
     @override
-    def get_numerical_endpoints(  # pyright: ignore[reportIncompatibleMethodOverride]  # pyrefly: ignore[bad-param-name-override] # ty: ignore[invalid-method-override]
+    def get_numerical_endpoints(  # pyright: ignore[reportIncompatibleMethodOverride] # pyrefly: ignore[bad-param-name-override] # ty: ignore[invalid-method-override]
         self, /, parameter_values: _ParamValues
     ) -> tuple[onp.ArrayND[_OutFloat], onp.ArrayND[_OutFloat]]: ...
     @override
-    def contains(  # pyright: ignore[reportIncompatibleMethodOverride]  # pyrefly: ignore[bad-param-name-override] # ty: ignore[invalid-method-override]
+    def contains(  # pyright: ignore[reportIncompatibleMethodOverride] # pyrefly: ignore[bad-override] # ty: ignore[invalid-method-override]
         self, /, item: onp.ArrayND[_Int | _Float], parameter_values: _ParamValues | None = None
     ) -> onp.ArrayND[np.bool_]: ...
     @override
-    def draw(  # pyright: ignore[reportIncompatibleMethodOverride]  # pyrefly: ignore[bad-override] # ty: ignore[invalid-method-override]
+    def draw(  # pyright: ignore[reportIncompatibleMethodOverride] # pyrefly: ignore[bad-override] # ty: ignore[invalid-method-override]
         self,
         /,
         n: int,
