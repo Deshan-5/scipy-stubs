@@ -7,7 +7,9 @@ import optype.numpy as onp
 
 from .base import DenseOutput, OdeSolver
 
-_SCT_fc = TypeVar("_SCT_fc", bound=np.float64 | np.complex128, default=np.float64 | np.complex128)
+_SCT_fc = TypeVar(
+    "_SCT_fc", bound=np.float64 | np.complex128, default=np.float64 | np.complex128
+)
 
 ###
 
@@ -66,14 +68,28 @@ class RkDenseOutput(DenseOutput[_SCT_fc], Generic[_SCT_fc]):
     Q: onp.ArrayND[_SCT_fc]
     y_old: onp.ArrayND[_SCT_fc]
 
-    def __init__(self, /, t_old: float, t: float, y_old: onp.ArrayND[_SCT_fc], Q: onp.ArrayND[_SCT_fc]) -> None: ...
+    def __init__(
+        self,
+        /,
+        t_old: float,
+        t: float,
+        y_old: onp.ArrayND[_SCT_fc],
+        Q: onp.ArrayND[_SCT_fc],
+    ) -> None: ...
 
 class Dop853DenseOutput(DenseOutput[_SCT_fc], Generic[_SCT_fc]):
     h: float
     F: onp.ArrayND[_SCT_fc]
     y_old: onp.ArrayND[_SCT_fc]
 
-    def __init__(self, /, t_old: float, t: float, y_old: onp.ArrayND[_SCT_fc], F: onp.ArrayND[_SCT_fc]) -> None: ...
+    def __init__(
+        self,
+        /,
+        t_old: float,
+        t: float,
+        y_old: onp.ArrayND[_SCT_fc],
+        F: onp.ArrayND[_SCT_fc],
+    ) -> None: ...
 
 @overload
 def rk_step(

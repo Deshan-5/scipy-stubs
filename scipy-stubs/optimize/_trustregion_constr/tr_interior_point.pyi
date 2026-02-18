@@ -14,7 +14,9 @@ _StateT = TypeVar("_StateT")
 def tr_interior_point(
     fun: Callable[[onp.Array1D[np.float64]], onp.ToFloat],
     grad: Callable[[onp.Array1D[np.float64]], onp.ToFloat1D],
-    lagr_hess: Callable[[onp.Array1D[np.float64], onp.Array1D[np.float64]], onp.ToFloat2D],
+    lagr_hess: Callable[
+        [onp.Array1D[np.float64], onp.Array1D[np.float64]], onp.ToFloat2D
+    ],
     n_vars: int,
     n_ineq: int,
     n_eq: int,
@@ -47,6 +49,8 @@ def tr_interior_point(
     initial_tolerance: float,
     initial_penalty: onp.ToFloat,
     initial_trust_radius: onp.ToFloat,
-    factorization_method: Literal["NormalEquation", "AugmentedSystem", "QRFactorization", "SVDFactorization"],
+    factorization_method: Literal[
+        "NormalEquation", "AugmentedSystem", "QRFactorization", "SVDFactorization"
+    ],
     finite_diff_bounds: tuple[onp.ToFloat1D, onp.ToFloat1D],
 ) -> tuple[onp.Array1D[npc.floating], _StateT]: ...

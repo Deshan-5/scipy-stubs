@@ -21,7 +21,9 @@ _LeastSquaresMethod: TypeAlias = Literal["trf", "dogbox", "lm"]
 
 _JacMethod: TypeAlias = Literal["2-point", "3-point", "cs"]
 _ToJac2D: TypeAlias = onp.ToFloat2D | _spbase
-_JacFunction: TypeAlias = Callable[Concatenate[_Float1D, ...], _ToJac2D | LinearOperator]
+_JacFunction: TypeAlias = Callable[
+    Concatenate[_Float1D, ...], _ToJac2D | LinearOperator
+]
 _ToJac: TypeAlias = _JacFunction | _JacMethod
 
 _XScaleMethod: TypeAlias = Literal["jac"]
@@ -30,17 +32,27 @@ _XScale: TypeAlias = onp.ToFloat | onp.ToFloatND | _XScaleMethod
 _LossMethod: TypeAlias = Literal["linear", "soft_l1", "huber", "cauchy", "arctan"]
 _Loss: TypeAlias = _UserLossFunction | _LossMethod
 
-_ResidFunction: TypeAlias = Callable[Concatenate[_Float1D, ...], onp.ToFloat1D | onp.ToFloat]
+_ResidFunction: TypeAlias = Callable[
+    Concatenate[_Float1D, ...], onp.ToFloat1D | onp.ToFloat
+]
 
 _ResultStatus: TypeAlias = Literal[-2, -1, 0, 1, 2, 3, 4]
 
 @type_check_only
 class _UserLossFunction(Protocol):
-    def __call__(self, x: _Float1D, /, *, cost_only: bool | None = None) -> onp.ToFloat1D: ...
+    def __call__(
+        self, x: _Float1D, /, *, cost_only: bool | None = None
+    ) -> onp.ToFloat1D: ...
 
 @type_check_only
 class _ImplementedLossFunction(Protocol):
-    def __call__(self, /, z: onp.Array1D[np.float64], rho: onp.Array2D[np.float64], cost_only: bool) -> None: ...
+    def __call__(
+        self,
+        /,
+        z: onp.Array1D[np.float64],
+        rho: onp.Array2D[np.float64],
+        cost_only: bool,
+    ) -> None: ...
 
 @type_check_only
 class _BaseOptimizeResult(_OptimizeResult):
@@ -65,7 +77,9 @@ _ToCallback: TypeAlias = _Callback | Callable[[_Float1D], _Ignored]
 # undocumented internal machinery
 
 TERMINATION_MESSAGES: Final[dict[_ResultStatus, str]] = ...
-FROM_MINPACK_TO_COMMON: Final[dict[Literal[0, 1, 2, 3, 4, 5], Literal[-1, 2, 3, 4, 1, 0]]] = ...
+FROM_MINPACK_TO_COMMON: Final[
+    dict[Literal[0, 1, 2, 3, 4, 5], Literal[-1, 2, 3, 4, 1, 0]]
+] = ...
 
 def call_minpack(
     fun: _ResidFunction,
@@ -78,22 +92,46 @@ def call_minpack(
     x_scale: onp.ToFloat | _Float1ND,
     jac_method: _ToJac | None = None,
 ) -> _BaseOptimizeResult: ...
-def prepare_bounds(bounds: Iterable[onp.ToFloat | onp.ToFloat1D], n: op.CanIndex) -> tuple[_Float1D, _Float1D]: ...
+def prepare_bounds(
+    bounds: Iterable[onp.ToFloat | onp.ToFloat1D], n: op.CanIndex
+) -> tuple[_Float1D, _Float1D]: ...
 def check_tolerance(
-    ftol: onp.ToFloat | None, xtol: onp.ToFloat | None, gtol: onp.ToFloat | None, method: _LeastSquaresMethod
+    ftol: onp.ToFloat | None,
+    xtol: onp.ToFloat | None,
+    gtol: onp.ToFloat | None,
+    method: _LeastSquaresMethod,
 ) -> tuple[onp.ToFloat, onp.ToFloat, onp.ToFloat]: ...
-def check_x_scale(x_scale: _XScale, x0: onp.ArrayND[npc.floating], method: _LeastSquaresMethod) -> _Float1ND: ...
-def check_jac_sparsity(jac_sparsity: _ToJac2D | None, m: onp.ToInt, n: onp.ToInt) -> _Float1D: ...
+def check_x_scale(
+    x_scale: _XScale, x0: onp.ArrayND[npc.floating], method: _LeastSquaresMethod
+) -> _Float1ND: ...
+def check_jac_sparsity(
+    jac_sparsity: _ToJac2D | None, m: onp.ToInt, n: onp.ToInt
+) -> _Float1D: ...
 
 #
-def huber(z: onp.Array1D[np.float64], rho: onp.Array2D[np.float64], cost_only: bool) -> None: ...
-def soft_l1(z: onp.Array1D[np.float64], rho: onp.Array2D[np.float64], cost_only: bool) -> None: ...
-def cauchy(z: onp.Array1D[np.float64], rho: onp.Array2D[np.float64], cost_only: bool) -> None: ...
-def arctan(z: onp.Array1D[np.float64], rho: onp.Array2D[np.float64], cost_only: bool) -> None: ...
+def huber(
+    z: onp.Array1D[np.float64], rho: onp.Array2D[np.float64], cost_only: bool
+) -> None: ...
+def soft_l1(
+    z: onp.Array1D[np.float64], rho: onp.Array2D[np.float64], cost_only: bool
+) -> None: ...
+def cauchy(
+    z: onp.Array1D[np.float64], rho: onp.Array2D[np.float64], cost_only: bool
+) -> None: ...
+def arctan(
+    z: onp.Array1D[np.float64], rho: onp.Array2D[np.float64], cost_only: bool
+) -> None: ...
 
-IMPLEMENTED_LOSSES: Final[dict[Literal["linear", "huber", "soft_l1", "cauchy", "arctan"], _ImplementedLossFunction]] = ...
+IMPLEMENTED_LOSSES: Final[
+    dict[
+        Literal["linear", "huber", "soft_l1", "cauchy", "arctan"],
+        _ImplementedLossFunction,
+    ]
+] = ...
 
-def construct_loss_function(m: op.CanIndex, loss: _Loss, f_scale: onp.ToFloat) -> _UserLossFunction: ...
+def construct_loss_function(
+    m: op.CanIndex, loss: _Loss, f_scale: onp.ToFloat
+) -> _UserLossFunction: ...
 
 ###
 # public API
@@ -106,7 +144,9 @@ def least_squares(
     fun: _ResidFunction,
     x0: onp.ToFloat | onp.ToFloat1D,
     jac: _ToJac = "2-point",
-    bounds: tuple[onp.ToFloat | onp.ToFloat1D, onp.ToFloat | onp.ToFloat1D] | Bounds = ...,
+    bounds: (
+        tuple[onp.ToFloat | onp.ToFloat1D, onp.ToFloat | onp.ToFloat1D] | Bounds
+    ) = ...,
     method: _LeastSquaresMethod = "trf",
     ftol: onp.ToFloat | None = 1e-8,
     xtol: onp.ToFloat | None = 1e-8,

@@ -10,7 +10,10 @@ from scipy.sparse._base import _spbase
 __all__ = ["funm_multiply_krylov"]
 
 _MatrixT = TypeVar(
-    "_MatrixT", bound=onp.Array2D[npc.inexact] | LinearOperator[npc.inexact] | _spbase[npc.inexact, tuple[int, int]]
+    "_MatrixT",
+    bound=onp.Array2D[npc.inexact]
+    | LinearOperator[npc.inexact]
+    | _spbase[npc.inexact, tuple[int, int]],
 )
 _ScalarT = TypeVar("_ScalarT", bound=npc.inexact)
 

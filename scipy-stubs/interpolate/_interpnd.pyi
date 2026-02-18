@@ -10,7 +10,9 @@ from scipy.spatial._qhull import Delaunay, DelaunayInfo_t
 
 ###
 
-_CT_co = TypeVar("_CT_co", bound=np.float64 | np.complex128, default=np.float64, covariant=True)
+_CT_co = TypeVar(
+    "_CT_co", bound=np.float64 | np.complex128, default=np.float64, covariant=True
+)
 
 ###
 
@@ -134,13 +136,22 @@ class CloughTocher2DInterpolator(NDInterpolatorBase[_CT_co], Generic[_CT_co]):
 
 @overload
 def estimate_gradients_2d_global(
-    tri: DelaunayInfo_t, y: onp.ToFloat1D | onp.ToFloat2D, maxiter: onp.ToJustInt = 400, tol: float = 1e-6
+    tri: DelaunayInfo_t,
+    y: onp.ToFloat1D | onp.ToFloat2D,
+    maxiter: onp.ToJustInt = 400,
+    tol: float = 1e-6,
 ) -> onp.Array3D[np.float64]: ...
 @overload
 def estimate_gradients_2d_global(
-    tri: DelaunayInfo_t, y: onp.ToJustComplex1D | onp.ToJustComplex2D, maxiter: onp.ToJustInt = 400, tol: float = 1e-6
+    tri: DelaunayInfo_t,
+    y: onp.ToJustComplex1D | onp.ToJustComplex2D,
+    maxiter: onp.ToJustInt = 400,
+    tol: float = 1e-6,
 ) -> onp.Array3D[np.complex128]: ...
 @overload
 def estimate_gradients_2d_global(
-    tri: DelaunayInfo_t, y: onp.ToComplex1D | onp.ToComplex2D, maxiter: onp.ToJustInt = 400, tol: float = 1e-6
+    tri: DelaunayInfo_t,
+    y: onp.ToComplex1D | onp.ToComplex2D,
+    maxiter: onp.ToJustInt = 400,
+    tol: float = 1e-6,
 ) -> onp.Array3D[np.float64] | onp.Array3D[np.complex128]: ...

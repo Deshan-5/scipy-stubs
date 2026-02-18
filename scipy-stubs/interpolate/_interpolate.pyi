@@ -12,16 +12,34 @@ from ._polyint import _Interpolator1D
 __all__ = ["BPoly", "NdPPoly", "PPoly", "interp1d", "interp2d", "lagrange"]
 
 _NumberT = TypeVar("_NumberT", bound=npc.number, default=np.float64)
-_CT_co = TypeVar("_CT_co", bound=np.float64 | np.complex128, default=np.float64, covariant=True)
+_CT_co = TypeVar(
+    "_CT_co", bound=np.float64 | np.complex128, default=np.float64, covariant=True
+)
 
 _ToAxis: TypeAlias = int | npc.integer
 _Extrapolate: TypeAlias = Literal["periodic"] | bool
 
-_Interp1dKind: TypeAlias = Literal["linear", "nearest", "nearest-up", "zero", "slinear", "quadratic", "cubic", "previous", "next"]
-_Interp1dFillValue: TypeAlias = onp.ToFloat | onp.ToFloatND | tuple[onp.ToFloat | onp.ToFloatND, onp.ToFloat | onp.ToFloatND]
+_Interp1dKind: TypeAlias = Literal[
+    "linear",
+    "nearest",
+    "nearest-up",
+    "zero",
+    "slinear",
+    "quadratic",
+    "cubic",
+    "previous",
+    "next",
+]
+_Interp1dFillValue: TypeAlias = (
+    onp.ToFloat
+    | onp.ToFloatND
+    | tuple[onp.ToFloat | onp.ToFloatND, onp.ToFloat | onp.ToFloatND]
+)
 
 # https://github.com/microsoft/pyright/issues/11127
-_Array2ND: TypeAlias = onp.Array[tuple[int, int, *tuple[Any, ...]], _NumberT]  # pyright: ignore[reportInvalidTypeForm]
+_Array2ND: TypeAlias = onp.Array[
+    tuple[int, int, *tuple[Any, ...]], _NumberT
+]  # pyright: ignore[reportInvalidTypeForm]
 
 ###
 
@@ -65,7 +83,9 @@ class interp1d(_Interpolator1D):  # legacy
     @property
     def fill_value(self, /) -> _Interp1dFillValue: ...
     @fill_value.setter
-    def fill_value(self, fill_value: _Interp1dFillValue | Literal["extrapolate"], /) -> None: ...
+    def fill_value(
+        self, fill_value: _Interp1dFillValue | Literal["extrapolate"], /
+    ) -> None: ...
 
     #
     def __init__(
@@ -135,40 +155,70 @@ class _PPolyBase(Generic[_CT_co]):
     ) -> None: ...
     @overload
     def __init__(
-        self: _PPolyBase[Any], /, c: onp.ToComplexND, x: onp.ToFloat1D, extrapolate: _Extrapolate | None = None, axis: _ToAxis = 0
+        self: _PPolyBase[Any],
+        /,
+        c: onp.ToComplexND,
+        x: onp.ToFloat1D,
+        extrapolate: _Extrapolate | None = None,
+        axis: _ToAxis = 0,
     ) -> None: ...
 
     #
     def __call__(
-        self, /, x: onp.ToFloat | onp.ToFloatND, nu: _ToAxis = 0, extrapolate: _Extrapolate | None = None
+        self,
+        /,
+        x: onp.ToFloat | onp.ToFloatND,
+        nu: _ToAxis = 0,
+        extrapolate: _Extrapolate | None = None,
     ) -> onp.ArrayND[_CT_co]: ...
 
     #
     @overload
-    def extend(self: _PPolyBase[np.float64], /, c: onp.ToFloatND, x: onp.ToFloat1D) -> None: ...
+    def extend(
+        self: _PPolyBase[np.float64], /, c: onp.ToFloatND, x: onp.ToFloat1D
+    ) -> None: ...
     @overload
-    def extend(self: _PPolyBase[np.complex128], /, c: onp.ToComplexND, x: onp.ToFloat1D) -> None: ...
+    def extend(
+        self: _PPolyBase[np.complex128], /, c: onp.ToComplexND, x: onp.ToFloat1D
+    ) -> None: ...
 
 class PPoly(_PPolyBase[_CT_co], Generic[_CT_co]):
     @classmethod
     def from_spline(
-        cls, tck: tuple[onp.ArrayND[np.float64], onp.ArrayND[np.float64], int], extrapolate: _Extrapolate | None = None
+        cls,
+        tck: tuple[onp.ArrayND[np.float64], onp.ArrayND[np.float64], int],
+        extrapolate: _Extrapolate | None = None,
     ) -> Self: ...
     @classmethod
-    def from_bernstein_basis(cls, bp: BPoly[_CT_co], extrapolate: _Extrapolate | None = None) -> Self: ...
+    def from_bernstein_basis(
+        cls, bp: BPoly[_CT_co], extrapolate: _Extrapolate | None = None
+    ) -> Self: ...
 
     #
     def derivative(self, /, nu: _ToAxis = 1) -> Self: ...
     def antiderivative(self, /, nu: _ToAxis = 1) -> Self: ...
-    def integrate(self, /, a: onp.ToFloat, b: onp.ToFloat, extrapolate: _Extrapolate | None = None) -> onp.ArrayND[_CT_co]: ...
-    def solve(
-        self, /, y: onp.ToFloat = 0.0, discontinuity: onp.ToBool = True, extrapolate: _Extrapolate | None = None
+    def integrate(
+        self, /, a: onp.ToFloat, b: onp.ToFloat, extrapolate: _Extrapolate | None = None
     ) -> onp.ArrayND[_CT_co]: ...
-    def roots(self, /, discontinuity: onp.ToBool = True, extrapolate: _Extrapolate | None = None) -> onp.ArrayND[_CT_co]: ...
+    def solve(
+        self,
+        /,
+        y: onp.ToFloat = 0.0,
+        discontinuity: onp.ToBool = True,
+        extrapolate: _Extrapolate | None = None,
+    ) -> onp.ArrayND[_CT_co]: ...
+    def roots(
+        self,
+        /,
+        discontinuity: onp.ToBool = True,
+        extrapolate: _Extrapolate | None = None,
+    ) -> onp.ArrayND[_CT_co]: ...
 
 class BPoly(_PPolyBase[_CT_co], Generic[_CT_co]):
     @classmethod
-    def from_power_basis(cls, pp: PPoly[_CT_co], extrapolate: _Extrapolate | None = None) -> Self: ...
+    def from_power_basis(
+        cls, pp: PPoly[_CT_co], extrapolate: _Extrapolate | None = None
+    ) -> Self: ...
 
     #
     @overload
@@ -202,7 +252,9 @@ class BPoly(_PPolyBase[_CT_co], Generic[_CT_co]):
     #
     def derivative(self, /, nu: _ToAxis = 1) -> Self: ...
     def antiderivative(self, /, nu: _ToAxis = 1) -> Self: ...
-    def integrate(self, /, a: onp.ToFloat, b: onp.ToFloat, extrapolate: _Extrapolate | None = None) -> onp.ArrayND[_CT_co]: ...
+    def integrate(
+        self, /, a: onp.ToFloat, b: onp.ToFloat, extrapolate: _Extrapolate | None = None
+    ) -> onp.ArrayND[_CT_co]: ...
 
 class NdPPoly(Generic[_CT_co]):
     c: _Array2ND[_CT_co]
@@ -219,7 +271,11 @@ class NdPPoly(Generic[_CT_co]):
     #
     @overload
     def __init__(
-        self: NdPPoly[np.float64], /, c: onp.ToFloatND, x: tuple[onp.ToFloat1D, ...], extrapolate: onp.ToBool | None = None
+        self: NdPPoly[np.float64],
+        /,
+        c: onp.ToFloatND,
+        x: tuple[onp.ToFloat1D, ...],
+        extrapolate: onp.ToBool | None = None,
     ) -> None: ...
     @overload
     def __init__(
@@ -231,12 +287,20 @@ class NdPPoly(Generic[_CT_co]):
     ) -> None: ...
     @overload
     def __init__(
-        self: NdPPoly[Any], /, c: onp.ToComplexND, x: tuple[onp.ToFloat1D, ...], extrapolate: onp.ToBool | None = None
+        self: NdPPoly[Any],
+        /,
+        c: onp.ToComplexND,
+        x: tuple[onp.ToFloat1D, ...],
+        extrapolate: onp.ToBool | None = None,
     ) -> None: ...
 
     #
     def __call__(
-        self, /, x: onp.ToFloat | onp.ToFloatND, nu: tuple[_ToAxis, ...] | None = None, extrapolate: onp.ToBool | None = None
+        self,
+        /,
+        x: onp.ToFloat | onp.ToFloatND,
+        nu: tuple[_ToAxis, ...] | None = None,
+        extrapolate: onp.ToBool | None = None,
     ) -> onp.ArrayND[_CT_co]: ...
 
     #
@@ -245,12 +309,20 @@ class NdPPoly(Generic[_CT_co]):
 
     #
     def integrate_1d(
-        self, /, a: onp.ToFloat, b: onp.ToFloat, axis: op.CanIndex, extrapolate: onp.ToBool | None = None
+        self,
+        /,
+        a: onp.ToFloat,
+        b: onp.ToFloat,
+        axis: op.CanIndex,
+        extrapolate: onp.ToBool | None = None,
     ) -> Self | onp.ArrayND[_CT_co]: ...
 
     #
     def integrate(
-        self, /, ranges: tuple[tuple[onp.ToFloat, onp.ToFloat]], extrapolate: onp.ToBool | None = None
+        self,
+        /,
+        ranges: tuple[tuple[onp.ToFloat, onp.ToFloat]],
+        extrapolate: onp.ToBool | None = None,
     ) -> onp.ArrayND[_CT_co]: ...
 
 #

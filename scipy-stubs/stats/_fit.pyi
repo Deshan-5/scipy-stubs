@@ -9,10 +9,15 @@ from ._distn_infrastructure import rv_continuous, rv_continuous_frozen, rv_discr
 from scipy.optimize import OptimizeResult
 
 _Params: TypeAlias = Mapping[str, onp.ToFloat]
-_Bounds: TypeAlias = Mapping[str, tuple[onp.ToFloat, onp.ToFloat]] | Sequence[tuple[onp.ToFloat, onp.ToFloat]]
+_Bounds: TypeAlias = (
+    Mapping[str, tuple[onp.ToFloat, onp.ToFloat]]
+    | Sequence[tuple[onp.ToFloat, onp.ToFloat]]
+)
 
 _GOFStatName: TypeAlias = Literal["ad", "ks", "cvm", "filliben"]
-_GOFStatFunc: TypeAlias = Callable[[rv_continuous_frozen, onp.ArrayND[np.float64]], float | np.float32 | np.float64]
+_GOFStatFunc: TypeAlias = Callable[
+    [rv_continuous_frozen, onp.ArrayND[np.float64]], float | np.float32 | np.float64
+]
 _FitMethod: TypeAlias = Literal["mle", "mse"]
 _PlotType: TypeAlias = Literal["hist", "qq", "pp", "cdf"]
 
@@ -21,13 +26,27 @@ _Optimizer: TypeAlias = Callable[Concatenate[Callable[..., Any], ...], OptimizeR
 
 @type_check_only
 class _PXF1n(Protocol):
-    def __call__(self, x: onp.ToFloat, arg0: onp.ToFloat, /, *args: onp.ToFloat) -> np.float64: ...
+    def __call__(
+        self, x: onp.ToFloat, arg0: onp.ToFloat, /, *args: onp.ToFloat
+    ) -> np.float64: ...
 
 @type_check_only
 class _PXF2n(Protocol):
-    def __call__(self, x: onp.ToFloat, arg0: onp.ToFloat, arg1: onp.ToFloat, /, *args: onp.ToFloat) -> np.float64: ...
+    def __call__(
+        self,
+        x: onp.ToFloat,
+        arg0: onp.ToFloat,
+        arg1: onp.ToFloat,
+        /,
+        *args: onp.ToFloat,
+    ) -> np.float64: ...
 
-_PXFT_co = TypeVar("_PXFT_co", bound=Callable[Concatenate[onp.ToFloat, ...], np.float64], default=_PXF1n | _PXF2n, covariant=True)
+_PXFT_co = TypeVar(
+    "_PXFT_co",
+    bound=Callable[Concatenate[onp.ToFloat, ...], np.float64],
+    default=_PXF1n | _PXF2n,
+    covariant=True,
+)
 _AxesT = TypeVar("_AxesT", default=Any)  # represents a `matplotlib.lines.Axes`
 
 ###
@@ -42,16 +61,33 @@ class FitResult(Generic[_PXFT_co]):
 
     @overload
     def __init__(
-        self: FitResult[_PXF1n], /, dist: rv_discrete, data: onp.ToFloatND, discrete: bool, res: OptimizeResult
+        self: FitResult[_PXF1n],
+        /,
+        dist: rv_discrete,
+        data: onp.ToFloatND,
+        discrete: bool,
+        res: OptimizeResult,
     ) -> None: ...
     @overload
     def __init__(
-        self: FitResult[_PXF2n], /, dist: rv_continuous, data: onp.ToFloatND, discrete: bool, res: OptimizeResult
+        self: FitResult[_PXF2n],
+        /,
+        dist: rv_continuous,
+        data: onp.ToFloatND,
+        discrete: bool,
+        res: OptimizeResult,
     ) -> None: ...
 
     #
-    def nllf(self, /, params: tuple[onp.ToFloat, ...] | None = None, data: onp.ToFloatND | None = None) -> np.float64: ...
-    def plot(self, /, ax: _AxesT | None = None, *, plot_type: _PlotType = "hist") -> _AxesT: ...
+    def nllf(
+        self,
+        /,
+        params: tuple[onp.ToFloat, ...] | None = None,
+        data: onp.ToFloatND | None = None,
+    ) -> np.float64: ...
+    def plot(
+        self, /, ax: _AxesT | None = None, *, plot_type: _PlotType = "hist"
+    ) -> _AxesT: ...
 
 class GoodnessOfFitResult(NamedTuple):
     fit_result: FitResult[_PXF2n]  # always continuous

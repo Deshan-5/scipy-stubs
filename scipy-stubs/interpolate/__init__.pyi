@@ -1,4 +1,12 @@
-from . import fitpack, fitpack2, interpnd, interpolate, ndgriddata, polyint, rbf  # deprecated
+from . import (
+    fitpack,
+    fitpack2,
+    interpnd,
+    interpolate,
+    ndgriddata,  # deprecated
+    polyint,
+    rbf,
+)
 from ._bary_rational import AAA, FloaterHormannInterpolator
 from ._bsplines import BSpline, make_interp_spline, make_lsq_spline, make_smoothing_spline
 from ._cubic import Akima1DInterpolator, CubicHermiteSpline, CubicSpline, PchipInterpolator, pchip_interpolate

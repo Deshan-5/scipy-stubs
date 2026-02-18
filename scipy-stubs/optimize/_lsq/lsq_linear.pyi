@@ -15,7 +15,9 @@ _Int1D: TypeAlias = onp.Array1D[np.intp]
 _Float: TypeAlias = float | np.float64
 _Float1D: TypeAlias = onp.Array1D[np.float64]
 
-_ToBounds: TypeAlias = tuple[onp.ToFloat | onp.ToFloat1D, onp.ToFloat | onp.ToFloat1D] | Bound
+_ToBounds: TypeAlias = (
+    tuple[onp.ToFloat | onp.ToFloat1D, onp.ToFloat | onp.ToFloat1D] | Bound
+)
 _TerminationStatus: TypeAlias = Literal[-1, 0, 1, 2, 3]
 
 @type_check_only
@@ -50,4 +52,6 @@ def lsq_linear(
 ) -> _OptimizeResult: ...
 
 # undocumented
-def prepare_bounds(bounds: _ToBounds, n: op.CanIndex) -> tuple[_Float, _Float] | tuple[_Float1D, _Float1D]: ...
+def prepare_bounds(
+    bounds: _ToBounds, n: op.CanIndex
+) -> tuple[_Float, _Float] | tuple[_Float1D, _Float1D]: ...

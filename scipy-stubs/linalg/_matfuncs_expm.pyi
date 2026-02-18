@@ -3,7 +3,9 @@ from typing import TypeAlias
 import numpy as np
 import optype.numpy as onp
 
-_InexactND: TypeAlias = onp.ArrayND[np.float32 | np.float64 | np.complex64 | np.complex128]
+_InexactND: TypeAlias = onp.ArrayND[
+    np.float32 | np.float64 | np.complex64 | np.complex128
+]
 
 ###
 

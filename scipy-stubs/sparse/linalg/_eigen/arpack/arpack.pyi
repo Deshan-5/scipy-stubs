@@ -16,10 +16,14 @@ _SCT = TypeVar("_SCT", bound=_Numeric, default=_Numeric)
 _Numeric: TypeAlias = npc.number | np.bool_
 _ToFloat: TypeAlias = npc.floating | npc.integer | np.bool_
 
-_MatrixOperator: TypeAlias = spmatrix[_SCT] | sparray[_SCT, tuple[int, int]] | LinearOperator[_SCT]
+_MatrixOperator: TypeAlias = (
+    spmatrix[_SCT] | sparray[_SCT, tuple[int, int]] | LinearOperator[_SCT]
+)
 
 _ToRealMatrix: TypeAlias = onp.ToFloat2D | _MatrixOperator[_ToFloat]
-_ToJustComplexMatrix: TypeAlias = onp.ToJustComplex2D | _MatrixOperator[npc.complexfloating]
+_ToJustComplexMatrix: TypeAlias = (
+    onp.ToJustComplex2D | _MatrixOperator[npc.complexfloating]
+)
 _ToComplexMatrix: TypeAlias = onp.ToComplex2D | _MatrixOperator
 
 _Which_eigs: TypeAlias = Literal["LM", "SM", "LR", "SR", "LI", "SI"]
@@ -30,7 +34,9 @@ _Mode: TypeAlias = Literal["normal", "buckling", "cayley"]
 ###
 
 class ArpackError(RuntimeError):
-    def __init__(self, /, info: _KT, infodict: Mapping[_KT, str] | None = None) -> None: ...
+    def __init__(
+        self, /, info: _KT, infodict: Mapping[_KT, str] | None = None
+    ) -> None: ...
 
 class ArpackNoConvergence(ArpackError):
     eigenvalues: Final[onp.Array1D[np.float64 | np.complex128]]

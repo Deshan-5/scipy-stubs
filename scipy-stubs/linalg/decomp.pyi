@@ -24,9 +24,17 @@ __all__ = [
 class LinAlgError(np.linalg.LinAlgError): ...
 
 @deprecated("will be removed in SciPy v2.0.0")
-def get_lapack_funcs(names: object, arrays: object = (), dtype: object = None, ilp64: object = False) -> object: ...
+def get_lapack_funcs(
+    names: object, arrays: object = (), dtype: object = None, ilp64: object = False
+) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
-def norm(a: object, ord: object = None, axis: object = None, keepdims: object = False, check_finite: object = True) -> object: ...
+def norm(
+    a: object,
+    ord: object = None,
+    axis: object = None,
+    keepdims: object = False,
+    check_finite: object = True,
+) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
 def cdf2rdf(w: object, v: object) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
@@ -79,7 +87,11 @@ def eigh_tridiagonal(
 ) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
 def eigvals(
-    a: object, b: object = None, overwrite_a: object = False, check_finite: object = True, homogeneous_eigvals: object = False
+    a: object,
+    b: object = None,
+    overwrite_a: object = False,
+    check_finite: object = True,
+    homogeneous_eigvals: object = False,
 ) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
 def eigvals_banded(
@@ -115,4 +127,9 @@ def eigvalsh(
     driver: object = None,
 ) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
-def hessenberg(a: object, calc_q: object = False, overwrite_a: object = False, check_finite: object = True) -> object: ...
+def hessenberg(
+    a: object,
+    calc_q: object = False,
+    overwrite_a: object = False,
+    check_finite: object = True,
+) -> object: ...

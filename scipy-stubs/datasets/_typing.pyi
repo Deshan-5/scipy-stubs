@@ -4,7 +4,15 @@ from typing import Literal as L, LiteralString, Protocol, TypeAlias, overload, t
 import numpy as np
 import optype.numpy as onp
 
-__all__ = "AscentDataset", "CanFetch", "Dataset", "ECGDataset", "Face2Dataset", "Face3Dataset", "Fetcher"
+__all__ = (
+    "AscentDataset",
+    "CanFetch",
+    "Dataset",
+    "ECGDataset",
+    "Face2Dataset",
+    "Face3Dataset",
+    "Fetcher",
+)
 
 @type_check_only
 class CanFetch(Protocol):

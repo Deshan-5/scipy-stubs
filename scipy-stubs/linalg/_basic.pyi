@@ -40,17 +40,33 @@ _InexactND: TypeAlias = onp.ArrayND[npc.inexact]
 
 # TODO(@jorenham): better naming
 
-_InputFloat: TypeAlias = onp.ToArrayND[float, np.float64 | npc.floating80 | npc.integer | np.bool_]
-_InputFloatStrict1D: TypeAlias = onp.ToArrayStrict1D[float, np.float64 | npc.floating80 | npc.integer | np.bool_]
-_InputFloatStrict2D: TypeAlias = onp.ToArrayStrict2D[float, np.float64 | npc.floating80 | npc.integer | np.bool_]
+_InputFloat: TypeAlias = onp.ToArrayND[
+    float, np.float64 | npc.floating80 | npc.integer | np.bool_
+]
+_InputFloatStrict1D: TypeAlias = onp.ToArrayStrict1D[
+    float, np.float64 | npc.floating80 | npc.integer | np.bool_
+]
+_InputFloatStrict2D: TypeAlias = onp.ToArrayStrict2D[
+    float, np.float64 | npc.floating80 | npc.integer | np.bool_
+]
 
 _InputF64: TypeAlias = onp.ToArrayND[float, np.float64 | npc.integer | np.bool_]
-_InputF64Strict1D: TypeAlias = onp.ToArrayStrict1D[float, np.float64 | npc.integer | np.bool_]
-_InputF64Strict2D: TypeAlias = onp.ToArrayStrict2D[float, np.float64 | npc.integer | np.bool_]
+_InputF64Strict1D: TypeAlias = onp.ToArrayStrict1D[
+    float, np.float64 | npc.integer | np.bool_
+]
+_InputF64Strict2D: TypeAlias = onp.ToArrayStrict2D[
+    float, np.float64 | npc.integer | np.bool_
+]
 
-_InputComplex: TypeAlias = onp.ToArrayND[op.JustComplex, np.complex128 | npc.complexfloating160]
-_InputComplexStrict1D: TypeAlias = onp.ToArrayStrict1D[op.JustComplex, np.complex128 | npc.complexfloating160]
-_InputComplexStrict2D: TypeAlias = onp.ToArrayStrict2D[op.JustComplex, np.complex128 | npc.complexfloating160]
+_InputComplex: TypeAlias = onp.ToArrayND[
+    op.JustComplex, np.complex128 | npc.complexfloating160
+]
+_InputComplexStrict1D: TypeAlias = onp.ToArrayStrict1D[
+    op.JustComplex, np.complex128 | npc.complexfloating160
+]
+_InputComplexStrict2D: TypeAlias = onp.ToArrayStrict2D[
+    op.JustComplex, np.complex128 | npc.complexfloating160
+]
 
 _AssumeA: TypeAlias = Literal[
     "diagonal",
@@ -758,21 +774,31 @@ def solveh_banded(
 #
 @overload  # 1d +float, +float
 def solve_toeplitz(
-    c_or_cr: _COrCR[onp.ToFloatStrict1D], b: onp.ToFloatStrict1D, check_finite: bool = True
+    c_or_cr: _COrCR[onp.ToFloatStrict1D],
+    b: onp.ToFloatStrict1D,
+    check_finite: bool = True,
 ) -> onp.Array1D[np.float64]: ...
 @overload  # 2d +float, +float
 def solve_toeplitz(
-    c_or_cr: _COrCR[onp.ToFloatStrict1D], b: onp.ToFloatStrict2D, check_finite: bool = True
+    c_or_cr: _COrCR[onp.ToFloatStrict1D],
+    b: onp.ToFloatStrict2D,
+    check_finite: bool = True,
 ) -> onp.Array2D[np.float64]: ...
 @overload  # Nd +float, +float
-def solve_toeplitz(c_or_cr: _COrCR[onp.ToFloatND], b: onp.ToFloatND, check_finite: bool = True) -> onp.ArrayND[np.float64]: ...
+def solve_toeplitz(
+    c_or_cr: _COrCR[onp.ToFloatND], b: onp.ToFloatND, check_finite: bool = True
+) -> onp.ArrayND[np.float64]: ...
 @overload  # 1d ~complex, +complex
 def solve_toeplitz(
-    c_or_cr: _COrCR[onp.ToJustComplexStrict1D], b: onp.ToComplexStrict1D, check_finite: bool = True
+    c_or_cr: _COrCR[onp.ToJustComplexStrict1D],
+    b: onp.ToComplexStrict1D,
+    check_finite: bool = True,
 ) -> onp.Array1D[np.complex128]: ...
 @overload  # 2d ~complex, +complex
 def solve_toeplitz(
-    c_or_cr: _COrCR[onp.ToJustComplexStrict1D], b: onp.ToComplexStrict2D, check_finite: bool = True
+    c_or_cr: _COrCR[onp.ToJustComplexStrict1D],
+    b: onp.ToComplexStrict2D,
+    check_finite: bool = True,
 ) -> onp.Array2D[np.complex128]: ...
 @overload  # Nd ~complex, +complex
 def solve_toeplitz(
@@ -780,11 +806,15 @@ def solve_toeplitz(
 ) -> onp.ArrayND[np.complex128]: ...
 @overload  # 1d +complex, ~complex
 def solve_toeplitz(
-    c_or_cr: _COrCR[onp.ToComplexStrict1D], b: onp.ToJustComplexStrict1D, check_finite: bool = True
+    c_or_cr: _COrCR[onp.ToComplexStrict1D],
+    b: onp.ToJustComplexStrict1D,
+    check_finite: bool = True,
 ) -> onp.Array1D[np.complex128]: ...
 @overload  # 2d +complex, ~complex
 def solve_toeplitz(
-    c_or_cr: _COrCR[onp.ToComplexStrict1D], b: onp.ToJustComplexStrict2D, check_finite: bool = True
+    c_or_cr: _COrCR[onp.ToComplexStrict1D],
+    b: onp.ToJustComplexStrict2D,
+    check_finite: bool = True,
 ) -> onp.Array2D[np.complex128]: ...
 @overload  # Nd +complex, ~complex
 def solve_toeplitz(
@@ -792,11 +822,15 @@ def solve_toeplitz(
 ) -> onp.ArrayND[np.complex128]: ...
 @overload  # 1d +complex, +complex
 def solve_toeplitz(
-    c_or_cr: _COrCR[onp.ToComplexStrict1D], b: onp.ToComplexStrict1D, check_finite: bool = True
+    c_or_cr: _COrCR[onp.ToComplexStrict1D],
+    b: onp.ToComplexStrict1D,
+    check_finite: bool = True,
 ) -> onp.Array1D[np.float64 | np.complex128]: ...
 @overload  # 2d +complex, +complex
 def solve_toeplitz(
-    c_or_cr: _COrCR[onp.ToComplexStrict1D], b: onp.ToComplexStrict2D, check_finite: bool = True
+    c_or_cr: _COrCR[onp.ToComplexStrict1D],
+    b: onp.ToComplexStrict2D,
+    check_finite: bool = True,
 ) -> onp.Array2D[np.float64 | np.complex128]: ...
 @overload  # Nd +complex, +complex
 def solve_toeplitz(
@@ -1061,7 +1095,9 @@ def inv(
 ) -> onp.ArrayND[np.float32, _ShapeT]: ...
 @overload  # generic shape, as float64
 def inv(
-    a: onp.CanArrayND[np.float64 | npc.floating80 | npc.integer64 | npc.integer32, _ShapeT],
+    a: onp.CanArrayND[
+        np.float64 | npc.floating80 | npc.integer64 | npc.integer32, _ShapeT
+    ],
     overwrite_a: bool = False,
     check_finite: bool = True,
     *,
@@ -1089,25 +1125,39 @@ def inv(
 
 # NOTE: The order of the overloads has been carefully chosen to avoid triggering a Pyright bug.
 @overload  # +float64 2d
-def det(a: onp.ToFloat64Strict2D, overwrite_a: bool = False, check_finite: bool = True) -> np.float64: ...
+def det(
+    a: onp.ToFloat64Strict2D, overwrite_a: bool = False, check_finite: bool = True
+) -> np.float64: ...
 @overload  # complex128 | complex64 2d
 def det(
-    a: onp.ToArrayStrict2D[op.JustComplex, np.complex128 | np.complex64], overwrite_a: bool = False, check_finite: bool = True
+    a: onp.ToArrayStrict2D[op.JustComplex, np.complex128 | np.complex64],
+    overwrite_a: bool = False,
+    check_finite: bool = True,
 ) -> np.complex128: ...
 @overload  # +float64 3d
-def det(a: onp.ToFloat64Strict3D, overwrite_a: bool = False, check_finite: bool = True) -> onp.Array1D[np.float64]: ...
+def det(
+    a: onp.ToFloat64Strict3D, overwrite_a: bool = False, check_finite: bool = True
+) -> onp.Array1D[np.float64]: ...
 @overload  # complex128 | complex64 3d
 def det(
-    a: onp.ToArrayStrict3D[op.JustComplex, np.complex128 | np.complex64], overwrite_a: bool = False, check_finite: bool = True
+    a: onp.ToArrayStrict3D[op.JustComplex, np.complex128 | np.complex64],
+    overwrite_a: bool = False,
+    check_finite: bool = True,
 ) -> onp.Array1D[np.complex128]: ...
 @overload  # +float64 ND
-def det(a: onp.ToFloat64_ND, overwrite_a: bool = False, check_finite: bool = True) -> np.float64 | onp.ArrayND[np.float64]: ...
+def det(
+    a: onp.ToFloat64_ND, overwrite_a: bool = False, check_finite: bool = True
+) -> np.float64 | onp.ArrayND[np.float64]: ...
 @overload  # complex128 | complex64 Nd
 def det(
-    a: onp.ToArrayND[op.JustComplex, np.complex128 | np.complex64], overwrite_a: bool = False, check_finite: bool = True
+    a: onp.ToArrayND[op.JustComplex, np.complex128 | np.complex64],
+    overwrite_a: bool = False,
+    check_finite: bool = True,
 ) -> np.complex128 | onp.ArrayND[np.complex128]: ...
 @overload  # +complex128 2d
-def det(a: onp.ToComplex128Strict2D, overwrite_a: bool = False, check_finite: bool = True) -> np.float64 | np.complex128: ...
+def det(
+    a: onp.ToComplex128Strict2D, overwrite_a: bool = False, check_finite: bool = True
+) -> np.float64 | np.complex128: ...
 @overload  # +complex128 3d
 def det(
     a: onp.ToComplex128Strict3D, overwrite_a: bool = False, check_finite: bool = True
@@ -1362,11 +1412,20 @@ def matrix_balance(
 ) -> _Tuple2[_FloatND]: ...
 @overload  # (float[:, :], separate=False, /) -> (float[:, :], (float[:], float[:]))
 def matrix_balance(
-    A: onp.ToFloatND, permute: onp.ToBool, scale: onp.ToBool, separate: onp.ToTrue, overwrite_a: bool = False
+    A: onp.ToFloatND,
+    permute: onp.ToBool,
+    scale: onp.ToBool,
+    separate: onp.ToTrue,
+    overwrite_a: bool = False,
 ) -> tuple[_FloatND, _Tuple2[_FloatND]]: ...
 @overload  # (float[:, :], *, separate=False) -> (float[:, :], (float[:], float[:]))
 def matrix_balance(
-    A: onp.ToFloatND, permute: onp.ToBool = True, scale: onp.ToBool = True, *, separate: onp.ToTrue, overwrite_a: bool = False
+    A: onp.ToFloatND,
+    permute: onp.ToBool = True,
+    scale: onp.ToBool = True,
+    *,
+    separate: onp.ToTrue,
+    overwrite_a: bool = False,
 ) -> tuple[_FloatND, _Tuple2[_FloatND]]: ...
 @overload  # (complex[:, :], separate=True) -> (complex[:, :], complex[:, :])
 def matrix_balance(
@@ -1378,11 +1437,20 @@ def matrix_balance(
 ) -> _Tuple2[_InexactND]: ...
 @overload  # (complex[:, :], separate=False, /) -> (complex[:, :], (complex[:], complex[:]))
 def matrix_balance(
-    A: onp.ToComplexND, permute: onp.ToBool, scale: onp.ToBool, separate: onp.ToTrue, overwrite_a: bool = False
+    A: onp.ToComplexND,
+    permute: onp.ToBool,
+    scale: onp.ToBool,
+    separate: onp.ToTrue,
+    overwrite_a: bool = False,
 ) -> tuple[_InexactND, _Tuple2[_InexactND]]: ...
 @overload  # (complex[:, :], *, separate=False) -> (complex[:, :], (complex[:], complex[:]))
 def matrix_balance(
-    A: onp.ToComplexND, permute: onp.ToBool = True, scale: onp.ToBool = True, *, separate: onp.ToTrue, overwrite_a: bool = False
+    A: onp.ToComplexND,
+    permute: onp.ToBool = True,
+    scale: onp.ToBool = True,
+    *,
+    separate: onp.ToTrue,
+    overwrite_a: bool = False,
 ) -> tuple[_InexactND, _Tuple2[_InexactND]]: ...
 
 # TODO(jorenham): improve this

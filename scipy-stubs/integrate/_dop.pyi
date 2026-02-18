@@ -9,9 +9,13 @@ _VecI32: TypeAlias = onp.Array1D[np.int32]
 _VecF64: TypeAlias = onp.Array1D[np.float64]
 
 # (x, y) -> f
-_FnCallback: TypeAlias = Callable[Concatenate[float, _VecF64, ...], onp.ArrayND[npc.floating]]
+_FnCallback: TypeAlias = Callable[
+    Concatenate[float, _VecF64, ...], onp.ArrayND[npc.floating]
+]
 # (nr, xold, x, y, con, icomp[, nd]) -> irtn
-_FnSolOut: TypeAlias = Callable[Concatenate[int, float, float, _VecF64, _VecF64, _VecI32, ...], int]
+_FnSolOut: TypeAlias = Callable[
+    Concatenate[int, float, float, _VecF64, _VecF64, _VecI32, ...], int
+]
 
 @type_check_only
 @final

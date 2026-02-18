@@ -12,10 +12,21 @@ _XPT_co = TypeVar("_XPT_co", default=ModuleType, covariant=True)
 
 ###
 
-class GenzMalikCubature(NestedFixedRule[_XPT_co, np.float64], Generic[_XPT_co]):  # undocumented
+class GenzMalikCubature(
+    NestedFixedRule[_XPT_co, np.float64], Generic[_XPT_co]
+):  # undocumented
     ndim: int
     degree: int
     lower_degree: int
-    def __init__(self, /, ndim: int, degree: int = 7, lower_degree: int = 5, xp: _XPT_co | None = None) -> None: ...
+    def __init__(
+        self,
+        /,
+        ndim: int,
+        degree: int = 7,
+        lower_degree: int = 5,
+        xp: _XPT_co | None = None,
+    ) -> None: ...
 
-def _distinct_permutations(iterable: Iterable[_T]) -> Generator[tuple[_T, ...]]: ...  # undocumented
+def _distinct_permutations(
+    iterable: Iterable[_T],
+) -> Generator[tuple[_T, ...]]: ...  # undocumented

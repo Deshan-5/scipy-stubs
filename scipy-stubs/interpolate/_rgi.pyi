@@ -13,7 +13,9 @@ __all__ = ["RegularGridInterpolator", "interpn"]
 
 ###
 
-_CT_co = TypeVar("_CT_co", bound=np.float64 | np.complex128, default=np.float64, covariant=True)
+_CT_co = TypeVar(
+    "_CT_co", bound=np.float64 | np.complex128, default=np.float64, covariant=True
+)
 
 _MethodReal: TypeAlias = Literal["linear", "nearest", "slinear", "cubic", "quintic"]
 _Method: TypeAlias = Literal[_MethodReal, "pchip"]
@@ -80,7 +82,12 @@ class RegularGridInterpolator(Generic[_CT_co]):
 
     #
     def __call__(
-        self, /, xi: onp.ToFloatND, method: _Method | None = None, *, nu: onp.ToJustInt1D | None = None
+        self,
+        /,
+        xi: onp.ToFloatND,
+        method: _Method | None = None,
+        *,
+        nu: onp.ToJustInt1D | None = None,
     ) -> onp.ArrayND[_CT_co]: ...
 
 @overload

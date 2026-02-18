@@ -68,13 +68,24 @@ _WarnFlag: TypeAlias = Literal[0, 1, 2, 3, 4]
 _AllVecs: TypeAlias = list[_Int1D | _Float1D]
 
 _ResultValueT_co = TypeVar("_ResultValueT_co", default=Any, covariant=True)
-_XT_contra = TypeVar("_XT_contra", bound=_ComplexCo1D, default=_Float1D, contravariant=True)
-_ValueT_co = TypeVar("_ValueT_co", bound=float | npc.floating, default=_Float, covariant=True)
-_JacT_co = TypeVar("_JacT_co", bound=onp.Array1D[npc.floating] | onp.Array2D[npc.floating], default=_Float1D, covariant=True)
+_XT_contra = TypeVar(
+    "_XT_contra", bound=_ComplexCo1D, default=_Float1D, contravariant=True
+)
+_ValueT_co = TypeVar(
+    "_ValueT_co", bound=float | npc.floating, default=_Float, covariant=True
+)
+_JacT_co = TypeVar(
+    "_JacT_co",
+    bound=onp.Array1D[npc.floating] | onp.Array2D[npc.floating],
+    default=_Float1D,
+    covariant=True,
+)
 
 @type_check_only
 class _DoesFMin(Protocol):
-    def __call__(self, func: _Fn1_1d, x0: _Float1D, /, *, args: _Args) -> _FloatingND: ...
+    def __call__(
+        self, func: _Fn1_1d, x0: _Float1D, /, *, args: _Args
+    ) -> _FloatingND: ...
 
 ###
 
@@ -94,7 +105,9 @@ class MemoizeJac(Generic[_XT_contra, _ValueT_co, _JacT_co]):
     _value: _ValueT_co  # readonly
     jac: _JacT_co  # readonly
 
-    def __init__(self, /, fun: _Fn1[_XT_contra, tuple[_ValueT_co, _JacT_co]]) -> None: ...
+    def __init__(
+        self, /, fun: _Fn1[_XT_contra, tuple[_ValueT_co, _JacT_co]]
+    ) -> None: ...
     def __call__(self, /, x: _XT_contra, *args: object) -> _ValueT_co: ...
     def derivative(self, /, x: _XT_contra, *args: object) -> _JacT_co: ...
 
@@ -131,13 +144,17 @@ class Brent(Generic[_ValueT_co]):
     @overload
     def get_result(self, /, full_output: onp.ToFalse = False) -> _Float: ...
     @overload
-    def get_result(self, /, full_output: onp.ToTrue) -> tuple[_Float, _Float, int, int]: ...  # xmin, fval, itere, funcalls
+    def get_result(
+        self, /, full_output: onp.ToTrue
+    ) -> tuple[_Float, _Float, int, int]: ...  # xmin, fval, itere, funcalls
 
 # undocumented
 @overload
 def is_finite_scalar(x: onp.ToScalar) -> np.bool_: ...
 @overload  # returns a `np.ndarray` of `size = 1`, but could have any `ndim`
-def is_finite_scalar(x: _NumericND) -> Literal[False] | onp.Array[onp.AtLeast1D[Any], np.bool_]: ...
+def is_finite_scalar(
+    x: _NumericND,
+) -> Literal[False] | onp.Array[onp.AtLeast1D[Any], np.bool_]: ...
 
 # undocumented
 @overload
@@ -147,7 +164,9 @@ def vecnorm(x: _NumericND, ord: onp.ToInt = 2) -> _FloatingCoND: ...
 @overload
 def vecnorm(x: onp.ToFloatND, ord: onp.ToInt = 2) -> onp.ToFloat: ...
 @overload
-def vecnorm(x: onp.ToComplexND, ord: onp.ToFloat = 2) -> onp.ToFloat | _FloatingCoND: ...
+def vecnorm(
+    x: onp.ToComplexND, ord: onp.ToFloat = 2
+) -> onp.ToFloat | _FloatingCoND: ...
 
 # undocumented
 def approx_fhess_p(
@@ -221,7 +240,9 @@ def fmin(
     retall: onp.ToTrue,
     callback: _Callback_1d | None = None,
     initial_simplex: onp.ToFloat2D | None = None,
-) -> tuple[_Float1D, onp.ToFloat, int, int, _WarnFlag, _AllVecs]: ...  # x, fun, nit, nfev, status, allvecs
+) -> tuple[
+    _Float1D, onp.ToFloat, int, int, _WarnFlag, _AllVecs
+]: ...  # x, fun, nit, nfev, status, allvecs
 
 #
 @overload  # full_output: False = ..., retall: False = ...
@@ -565,7 +586,9 @@ def brute(
     finish: _DoesFMin | None = ...,  # default: `fmin`
     disp: onp.ToBool = False,
     workers: int | Callable[[Callable[[_VT], _RT], Iterable[_VT]], Sequence[_RT]] = 1,
-) -> tuple[_Float1D, np.float64, onp.Array3D[np.float64], onp.Array2D[npc.floating]]: ...
+) -> tuple[
+    _Float1D, np.float64, onp.Array3D[np.float64], onp.Array2D[npc.floating]
+]: ...
 
 #
 @overload  # full_output: False = ...
@@ -579,7 +602,12 @@ def brent(
 ) -> _Float: ...
 @overload  # full_output: True (positional)
 def brent(
-    func: _Fn1_0d, args: _Args, brack: Brack | None, tol: onp.ToFloat, full_output: onp.ToTrue, maxiter: int = 500
+    func: _Fn1_0d,
+    args: _Args,
+    brack: Brack | None,
+    tol: onp.ToFloat,
+    full_output: onp.ToTrue,
+    maxiter: int = 500,
 ) -> tuple[_Float, _Float, int, int]: ...
 @overload  # full_output: True (keyword)
 def brent(
@@ -604,7 +632,12 @@ def golden(
 ) -> _Float: ...
 @overload  # full_output: True (positional)
 def golden(
-    func: _Fn1_0d, args: _Args, brack: Brack | None, tol: onp.ToFloat, full_output: onp.ToTrue, maxiter: int = 5_000
+    func: _Fn1_0d,
+    args: _Args,
+    brack: Brack | None,
+    tol: onp.ToFloat,
+    full_output: onp.ToTrue,
+    maxiter: int = 5_000,
 ) -> tuple[_Float, _Float, int]: ...
 @overload  # full_output: True (keyword)
 def golden(
@@ -635,14 +668,27 @@ def rosen_hess_prod(x: onp.ToFloat1D, p: onp.ToFloat1D) -> _Float1D: ...
 
 #
 @overload  # disp: True = ...
-def show_options(solver: Solver | None = None, method: MethodAll | None = None, disp: onp.ToTrue = True) -> None: ...
+def show_options(
+    solver: Solver | None = None,
+    method: MethodAll | None = None,
+    disp: onp.ToTrue = True,
+) -> None: ...
 @overload  # disp: False  (positional)
-def show_options(solver: Solver | None, method: MethodAll | None, disp: onp.ToFalse) -> str: ...
+def show_options(
+    solver: Solver | None, method: MethodAll | None, disp: onp.ToFalse
+) -> str: ...
 @overload  # disp: False  (keyword)
-def show_options(solver: Solver | None = None, method: MethodAll | None = None, *, disp: onp.ToFalse) -> str: ...
+def show_options(
+    solver: Solver | None = None, method: MethodAll | None = None, *, disp: onp.ToFalse
+) -> str: ...
 
 #
-def approx_fprime(xk: onp.ToFloat1D, f: _Fn1_1d, epsilon: onp.ToFloat | _FloatingCoND = ..., *args: object) -> _Float1D: ...
+def approx_fprime(
+    xk: onp.ToFloat1D,
+    f: _Fn1_1d,
+    epsilon: onp.ToFloat | _FloatingCoND = ...,
+    *args: object,
+) -> _Float1D: ...
 
 #
 def check_grad(

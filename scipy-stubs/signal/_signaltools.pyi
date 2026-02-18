@@ -57,8 +57,12 @@ __all__ = [
 _T = TypeVar("_T")
 _InexactT = TypeVar("_InexactT", bound=npc.inexact)
 _NumericT = TypeVar("_NumericT", bound=npc.number | np.bool_)
-_InexactT2 = TypeVar("_InexactT2", bound=np.float32 | np.float64 | np.complex64 | np.complex128)
-_InexactT3 = TypeVar("_InexactT3", bound=np.float32 | np.float64 | npc.floating80 | npc.complexfloating)
+_InexactT2 = TypeVar(
+    "_InexactT2", bound=np.float32 | np.float64 | np.complex64 | np.complex128
+)
+_InexactT3 = TypeVar(
+    "_InexactT3", bound=np.float32 | np.float64 | npc.floating80 | npc.complexfloating
+)
 _CoFloat64T = TypeVar("_CoFloat64T", bound=np.float64 | np.float32 | npc.integer)
 _ShapeT = TypeVar("_ShapeT", bound=tuple[int, ...])
 
@@ -73,7 +77,18 @@ _BoundaryConditions: TypeAlias = L["fill", "wrap", "symm"]
 _ResidueType: TypeAlias = L["avg", "mean", "min", "minimum", "max", "maximum"]
 _Domain: TypeAlias = L["time", "freq"]
 _TrendType: TypeAlias = L["linear", "constant"]
-_PadType: TypeAlias = L["constant", "line", "mean", "median", "maximum", "minimum", "symmetric", "reflect", "edge", "wrap"]
+_PadType: TypeAlias = L[
+    "constant",
+    "line",
+    "mean",
+    "median",
+    "maximum",
+    "minimum",
+    "symmetric",
+    "reflect",
+    "edge",
+    "wrap",
+]
 _FiltFiltPadType: TypeAlias = L["odd", "even", "constant"] | None
 _FiltFiltMethod: TypeAlias = L["pad", "gust"]
 _ResidualKind: TypeAlias = L["lowpass", "all"]
@@ -81,7 +96,9 @@ _FilterType: TypeAlias = L["iir", "fir"] | dlti
 
 _C64_128: TypeAlias = np.complex128 | np.complex64
 
-_ToResampleWindow: TypeAlias = Callable[[onp.Array1D[_InexactT]], onp.ToFloat1D] | onp.ToFloat1D | _ToWindow
+_ToResampleWindow: TypeAlias = (
+    Callable[[onp.Array1D[_InexactT]], onp.ToFloat1D] | onp.ToFloat1D | _ToWindow
+)
 
 # workaround for a strange bug in pyright's overlapping overload detection with `numpy<2.1`
 _WorkaroundForPyright: TypeAlias = tuple[int] | tuple[Any, ...]
@@ -118,25 +135,41 @@ def _bvalfromboundary(boundary: str) -> int: ...
 #
 @overload
 def choose_conv_method(
-    in1: onp.ToIntND, in2: onp.ToIntND, mode: onp.ConvolveMode = "full", measure: onp.ToFalse = False
+    in1: onp.ToIntND,
+    in2: onp.ToIntND,
+    mode: onp.ConvolveMode = "full",
+    measure: onp.ToFalse = False,
 ) -> L["direct"]: ...
 @overload
 def choose_conv_method(
-    in1: onp.ToComplexND, in2: onp.ToComplexND, mode: onp.ConvolveMode = "full", measure: onp.ToFalse = False
+    in1: onp.ToComplexND,
+    in2: onp.ToComplexND,
+    mode: onp.ConvolveMode = "full",
+    measure: onp.ToFalse = False,
 ) -> _ConvMethod: ...
 @overload
 def choose_conv_method(
-    in1: onp.ToComplexND, in2: onp.ToComplexND, mode: onp.ConvolveMode, measure: onp.ToTrue
+    in1: onp.ToComplexND,
+    in2: onp.ToComplexND,
+    mode: onp.ConvolveMode,
+    measure: onp.ToTrue,
 ) -> tuple[_ConvMethod, _ConvMeasureDict]: ...
 @overload
 def choose_conv_method(
-    in1: onp.ToComplexND, in2: onp.ToComplexND, mode: onp.ConvolveMode = "full", *, measure: onp.ToTrue
+    in1: onp.ToComplexND,
+    in2: onp.ToComplexND,
+    mode: onp.ConvolveMode = "full",
+    *,
+    measure: onp.ToTrue,
 ) -> tuple[_ConvMethod, _ConvMeasureDict]: ...
 
 # NOTE: keep in sync with `correlate`
 @overload  # ~bool, ~bool
 def convolve(
-    in1: onp.ToJustBoolND, in2: onp.ToJustBoolND, mode: onp.ConvolveMode = "full", method: _ToConvMethod = "auto"
+    in1: onp.ToJustBoolND,
+    in2: onp.ToJustBoolND,
+    mode: onp.ConvolveMode = "full",
+    method: _ToConvMethod = "auto",
 ) -> onp.ArrayND[np.bool_]: ...
 @overload  # generic
 def convolve(
@@ -147,37 +180,61 @@ def convolve(
 ) -> onp.ArrayND[_NumericT, _AnyShapeT]: ...
 @overload  # ~int64, +int64
 def convolve(
-    in1: onp.ToJustInt64_ND, in2: onp.ToIntND, mode: onp.ConvolveMode = "full", method: _ToConvMethod = "auto"
+    in1: onp.ToJustInt64_ND,
+    in2: onp.ToIntND,
+    mode: onp.ConvolveMode = "full",
+    method: _ToConvMethod = "auto",
 ) -> onp.ArrayND[np.int64]: ...
 @overload  # +int64, ~int64
 def convolve(
-    in1: onp.ToIntND, in2: onp.ToJustInt64_ND, mode: onp.ConvolveMode = "full", method: _ToConvMethod = "auto"
+    in1: onp.ToIntND,
+    in2: onp.ToJustInt64_ND,
+    mode: onp.ConvolveMode = "full",
+    method: _ToConvMethod = "auto",
 ) -> onp.ArrayND[np.int64]: ...
 @overload  # ~float64, +float64
 def convolve(
-    in1: onp.ToJustFloat64_ND, in2: onp.ToFloat64_ND, mode: onp.ConvolveMode = "full", method: _ToConvMethod = "auto"
+    in1: onp.ToJustFloat64_ND,
+    in2: onp.ToFloat64_ND,
+    mode: onp.ConvolveMode = "full",
+    method: _ToConvMethod = "auto",
 ) -> onp.ArrayND[np.float64]: ...
 @overload  # +float64, ~float64
 def convolve(
-    in1: onp.ToFloat64_ND, in2: onp.ToJustFloat64_ND, mode: onp.ConvolveMode = "full", method: _ToConvMethod = "auto"
+    in1: onp.ToFloat64_ND,
+    in2: onp.ToJustFloat64_ND,
+    mode: onp.ConvolveMode = "full",
+    method: _ToConvMethod = "auto",
 ) -> onp.ArrayND[np.float64]: ...
 @overload  # ~complex128, +complex128
 def convolve(
-    in1: onp.ToJustComplex128_ND, in2: onp.ToComplex128_ND, mode: onp.ConvolveMode = "full", method: _ToConvMethod = "auto"
+    in1: onp.ToJustComplex128_ND,
+    in2: onp.ToComplex128_ND,
+    mode: onp.ConvolveMode = "full",
+    method: _ToConvMethod = "auto",
 ) -> onp.ArrayND[np.complex128]: ...
 @overload  # +complex128, ~complex128
 def convolve(
-    in1: onp.ToComplex128_ND, in2: onp.ToJustComplex128_ND, mode: onp.ConvolveMode = "full", method: _ToConvMethod = "auto"
+    in1: onp.ToComplex128_ND,
+    in2: onp.ToJustComplex128_ND,
+    mode: onp.ConvolveMode = "full",
+    method: _ToConvMethod = "auto",
 ) -> onp.ArrayND[np.complex128]: ...
 @overload  # fallback
 def convolve(
-    in1: onp.ToComplexND, in2: onp.ToComplexND, mode: onp.ConvolveMode = "full", method: _ToConvMethod = "auto"
+    in1: onp.ToComplexND,
+    in2: onp.ToComplexND,
+    mode: onp.ConvolveMode = "full",
+    method: _ToConvMethod = "auto",
 ) -> onp.ArrayND[Any, _WorkaroundForPyright]: ...
 
 # NOTE: keep in sync with `convolve`
 @overload  # ~bool, ~bool
 def correlate(
-    in1: onp.ToJustBoolND, in2: onp.ToJustBoolND, mode: onp.ConvolveMode = "full", method: _ToConvMethod = "auto"
+    in1: onp.ToJustBoolND,
+    in2: onp.ToJustBoolND,
+    mode: onp.ConvolveMode = "full",
+    method: _ToConvMethod = "auto",
 ) -> onp.ArrayND[np.bool_]: ...
 @overload  # generic
 def correlate(
@@ -188,31 +245,52 @@ def correlate(
 ) -> onp.ArrayND[_NumericT, _AnyShapeT]: ...
 @overload  # ~int64, +int64
 def correlate(
-    in1: onp.ToJustInt64_ND, in2: onp.ToIntND, mode: onp.ConvolveMode = "full", method: _ToConvMethod = "auto"
+    in1: onp.ToJustInt64_ND,
+    in2: onp.ToIntND,
+    mode: onp.ConvolveMode = "full",
+    method: _ToConvMethod = "auto",
 ) -> onp.ArrayND[np.int64]: ...
 @overload  # +int64, ~int64
 def correlate(
-    in1: onp.ToIntND, in2: onp.ToJustInt64_ND, mode: onp.ConvolveMode = "full", method: _ToConvMethod = "auto"
+    in1: onp.ToIntND,
+    in2: onp.ToJustInt64_ND,
+    mode: onp.ConvolveMode = "full",
+    method: _ToConvMethod = "auto",
 ) -> onp.ArrayND[np.int64]: ...
 @overload  # ~float64, +float64
 def correlate(
-    in1: onp.ToJustFloat64_ND, in2: onp.ToFloat64_ND, mode: onp.ConvolveMode = "full", method: _ToConvMethod = "auto"
+    in1: onp.ToJustFloat64_ND,
+    in2: onp.ToFloat64_ND,
+    mode: onp.ConvolveMode = "full",
+    method: _ToConvMethod = "auto",
 ) -> onp.ArrayND[np.float64]: ...
 @overload  # +float64, ~float64
 def correlate(
-    in1: onp.ToFloat64_ND, in2: onp.ToJustFloat64_ND, mode: onp.ConvolveMode = "full", method: _ToConvMethod = "auto"
+    in1: onp.ToFloat64_ND,
+    in2: onp.ToJustFloat64_ND,
+    mode: onp.ConvolveMode = "full",
+    method: _ToConvMethod = "auto",
 ) -> onp.ArrayND[np.float64]: ...
 @overload  # ~complex128, +complex128
 def correlate(
-    in1: onp.ToJustComplex128_ND, in2: onp.ToComplex128_ND, mode: onp.ConvolveMode = "full", method: _ToConvMethod = "auto"
+    in1: onp.ToJustComplex128_ND,
+    in2: onp.ToComplex128_ND,
+    mode: onp.ConvolveMode = "full",
+    method: _ToConvMethod = "auto",
 ) -> onp.ArrayND[np.complex128]: ...
 @overload  # +complex128, ~complex128
 def correlate(
-    in1: onp.ToComplex128_ND, in2: onp.ToJustComplex128_ND, mode: onp.ConvolveMode = "full", method: _ToConvMethod = "auto"
+    in1: onp.ToComplex128_ND,
+    in2: onp.ToJustComplex128_ND,
+    mode: onp.ConvolveMode = "full",
+    method: _ToConvMethod = "auto",
 ) -> onp.ArrayND[np.complex128]: ...
 @overload  # fallback
 def correlate(
-    in1: onp.ToComplexND, in2: onp.ToComplexND, mode: onp.ConvolveMode = "full", method: _ToConvMethod = "auto"
+    in1: onp.ToComplexND,
+    in2: onp.ToComplexND,
+    mode: onp.ConvolveMode = "full",
+    method: _ToConvMethod = "auto",
 ) -> onp.ArrayND[Any, _WorkaroundForPyright]: ...
 
 # NOTE: keep in sync with `correlate2d`
@@ -371,27 +449,45 @@ def fftconvolve(
 ) -> onp.ArrayND[_InexactT3, _AnyShapeT]: ...
 @overload  # ~float64, ~float64
 def fftconvolve(
-    in1: onp.SequenceND[float], in2: onp.SequenceND[float], mode: onp.ConvolveMode = "full", axes: AnyShape | None = None
+    in1: onp.SequenceND[float],
+    in2: onp.SequenceND[float],
+    mode: onp.ConvolveMode = "full",
+    axes: AnyShape | None = None,
 ) -> onp.ArrayND[np.float64]: ...
 @overload  # ~float64, +float64
 def fftconvolve(
-    in1: onp.ToJustFloat64_ND, in2: onp.ToFloat64_ND, mode: onp.ConvolveMode = "full", axes: AnyShape | None = None
+    in1: onp.ToJustFloat64_ND,
+    in2: onp.ToFloat64_ND,
+    mode: onp.ConvolveMode = "full",
+    axes: AnyShape | None = None,
 ) -> onp.ArrayND[np.float64]: ...
 @overload  # ~float64, +float64
 def fftconvolve(
-    in1: onp.ToFloat64_ND, in2: onp.ToJustFloat64_ND, mode: onp.ConvolveMode = "full", axes: AnyShape | None = None
+    in1: onp.ToFloat64_ND,
+    in2: onp.ToJustFloat64_ND,
+    mode: onp.ConvolveMode = "full",
+    axes: AnyShape | None = None,
 ) -> onp.ArrayND[np.float64]: ...
 @overload  # ~complex128, +complex128
 def fftconvolve(
-    in1: onp.ToJustComplex128_ND, in2: onp.ToComplex128_ND, mode: onp.ConvolveMode = "full", axes: AnyShape | None = None
+    in1: onp.ToJustComplex128_ND,
+    in2: onp.ToComplex128_ND,
+    mode: onp.ConvolveMode = "full",
+    axes: AnyShape | None = None,
 ) -> onp.ArrayND[np.complex128]: ...
 @overload  # ~complex128, +complex128
 def fftconvolve(
-    in1: onp.ToComplex128_ND, in2: onp.ToJustComplex128_ND, mode: onp.ConvolveMode = "full", axes: AnyShape | None = None
+    in1: onp.ToComplex128_ND,
+    in2: onp.ToJustComplex128_ND,
+    mode: onp.ConvolveMode = "full",
+    axes: AnyShape | None = None,
 ) -> onp.ArrayND[np.complex128]: ...
 @overload  # fallback
 def fftconvolve(
-    in1: onp.ToComplexND, in2: onp.ToComplexND, mode: onp.ConvolveMode = "full", axes: AnyShape | None = None
+    in1: onp.ToComplexND,
+    in2: onp.ToComplexND,
+    mode: onp.ConvolveMode = "full",
+    axes: AnyShape | None = None,
 ) -> onp.ArrayND[Any, _WorkaroundForPyright]: ...
 
 # NOTE: keep in sync with `fftconvolve`
@@ -418,36 +514,60 @@ def oaconvolve(
 ) -> onp.ArrayND[_InexactT3, _AnyShapeT]: ...
 @overload  # ~float64, ~float64
 def oaconvolve(
-    in1: onp.SequenceND[float], in2: onp.SequenceND[float], mode: onp.ConvolveMode = "full", axes: AnyShape | None = None
+    in1: onp.SequenceND[float],
+    in2: onp.SequenceND[float],
+    mode: onp.ConvolveMode = "full",
+    axes: AnyShape | None = None,
 ) -> onp.ArrayND[np.float64]: ...
 @overload  # ~float64, +float64
 def oaconvolve(
-    in1: onp.ToJustFloat64_ND, in2: onp.ToFloat64_ND, mode: onp.ConvolveMode = "full", axes: AnyShape | None = None
+    in1: onp.ToJustFloat64_ND,
+    in2: onp.ToFloat64_ND,
+    mode: onp.ConvolveMode = "full",
+    axes: AnyShape | None = None,
 ) -> onp.ArrayND[np.float64]: ...
 @overload  # ~float64, +float64
 def oaconvolve(
-    in1: onp.ToFloat64_ND, in2: onp.ToJustFloat64_ND, mode: onp.ConvolveMode = "full", axes: AnyShape | None = None
+    in1: onp.ToFloat64_ND,
+    in2: onp.ToJustFloat64_ND,
+    mode: onp.ConvolveMode = "full",
+    axes: AnyShape | None = None,
 ) -> onp.ArrayND[np.float64]: ...
 @overload  # ~complex128, +complex128
 def oaconvolve(
-    in1: onp.ToJustComplex128_ND, in2: onp.ToComplex128_ND, mode: onp.ConvolveMode = "full", axes: AnyShape | None = None
+    in1: onp.ToJustComplex128_ND,
+    in2: onp.ToComplex128_ND,
+    mode: onp.ConvolveMode = "full",
+    axes: AnyShape | None = None,
 ) -> onp.ArrayND[np.complex128]: ...
 @overload  # ~complex128, +complex128
 def oaconvolve(
-    in1: onp.ToComplex128_ND, in2: onp.ToJustComplex128_ND, mode: onp.ConvolveMode = "full", axes: AnyShape | None = None
+    in1: onp.ToComplex128_ND,
+    in2: onp.ToJustComplex128_ND,
+    mode: onp.ConvolveMode = "full",
+    axes: AnyShape | None = None,
 ) -> onp.ArrayND[np.complex128]: ...
 @overload  # fallback
 def oaconvolve(
-    in1: onp.ToComplexND, in2: onp.ToComplexND, mode: onp.ConvolveMode = "full", axes: AnyShape | None = None
+    in1: onp.ToComplexND,
+    in2: onp.ToComplexND,
+    mode: onp.ConvolveMode = "full",
+    axes: AnyShape | None = None,
 ) -> onp.ArrayND[Any, _WorkaroundForPyright]: ...
 
 #
 @overload  # +float64, +float64
-def deconvolve(signal: onp.ToFloat64_1D, divisor: onp.ToFloat64_1D) -> _Tuple2[onp.Array1D[np.float64]]: ...
+def deconvolve(
+    signal: onp.ToFloat64_1D, divisor: onp.ToFloat64_1D
+) -> _Tuple2[onp.Array1D[np.float64]]: ...
 @overload  # ~longdouble, +floating
-def deconvolve(signal: onp.ToJustLongDouble1D, divisor: onp.ToFloat1D) -> _Tuple2[onp.Array1D[npc.floating80]]: ...
+def deconvolve(
+    signal: onp.ToJustLongDouble1D, divisor: onp.ToFloat1D
+) -> _Tuple2[onp.Array1D[npc.floating80]]: ...
 @overload  # +floating, ~longdouble
-def deconvolve(signal: onp.ToFloat1D, divisor: onp.ToJustLongDouble1D) -> _Tuple2[onp.Array1D[npc.floating80]]: ...
+def deconvolve(
+    signal: onp.ToFloat1D, divisor: onp.ToJustLongDouble1D
+) -> _Tuple2[onp.Array1D[npc.floating80]]: ...
 @overload  # ~complex128 | ~complex64, +complex128
 def deconvolve(
     signal: onp.ToArray1D[op.JustComplex, _C64_128], divisor: onp.ToComplex128_1D
@@ -457,14 +577,22 @@ def deconvolve(
     signal: onp.ToComplex128_1D, divisor: onp.ToArray1D[op.JustComplex, _C64_128]
 ) -> _Tuple2[onp.Array1D[np.complex128]]: ...
 @overload  # ~clongdouble, +complexfloating
-def deconvolve(signal: onp.ToJustCLongDouble1D, divisor: onp.ToComplex1D) -> _Tuple2[onp.Array1D[npc.complexfloating160]]: ...
+def deconvolve(
+    signal: onp.ToJustCLongDouble1D, divisor: onp.ToComplex1D
+) -> _Tuple2[onp.Array1D[npc.complexfloating160]]: ...
 @overload  # +complexfloating, ~clongdouble
-def deconvolve(signal: onp.ToComplex1D, divisor: onp.ToJustCLongDouble1D) -> _Tuple2[onp.Array1D[npc.complexfloating160]]: ...
+def deconvolve(
+    signal: onp.ToComplex1D, divisor: onp.ToJustCLongDouble1D
+) -> _Tuple2[onp.Array1D[npc.complexfloating160]]: ...
 @overload  # fallback
-def deconvolve(signal: onp.ToComplex1D, divisor: onp.ToComplex1D) -> _Tuple2[onp.Array1D[Any]]: ...
+def deconvolve(
+    signal: onp.ToComplex1D, divisor: onp.ToComplex1D
+) -> _Tuple2[onp.Array1D[Any]]: ...
 
 #
-def correlation_lags(in1_len: int, in2_len: int, mode: onp.ConvolveMode = "full") -> onp.Array1D[np.int_]: ...
+def correlation_lags(
+    in1_len: int, in2_len: int, mode: onp.ConvolveMode = "full"
+) -> onp.Array1D[np.int_]: ...
 
 ###
 
@@ -475,80 +603,141 @@ def lfilter_zi(
     a: onp.ToArray1D[float, npc.floating64 | npc.integer | np.bool_],
 ) -> onp.Array1D[np.float64]: ...
 @overload  # +float64, ~float64
-def lfilter_zi(b: onp.ToJustFloat64_1D, a: onp.ToFloat64_1D) -> onp.Array1D[np.float64]: ...
+def lfilter_zi(
+    b: onp.ToJustFloat64_1D, a: onp.ToFloat64_1D
+) -> onp.Array1D[np.float64]: ...
 @overload  # ~float64, +float64
-def lfilter_zi(b: onp.ToFloat64_1D, a: onp.ToJustFloat64_1D) -> onp.Array1D[np.float64]: ...
+def lfilter_zi(
+    b: onp.ToFloat64_1D, a: onp.ToJustFloat64_1D
+) -> onp.Array1D[np.float64]: ...
 @overload  # ~float32, +float32
-def lfilter_zi(b: onp.ToJustFloat32_1D, a: onp.ToFloat32_1D) -> onp.Array1D[np.float32]: ...
+def lfilter_zi(
+    b: onp.ToJustFloat32_1D, a: onp.ToFloat32_1D
+) -> onp.Array1D[np.float32]: ...
 @overload  # +float32, ~float32
-def lfilter_zi(b: onp.ToFloat32_1D, a: onp.ToJustFloat32_1D) -> onp.Array1D[np.float32]: ...
+def lfilter_zi(
+    b: onp.ToFloat32_1D, a: onp.ToJustFloat32_1D
+) -> onp.Array1D[np.float32]: ...
 @overload  # +complex128, ~complex128
-def lfilter_zi(b: onp.ToJustComplex128_1D, a: onp.ToComplex128_1D) -> onp.Array1D[np.complex128]: ...
+def lfilter_zi(
+    b: onp.ToJustComplex128_1D, a: onp.ToComplex128_1D
+) -> onp.Array1D[np.complex128]: ...
 @overload  # ~complex128, +complex128
-def lfilter_zi(b: onp.ToComplex128_1D, a: onp.ToJustComplex128_1D) -> onp.Array1D[np.complex128]: ...
+def lfilter_zi(
+    b: onp.ToComplex128_1D, a: onp.ToJustComplex128_1D
+) -> onp.Array1D[np.complex128]: ...
 @overload  # +complex64, ~complex64
-def lfilter_zi(b: onp.ToJustComplex64_1D, a: onp.ToComplex64_1D) -> onp.Array1D[np.complex64]: ...
+def lfilter_zi(
+    b: onp.ToJustComplex64_1D, a: onp.ToComplex64_1D
+) -> onp.Array1D[np.complex64]: ...
 @overload  # ~complex64, +complex64
-def lfilter_zi(b: onp.ToComplex64_1D, a: onp.ToJustComplex64_1D) -> onp.Array1D[np.complex64]: ...
+def lfilter_zi(
+    b: onp.ToComplex64_1D, a: onp.ToJustComplex64_1D
+) -> onp.Array1D[np.complex64]: ...
 @overload  # fallback
 def lfilter_zi(b: onp.ToComplex1D, a: onp.ToComplex1D) -> onp.Array1D[Any]: ...
 
 #
 @overload  # ~float64 | integer, +float64, +float64, +float64 | None
 def lfiltic(
-    b: onp.ToArray1D[float, np.float64 | npc.integer], a: onp.ToFloat64_1D, y: onp.ToFloat64_1D, x: onp.ToFloat64_1D | None = None
+    b: onp.ToArray1D[float, np.float64 | npc.integer],
+    a: onp.ToFloat64_1D,
+    y: onp.ToFloat64_1D,
+    x: onp.ToFloat64_1D | None = None,
 ) -> onp.Array1D[np.float64]: ...
 @overload  # +float64, ~float64 | integer, +float64, +float64 | None
 def lfiltic(
-    b: onp.ToFloat64_1D, a: onp.ToArray1D[float, np.float64 | npc.integer], y: onp.ToFloat64_1D, x: onp.ToFloat64_1D | None = None
+    b: onp.ToFloat64_1D,
+    a: onp.ToArray1D[float, np.float64 | npc.integer],
+    y: onp.ToFloat64_1D,
+    x: onp.ToFloat64_1D | None = None,
 ) -> onp.Array1D[np.float64]: ...
 @overload  # +float64, +float64, ~float64 | integer, +float64 | None
 def lfiltic(
-    b: onp.ToFloat64_1D, a: onp.ToFloat64_1D, y: onp.ToArray1D[float, np.float64 | npc.integer], x: onp.ToFloat64_1D | None = None
+    b: onp.ToFloat64_1D,
+    a: onp.ToFloat64_1D,
+    y: onp.ToArray1D[float, np.float64 | npc.integer],
+    x: onp.ToFloat64_1D | None = None,
 ) -> onp.Array1D[np.float64]: ...
 @overload  # ~float32, +float32, +float32, +float32 | None
 def lfiltic(
-    b: onp.ToJustFloat32_1D, a: onp.ToFloat32_1D, y: onp.ToFloat32_1D, x: onp.ToFloat32_1D | None = None
+    b: onp.ToJustFloat32_1D,
+    a: onp.ToFloat32_1D,
+    y: onp.ToFloat32_1D,
+    x: onp.ToFloat32_1D | None = None,
 ) -> onp.Array1D[np.float32]: ...
 @overload  # +float32, ~float32, +float32, +float32 | None
 def lfiltic(
-    b: onp.ToFloat32_1D, a: onp.ToJustFloat32_1D, y: onp.ToFloat32_1D, x: onp.ToFloat32_1D | None = None
+    b: onp.ToFloat32_1D,
+    a: onp.ToJustFloat32_1D,
+    y: onp.ToFloat32_1D,
+    x: onp.ToFloat32_1D | None = None,
 ) -> onp.Array1D[np.float32]: ...
 @overload  # +float32, +float32, ~float32, +float32 | None
 def lfiltic(
-    b: onp.ToFloat32_1D, a: onp.ToFloat32_1D, y: onp.ToJustFloat32_1D, x: onp.ToFloat32_1D | None = None
+    b: onp.ToFloat32_1D,
+    a: onp.ToFloat32_1D,
+    y: onp.ToJustFloat32_1D,
+    x: onp.ToFloat32_1D | None = None,
 ) -> onp.Array1D[np.float32]: ...
 @overload  # ~complex128, +complex128, +complex128, +complex128 | None
 def lfiltic(
-    b: onp.ToJustComplex128_1D, a: onp.ToComplex128_1D, y: onp.ToComplex128_1D, x: onp.ToComplex128_1D | None = None
+    b: onp.ToJustComplex128_1D,
+    a: onp.ToComplex128_1D,
+    y: onp.ToComplex128_1D,
+    x: onp.ToComplex128_1D | None = None,
 ) -> onp.Array1D[np.complex128]: ...
 @overload  # +complex128, ~complex128, +complex128, +complex128 | None
 def lfiltic(
-    b: onp.ToComplex128_1D, a: onp.ToJustComplex128_1D, y: onp.ToComplex128_1D, x: onp.ToComplex128_1D | None = None
+    b: onp.ToComplex128_1D,
+    a: onp.ToJustComplex128_1D,
+    y: onp.ToComplex128_1D,
+    x: onp.ToComplex128_1D | None = None,
 ) -> onp.Array1D[np.complex128]: ...
 @overload  # +complex128, +complex128, ~complex128, +complex128 | None
 def lfiltic(
-    b: onp.ToComplex128_1D, a: onp.ToComplex128_1D, y: onp.ToJustComplex128_1D, x: onp.ToComplex128_1D | None = None
+    b: onp.ToComplex128_1D,
+    a: onp.ToComplex128_1D,
+    y: onp.ToJustComplex128_1D,
+    x: onp.ToComplex128_1D | None = None,
 ) -> onp.Array1D[np.complex128]: ...
 @overload  # ~complex64, +complex64, +complex64, +complex64 | None
 def lfiltic(
-    b: onp.ToJustComplex64_1D, a: onp.ToComplex64_1D, y: onp.ToComplex64_1D, x: onp.ToComplex64_1D | None = None
+    b: onp.ToJustComplex64_1D,
+    a: onp.ToComplex64_1D,
+    y: onp.ToComplex64_1D,
+    x: onp.ToComplex64_1D | None = None,
 ) -> onp.Array1D[np.complex64]: ...
 @overload  # +complex64, ~complex64, +complex64, +complex64 | None
 def lfiltic(
-    b: onp.ToComplex64_1D, a: onp.ToJustComplex64_1D, y: onp.ToComplex64_1D, x: onp.ToComplex64_1D | None = None
+    b: onp.ToComplex64_1D,
+    a: onp.ToJustComplex64_1D,
+    y: onp.ToComplex64_1D,
+    x: onp.ToComplex64_1D | None = None,
 ) -> onp.Array1D[np.complex64]: ...
 @overload  # +complex64, +complex64, ~complex64, +complex64 | None
 def lfiltic(
-    b: onp.ToComplex64_1D, a: onp.ToComplex64_1D, y: onp.ToJustComplex64_1D, x: onp.ToComplex64_1D | None = None
+    b: onp.ToComplex64_1D,
+    a: onp.ToComplex64_1D,
+    y: onp.ToJustComplex64_1D,
+    x: onp.ToComplex64_1D | None = None,
 ) -> onp.Array1D[np.complex64]: ...
 @overload  # fallback
-def lfiltic(b: onp.ToComplex1D, a: onp.ToComplex1D, y: onp.ToComplex1D, x: onp.ToComplex1D | None = None) -> onp.Array1D[Any]: ...
+def lfiltic(
+    b: onp.ToComplex1D,
+    a: onp.ToComplex1D,
+    y: onp.ToComplex1D,
+    x: onp.ToComplex1D | None = None,
+) -> onp.Array1D[Any]: ...
 
 #
 @overload  # ~float64 | integer, +float64, +float64, zi: None (default)
 def lfilter(
-    b: onp.ToArray1D[float, np.float64 | npc.integer], a: onp.ToFloat64_1D, x: onp.ToFloat64_ND, axis: int = -1, zi: None = None
+    b: onp.ToArray1D[float, np.float64 | npc.integer],
+    a: onp.ToFloat64_1D,
+    x: onp.ToFloat64_ND,
+    axis: int = -1,
+    zi: None = None,
 ) -> onp.ArrayND[np.float64]: ...
 @overload  # ~float64 | integer, +float64, +float64, *, zi: +float64
 def lfilter(
@@ -561,7 +750,11 @@ def lfilter(
 ) -> _Tuple2[onp.ArrayND[np.float64]]: ...
 @overload  # +float64, ~float64 | integer, +float64, zi: None (default)
 def lfilter(
-    b: onp.ToFloat64_1D, a: onp.ToArray1D[float, np.float64 | npc.integer], x: onp.ToFloat64_ND, axis: int = -1, zi: None = None
+    b: onp.ToFloat64_1D,
+    a: onp.ToArray1D[float, np.float64 | npc.integer],
+    x: onp.ToFloat64_ND,
+    axis: int = -1,
+    zi: None = None,
 ) -> onp.ArrayND[np.float64]: ...
 @overload  # +float64, ~float64 | integer, +float64, zi: *, zi: +float64
 def lfilter(
@@ -574,7 +767,11 @@ def lfilter(
 ) -> _Tuple2[onp.ArrayND[np.float64]]: ...
 @overload  # +float64, +float64, ~float64 | integer, zi: None (default)
 def lfilter(
-    b: onp.ToFloat64_1D, a: onp.ToFloat64_1D, x: onp.ToArrayND[float, np.float64 | npc.integer], axis: int = -1, zi: None = None
+    b: onp.ToFloat64_1D,
+    a: onp.ToFloat64_1D,
+    x: onp.ToArrayND[float, np.float64 | npc.integer],
+    axis: int = -1,
+    zi: None = None,
 ) -> onp.ArrayND[np.float64]: ...
 @overload  # +float64, +float64, ~float64 | integer, *, zi: +float64
 def lfilter(
@@ -587,81 +784,173 @@ def lfilter(
 ) -> _Tuple2[onp.ArrayND[np.float64]]: ...
 @overload  # ~float32, +float32, +float32, zi: None (default)
 def lfilter(
-    b: onp.ToJustFloat32_1D, a: onp.ToFloat32_1D, x: onp.ToFloat32_ND, axis: int = -1, zi: None = None
+    b: onp.ToJustFloat32_1D,
+    a: onp.ToFloat32_1D,
+    x: onp.ToFloat32_ND,
+    axis: int = -1,
+    zi: None = None,
 ) -> onp.ArrayND[np.float32]: ...
 @overload  # ~float32, +float32, +float32, *, zi: +float32
 def lfilter(
-    b: onp.ToJustFloat32_1D, a: onp.ToFloat32_1D, x: onp.ToFloat32_ND, axis: int = -1, *, zi: onp.ToFloat32_ND
+    b: onp.ToJustFloat32_1D,
+    a: onp.ToFloat32_1D,
+    x: onp.ToFloat32_ND,
+    axis: int = -1,
+    *,
+    zi: onp.ToFloat32_ND,
 ) -> _Tuple2[onp.ArrayND[np.float32]]: ...
 @overload  # +float32, ~float32, +float32, zi: None (default)
 def lfilter(
-    b: onp.ToFloat32_1D, a: onp.ToJustFloat32_1D, x: onp.ToFloat32_ND, axis: int = -1, zi: None = None
+    b: onp.ToFloat32_1D,
+    a: onp.ToJustFloat32_1D,
+    x: onp.ToFloat32_ND,
+    axis: int = -1,
+    zi: None = None,
 ) -> onp.ArrayND[np.float32]: ...
 @overload  # +float32, ~float32, +float32, *, zi: +float32
 def lfilter(
-    b: onp.ToFloat32_1D, a: onp.ToJustFloat32_1D, x: onp.ToFloat32_ND, axis: int = -1, *, zi: onp.ToFloat32_ND
+    b: onp.ToFloat32_1D,
+    a: onp.ToJustFloat32_1D,
+    x: onp.ToFloat32_ND,
+    axis: int = -1,
+    *,
+    zi: onp.ToFloat32_ND,
 ) -> _Tuple2[onp.ArrayND[np.float32]]: ...
 @overload  # +float32, +float32, ~float32, zi: None (default)
 def lfilter(
-    b: onp.ToFloat32_1D, a: onp.ToFloat32_1D, x: onp.ToJustFloat32_ND, axis: int = -1, zi: None = None
+    b: onp.ToFloat32_1D,
+    a: onp.ToFloat32_1D,
+    x: onp.ToJustFloat32_ND,
+    axis: int = -1,
+    zi: None = None,
 ) -> onp.ArrayND[np.float32]: ...
 @overload  # +float32, +float32, ~float32, *, zi: +float32
 def lfilter(
-    b: onp.ToFloat32_1D, a: onp.ToFloat32_1D, x: onp.ToJustFloat32_ND, axis: int = -1, *, zi: onp.ToFloat32_ND
+    b: onp.ToFloat32_1D,
+    a: onp.ToFloat32_1D,
+    x: onp.ToJustFloat32_ND,
+    axis: int = -1,
+    *,
+    zi: onp.ToFloat32_ND,
 ) -> _Tuple2[onp.ArrayND[np.float32]]: ...
 @overload  # ~complex128, +complex128, +complex128, zi: None (default)
 def lfilter(
-    b: onp.ToJustComplex128_1D, a: onp.ToComplex128_1D, x: onp.ToComplex128_ND, axis: int = -1, zi: None = None
+    b: onp.ToJustComplex128_1D,
+    a: onp.ToComplex128_1D,
+    x: onp.ToComplex128_ND,
+    axis: int = -1,
+    zi: None = None,
 ) -> onp.ArrayND[np.complex128]: ...
 @overload  # ~complex128, +complex128, +complex128, *, zi: +complex128
 def lfilter(
-    b: onp.ToJustComplex128_1D, a: onp.ToComplex128_1D, x: onp.ToComplex128_ND, axis: int = -1, *, zi: onp.ToComplex128_ND
+    b: onp.ToJustComplex128_1D,
+    a: onp.ToComplex128_1D,
+    x: onp.ToComplex128_ND,
+    axis: int = -1,
+    *,
+    zi: onp.ToComplex128_ND,
 ) -> _Tuple2[onp.ArrayND[np.complex128]]: ...
 @overload  # +complex128, ~complex128, +complex128, zi: None (default)
 def lfilter(
-    b: onp.ToComplex128_1D, a: onp.ToJustComplex128_1D, x: onp.ToComplex128_ND, axis: int = -1, zi: None = None
+    b: onp.ToComplex128_1D,
+    a: onp.ToJustComplex128_1D,
+    x: onp.ToComplex128_ND,
+    axis: int = -1,
+    zi: None = None,
 ) -> onp.ArrayND[np.complex128]: ...
 @overload  # +complex128, ~complex128, +complex128, *, zi: +complex128
 def lfilter(
-    b: onp.ToComplex128_1D, a: onp.ToJustComplex128_1D, x: onp.ToComplex128_ND, axis: int = -1, *, zi: onp.ToComplex128_ND
+    b: onp.ToComplex128_1D,
+    a: onp.ToJustComplex128_1D,
+    x: onp.ToComplex128_ND,
+    axis: int = -1,
+    *,
+    zi: onp.ToComplex128_ND,
 ) -> _Tuple2[onp.ArrayND[np.complex128]]: ...
 @overload  # +complex128, +complex128, ~complex128, zi: None (default)
 def lfilter(
-    b: onp.ToComplex128_1D, a: onp.ToComplex128_1D, x: onp.ToJustComplex128_ND, axis: int = -1, zi: None = None
+    b: onp.ToComplex128_1D,
+    a: onp.ToComplex128_1D,
+    x: onp.ToJustComplex128_ND,
+    axis: int = -1,
+    zi: None = None,
 ) -> onp.ArrayND[np.complex128]: ...
 @overload  # +complex128, +complex128, ~complex128, *, zi: +complex128
 def lfilter(
-    b: onp.ToComplex128_1D, a: onp.ToComplex128_1D, x: onp.ToJustComplex128_ND, axis: int = -1, *, zi: onp.ToComplex128_ND
+    b: onp.ToComplex128_1D,
+    a: onp.ToComplex128_1D,
+    x: onp.ToJustComplex128_ND,
+    axis: int = -1,
+    *,
+    zi: onp.ToComplex128_ND,
 ) -> _Tuple2[onp.ArrayND[np.complex128]]: ...
 @overload  # ~complex64, +complex64, +complex64, zi: None (default)
 def lfilter(
-    b: onp.ToJustComplex64_1D, a: onp.ToComplex64_1D, x: onp.ToComplex64_ND, axis: int = -1, zi: None = None
+    b: onp.ToJustComplex64_1D,
+    a: onp.ToComplex64_1D,
+    x: onp.ToComplex64_ND,
+    axis: int = -1,
+    zi: None = None,
 ) -> onp.ArrayND[np.complex64]: ...
 @overload  # ~complex64, +complex64, +complex64, *, zi: +complex64
 def lfilter(
-    b: onp.ToJustComplex64_1D, a: onp.ToComplex64_1D, x: onp.ToComplex64_ND, axis: int = -1, *, zi: onp.ToComplex64_ND
+    b: onp.ToJustComplex64_1D,
+    a: onp.ToComplex64_1D,
+    x: onp.ToComplex64_ND,
+    axis: int = -1,
+    *,
+    zi: onp.ToComplex64_ND,
 ) -> _Tuple2[onp.ArrayND[np.complex64]]: ...
 @overload  # +complex64, ~complex64, +complex64, zi: None (default)
 def lfilter(
-    b: onp.ToComplex64_1D, a: onp.ToJustComplex64_1D, x: onp.ToComplex64_ND, axis: int = -1, zi: None = None
+    b: onp.ToComplex64_1D,
+    a: onp.ToJustComplex64_1D,
+    x: onp.ToComplex64_ND,
+    axis: int = -1,
+    zi: None = None,
 ) -> onp.ArrayND[np.complex64]: ...
 @overload  # +complex64, ~complex64, +complex64, *, zi: +complex64
 def lfilter(
-    b: onp.ToComplex64_1D, a: onp.ToJustComplex64_1D, x: onp.ToComplex64_ND, axis: int = -1, *, zi: onp.ToComplex64_ND
+    b: onp.ToComplex64_1D,
+    a: onp.ToJustComplex64_1D,
+    x: onp.ToComplex64_ND,
+    axis: int = -1,
+    *,
+    zi: onp.ToComplex64_ND,
 ) -> _Tuple2[onp.ArrayND[np.complex64]]: ...
 @overload  # +complex64, +complex64, ~complex64, zi: None (default)
 def lfilter(
-    b: onp.ToComplex64_1D, a: onp.ToComplex64_1D, x: onp.ToJustComplex64_ND, axis: int = -1, zi: None = None
+    b: onp.ToComplex64_1D,
+    a: onp.ToComplex64_1D,
+    x: onp.ToJustComplex64_ND,
+    axis: int = -1,
+    zi: None = None,
 ) -> onp.ArrayND[np.complex64]: ...
 @overload  # +complex64, +complex64, ~complex64, *, zi: +complex64
 def lfilter(
-    b: onp.ToComplex64_1D, a: onp.ToComplex64_1D, x: onp.ToJustComplex64_ND, axis: int = -1, *, zi: onp.ToComplex64_ND
+    b: onp.ToComplex64_1D,
+    a: onp.ToComplex64_1D,
+    x: onp.ToJustComplex64_ND,
+    axis: int = -1,
+    *,
+    zi: onp.ToComplex64_ND,
 ) -> _Tuple2[onp.ArrayND[np.complex64]]: ...
 @overload  # fallback, zi: None (default)
-def lfilter(b: onp.ToComplex1D, a: onp.ToComplex1D, x: onp.ToComplexND, axis: int = -1, zi: None = None) -> onp.ArrayND[Any]: ...
+def lfilter(
+    b: onp.ToComplex1D,
+    a: onp.ToComplex1D,
+    x: onp.ToComplexND,
+    axis: int = -1,
+    zi: None = None,
+) -> onp.ArrayND[Any]: ...
 @overload  # fallback, *, zi: +complex
 def lfilter(
-    b: onp.ToComplex1D, a: onp.ToComplex1D, x: onp.ToComplexND, axis: int = -1, *, zi: onp.ToComplexND
+    b: onp.ToComplex1D,
+    a: onp.ToComplex1D,
+    x: onp.ToComplexND,
+    axis: int = -1,
+    *,
+    zi: onp.ToComplexND,
 ) -> _Tuple2[onp.ArrayND[Any]]: ...
 
 #
@@ -813,7 +1102,9 @@ def filtfilt(
 @overload  # T -> T
 def sosfilt_zi(sos: onp.ToArray2D[_InexactT, _InexactT]) -> onp.Array2D[_InexactT]: ...
 @overload  # +float -> float64
-def sosfilt_zi(sos: onp.ToArray2D[float, np.float64 | npc.integer]) -> onp.Array2D[np.float64]: ...
+def sosfilt_zi(
+    sos: onp.ToArray2D[float, np.float64 | npc.integer],
+) -> onp.Array2D[np.float64]: ...
 @overload  # ~complex -> complex128
 def sosfilt_zi(sos: onp.ToJustComplex128_2D) -> onp.Array2D[np.complex128]: ...
 @overload  # fallback
@@ -822,59 +1113,111 @@ def sosfilt_zi(sos: onp.ToComplex2D) -> onp.Array2D[Any]: ...
 #
 @overload  # ~float64 | integer, +float64, zi: None (default)
 def sosfilt(
-    sos: onp.ToArray2D[float, np.float64 | npc.integer], x: onp.ToFloat64_ND, axis: int = -1, zi: None = None
+    sos: onp.ToArray2D[float, np.float64 | npc.integer],
+    x: onp.ToFloat64_ND,
+    axis: int = -1,
+    zi: None = None,
 ) -> onp.ArrayND[np.float64]: ...
 @overload  # ~float64 | integer, +float64, *, zi: +float64
 def sosfilt(
-    sos: onp.ToArray2D[float, np.float64 | npc.integer], x: onp.ToFloat64_ND, *, axis: int = -1, zi: onp.ToFloat64_ND
+    sos: onp.ToArray2D[float, np.float64 | npc.integer],
+    x: onp.ToFloat64_ND,
+    *,
+    axis: int = -1,
+    zi: onp.ToFloat64_ND,
 ) -> _Tuple2[onp.ArrayND[np.float64]]: ...
 @overload  # +float64, ~float64 | integer, zi: None (default)
 def sosfilt(
-    sos: onp.ToFloat64_2D, x: onp.ToArrayND[float, np.float64 | npc.integer], axis: int = -1, zi: None = None
+    sos: onp.ToFloat64_2D,
+    x: onp.ToArrayND[float, np.float64 | npc.integer],
+    axis: int = -1,
+    zi: None = None,
 ) -> onp.ArrayND[np.float64]: ...
 @overload  # +float64, ~float64 | integer, *, zi: +float64
 def sosfilt(
-    sos: onp.ToFloat64_2D, x: onp.ToArrayND[float, np.float64 | npc.integer], *, axis: int = -1, zi: onp.ToFloat64_ND
+    sos: onp.ToFloat64_2D,
+    x: onp.ToArrayND[float, np.float64 | npc.integer],
+    *,
+    axis: int = -1,
+    zi: onp.ToFloat64_ND,
 ) -> _Tuple2[onp.ArrayND[np.float64]]: ...
 @overload  # ~float32, +float32, zi: None (default)
-def sosfilt(sos: onp.ToJustFloat32_2D, x: onp.ToFloat32_ND, axis: int = -1, zi: None = None) -> onp.ArrayND[np.float32]: ...
+def sosfilt(
+    sos: onp.ToJustFloat32_2D, x: onp.ToFloat32_ND, axis: int = -1, zi: None = None
+) -> onp.ArrayND[np.float32]: ...
 @overload  # ~float32, +float32, *, zi: +float32
 def sosfilt(
-    sos: onp.ToJustFloat32_2D, x: onp.ToFloat32_ND, *, axis: int = -1, zi: onp.ToFloat32_ND
+    sos: onp.ToJustFloat32_2D,
+    x: onp.ToFloat32_ND,
+    *,
+    axis: int = -1,
+    zi: onp.ToFloat32_ND,
 ) -> _Tuple2[onp.ArrayND[np.float32]]: ...
 @overload  # +float32, ~float32, zi: None (default)
-def sosfilt(sos: onp.ToFloat32_2D, x: onp.ToJustFloat32_ND, axis: int = -1, zi: None = None) -> onp.ArrayND[np.float32]: ...
+def sosfilt(
+    sos: onp.ToFloat32_2D, x: onp.ToJustFloat32_ND, axis: int = -1, zi: None = None
+) -> onp.ArrayND[np.float32]: ...
 @overload  # +float32, ~float32, *, zi: +float32
 def sosfilt(
-    sos: onp.ToFloat32_2D, x: onp.ToJustFloat32_ND, *, axis: int = -1, zi: onp.ToFloat32_ND
+    sos: onp.ToFloat32_2D,
+    x: onp.ToJustFloat32_ND,
+    *,
+    axis: int = -1,
+    zi: onp.ToFloat32_ND,
 ) -> _Tuple2[onp.ArrayND[np.float32]]: ...
 @overload  # ~complex128, +complex128, zi: None (default)
 def sosfilt(
-    sos: onp.ToJustComplex128_2D, x: onp.ToComplex128_ND, axis: int = -1, zi: None = None
+    sos: onp.ToJustComplex128_2D,
+    x: onp.ToComplex128_ND,
+    axis: int = -1,
+    zi: None = None,
 ) -> onp.ArrayND[np.complex128]: ...
 @overload  # ~complex128, +complex128, *, zi: +complex128
 def sosfilt(
-    sos: onp.ToJustComplex128_2D, x: onp.ToComplex128_ND, *, axis: int = -1, zi: onp.ToComplex128_ND
+    sos: onp.ToJustComplex128_2D,
+    x: onp.ToComplex128_ND,
+    *,
+    axis: int = -1,
+    zi: onp.ToComplex128_ND,
 ) -> _Tuple2[onp.ArrayND[np.complex128]]: ...
 @overload  # +complex128, ~complex128, zi: None (default)
 def sosfilt(
-    sos: onp.ToComplex128_2D, x: onp.ToJustComplex128_ND, axis: int = -1, zi: None = None
+    sos: onp.ToComplex128_2D,
+    x: onp.ToJustComplex128_ND,
+    axis: int = -1,
+    zi: None = None,
 ) -> onp.ArrayND[np.complex128]: ...
 @overload  # +complex128, ~complex128, *, zi: +complex128
 def sosfilt(
-    sos: onp.ToComplex128_2D, x: onp.ToJustComplex128_ND, *, axis: int = -1, zi: onp.ToComplex128_ND
+    sos: onp.ToComplex128_2D,
+    x: onp.ToJustComplex128_ND,
+    *,
+    axis: int = -1,
+    zi: onp.ToComplex128_ND,
 ) -> _Tuple2[onp.ArrayND[np.complex128]]: ...
 @overload  # ~complex64, +complex64, zi: None (default)
-def sosfilt(sos: onp.ToJustComplex64_2D, x: onp.ToComplex64_ND, axis: int = -1, zi: None = None) -> onp.ArrayND[np.complex64]: ...
+def sosfilt(
+    sos: onp.ToJustComplex64_2D, x: onp.ToComplex64_ND, axis: int = -1, zi: None = None
+) -> onp.ArrayND[np.complex64]: ...
 @overload  # ~complex64, +complex64, *, zi: +complex64
 def sosfilt(
-    sos: onp.ToJustComplex64_2D, x: onp.ToComplex64_ND, *, axis: int = -1, zi: onp.ToComplex64_ND
+    sos: onp.ToJustComplex64_2D,
+    x: onp.ToComplex64_ND,
+    *,
+    axis: int = -1,
+    zi: onp.ToComplex64_ND,
 ) -> _Tuple2[onp.ArrayND[np.complex64]]: ...
 @overload  # +complex64, ~complex64, zi: None (default)
-def sosfilt(sos: onp.ToComplex64_2D, x: onp.ToJustComplex64_ND, axis: int = -1, zi: None = None) -> onp.ArrayND[np.complex64]: ...
+def sosfilt(
+    sos: onp.ToComplex64_2D, x: onp.ToJustComplex64_ND, axis: int = -1, zi: None = None
+) -> onp.ArrayND[np.complex64]: ...
 @overload  # +complex64, ~complex64, *, zi: +complex64
 def sosfilt(
-    sos: onp.ToComplex64_2D, x: onp.ToJustComplex64_ND, *, axis: int = -1, zi: onp.ToComplex64_ND
+    sos: onp.ToComplex64_2D,
+    x: onp.ToJustComplex64_ND,
+    *,
+    axis: int = -1,
+    zi: onp.ToComplex64_ND,
 ) -> _Tuple2[onp.ArrayND[np.complex64]]: ...
 
 #
@@ -896,11 +1239,19 @@ def sosfiltfilt(
 ) -> onp.ArrayND[np.float64]: ...
 @overload  # ~float32, +float32
 def sosfiltfilt(
-    sos: onp.ToJustFloat32_2D, x: onp.ToFloat32_ND, axis: int = -1, padtype: _FiltFiltPadType = "odd", padlen: int | None = None
+    sos: onp.ToJustFloat32_2D,
+    x: onp.ToFloat32_ND,
+    axis: int = -1,
+    padtype: _FiltFiltPadType = "odd",
+    padlen: int | None = None,
 ) -> onp.ArrayND[np.float32]: ...
 @overload  # +float32, ~float32
 def sosfiltfilt(
-    sos: onp.ToFloat32_2D, x: onp.ToJustFloat32_ND, axis: int = -1, padtype: _FiltFiltPadType = "odd", padlen: int | None = None
+    sos: onp.ToFloat32_2D,
+    x: onp.ToJustFloat32_ND,
+    axis: int = -1,
+    padtype: _FiltFiltPadType = "odd",
+    padlen: int | None = None,
 ) -> onp.ArrayND[np.float32]: ...
 @overload  # ~complex128, +complex128
 def sosfiltfilt(
@@ -936,51 +1287,82 @@ def sosfiltfilt(
 ) -> onp.ArrayND[np.complex64]: ...
 @overload  # fallback
 def sosfiltfilt(
-    sos: onp.ToComplex2D, x: onp.ToComplexND, axis: int = -1, padtype: _FiltFiltPadType = "odd", padlen: int | None = None
+    sos: onp.ToComplex2D,
+    x: onp.ToComplexND,
+    axis: int = -1,
+    padtype: _FiltFiltPadType = "odd",
+    padlen: int | None = None,
 ) -> onp.ArrayND[Any]: ...
 
 #
 @overload
 def order_filter(
-    a: nptc.CanArray[_ShapeT, np.dtype[_CoFloat64T]], domain: int | onp.ToIntND, rank: int
+    a: nptc.CanArray[_ShapeT, np.dtype[_CoFloat64T]],
+    domain: int | onp.ToIntND,
+    rank: int,
 ) -> onp.ArrayND[_CoFloat64T, _ShapeT]: ...
 @overload
-def order_filter(a: onp.ToJustInt64_ND, domain: int | onp.ToIntND, rank: int) -> onp.ArrayND[np.int_]: ...
+def order_filter(
+    a: onp.ToJustInt64_ND, domain: int | onp.ToIntND, rank: int
+) -> onp.ArrayND[np.int_]: ...
 @overload
-def order_filter(a: onp.ToJustFloat64_ND, domain: int | onp.ToIntND, rank: int) -> onp.ArrayND[np.float64]: ...
+def order_filter(
+    a: onp.ToJustFloat64_ND, domain: int | onp.ToIntND, rank: int
+) -> onp.ArrayND[np.float64]: ...
 @overload
-def order_filter(a: onp.ToFloatND, domain: int | onp.ToIntND, rank: int) -> onp.ArrayND[Any, _WorkaroundForPyright]: ...
+def order_filter(
+    a: onp.ToFloatND, domain: int | onp.ToIntND, rank: int
+) -> onp.ArrayND[Any, _WorkaroundForPyright]: ...
 
 #
 @overload
 def medfilt(
-    volume: nptc.CanArray[_ShapeT, np.dtype[_CoFloat64T]], kernel_size: int | onp.ToInt1D | None = None
+    volume: nptc.CanArray[_ShapeT, np.dtype[_CoFloat64T]],
+    kernel_size: int | onp.ToInt1D | None = None,
 ) -> onp.ArrayND[_CoFloat64T, _ShapeT]: ...
 @overload
-def medfilt(volume: onp.ToJustInt64_ND, kernel_size: int | onp.ToInt1D | None = None) -> onp.ArrayND[np.int_]: ...
+def medfilt(
+    volume: onp.ToJustInt64_ND, kernel_size: int | onp.ToInt1D | None = None
+) -> onp.ArrayND[np.int_]: ...
 @overload
-def medfilt(volume: onp.ToJustFloat64_ND, kernel_size: int | onp.ToInt1D | None = None) -> onp.ArrayND[np.float64]: ...
+def medfilt(
+    volume: onp.ToJustFloat64_ND, kernel_size: int | onp.ToInt1D | None = None
+) -> onp.ArrayND[np.float64]: ...
 @overload
-def medfilt(volume: onp.ToFloatND, kernel_size: int | onp.ToInt1D | None = None) -> onp.ArrayND[Any, _WorkaroundForPyright]: ...
+def medfilt(
+    volume: onp.ToFloatND, kernel_size: int | onp.ToInt1D | None = None
+) -> onp.ArrayND[Any, _WorkaroundForPyright]: ...
 
 #
 @overload
-def medfilt2d(input: onp.ToJustInt64_2D, kernel_size: int | onp.ToInt1D = 3) -> onp.Array2D[np.int_]: ...
+def medfilt2d(
+    input: onp.ToJustInt64_2D, kernel_size: int | onp.ToInt1D = 3
+) -> onp.Array2D[np.int_]: ...
 @overload
-def medfilt2d(input: onp.ToJustFloat64_2D, kernel_size: int | onp.ToInt1D = 3) -> onp.Array2D[np.float64]: ...
+def medfilt2d(
+    input: onp.ToJustFloat64_2D, kernel_size: int | onp.ToInt1D = 3
+) -> onp.Array2D[np.float64]: ...
 @overload
-def medfilt2d(input: onp.ToArray2D[_CoFloat64T, _CoFloat64T], kernel_size: int | onp.ToInt1D = 3) -> onp.Array2D[_CoFloat64T]: ...
+def medfilt2d(
+    input: onp.ToArray2D[_CoFloat64T, _CoFloat64T], kernel_size: int | onp.ToInt1D = 3
+) -> onp.Array2D[_CoFloat64T]: ...
 @overload
-def medfilt2d(input: onp.ToFloat2D, kernel_size: int | onp.ToInt1D = 3) -> onp.Array2D[Any]: ...
+def medfilt2d(
+    input: onp.ToFloat2D, kernel_size: int | onp.ToInt1D = 3
+) -> onp.Array2D[Any]: ...
 
 #
 @overload  # +float64
 def wiener(
-    im: onp.ToFloat64_ND, mysize: int | onp.ToInt1D | None = None, noise: float | None = None
+    im: onp.ToFloat64_ND,
+    mysize: int | onp.ToInt1D | None = None,
+    noise: float | None = None,
 ) -> onp.ArrayND[np.float64]: ...
 @overload  # ~longdouble
 def wiener(
-    im: onp.ToJustLongDoubleND, mysize: int | onp.ToInt1D | None = None, noise: float | None = None
+    im: onp.ToJustLongDoubleND,
+    mysize: int | onp.ToInt1D | None = None,
+    noise: float | None = None,
 ) -> onp.ArrayND[npc.floating80]: ...
 @overload  # ~complex128 | ~complex64
 def wiener(
@@ -990,39 +1372,59 @@ def wiener(
 ) -> onp.ArrayND[np.complex128]: ...
 @overload  # ~clongdouble
 def wiener(
-    im: onp.ToJustCLongDoubleND, mysize: int | onp.ToInt1D | None = None, noise: float | None = None
+    im: onp.ToJustCLongDoubleND,
+    mysize: int | onp.ToInt1D | None = None,
+    noise: float | None = None,
 ) -> onp.ArrayND[npc.complexfloating160]: ...
 @overload  # fallback
-def wiener(im: onp.ToComplexND, mysize: int | onp.ToInt1D | None = None, noise: float | None = None) -> onp.ArrayND[Any]: ...
+def wiener(
+    im: onp.ToComplexND,
+    mysize: int | onp.ToInt1D | None = None,
+    noise: float | None = None,
+) -> onp.ArrayND[Any]: ...
 
 #
 @overload  # float64 | integer, known shape
 def hilbert(
-    x: nptc.CanArray[_ShapeT, np.dtype[np.float64 | npc.integer]], N: int | None = None, axis: int = -1
+    x: nptc.CanArray[_ShapeT, np.dtype[np.float64 | npc.integer]],
+    N: int | None = None,
+    axis: int = -1,
 ) -> onp.ArrayND[np.complex128, _ShapeT]: ...
 @overload  # float32 | float16, known shape
 def hilbert(
-    x: nptc.CanArray[_ShapeT, np.dtype[np.float32 | np.float16]], N: int | None = None, axis: int = -1
+    x: nptc.CanArray[_ShapeT, np.dtype[np.float32 | np.float16]],
+    N: int | None = None,
+    axis: int = -1,
 ) -> onp.ArrayND[np.complex64, _ShapeT]: ...
 @overload  # longdouble, known shape
 def hilbert(
-    x: nptc.CanArray[_ShapeT, np.dtype[npc.floating80]], N: int | None = None, axis: int = -1
+    x: nptc.CanArray[_ShapeT, np.dtype[npc.floating80]],
+    N: int | None = None,
+    axis: int = -1,
 ) -> onp.ArrayND[npc.complexfloating160, _ShapeT]: ...
 @overload  # 1d float64 | integer, unknown shape
 def hilbert(
-    x: onp.ToArrayStrict1D[float, np.float64 | npc.integer], N: int | None = None, axis: int = -1
+    x: onp.ToArrayStrict1D[float, np.float64 | npc.integer],
+    N: int | None = None,
+    axis: int = -1,
 ) -> onp.Array1D[np.complex128]: ...
 @overload  # 2d float64 | integer, unknown shape
 def hilbert(
-    x: onp.ToArrayStrict2D[float, np.float64 | npc.integer], N: int | None = None, axis: int = -1
+    x: onp.ToArrayStrict2D[float, np.float64 | npc.integer],
+    N: int | None = None,
+    axis: int = -1,
 ) -> onp.Array2D[np.complex128]: ...
 @overload  # 3d float64 | integer, unknown shape
 def hilbert(
-    x: onp.ToArrayStrict3D[float, np.float64 | npc.integer], N: int | None = None, axis: int = -1
+    x: onp.ToArrayStrict3D[float, np.float64 | npc.integer],
+    N: int | None = None,
+    axis: int = -1,
 ) -> onp.Array3D[np.complex128]: ...
 @overload  # nd float64 | integer, unknown shape
 def hilbert(
-    x: onp.ToArrayND[float, np.float64 | npc.integer], N: int | None = None, axis: int = -1
+    x: onp.ToArrayND[float, np.float64 | npc.integer],
+    N: int | None = None,
+    axis: int = -1,
 ) -> onp.ArrayND[np.complex128, _WorkaroundForPyright]: ...
 @overload  # fallback
 def hilbert(
@@ -1032,19 +1434,27 @@ def hilbert(
 #
 @overload  # float64 | integer
 def hilbert2(
-    x: onp.ToArray2D[float, np.float64 | npc.integer], N: int | tuple[int, int] | None = None, axes: tuple[int, int] = (-2, -1)
+    x: onp.ToArray2D[float, np.float64 | npc.integer],
+    N: int | tuple[int, int] | None = None,
+    axes: tuple[int, int] = (-2, -1),
 ) -> onp.Array2D[np.complex128]: ...
 @overload  # float32 | float16
 def hilbert2(
-    x: onp.ToJustFloat32_2D | onp.ToJustFloat16_2D, N: int | tuple[int, int] | None = None, axes: tuple[int, int] = (-2, -1)
+    x: onp.ToJustFloat32_2D | onp.ToJustFloat16_2D,
+    N: int | tuple[int, int] | None = None,
+    axes: tuple[int, int] = (-2, -1),
 ) -> onp.Array2D[np.complex64]: ...
 @overload  # longdouble
 def hilbert2(
-    x: onp.ToJustLongDouble2D, N: int | tuple[int, int] | None = None, axes: tuple[int, int] = (-2, -1)
+    x: onp.ToJustLongDouble2D,
+    N: int | tuple[int, int] | None = None,
+    axes: tuple[int, int] = (-2, -1),
 ) -> onp.Array2D[npc.complexfloating160]: ...
 @overload  # fallback
 def hilbert2(
-    x: onp.ToFloat2D, N: int | tuple[int, int] | None = None, axes: tuple[int, int] = (-2, -1)
+    x: onp.ToFloat2D,
+    N: int | tuple[int, int] | None = None,
+    axes: tuple[int, int] = (-2, -1),
 ) -> onp.Array2D[npc.complexfloating]: ...
 
 ###
@@ -1102,7 +1512,9 @@ def detrend(
 #
 @overload  # f64
 def unique_roots(
-    p: onp.ToInt1D | onp.ToJustFloat64_1D, tol: float = 0.001, rtype: _ResidueType = "min"
+    p: onp.ToInt1D | onp.ToJustFloat64_1D,
+    tol: float = 0.001,
+    rtype: _ResidueType = "min",
 ) -> tuple[onp.Array1D[np.float64], onp.Array1D[np.int_]]: ...
 @overload  # c128
 def unique_roots(
@@ -1110,23 +1522,43 @@ def unique_roots(
 ) -> tuple[onp.Array1D[np.complex128], onp.Array1D[np.int_]]: ...
 @overload  # T: inexact
 def unique_roots(
-    p: onp.ToArray1D[_InexactT, _InexactT], tol: float = 0.001, rtype: _ResidueType = "min"
+    p: onp.ToArray1D[_InexactT, _InexactT],
+    tol: float = 0.001,
+    rtype: _ResidueType = "min",
 ) -> tuple[onp.Array1D[_InexactT], onp.Array1D[np.int_]]: ...
 
 #
 def residue(
-    b: onp.ToComplex1D, a: onp.ToComplex1D, tol: float = 0.001, rtype: _ResidueType = "avg"
-) -> tuple[onp.Array1D[np.complex128], onp.Array1D[np.complex128], onp.Array1D[np.float64]]: ...
+    b: onp.ToComplex1D,
+    a: onp.ToComplex1D,
+    tol: float = 0.001,
+    rtype: _ResidueType = "avg",
+) -> tuple[
+    onp.Array1D[np.complex128], onp.Array1D[np.complex128], onp.Array1D[np.float64]
+]: ...
 def residuez(
-    b: onp.ToComplex1D, a: onp.ToComplex1D, tol: float = 0.001, rtype: _ResidueType = "avg"
-) -> tuple[onp.Array1D[np.complex128], onp.Array1D[np.complex128], onp.Array1D[np.float64]]: ...
+    b: onp.ToComplex1D,
+    a: onp.ToComplex1D,
+    tol: float = 0.001,
+    rtype: _ResidueType = "avg",
+) -> tuple[
+    onp.Array1D[np.complex128], onp.Array1D[np.complex128], onp.Array1D[np.float64]
+]: ...
 
 #
 def invres(
-    r: onp.ToComplex1D, p: onp.ToComplex1D, k: onp.ToFloat1D, tol: float = 0.001, rtype: _ResidueType = "avg"
+    r: onp.ToComplex1D,
+    p: onp.ToComplex1D,
+    k: onp.ToFloat1D,
+    tol: float = 0.001,
+    rtype: _ResidueType = "avg",
 ) -> tuple[onp.Array1D[np.complex128], onp.Array1D[np.complex128]]: ...
 def invresz(
-    r: onp.ToComplex1D, p: onp.ToComplex1D, k: onp.ToFloat1D, tol: float = 0.001, rtype: _ResidueType = "avg"
+    r: onp.ToComplex1D,
+    p: onp.ToComplex1D,
+    k: onp.ToFloat1D,
+    tol: float = 0.001,
+    rtype: _ResidueType = "avg",
 ) -> tuple[onp.Array1D[np.complex128], onp.Array1D[np.complex128]]: ...
 
 # NOTE: We use `_AnyInexact64T` as "free" type parameter, which behaves exactly as
@@ -1334,22 +1766,41 @@ def decimate(
 ) -> onp.ArrayND[np.float64]: ...
 @overload  # f32
 def decimate(
-    x: onp.ToJustFloat32_ND, q: int, n: int | None = None, ftype: _FilterType = "iir", axis: int = -1, zero_phase: bool = True
+    x: onp.ToJustFloat32_ND,
+    q: int,
+    n: int | None = None,
+    ftype: _FilterType = "iir",
+    axis: int = -1,
+    zero_phase: bool = True,
 ) -> onp.ArrayND[np.float32]: ...
 @overload  # c128
 def decimate(
-    x: onp.ToJustComplex128_ND, q: int, n: int | None = None, ftype: _FilterType = "iir", axis: int = -1, zero_phase: bool = True
+    x: onp.ToJustComplex128_ND,
+    q: int,
+    n: int | None = None,
+    ftype: _FilterType = "iir",
+    axis: int = -1,
+    zero_phase: bool = True,
 ) -> onp.ArrayND[np.complex128]: ...
 @overload  # c64
 def decimate(
-    x: onp.ToJustComplex64_ND, q: int, n: int | None = None, ftype: _FilterType = "iir", axis: int = -1, zero_phase: bool = True
+    x: onp.ToJustComplex64_ND,
+    q: int,
+    n: int | None = None,
+    ftype: _FilterType = "iir",
+    axis: int = -1,
+    zero_phase: bool = True,
 ) -> onp.ArrayND[np.complex64]: ...
 
 # complex periods are always cast to float64, and therefore not supported here
 @overload  # 0d
-def vectorstrength(events: float | onp.ToFloat1D, period: float) -> _Tuple2[np.float64]: ...
+def vectorstrength(
+    events: float | onp.ToFloat1D, period: float
+) -> _Tuple2[np.float64]: ...
 @overload  # 1d
-def vectorstrength(events: float | onp.ToFloat1D, period: onp.ToFloat1D) -> _Tuple2[onp.Array1D[np.float64]]: ...
+def vectorstrength(
+    events: float | onp.ToFloat1D, period: onp.ToFloat1D
+) -> _Tuple2[onp.Array1D[np.float64]]: ...
 
 #
 @overload

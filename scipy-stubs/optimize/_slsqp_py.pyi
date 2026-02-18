@@ -48,7 +48,9 @@ class _ConsDict(TypedDict):
 __docformat__: Final = "restructuredtext en"  # undocumented
 
 # private
-def approx_jacobian(x: onp.ToFloat1D, func: _Fun0D, epsilon: onp.ToFloat, *args: object) -> onp.Array2D[np.float64]: ...
+def approx_jacobian(
+    x: onp.ToFloat1D, func: _Fun0D, epsilon: onp.ToFloat, *args: object
+) -> onp.Array2D[np.float64]: ...
 
 # public
 @overload
@@ -96,5 +98,17 @@ def fmin_slsqp(
 ) -> tuple[onp.Array1D[np.float64], float | np.float64, int, _ExitMode, _ExitDesc]: ...
 
 #
-def _eval_constraint(d: onp.Array1D[np.float64], x: onp.Array1D[npc.floating], cons: _ConsDict, m: int, meq: int) -> None: ...
-def _eval_con_normals(C: onp.Array2D[np.float64], x: onp.Array1D[npc.floating], cons: _ConsDict, m: int, meq: int) -> None: ...
+def _eval_constraint(
+    d: onp.Array1D[np.float64],
+    x: onp.Array1D[npc.floating],
+    cons: _ConsDict,
+    m: int,
+    meq: int,
+) -> None: ...
+def _eval_con_normals(
+    C: onp.Array2D[np.float64],
+    x: onp.Array1D[npc.floating],
+    cons: _ConsDict,
+    m: int,
+    meq: int,
+) -> None: ...

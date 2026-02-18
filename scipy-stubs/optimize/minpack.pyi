@@ -4,7 +4,16 @@ from typing_extensions import deprecated
 
 from ._optimize import OptimizeResult as _OptimizeResult
 
-__all__ = ["OptimizeResult", "OptimizeWarning", "curve_fit", "fixed_point", "fsolve", "least_squares", "leastsq", "zeros"]
+__all__ = [
+    "OptimizeResult",
+    "OptimizeWarning",
+    "curve_fit",
+    "fixed_point",
+    "fsolve",
+    "least_squares",
+    "leastsq",
+    "zeros",
+]
 
 @deprecated("will be removed in SciPy v2.0.0")
 class OptimizeResult(_OptimizeResult): ...
@@ -13,7 +22,14 @@ class OptimizeResult(_OptimizeResult): ...
 class OptimizeWarning(UserWarning): ...
 
 @deprecated("will be removed in SciPy v2.0.0")
-def zeros(shape: object, dtype: object = ..., order: object = ..., *, device: object = ..., like: object = ...) -> object: ...
+def zeros(
+    shape: object,
+    dtype: object = ...,
+    order: object = ...,
+    *,
+    device: object = ...,
+    like: object = ...,
+) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
 def least_squares(
     fun: object,
@@ -88,5 +104,10 @@ def curve_fit(
 ) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
 def fixed_point(
-    func: object, x0: object, args: object = (), xtol: object = 1e-08, maxiter: object = 500, method: object = "del2"
+    func: object,
+    x0: object,
+    args: object = (),
+    xtol: object = 1e-08,
+    maxiter: object = 500,
+    method: object = "del2",
 ) -> object: ...

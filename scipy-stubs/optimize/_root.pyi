@@ -66,7 +66,9 @@ class _JacOptionsBase(TypedDict, total=False):
 
 @type_check_only
 class _JacOptionsBroyden(_JacOptionsBase, total=False):
-    reduction_method: Literal["restart", "simple", "svd"] | tuple[Literal["svd"], onp.ToJustInt]
+    reduction_method: (
+        Literal["restart", "simple", "svd"] | tuple[Literal["svd"], onp.ToJustInt]
+    )
     max_rank: onp.ToJustInt
 
 @type_check_only
@@ -81,7 +83,10 @@ class _JacOptionsExcitingMixing(_JacOptionsBase, total=False):
 @type_check_only
 class _JacOptionsKrylov(TypedDict, total=False):
     rdiff: onp.ToFloat
-    method: Literal["lgmres", "gmres", "bicgstab", "cgs", "minres", "tfqmr"] | Callable[..., onp.ToFloatND]
+    method: (
+        Literal["lgmres", "gmres", "bicgstab", "cgs", "minres", "tfqmr"]
+        | Callable[..., onp.ToFloatND]
+    )
     inner_M: LinearOperator | InverseJacobian
     inner_rtol: onp.ToFloat
     inner_atol: onp.ToFloat
@@ -102,7 +107,9 @@ class _RootOptionsDFSane(TypedDict, total=False):
     fnorm: Callable[[onp.ArrayND[np.float64]], onp.ToFloat]
     maxfev: onp.ToJustInt
     disp: onp.ToBool
-    eta_strategy: Callable[[int, onp.ArrayND[np.float64], onp.ArrayND[np.float64]], onp.ToFloat1D]
+    eta_strategy: Callable[
+        [int, onp.ArrayND[np.float64], onp.ArrayND[np.float64]], onp.ToFloat1D
+    ]
     sigma_eps: onp.ToFloat
     sigma_0: onp.ToFloat
     M: onp.ToJustInt
@@ -134,31 +141,45 @@ def root(
     x0: onp.ToFloatND,
     args: tuple[object, ...] = (),
     method: _RootMethod = "hybr",
-    jac: Callable[Concatenate[onp.ArrayND[np.float64], ...], onp.ToFloatND] | onp.ToFalse | None = None,
+    jac: (
+        Callable[Concatenate[onp.ArrayND[np.float64], ...], onp.ToFloatND]
+        | onp.ToFalse
+        | None
+    ) = None,
     tol: onp.ToFloat | None = None,
-    callback: Callable[[onp.ArrayND[np.float64], onp.ArrayND[np.float64]], None] | None = None,
+    callback: (
+        Callable[[onp.ArrayND[np.float64], onp.ArrayND[np.float64]], None] | None
+    ) = None,
     options: _RootOptions | None = None,
 ) -> _OptimizeResult: ...
 @overload  # `jac` truthy (positional)
 def root(
-    fun: Callable[Concatenate[onp.ArrayND[np.float64], ...], tuple[onp.ToFloatND, onp.ToFloatND]],
+    fun: Callable[
+        Concatenate[onp.ArrayND[np.float64], ...], tuple[onp.ToFloatND, onp.ToFloatND]
+    ],
     x0: onp.ToFloatND,
     args: tuple[object, ...],
     method: _RootMethod,
     jac: onp.ToTrue,
     tol: onp.ToFloat | None = None,
-    callback: Callable[[onp.ArrayND[np.float64], onp.ArrayND[np.float64]], None] | None = None,
+    callback: (
+        Callable[[onp.ArrayND[np.float64], onp.ArrayND[np.float64]], None] | None
+    ) = None,
     options: _RootOptions | None = None,
 ) -> _OptimizeResult: ...
 @overload  # `jac` truthy (keyword)
 def root(
-    fun: Callable[Concatenate[onp.ArrayND[np.float64], ...], tuple[onp.ToFloatND, onp.ToFloatND]],
+    fun: Callable[
+        Concatenate[onp.ArrayND[np.float64], ...], tuple[onp.ToFloatND, onp.ToFloatND]
+    ],
     x0: onp.ToFloatND,
     args: tuple[object, ...] = (),
     method: _RootMethod = "hybr",
     *,
     jac: onp.ToTrue,
     tol: onp.ToFloat | None = None,
-    callback: Callable[[onp.ArrayND[np.float64], onp.ArrayND[np.float64]], None] | None = None,
+    callback: (
+        Callable[[onp.ArrayND[np.float64], onp.ArrayND[np.float64]], None] | None
+    ) = None,
     options: _RootOptions | None = None,
 ) -> _OptimizeResult: ...

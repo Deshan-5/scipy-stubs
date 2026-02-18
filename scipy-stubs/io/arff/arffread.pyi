@@ -13,7 +13,9 @@ _msg: Final = "will be removed in SciPy v2.0.0"
 class ArffError(OSError): ...
 
 @deprecated(_msg)
-class ParseArffError(ArffError): ...  # pyright: ignore[reportDeprecated]  # ty: ignore[deprecated]
+class ParseArffError(
+    ArffError
+): ...  # pyright: ignore[reportDeprecated]  # ty: ignore[deprecated]
 
 @deprecated(_msg)
 class MetaData(_MetaData): ...

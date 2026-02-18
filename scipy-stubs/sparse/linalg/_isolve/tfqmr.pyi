@@ -12,10 +12,14 @@ from scipy.sparse.linalg import LinearOperator
 __all__ = ["tfqmr"]
 
 _FloatT = TypeVar("_FloatT", bound=np.float32 | np.float64, default=np.float64)
-_ComplexT = TypeVar("_ComplexT", bound=np.complex64 | np.complex128, default=np.complex128)
+_ComplexT = TypeVar(
+    "_ComplexT", bound=np.complex64 | np.complex128, default=np.complex128
+)
 _ScalarT = TypeVar("_ScalarT", bound=npc.number | np.bool_)
 
-_ToLinearOperator: TypeAlias = onp.CanArrayND[_ScalarT] | _spbase[_ScalarT] | LinearOperator[_ScalarT]
+_ToLinearOperator: TypeAlias = (
+    onp.CanArrayND[_ScalarT] | _spbase[_ScalarT] | LinearOperator[_ScalarT]
+)
 
 _Ignored: TypeAlias = object
 _Callback: TypeAlias = Callable[[onp.Array1D[_ScalarT]], _Ignored]

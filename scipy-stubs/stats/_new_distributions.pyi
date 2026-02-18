@@ -39,11 +39,15 @@ _IntT = TypeVar("_IntT", bound=_Int, default=_Int)
 _IntT_co = TypeVar("_IntT_co", bound=_Int, default=_Int, covariant=True)
 
 _ShapeT = TypeVar("_ShapeT", bound=tuple[int, ...], default=tuple[Any, ...])
-_ShapeT_co = TypeVar("_ShapeT_co", bound=tuple[int, ...], default=tuple[Any, ...], covariant=True)
+_ShapeT_co = TypeVar(
+    "_ShapeT_co", bound=tuple[int, ...], default=tuple[Any, ...], covariant=True
+)
 
 ###
 
-class Normal(ContinuousDistribution[_FloatT_co, _ShapeT_co], Generic[_ShapeT_co, _FloatT_co]):
+class Normal(
+    ContinuousDistribution[_FloatT_co, _ShapeT_co], Generic[_ShapeT_co, _FloatT_co]
+):
     _mu_domain: ClassVar[_RealInterval] = ...
     _mu_param: ClassVar[_RealParameter] = ...
     _sigma_domain: ClassVar[_RealInterval] = ...
@@ -82,39 +86,128 @@ class Normal(ContinuousDistribution[_FloatT_co, _ShapeT_co], Generic[_ShapeT_co,
         **kw: Unpack[_DistOpts],
     ) -> None: ...
     @overload  # mu, sigma: 0-d float
-    def __init__(self: Normal[_0D, np.float64], /, *, mu: float, sigma: float | onp.ToInt, **kw: Unpack[_DistOpts]) -> None: ...
+    def __init__(
+        self: Normal[_0D, np.float64],
+        /,
+        *,
+        mu: float,
+        sigma: float | onp.ToInt,
+        **kw: Unpack[_DistOpts],
+    ) -> None: ...
     @overload  # mu, sigma: 0-d float
-    def __init__(self: Normal[_0D, np.float64], /, *, mu: float | onp.ToInt, sigma: float, **kw: Unpack[_DistOpts]) -> None: ...
+    def __init__(
+        self: Normal[_0D, np.float64],
+        /,
+        *,
+        mu: float | onp.ToInt,
+        sigma: float,
+        **kw: Unpack[_DistOpts],
+    ) -> None: ...
     @overload  # mu: 0-d <known dtype>, sigma: 0-d
-    def __init__(self: Normal[_0D, _FloatT], /, *, mu: _FloatT, sigma: _FloatT | onp.ToInt, **kw: Unpack[_DistOpts]) -> None: ...
+    def __init__(
+        self: Normal[_0D, _FloatT],
+        /,
+        *,
+        mu: _FloatT,
+        sigma: _FloatT | onp.ToInt,
+        **kw: Unpack[_DistOpts],
+    ) -> None: ...
     @overload  # a, sigma: 0-d <known dtype>
-    def __init__(self: Normal[_0D, _FloatT], /, *, mu: _FloatT | onp.ToInt, sigma: _FloatT, **kw: Unpack[_DistOpts]) -> None: ...
+    def __init__(
+        self: Normal[_0D, _FloatT],
+        /,
+        *,
+        mu: _FloatT | onp.ToInt,
+        sigma: _FloatT,
+        **kw: Unpack[_DistOpts],
+    ) -> None: ...
     @overload  # a, sigma: 0-d
-    def __init__(self: Normal[_0D], /, *, mu: onp.ToFloat = 0.0, sigma: onp.ToFloat = 1.0, **kw: Unpack[_DistOpts]) -> None: ...
+    def __init__(
+        self: Normal[_0D],
+        /,
+        *,
+        mu: onp.ToFloat = 0.0,
+        sigma: onp.ToFloat = 1.0,
+        **kw: Unpack[_DistOpts],
+    ) -> None: ...
     @overload  # mu: 1-d
-    def __init__(self: Normal[_1D], /, *, mu: onp.ToFloatStrict1D, sigma: _ToFloat_1D = 1.0, **kw: Unpack[_DistOpts]) -> None: ...
+    def __init__(
+        self: Normal[_1D],
+        /,
+        *,
+        mu: onp.ToFloatStrict1D,
+        sigma: _ToFloat_1D = 1.0,
+        **kw: Unpack[_DistOpts],
+    ) -> None: ...
     @overload  # sigma: 1-d
-    def __init__(self: Normal[_1D], /, *, mu: _ToFloat_1D = 0.0, sigma: onp.ToFloatStrict1D, **kw: Unpack[_DistOpts]) -> None: ...
+    def __init__(
+        self: Normal[_1D],
+        /,
+        *,
+        mu: _ToFloat_1D = 0.0,
+        sigma: onp.ToFloatStrict1D,
+        **kw: Unpack[_DistOpts],
+    ) -> None: ...
     @overload  # mu: 2-d
-    def __init__(self: Normal[_2D], /, *, mu: onp.ToFloatStrict2D, sigma: _ToFloat_2D = 1.0, **kw: Unpack[_DistOpts]) -> None: ...
+    def __init__(
+        self: Normal[_2D],
+        /,
+        *,
+        mu: onp.ToFloatStrict2D,
+        sigma: _ToFloat_2D = 1.0,
+        **kw: Unpack[_DistOpts],
+    ) -> None: ...
     @overload  # sigma: 2-d
-    def __init__(self: Normal[_2D], /, *, mu: _ToFloat_2D = 0.0, sigma: onp.ToFloatStrict2D, **kw: Unpack[_DistOpts]) -> None: ...
+    def __init__(
+        self: Normal[_2D],
+        /,
+        *,
+        mu: _ToFloat_2D = 0.0,
+        sigma: onp.ToFloatStrict2D,
+        **kw: Unpack[_DistOpts],
+    ) -> None: ...
     @overload  # mu: 3-d
-    def __init__(self: Normal[_2D], /, *, mu: onp.ToFloatStrict3D, sigma: _ToFloat_3D = 1.0, **kw: Unpack[_DistOpts]) -> None: ...
+    def __init__(
+        self: Normal[_2D],
+        /,
+        *,
+        mu: onp.ToFloatStrict3D,
+        sigma: _ToFloat_3D = 1.0,
+        **kw: Unpack[_DistOpts],
+    ) -> None: ...
     @overload  # sigma: 3-d
-    def __init__(self: Normal[_3D], /, *, mu: _ToFloat_3D = 0.0, sigma: onp.ToFloatStrict3D, **kw: Unpack[_DistOpts]) -> None: ...
+    def __init__(
+        self: Normal[_3D],
+        /,
+        *,
+        mu: _ToFloat_3D = 0.0,
+        sigma: onp.ToFloatStrict3D,
+        **kw: Unpack[_DistOpts],
+    ) -> None: ...
     @overload  # mu: >=1-d
     def __init__(
-        self: Normal[onp.AtLeast1D[Any]], /, *, mu: onp.ToFloatND, sigma: _ToFloat_ND = 1.0, **kw: Unpack[_DistOpts]
+        self: Normal[onp.AtLeast1D[Any]],
+        /,
+        *,
+        mu: onp.ToFloatND,
+        sigma: _ToFloat_ND = 1.0,
+        **kw: Unpack[_DistOpts],
     ) -> None: ...
     @overload  # sigma: >=1-d
     def __init__(
-        self: Normal[onp.AtLeast1D[Any]], /, *, mu: _ToFloat_ND = 0.0, sigma: onp.ToFloatND, **kw: Unpack[_DistOpts]
+        self: Normal[onp.AtLeast1D[Any]],
+        /,
+        *,
+        mu: _ToFloat_ND = 0.0,
+        sigma: onp.ToFloatND,
+        **kw: Unpack[_DistOpts],
     ) -> None: ...
 
 class StandardNormal(Normal[tuple[()], np.float64]):  # undocumented
     mu: ClassVar[np.float64] = ...  # pyright: ignore[reportIncompatibleMethodOverride]
-    sigma: ClassVar[np.float64] = ...  # pyright: ignore[reportIncompatibleMethodOverride]
+    sigma: ClassVar[np.float64] = (
+        ...
+    )  # pyright: ignore[reportIncompatibleMethodOverride]
 
     def __init__(self, /, **kw: Unpack[_DistOpts]) -> None: ...
 
@@ -123,7 +216,9 @@ class Logistic(ContinuousDistribution[np.float64, tuple[()]]):
     _x_param: ClassVar[_RealParameter] = ...
     _scale: ClassVar[np.float64] = ...
 
-class Uniform(ContinuousDistribution[_FloatT_co, _ShapeT_co], Generic[_ShapeT_co, _FloatT_co]):
+class Uniform(
+    ContinuousDistribution[_FloatT_co, _ShapeT_co], Generic[_ShapeT_co, _FloatT_co]
+):
     _a_domain: ClassVar[_RealInterval] = ...
     _a_param: ClassVar[_RealParameter] = ...
     _b_domain: ClassVar[_RealInterval] = ...
@@ -140,37 +235,144 @@ class Uniform(ContinuousDistribution[_FloatT_co, _ShapeT_co], Generic[_ShapeT_co
 
     # NOTE: `a` and `b` are both required; the defaults are just there to confuse you or something...
     @overload  # a: 0-d float, b: 0-d
-    def __init__(self: Uniform[_0D, np.float64], /, *, a: float, b: float | onp.ToInt, **kw: Unpack[_DistOpts]) -> None: ...
+    def __init__(
+        self: Uniform[_0D, np.float64],
+        /,
+        *,
+        a: float,
+        b: float | onp.ToInt,
+        **kw: Unpack[_DistOpts],
+    ) -> None: ...
     @overload  # a, b: 0-d float
-    def __init__(self: Uniform[_0D, np.float64], /, *, a: float | onp.ToInt, b: float, **kw: Unpack[_DistOpts]) -> None: ...
+    def __init__(
+        self: Uniform[_0D, np.float64],
+        /,
+        *,
+        a: float | onp.ToInt,
+        b: float,
+        **kw: Unpack[_DistOpts],
+    ) -> None: ...
     @overload  # a: 0-d <known dtype>, b: 0-d
-    def __init__(self: Uniform[_0D, _FloatT], /, *, a: _FloatT, b: _FloatT | onp.ToInt, **kw: Unpack[_DistOpts]) -> None: ...
+    def __init__(
+        self: Uniform[_0D, _FloatT],
+        /,
+        *,
+        a: _FloatT,
+        b: _FloatT | onp.ToInt,
+        **kw: Unpack[_DistOpts],
+    ) -> None: ...
     @overload  # a, b: 0-d <known dtype>
-    def __init__(self: Uniform[_0D, _FloatT], /, *, a: _FloatT | onp.ToInt, b: _FloatT, **kw: Unpack[_DistOpts]) -> None: ...
+    def __init__(
+        self: Uniform[_0D, _FloatT],
+        /,
+        *,
+        a: _FloatT | onp.ToInt,
+        b: _FloatT,
+        **kw: Unpack[_DistOpts],
+    ) -> None: ...
     @overload  # a, b: 0-d
-    def __init__(self: Uniform[_0D], /, *, a: onp.ToFloat, b: onp.ToFloat, **kw: Unpack[_DistOpts]) -> None: ...
+    def __init__(
+        self: Uniform[_0D],
+        /,
+        *,
+        a: onp.ToFloat,
+        b: onp.ToFloat,
+        **kw: Unpack[_DistOpts],
+    ) -> None: ...
     @overload  # a: 1-d
-    def __init__(self: Uniform[_1D], /, *, a: onp.ToFloatStrict1D, b: _ToFloat_1D, **kw: Unpack[_DistOpts]) -> None: ...
+    def __init__(
+        self: Uniform[_1D],
+        /,
+        *,
+        a: onp.ToFloatStrict1D,
+        b: _ToFloat_1D,
+        **kw: Unpack[_DistOpts],
+    ) -> None: ...
     @overload  # b: 1-d
-    def __init__(self: Uniform[_1D], /, *, a: _ToFloat_1D, b: onp.ToFloatStrict1D, **kw: Unpack[_DistOpts]) -> None: ...
+    def __init__(
+        self: Uniform[_1D],
+        /,
+        *,
+        a: _ToFloat_1D,
+        b: onp.ToFloatStrict1D,
+        **kw: Unpack[_DistOpts],
+    ) -> None: ...
     @overload  # a: 2-d
-    def __init__(self: Uniform[_2D], /, *, a: onp.ToFloatStrict2D, b: _ToFloat_2D, **kw: Unpack[_DistOpts]) -> None: ...
+    def __init__(
+        self: Uniform[_2D],
+        /,
+        *,
+        a: onp.ToFloatStrict2D,
+        b: _ToFloat_2D,
+        **kw: Unpack[_DistOpts],
+    ) -> None: ...
     @overload  # b: 2-d
-    def __init__(self: Uniform[_2D], /, *, a: _ToFloat_2D, b: onp.ToFloatStrict2D, **kw: Unpack[_DistOpts]) -> None: ...
+    def __init__(
+        self: Uniform[_2D],
+        /,
+        *,
+        a: _ToFloat_2D,
+        b: onp.ToFloatStrict2D,
+        **kw: Unpack[_DistOpts],
+    ) -> None: ...
     @overload  # a: 3-d
-    def __init__(self: Uniform[_2D], /, *, a: onp.ToFloatStrict3D, b: _ToFloat_3D, **kw: Unpack[_DistOpts]) -> None: ...
+    def __init__(
+        self: Uniform[_2D],
+        /,
+        *,
+        a: onp.ToFloatStrict3D,
+        b: _ToFloat_3D,
+        **kw: Unpack[_DistOpts],
+    ) -> None: ...
     @overload  # b: 3-d
-    def __init__(self: Uniform[_3D], /, *, a: _ToFloat_3D, b: onp.ToFloatStrict3D, **kw: Unpack[_DistOpts]) -> None: ...
+    def __init__(
+        self: Uniform[_3D],
+        /,
+        *,
+        a: _ToFloat_3D,
+        b: onp.ToFloatStrict3D,
+        **kw: Unpack[_DistOpts],
+    ) -> None: ...
     @overload  # a: >=1-d
-    def __init__(self: Uniform[onp.AtLeast1D[Any]], /, *, a: onp.ToFloatND, b: _ToFloat_ND, **kw: Unpack[_DistOpts]) -> None: ...
+    def __init__(
+        self: Uniform[onp.AtLeast1D[Any]],
+        /,
+        *,
+        a: onp.ToFloatND,
+        b: _ToFloat_ND,
+        **kw: Unpack[_DistOpts],
+    ) -> None: ...
     @overload  # b: >=1-d
-    def __init__(self: Uniform[onp.AtLeast1D[Any]], /, *, a: _ToFloat_ND, b: onp.ToFloatND, **kw: Unpack[_DistOpts]) -> None: ...
+    def __init__(
+        self: Uniform[onp.AtLeast1D[Any]],
+        /,
+        *,
+        a: _ToFloat_ND,
+        b: onp.ToFloatND,
+        **kw: Unpack[_DistOpts],
+    ) -> None: ...
     @overload  # a: None -> ValueError
-    def __init__(self, /, *, a: None = None, b: _ToFloat_ND | None = None, **kw: Unpack[_DistOpts]) -> Never: ...
+    def __init__(
+        self,
+        /,
+        *,
+        a: None = None,
+        b: _ToFloat_ND | None = None,
+        **kw: Unpack[_DistOpts],
+    ) -> Never: ...
     @overload  # b: None -> ValueError
-    def __init__(self, /, *, a: _ToFloat_ND | None = None, b: None = None, **kw: Unpack[_DistOpts]) -> Never: ...
+    def __init__(
+        self,
+        /,
+        *,
+        a: _ToFloat_ND | None = None,
+        b: None = None,
+        **kw: Unpack[_DistOpts],
+    ) -> Never: ...
 
-class Binomial(DiscreteDistribution[_IntT_co, _ShapeT_co], Generic[_ShapeT_co, _IntT_co]):
+class Binomial(
+    DiscreteDistribution[_IntT_co, _ShapeT_co], Generic[_ShapeT_co, _IntT_co]
+):
     _n_domain: ClassVar[_IntegerInterval] = ...
     _p_domain: ClassVar[_RealInterval] = ...
     _x_support: ClassVar[_IntegerInterval] = ...
@@ -186,28 +388,105 @@ class Binomial(DiscreteDistribution[_IntT_co, _ShapeT_co], Generic[_ShapeT_co, _
 
     #
     @overload  # a: 0-d float, b: 0-d
-    def __init__(self: Binomial[_0D, np.int_], /, *, n: int, p: onp.ToFloat, **kw: Unpack[_DistOpts]) -> None: ...
+    def __init__(
+        self: Binomial[_0D, np.int_],
+        /,
+        *,
+        n: int,
+        p: onp.ToFloat,
+        **kw: Unpack[_DistOpts],
+    ) -> None: ...
     @overload  # a, b: 0-d float
     def __init__(
-        self: Binomial[_0D, np.int_], /, *, n: onp.ToInt, p: np.float64 | npc.floating80, **kw: Unpack[_DistOpts]
+        self: Binomial[_0D, np.int_],
+        /,
+        *,
+        n: onp.ToInt,
+        p: np.float64 | npc.floating80,
+        **kw: Unpack[_DistOpts],
     ) -> None: ...
     @overload  # a: 0-d <known dtype>, b: 0-d
-    def __init__(self: Binomial[_0D, _IntT], /, *, n: _IntT, p: onp.ToFloat, **kw: Unpack[_DistOpts]) -> None: ...
+    def __init__(
+        self: Binomial[_0D, _IntT],
+        /,
+        *,
+        n: _IntT,
+        p: onp.ToFloat,
+        **kw: Unpack[_DistOpts],
+    ) -> None: ...
     @overload  # a, b: 0-d
-    def __init__(self: Binomial[_0D], /, *, n: onp.ToInt, p: onp.ToFloat, **kw: Unpack[_DistOpts]) -> None: ...
+    def __init__(
+        self: Binomial[_0D], /, *, n: onp.ToInt, p: onp.ToFloat, **kw: Unpack[_DistOpts]
+    ) -> None: ...
     @overload  # a: 1-d
-    def __init__(self: Binomial[_1D], /, *, n: onp.ToIntStrict1D, p: _ToFloat_1D, **kw: Unpack[_DistOpts]) -> None: ...
+    def __init__(
+        self: Binomial[_1D],
+        /,
+        *,
+        n: onp.ToIntStrict1D,
+        p: _ToFloat_1D,
+        **kw: Unpack[_DistOpts],
+    ) -> None: ...
     @overload  # b: 1-d
-    def __init__(self: Binomial[_1D], /, *, n: _ToFloat_1D, p: onp.ToFloatStrict1D, **kw: Unpack[_DistOpts]) -> None: ...
+    def __init__(
+        self: Binomial[_1D],
+        /,
+        *,
+        n: _ToFloat_1D,
+        p: onp.ToFloatStrict1D,
+        **kw: Unpack[_DistOpts],
+    ) -> None: ...
     @overload  # a: 2-d
-    def __init__(self: Binomial[_2D], /, *, n: onp.ToIntStrict2D, p: _ToFloat_2D, **kw: Unpack[_DistOpts]) -> None: ...
+    def __init__(
+        self: Binomial[_2D],
+        /,
+        *,
+        n: onp.ToIntStrict2D,
+        p: _ToFloat_2D,
+        **kw: Unpack[_DistOpts],
+    ) -> None: ...
     @overload  # b: 2-d
-    def __init__(self: Binomial[_2D], /, *, n: _ToFloat_2D, p: onp.ToFloatStrict2D, **kw: Unpack[_DistOpts]) -> None: ...
+    def __init__(
+        self: Binomial[_2D],
+        /,
+        *,
+        n: _ToFloat_2D,
+        p: onp.ToFloatStrict2D,
+        **kw: Unpack[_DistOpts],
+    ) -> None: ...
     @overload  # a: 3-d
-    def __init__(self: Binomial[_2D], /, *, n: onp.ToIntStrict3D, p: _ToFloat_3D, **kw: Unpack[_DistOpts]) -> None: ...
+    def __init__(
+        self: Binomial[_2D],
+        /,
+        *,
+        n: onp.ToIntStrict3D,
+        p: _ToFloat_3D,
+        **kw: Unpack[_DistOpts],
+    ) -> None: ...
     @overload  # b: 3-d
-    def __init__(self: Binomial[_3D], /, *, n: _ToFloat_3D, p: onp.ToFloatStrict3D, **kw: Unpack[_DistOpts]) -> None: ...
+    def __init__(
+        self: Binomial[_3D],
+        /,
+        *,
+        n: _ToFloat_3D,
+        p: onp.ToFloatStrict3D,
+        **kw: Unpack[_DistOpts],
+    ) -> None: ...
     @overload  # a: >=1-d
-    def __init__(self: Binomial[onp.AtLeast1D[Any]], /, *, n: onp.ToIntND, p: _ToFloat_ND, **kw: Unpack[_DistOpts]) -> None: ...
+    def __init__(
+        self: Binomial[onp.AtLeast1D[Any]],
+        /,
+        *,
+        n: onp.ToIntND,
+        p: _ToFloat_ND,
+        **kw: Unpack[_DistOpts],
+    ) -> None: ...
     @overload  # b: >=1-d
-    def __init__(self: Binomial[onp.AtLeast1D[Any]], /, *, n: _ToInt_ND, p: onp.ToFloatND, **kw: Unpack[_DistOpts]) -> None: ...
+    def __init__(
+        self: Binomial[onp.AtLeast1D[Any]],
+        /,
+        *,
+        n: _ToInt_ND,
+        p: onp.ToFloatND,
+        **kw: Unpack[_DistOpts],
+    ) -> None: ...

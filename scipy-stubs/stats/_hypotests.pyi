@@ -168,7 +168,13 @@ def cramervonmises_2samp(
 
 #
 def poisson_means_test(
-    k1: int, n1: float, k2: int, n2: float, *, diff: float = 0, alternative: Alternative = "two-sided"
+    k1: int,
+    n1: float,
+    k2: int,
+    n2: float,
+    *,
+    diff: float = 0,
+    alternative: Alternative = "two-sided",
 ) -> SignificanceResult[np.float64]: ...
 
 #
@@ -179,7 +185,9 @@ class SomersDResult:
     table: Final[_Float2D]
 
 def somersd(
-    x: onp.ToFloat1D | onp.ToFloat2D, y: onp.ToFloat1D | None = None, alternative: Alternative = "two-sided"
+    x: onp.ToFloat1D | onp.ToFloat2D,
+    y: onp.ToFloat1D | None = None,
+    alternative: Alternative = "two-sided",
 ) -> SomersDResult: ...
 
 #
@@ -189,7 +197,10 @@ class BarnardExactResult:
     pvalue: Final[float]
 
 def barnard_exact(
-    table: onp.ToInt2D, alternative: Alternative = "two-sided", pooled: bool = True, n: op.JustInt = 32
+    table: onp.ToInt2D,
+    alternative: Alternative = "two-sided",
+    pooled: bool = True,
+    n: op.JustInt = 32,
 ) -> BarnardExactResult: ...
 
 #
@@ -198,7 +209,9 @@ class BoschlooExactResult:
     statistic: Final[float]
     pvalue: Final[float]
 
-def boschloo_exact(table: onp.ToInt2D, alternative: Alternative = "two-sided", n: op.JustInt = 32) -> BoschlooExactResult: ...
+def boschloo_exact(
+    table: onp.ToInt2D, alternative: Alternative = "two-sided", n: op.JustInt = 32
+) -> BoschlooExactResult: ...
 
 #
 class TukeyHSDResult:
@@ -207,11 +220,27 @@ class TukeyHSDResult:
     _ntreatments: Final[int]
     _df: Final[int]
     _stand_err: Final[float]
-    def __init__(self, /, statistic: _Float2D, pvalue: _Float2D, _ntreatments: int, _df: int, _stand_err: float) -> None: ...
+    def __init__(
+        self,
+        /,
+        statistic: _Float2D,
+        pvalue: _Float2D,
+        _ntreatments: int,
+        _df: int,
+        _stand_err: float,
+    ) -> None: ...
 
     #
     _ci: ConfidenceInterval | None
     _ci_cl: float | None
-    def confidence_interval(self, /, confidence_level: op.JustFloat | np.float64 = 0.95) -> ConfidenceInterval: ...
+    def confidence_interval(
+        self, /, confidence_level: op.JustFloat | np.float64 = 0.95
+    ) -> ConfidenceInterval: ...
 
-def tukey_hsd(arg0: onp.ToFloatND, arg1: onp.ToFloatND, /, *args: onp.ToFloatND, equal_var: bool = True) -> TukeyHSDResult: ...
+def tukey_hsd(
+    arg0: onp.ToFloatND,
+    arg1: onp.ToFloatND,
+    /,
+    *args: onp.ToFloatND,
+    equal_var: bool = True,
+) -> TukeyHSDResult: ...

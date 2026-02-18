@@ -8,7 +8,9 @@ from .base import DenseOutput, OdeSolver
 from scipy.sparse import sparray, spmatrix
 
 _LU: TypeAlias = tuple[onp.ArrayND[np.float64], onp.ArrayND[np.intp]]
-_FuncSolveLU: TypeAlias = Callable[[_LU, onp.ArrayND[np.float64]], onp.ArrayND[np.float64]]
+_FuncSolveLU: TypeAlias = Callable[
+    [_LU, onp.ArrayND[np.float64]], onp.ArrayND[np.float64]
+]
 _ToJac: TypeAlias = onp.ToArray2D | spmatrix | sparray
 
 ###
@@ -75,7 +77,14 @@ class RadauDenseOutput(DenseOutput[np.float64]):
     Q: onp.ArrayND[np.float64]
     y_old: onp.ArrayND[np.float64]
 
-    def __init__(self, /, t_old: float, t: float, y_old: onp.ArrayND[np.float64], Q: onp.ArrayND[np.float64]) -> None: ...
+    def __init__(
+        self,
+        /,
+        t_old: float,
+        t: float,
+        y_old: onp.ArrayND[np.float64],
+        Q: onp.ArrayND[np.float64],
+    ) -> None: ...
 
 def solve_collocation_system(
     fun: Callable[[float, onp.Array1D[np.float64]], onp.ToFloat1D],
@@ -90,5 +99,8 @@ def solve_collocation_system(
     solve_lu: _FuncSolveLU,
 ) -> tuple[bool, int, onp.Array2D[np.float64], float | None]: ...
 def predict_factor(
-    h_abs: onp.ToFloat, h_abs_old: onp.ToFloat, error_norm: onp.ToFloat, error_norm_old: onp.ToFloat
+    h_abs: onp.ToFloat,
+    h_abs_old: onp.ToFloat,
+    error_norm: onp.ToFloat,
+    error_norm_old: onp.ToFloat,
 ) -> onp.ToFloat: ...

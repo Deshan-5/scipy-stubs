@@ -1,7 +1,17 @@
 # This module is not meant for public use and will be removed in SciPy v2.0.0.
 from typing_extensions import deprecated
 
-__all__ = ["firls", "firwin", "firwin2", "firwin_2d", "kaiser_atten", "kaiser_beta", "kaiserord", "minimum_phase", "remez"]
+__all__ = [
+    "firls",
+    "firwin",
+    "firwin2",
+    "firwin_2d",
+    "kaiser_atten",
+    "kaiser_beta",
+    "kaiserord",
+    "minimum_phase",
+    "remez",
+]
 
 @deprecated("will be removed in SciPy v2.0.0")
 def firwin(
@@ -37,7 +47,14 @@ def firwin2(
     fs: object = None,
 ) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
-def firls(numtaps: object, bands: object, desired: object, *, weight: object = None, fs: object = None) -> object: ...
+def firls(
+    numtaps: object,
+    bands: object,
+    desired: object,
+    *,
+    weight: object = None,
+    fs: object = None,
+) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
 def kaiser_beta(a: object) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
@@ -45,7 +62,13 @@ def kaiser_atten(numtaps: object, width: object) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
 def kaiserord(ripple: object, width: object) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
-def minimum_phase(h: object, method: object = "homomorphic", n_fft: object = None, *, half: object = True) -> object: ...
+def minimum_phase(
+    h: object,
+    method: object = "homomorphic",
+    n_fft: object = None,
+    *,
+    half: object = True,
+) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
 def remez(
     numtaps: object,

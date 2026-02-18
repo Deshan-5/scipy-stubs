@@ -45,7 +45,9 @@ class ShortTimeFFT(Generic[_InexactT_co]):
 
     _cache_post_padding: tuple[int, tuple[int, int]] = ...
     _cache_upper_border_begin: tuple[int, tuple[int, int]] = ...
-    _cache_t: tuple[tuple[int, int | None, int | None, int, float], onp.Array1D[np.float64]] = ...
+    _cache_t: tuple[
+        tuple[int, int | None, int | None, int, float], onp.Array1D[np.float64]
+    ] = ...
     _cache_f: tuple[tuple[_FFTMode, int, float], onp.Array1D[np.float64]] = ...
 
     @classmethod
@@ -181,8 +183,12 @@ class ShortTimeFFT(Generic[_InexactT_co]):
     def p_num(self, /, n: int) -> int: ...
     def nearest_k_p(self, /, k: int, left: bool = True) -> int: ...
     def upper_border_begin(self, /, n: int) -> tuple[int, int]: ...
-    def p_range(self, /, n: int, p0: int | None = None, p1: int | None = None) -> tuple[int, int]: ...
-    def t(self, /, n: int, p0: int | None = None, p1: int | None = None, k_offset: int = 0) -> onp.Array1D[np.float64]: ...
+    def p_range(
+        self, /, n: int, p0: int | None = None, p1: int | None = None
+    ) -> tuple[int, int]: ...
+    def t(
+        self, /, n: int, p0: int | None = None, p1: int | None = None, k_offset: int = 0
+    ) -> onp.Array1D[np.float64]: ...
     def scale_to(self, /, scaling: _ScaleTo) -> None: ...
 
     #
@@ -352,7 +358,14 @@ class ShortTimeFFT(Generic[_InexactT_co]):
 
     #
     def istft(
-        self, /, S: onp.ArrayND[npc.inexact], k0: int = 0, k1: int | None = None, *, f_axis: int = -2, t_axis: int = -1
+        self,
+        /,
+        S: onp.ArrayND[npc.inexact],
+        k0: int = 0,
+        k1: int | None = None,
+        *,
+        f_axis: int = -2,
+        t_axis: int = -1,
     ) -> onp.ArrayND[np.complex128]: ...
 
     #
@@ -361,14 +374,24 @@ class ShortTimeFFT(Generic[_InexactT_co]):
     ) -> tuple[float, float, float, float]: ...
 
 #
-def _calc_dual_canonical_window(win: onp.ArrayND[_InexactT], hop: int) -> onp.Array1D[_InexactT]: ...
+def _calc_dual_canonical_window(
+    win: onp.ArrayND[_InexactT], hop: int
+) -> onp.Array1D[_InexactT]: ...
 
 #
 @overload
 def closest_STFT_dual_window(
-    win: onp.ArrayND[_InexactT], hop: int, desired_dual: onp.ArrayND[_InexactT] | None = None, *, scaled: onp.ToTrue = True
+    win: onp.ArrayND[_InexactT],
+    hop: int,
+    desired_dual: onp.ArrayND[_InexactT] | None = None,
+    *,
+    scaled: onp.ToTrue = True,
 ) -> tuple[onp.Array1D[_InexactT], _InexactT]: ...
 @overload
 def closest_STFT_dual_window(
-    win: onp.ArrayND[_InexactT], hop: int, desired_dual: onp.ArrayND[_InexactT] | None = None, *, scaled: onp.ToFalse
+    win: onp.ArrayND[_InexactT],
+    hop: int,
+    desired_dual: onp.ArrayND[_InexactT] | None = None,
+    *,
+    scaled: onp.ToFalse,
 ) -> tuple[onp.Array1D[_InexactT], float]: ...

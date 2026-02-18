@@ -93,12 +93,20 @@ def csv_sniffer_has_bug_last_field() -> Literal[False]: ...  # undocumented
 def workaround_csv_sniffer_bug_last_field(
     sniff_line: str, dialect: Dialect, delimiters: Iterable[str]
 ) -> None: ...  # undocumented
-def split_data_line(line: str, dialect: Dialect | None = None) -> tuple[list[str], Dialect]: ...  # undocumented
-def tokenize_attribute(iterable: Iterable[int | str], attribute: str) -> tuple[Attribute, object]: ...  # undocumented
+def split_data_line(
+    line: str, dialect: Dialect | None = None
+) -> tuple[list[str], Dialect]: ...  # undocumented
+def tokenize_attribute(
+    iterable: Iterable[int | str], attribute: str
+) -> tuple[Attribute, object]: ...  # undocumented
 def tokenize_single_comma(val: str) -> tuple[str, str]: ...  # undocumented
 def tokenize_single_wcomma(val: str) -> tuple[str, str]: ...  # undocumented
-def read_relational_attribute(ofile: Iterator[str], relational_attribute: RelationalAttribute, i: str) -> str: ...  # undocumented
-def read_header(ofile: Iterator[str]) -> tuple[str, list[Attribute]]: ...  # undocumented
+def read_relational_attribute(
+    ofile: Iterator[str], relational_attribute: RelationalAttribute, i: str
+) -> str: ...  # undocumented
+def read_header(
+    ofile: Iterator[str],
+) -> tuple[str, list[Attribute]]: ...  # undocumented
 
 #
 def loadarff(f: FileLike[str]) -> tuple[onp.Array1D[np.void], MetaData]: ...

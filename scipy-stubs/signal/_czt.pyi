@@ -17,16 +17,29 @@ class CZT:
     n: Final[int]
 
     def __init__(
-        self, /, n: int, m: int | None = None, w: complex | np.complex128 | None = None, a: complex | np.complex128 = 1 + 0j
+        self,
+        /,
+        n: int,
+        m: int | None = None,
+        w: complex | np.complex128 | None = None,
+        a: complex | np.complex128 = 1 + 0j,
     ) -> None: ...
     @overload
-    def __call__(self, /, x: onp.ToComplexStrict1D, *, axis: op.CanIndex = -1) -> onp.Array1D[_Complex]: ...
+    def __call__(
+        self, /, x: onp.ToComplexStrict1D, *, axis: op.CanIndex = -1
+    ) -> onp.Array1D[_Complex]: ...
     @overload
-    def __call__(self, /, x: onp.ToComplexStrict2D, *, axis: op.CanIndex = -1) -> onp.Array2D[_Complex]: ...
+    def __call__(
+        self, /, x: onp.ToComplexStrict2D, *, axis: op.CanIndex = -1
+    ) -> onp.Array2D[_Complex]: ...
     @overload
-    def __call__(self, /, x: onp.ToComplexStrict3D, *, axis: op.CanIndex = -1) -> onp.Array3D[_Complex]: ...
+    def __call__(
+        self, /, x: onp.ToComplexStrict3D, *, axis: op.CanIndex = -1
+    ) -> onp.Array3D[_Complex]: ...
     @overload
-    def __call__(self, /, x: onp.ToComplexND, *, axis: op.CanIndex = -1) -> onp.ArrayND[_Complex]: ...
+    def __call__(
+        self, /, x: onp.ToComplexND, *, axis: op.CanIndex = -1
+    ) -> onp.ArrayND[_Complex]: ...
     def points(self, /) -> onp.Array1D[np.complex128]: ...
 
 class ZoomFFT(CZT):
@@ -50,7 +63,9 @@ def _validate_sizes(n: int, m: int | None) -> int: ...
 
 #
 def czt_points(
-    m: int, w: complex | np.complex128 | None = None, a: complex | np.complex128 = 1 + 0j
+    m: int,
+    w: complex | np.complex128 | None = None,
+    a: complex | np.complex128 = 1 + 0j,
 ) -> onp.Array1D[np.complex128]: ...
 
 #

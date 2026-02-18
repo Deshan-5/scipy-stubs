@@ -40,11 +40,17 @@ class _CFFIType(Protocol):
 
     def is_integer_type(self, /) -> bool: ...
     def has_c_name(self, /) -> bool: ...
-    def get_c_name(self, /, replace_with: str = "", context: str = "a C file", quals: int = 0) -> str: ...
-    def get_cached_btype(self, /, ffi: object, finishlist: list[object], can_delay: bool = False) -> _CFFIBackendType: ...
+    def get_c_name(
+        self, /, replace_with: str = "", context: str = "a C file", quals: int = 0
+    ) -> str: ...
+    def get_cached_btype(
+        self, /, ffi: object, finishlist: list[object], can_delay: bool = False
+    ) -> _CFFIBackendType: ...
 
     # virtual
-    def build_backend_type(self, /, ffi: object, finishlist: list[object]) -> _CFFIBackendType: ...
+    def build_backend_type(
+        self, /, ffi: object, finishlist: list[object]
+    ) -> _CFFIBackendType: ...
     @property
     def c_name_with_marker(self, /) -> str: ...
 
@@ -68,7 +74,14 @@ class _CFFIFunc(_CFFIType, Protocol[_CT_co, *_CTs]):
     def ellipsis(self, /) -> bool: ...
     @property
     def abi(self, /) -> int | str | None: ...
-    def __init__(self, /, args: tuple[*_CTs], result: _CT_co, ellipsis: bool, abi: int | None = None) -> None: ...
+    def __init__(
+        self,
+        /,
+        args: tuple[*_CTs],
+        result: _CT_co,
+        ellipsis: bool,
+        abi: int | None = None,
+    ) -> None: ...
 
 @type_check_only
 @final
@@ -110,7 +123,9 @@ class PyCFuncPtr(_CFuncPtr): ...
 @final
 class CData: ...
 
-class LowLevelCallable(tuple[PyCapsule, _FuncT_co, _DataT_co], Generic[_FuncT_co, _DataT_co]):
+class LowLevelCallable(
+    tuple[PyCapsule, _FuncT_co, _DataT_co], Generic[_FuncT_co, _DataT_co]
+):
     __slots__: ClassVar[tuple[()]] = ()
 
     @property
@@ -120,18 +135,33 @@ class LowLevelCallable(tuple[PyCapsule, _FuncT_co, _DataT_co], Generic[_FuncT_co
     @property
     def signature(self, /) -> str: ...
     @overload
-    def __new__(cls, function: Self, user_data: _DataT_co | None = None, signature: str | None = None) -> Self: ...
+    def __new__(
+        cls,
+        function: Self,
+        user_data: _DataT_co | None = None,
+        signature: str | None = None,
+    ) -> Self: ...
     @overload
-    def __new__(cls, function: _FuncT_co, user_data: _DataT_co, signature: str | None = None) -> Self: ...
+    def __new__(
+        cls, function: _FuncT_co, user_data: _DataT_co, signature: str | None = None
+    ) -> Self: ...
     @classmethod
     @overload
     def from_cython(
-        cls, module: ModuleType, name: str, user_data: None = None, signature: str | None = None
+        cls,
+        module: ModuleType,
+        name: str,
+        user_data: None = None,
+        signature: str | None = None,
     ) -> LowLevelCallable[PyCapsule, None]: ...
     @classmethod
     @overload
     def from_cython(
-        cls, module: ModuleType, name: str, user_data: _DataT, signature: str | None = None
+        cls,
+        module: ModuleType,
+        name: str,
+        user_data: _DataT,
+        signature: str | None = None,
     ) -> LowLevelCallable[PyCapsule, _DataT]: ...
 
     # NOTE: `__getitem__` will always raise a `ValueError`

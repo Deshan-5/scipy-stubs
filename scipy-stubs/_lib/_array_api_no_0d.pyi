@@ -7,8 +7,20 @@ _Ignored: TypeAlias = object
 
 __all__: list[str] = []
 
-def _check_scalar(actual: object, desired: object, *, xp: types.ModuleType | None = None, **kwargs: _Ignored) -> None: ...
-def xp_assert_equal(actual: object, desired: object, *, check_0d: bool = False, xp: types.ModuleType | None = None) -> None: ...
+def _check_scalar(
+    actual: object,
+    desired: object,
+    *,
+    xp: types.ModuleType | None = None,
+    **kwargs: _Ignored,
+) -> None: ...
+def xp_assert_equal(
+    actual: object,
+    desired: object,
+    *,
+    check_0d: bool = False,
+    xp: types.ModuleType | None = None,
+) -> None: ...
 def xp_assert_close(
     actual: object,
     desired: object,

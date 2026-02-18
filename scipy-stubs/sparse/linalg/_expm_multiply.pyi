@@ -16,9 +16,15 @@ _ScalarT = TypeVar("_ScalarT", bound=npc.number | np.bool_)
 _InexactT = TypeVar("_InexactT", bound=npc.inexact)
 _ShapeT = TypeVar("_ShapeT", bound=tuple[Any, ...])
 
-_ToLinearOperator: TypeAlias = LinearOperator[_ScalarT] | _spbase[_ScalarT, tuple[int, int]] | onp.ArrayND[_ScalarT]
+_ToLinearOperator: TypeAlias = (
+    LinearOperator[_ScalarT]
+    | _spbase[_ScalarT, tuple[int, int]]
+    | onp.ArrayND[_ScalarT]
+)
 _SparseOrDense = TypeAliasType(
-    "_SparseOrDense", sparray[_ScalarT, _ShapeT] | onp.ArrayND[_ScalarT, _ShapeT], type_params=(_ScalarT, _ShapeT)
+    "_SparseOrDense",
+    sparray[_ScalarT, _ShapeT] | onp.ArrayND[_ScalarT, _ShapeT],
+    type_params=(_ScalarT, _ShapeT),
 )
 
 _AsFloat64: TypeAlias = np.float64 | npc.integer | np.bool_
@@ -39,7 +45,9 @@ def expm_multiply(
 @overload
 def expm_multiply(
     A: _ToLinearOperator[_InexactT],
-    B: _SparseOrDense[_InexactT | npc.integer | np.bool_, tuple[Never] | tuple[Never, Never]],
+    B: _SparseOrDense[
+        _InexactT | npc.integer | np.bool_, tuple[Never] | tuple[Never, Never]
+    ],
     start: onp.ToFloat | None = None,
     stop: onp.ToFloat | None = None,
     num: op.CanIndex | None = None,

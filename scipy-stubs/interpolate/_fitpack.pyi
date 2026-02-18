@@ -6,7 +6,13 @@ import numpy as np
 import optype.numpy as onp
 
 def _insert(
-    iopt: int, t: onp.Array1D[np.float64], c: onp.Array2D[np.float64], k: int, x: onp.Array1D[np.float64], m: int, /
+    iopt: int,
+    t: onp.Array1D[np.float64],
+    c: onp.Array2D[np.float64],
+    k: int,
+    x: onp.Array1D[np.float64],
+    m: int,
+    /,
 ) -> tuple[onp.Array1D[np.float64], onp.Array1D[np.float64], int]: ...
 def _parcur(
     x: onp.Array1D[np.float64],
@@ -46,4 +52,9 @@ def _surfit(
     wrk: onp.Array1D[np.float64],
     lwrk1: int,
     lwrk2: int,
-) -> tuple[onp.Array1D[np.float64], onp.Array1D[np.float64], onp.Array1D[np.float64], dict[str, Incomplete]]: ...
+) -> tuple[
+    onp.Array1D[np.float64],
+    onp.Array1D[np.float64],
+    onp.Array1D[np.float64],
+    dict[str, Incomplete],
+]: ...

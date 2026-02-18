@@ -112,12 +112,16 @@ _CodecsTemplate: TypeAlias = dict[_MCodec, _CodecTemplateValue]
 
 _ByteOrder: TypeAlias = Literal["<", ">"]
 _Codec: TypeAlias = Literal["utf_8", "utf_16", "utf_32"]
-_CodecBO: TypeAlias = Literal["utf_8", "utf_16_le", "utf_16_be", "utf_32_le", "utf_32_be"]
+_CodecBO: TypeAlias = Literal[
+    "utf_8", "utf_16_le", "utf_16_be", "utf_32_le", "utf_32_be"
+]
 
 _MCodec: TypeAlias = Literal[16, 17, 18]
 _MType: TypeAlias = Literal[1, 2, 3, 4, 5, 6, 7, 9, 12, 13, 14, 15, _MCodec]
 _Number: TypeAlias = Literal["i1", "i2", "i4", "i8", "u1", "u2", "u4", "u8", "f4", "f8"]
-_MDTypeTemplateKey: TypeAlias = Literal[_MType, "array_flags", "file_header", "tag_full", "tag_smalldata", "U1"]
+_MDTypeTemplateKey: TypeAlias = Literal[
+    _MType, "array_flags", "file_header", "tag_full", "tag_smalldata", "U1"
+]
 _MDTypeTemplateValueKey: TypeAlias = Literal[
     "description", "subsystem_offset", "version", "endian_test",
     "mdtype", "byte_count",
@@ -125,7 +129,9 @@ _MDTypeTemplateValueKey: TypeAlias = Literal[
     "data_type", "flags_class", "nzmax",
 ]  # fmt: skip
 _MDTypeTemplateValueValue: TypeAlias = Literal["S2", "u2", "s4", "u4", "i8", "S116"]
-_MDTypeTemplateValueItems: TypeAlias = list[tuple[_MDTypeTemplateValueKey, _MDTypeTemplateValueValue]]
+_MDTypeTemplateValueItems: TypeAlias = list[
+    tuple[_MDTypeTemplateValueKey, _MDTypeTemplateValueValue]
+]
 _MDTypeTemplateValue: TypeAlias = _Number | _MDTypeTemplateValueItems
 
 _MXNumber: TypeAlias = Literal[6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
@@ -190,7 +196,9 @@ class mat_struct: ...
 class MatlabObject(np.ndarray[_ShapeT, np.dtype[np.void]], Generic[_ShapeT]):
     classname: Final[str | None]
 
-    def __new__(cls, input_array: onp.AnyVoidArray, classname: str | None = None) -> Self: ...
+    def __new__(
+        cls, input_array: onp.AnyVoidArray, classname: str | None = None
+    ) -> Self: ...
     @override
     def __array_finalize__(self, /, obj: onp.ArrayND[np.void] | None) -> None: ...
 
@@ -202,4 +210,6 @@ class MatlabOpaque(np.ndarray[_ShapeT, np.dtype[np.void]], Generic[_ShapeT]):
     @override
     def __new__(cls, input_array: onp.AnyVoidArray) -> Self: ...
 
-def _convert_codecs(template: _CodecsTemplate, byte_order: _ByteOrder) -> dict[_MCodec, _CodecBO]: ...
+def _convert_codecs(
+    template: _CodecsTemplate, byte_order: _ByteOrder
+) -> dict[_MCodec, _CodecBO]: ...

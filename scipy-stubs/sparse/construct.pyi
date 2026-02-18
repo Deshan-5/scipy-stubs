@@ -47,7 +47,13 @@ def issparse(x: object) -> Any: ...
 @deprecated("will be removed in SciPy v2.0.0")
 def vstack(blocks: object, format: object = None, dtype: object = None) -> Any: ...
 @deprecated("will be removed in SciPy v2.0.0")
-def spdiags(data: object, diags: object, m: object = None, n: object = None, format: object = None) -> Any: ...
+def spdiags(
+    data: object,
+    diags: object,
+    m: object = None,
+    n: object = None,
+    format: object = None,
+) -> Any: ...
 @deprecated("will be removed in SciPy v2.0.0")
 def random(
     m: object,
@@ -82,12 +88,26 @@ def block_diag(mats: object, format: object = None, dtype: object = None) -> Any
 @deprecated("will be removed in SciPy v2.0.0")
 def hstack(blocks: object, format: object = None, dtype: object = None) -> Any: ...
 @deprecated("will be removed in SciPy v2.0.0")
-def eye(m: object, n: object = None, k: object = 0, dtype: object = ..., format: object = None) -> Any: ...
+def eye(
+    m: object,
+    n: object = None,
+    k: object = 0,
+    dtype: object = ...,
+    format: object = None,
+) -> Any: ...
 @deprecated("will be removed in SciPy v2.0.0")
-def diags(diagonals: object, offsets: object = 0, shape: object = None, format: object = None, dtype: object = ...) -> Any: ...
+def diags(
+    diagonals: object,
+    offsets: object = 0,
+    shape: object = None,
+    format: object = None,
+    dtype: object = ...,
+) -> Any: ...
 @deprecated("will be removed in SciPy v2.0.0")
 def bmat(blocks: object, format: object = None, dtype: object = None) -> Any: ...
 
 # sputils
 @deprecated("will be removed in SciPy v2.0.0")
-def get_index_dtype(arrays: object = (), maxval: object = None, check_contents: object = False) -> Any: ...
+def get_index_dtype(
+    arrays: object = (), maxval: object = None, check_contents: object = False
+) -> Any: ...

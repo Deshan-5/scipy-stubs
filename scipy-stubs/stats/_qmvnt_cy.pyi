@@ -7,7 +7,9 @@ import optype.numpy as onp
 
 ###
 
-gammaincinv: Final[np.ufunc] = ...  # implicit re-export from `scipy.special`, required by stubtest
+gammaincinv: Final[np.ufunc] = (
+    ...
+)  # implicit re-export from `scipy.special`, required by stubtest
 
 def _qmvn_inner(
     q: onp.Array1D[np.float64],

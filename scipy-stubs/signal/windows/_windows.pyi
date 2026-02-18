@@ -45,147 +45,294 @@ _Norm: TypeAlias = Literal[2, "approximate", "subsample"]
 
 _ToWindow = TypeAliasType(
     "_ToWindow",
-    float | str | tuple[str] | tuple[str, float | onp.ToFloat1D] | tuple[str, float, float | int] | tuple[str, int, int, bool],
+    float
+    | str
+    | tuple[str]
+    | tuple[str, float | onp.ToFloat1D]
+    | tuple[str, float, float | int]
+    | tuple[str, int, int, bool],
 )
 
 ###
 
 @overload
 def get_window(
-    window: _ToWindow, Nx: int, fftbins: bool = True, *, xp: None = None, device: _DeviceNP | None = None
+    window: _ToWindow,
+    Nx: int,
+    fftbins: bool = True,
+    *,
+    xp: None = None,
+    device: _DeviceNP | None = None,
 ) -> _Float64_1D: ...
 @overload
 def get_window(
-    window: _ToWindow, Nx: int, fftbins: bool = True, *, xp: ModuleType, device: Incomplete | None = None
+    window: _ToWindow,
+    Nx: int,
+    fftbins: bool = True,
+    *,
+    xp: ModuleType,
+    device: Incomplete | None = None,
 ) -> Incomplete: ...
 
 #
 @overload
-def barthann(M: int, sym: bool = True, *, xp: None = None, device: _DeviceNP | None = None) -> _Float64_1D: ...
+def barthann(
+    M: int, sym: bool = True, *, xp: None = None, device: _DeviceNP | None = None
+) -> _Float64_1D: ...
 @overload
-def barthann(M: int, sym: bool = True, *, xp: ModuleType, device: Incomplete | None = None) -> Incomplete: ...
+def barthann(
+    M: int, sym: bool = True, *, xp: ModuleType, device: Incomplete | None = None
+) -> Incomplete: ...
 
 #
 @overload
-def bartlett(M: int, sym: bool = True, *, xp: None = None, device: _DeviceNP | None = None) -> _Float64_1D: ...
+def bartlett(
+    M: int, sym: bool = True, *, xp: None = None, device: _DeviceNP | None = None
+) -> _Float64_1D: ...
 @overload
-def bartlett(M: int, sym: bool = True, *, xp: ModuleType, device: Incomplete | None = None) -> Incomplete: ...
+def bartlett(
+    M: int, sym: bool = True, *, xp: ModuleType, device: Incomplete | None = None
+) -> Incomplete: ...
 
 #
 @overload
-def blackman(M: int, sym: bool = True, *, xp: None = None, device: _DeviceNP | None = None) -> _Float64_1D: ...
+def blackman(
+    M: int, sym: bool = True, *, xp: None = None, device: _DeviceNP | None = None
+) -> _Float64_1D: ...
 @overload
-def blackman(M: int, sym: bool = True, *, xp: ModuleType, device: Incomplete | None = None) -> Incomplete: ...
+def blackman(
+    M: int, sym: bool = True, *, xp: ModuleType, device: Incomplete | None = None
+) -> Incomplete: ...
 
 #
 @overload
-def blackmanharris(M: int, sym: bool = True, *, xp: None = None, device: _DeviceNP | None = None) -> _Float64_1D: ...
+def blackmanharris(
+    M: int, sym: bool = True, *, xp: None = None, device: _DeviceNP | None = None
+) -> _Float64_1D: ...
 @overload
-def blackmanharris(M: int, sym: bool = True, *, xp: ModuleType, device: Incomplete | None = None) -> Incomplete: ...
+def blackmanharris(
+    M: int, sym: bool = True, *, xp: ModuleType, device: Incomplete | None = None
+) -> Incomplete: ...
 
 #
 @overload
-def bohman(M: int, sym: bool = True, *, xp: None = None, device: _DeviceNP | None = None) -> _Float64_1D: ...
+def bohman(
+    M: int, sym: bool = True, *, xp: None = None, device: _DeviceNP | None = None
+) -> _Float64_1D: ...
 @overload
-def bohman(M: int, sym: bool = True, *, xp: ModuleType, device: Incomplete | None = None) -> Incomplete: ...
+def bohman(
+    M: int, sym: bool = True, *, xp: ModuleType, device: Incomplete | None = None
+) -> Incomplete: ...
 
 #
 @overload
-def boxcar(M: int, sym: bool = True, *, xp: None = None, device: _DeviceNP | None = None) -> _Float64_1D: ...
+def boxcar(
+    M: int, sym: bool = True, *, xp: None = None, device: _DeviceNP | None = None
+) -> _Float64_1D: ...
 @overload
-def boxcar(M: int, sym: bool = True, *, xp: ModuleType, device: Incomplete | None = None) -> Incomplete: ...
+def boxcar(
+    M: int, sym: bool = True, *, xp: ModuleType, device: Incomplete | None = None
+) -> Incomplete: ...
 
 #
 @overload
-def cosine(M: int, sym: bool = True, *, xp: None = None, device: _DeviceNP | None = None) -> _Float64_1D: ...
+def cosine(
+    M: int, sym: bool = True, *, xp: None = None, device: _DeviceNP | None = None
+) -> _Float64_1D: ...
 @overload
-def cosine(M: int, sym: bool = True, *, xp: ModuleType, device: Incomplete | None = None) -> Incomplete: ...
+def cosine(
+    M: int, sym: bool = True, *, xp: ModuleType, device: Incomplete | None = None
+) -> Incomplete: ...
 
 #
 @overload
-def flattop(M: int, sym: bool = True, *, xp: None = None, device: _DeviceNP | None = None) -> _Float64_1D: ...
+def flattop(
+    M: int, sym: bool = True, *, xp: None = None, device: _DeviceNP | None = None
+) -> _Float64_1D: ...
 @overload
-def flattop(M: int, sym: bool = True, *, xp: ModuleType, device: Incomplete | None = None) -> Incomplete: ...
+def flattop(
+    M: int, sym: bool = True, *, xp: ModuleType, device: Incomplete | None = None
+) -> Incomplete: ...
 
 #
 @overload
-def hamming(M: int, sym: bool = True, *, xp: None = None, device: _DeviceNP | None = None) -> _Float64_1D: ...
+def hamming(
+    M: int, sym: bool = True, *, xp: None = None, device: _DeviceNP | None = None
+) -> _Float64_1D: ...
 @overload
-def hamming(M: int, sym: bool = True, *, xp: ModuleType, device: Incomplete | None = None) -> Incomplete: ...
+def hamming(
+    M: int, sym: bool = True, *, xp: ModuleType, device: Incomplete | None = None
+) -> Incomplete: ...
 
 #
 @overload
-def hann(M: int, sym: bool = True, *, xp: None = None, device: _DeviceNP | None = None) -> _Float64_1D: ...
+def hann(
+    M: int, sym: bool = True, *, xp: None = None, device: _DeviceNP | None = None
+) -> _Float64_1D: ...
 @overload
-def hann(M: int, sym: bool = True, *, xp: ModuleType, device: Incomplete | None = None) -> Incomplete: ...
+def hann(
+    M: int, sym: bool = True, *, xp: ModuleType, device: Incomplete | None = None
+) -> Incomplete: ...
 
 #
 @overload
-def lanczos(M: int, *, sym: bool = True, xp: None = None, device: _DeviceNP | None = None) -> _Float64_1D: ...
+def lanczos(
+    M: int, *, sym: bool = True, xp: None = None, device: _DeviceNP | None = None
+) -> _Float64_1D: ...
 @overload
-def lanczos(M: int, *, sym: bool = True, xp: ModuleType, device: Incomplete | None = None) -> Incomplete: ...
+def lanczos(
+    M: int, *, sym: bool = True, xp: ModuleType, device: Incomplete | None = None
+) -> Incomplete: ...
 
 #
 @overload
-def nuttall(M: int, sym: bool = True, *, xp: None = None, device: _DeviceNP | None = None) -> _Float64_1D: ...
+def nuttall(
+    M: int, sym: bool = True, *, xp: None = None, device: _DeviceNP | None = None
+) -> _Float64_1D: ...
 @overload
-def nuttall(M: int, sym: bool = True, *, xp: ModuleType, device: Incomplete | None = None) -> Incomplete: ...
+def nuttall(
+    M: int, sym: bool = True, *, xp: ModuleType, device: Incomplete | None = None
+) -> Incomplete: ...
 
 #
 @overload
-def parzen(M: int, sym: bool = True, *, xp: None = None, device: _DeviceNP | None = None) -> _Float64_1D: ...
+def parzen(
+    M: int, sym: bool = True, *, xp: None = None, device: _DeviceNP | None = None
+) -> _Float64_1D: ...
 @overload
-def parzen(M: int, sym: bool = True, *, xp: ModuleType, device: Incomplete | None = None) -> Incomplete: ...
+def parzen(
+    M: int, sym: bool = True, *, xp: ModuleType, device: Incomplete | None = None
+) -> Incomplete: ...
 
 #
 @overload
-def triang(M: int, sym: bool = True, *, xp: None = None, device: _DeviceNP | None = None) -> _Float64_1D: ...
+def triang(
+    M: int, sym: bool = True, *, xp: None = None, device: _DeviceNP | None = None
+) -> _Float64_1D: ...
 @overload
-def triang(M: int, sym: bool = True, *, xp: ModuleType, device: Incomplete | None = None) -> Incomplete: ...
+def triang(
+    M: int, sym: bool = True, *, xp: ModuleType, device: Incomplete | None = None
+) -> Incomplete: ...
 
 #
 @overload
-def chebwin(M: int, at: float, sym: bool = True, *, xp: None = None, device: _DeviceNP | None = None) -> _Float64_1D: ...
+def chebwin(
+    M: int,
+    at: float,
+    sym: bool = True,
+    *,
+    xp: None = None,
+    device: _DeviceNP | None = None,
+) -> _Float64_1D: ...
 @overload
-def chebwin(M: int, at: float, sym: bool = True, *, xp: ModuleType, device: Incomplete | None = None) -> Incomplete: ...
+def chebwin(
+    M: int,
+    at: float,
+    sym: bool = True,
+    *,
+    xp: ModuleType,
+    device: Incomplete | None = None,
+) -> Incomplete: ...
 
 #
 @overload
-def gaussian(M: int, std: float, sym: bool = True, *, xp: None = None, device: _DeviceNP | None = None) -> _Float64_1D: ...
+def gaussian(
+    M: int,
+    std: float,
+    sym: bool = True,
+    *,
+    xp: None = None,
+    device: _DeviceNP | None = None,
+) -> _Float64_1D: ...
 @overload
-def gaussian(M: int, std: float, sym: bool = True, *, xp: ModuleType, device: Incomplete | None = None) -> Incomplete: ...
+def gaussian(
+    M: int,
+    std: float,
+    sym: bool = True,
+    *,
+    xp: ModuleType,
+    device: Incomplete | None = None,
+) -> Incomplete: ...
 
 #
 @overload
 def general_hamming(
-    M: int, alpha: float, sym: bool = True, *, xp: None = None, device: _DeviceNP | None = None
+    M: int,
+    alpha: float,
+    sym: bool = True,
+    *,
+    xp: None = None,
+    device: _DeviceNP | None = None,
 ) -> _Float64_1D: ...
 @overload
 def general_hamming(
-    M: int, alpha: float, sym: bool = True, *, xp: ModuleType, device: Incomplete | None = None
+    M: int,
+    alpha: float,
+    sym: bool = True,
+    *,
+    xp: ModuleType,
+    device: Incomplete | None = None,
 ) -> Incomplete: ...
 
 #
 @overload
-def kaiser(M: int, beta: float, sym: bool = True, *, xp: None = None, device: _DeviceNP | None = None) -> _Float64_1D: ...
+def kaiser(
+    M: int,
+    beta: float,
+    sym: bool = True,
+    *,
+    xp: None = None,
+    device: _DeviceNP | None = None,
+) -> _Float64_1D: ...
 @overload
-def kaiser(M: int, beta: float, sym: bool = True, *, xp: ModuleType, device: Incomplete | None = None) -> Incomplete: ...
+def kaiser(
+    M: int,
+    beta: float,
+    sym: bool = True,
+    *,
+    xp: ModuleType,
+    device: Incomplete | None = None,
+) -> Incomplete: ...
 
 #
 @overload
 def kaiser_bessel_derived(
-    M: int, beta: float, *, sym: bool = True, xp: None = None, device: _DeviceNP | None = None
+    M: int,
+    beta: float,
+    *,
+    sym: bool = True,
+    xp: None = None,
+    device: _DeviceNP | None = None,
 ) -> _Float64_1D: ...
 @overload
 def kaiser_bessel_derived(
-    M: int, beta: float, *, sym: bool = True, xp: ModuleType, device: Incomplete | None = None
+    M: int,
+    beta: float,
+    *,
+    sym: bool = True,
+    xp: ModuleType,
+    device: Incomplete | None = None,
 ) -> Incomplete: ...
 
 #
 @overload
-def tukey(M: int, alpha: float = 0.5, sym: bool = True, *, xp: None = None, device: _DeviceNP | None = None) -> _Float64_1D: ...
+def tukey(
+    M: int,
+    alpha: float = 0.5,
+    sym: bool = True,
+    *,
+    xp: None = None,
+    device: _DeviceNP | None = None,
+) -> _Float64_1D: ...
 @overload
-def tukey(M: int, alpha: float = 0.5, sym: bool = True, *, xp: ModuleType, device: Incomplete | None = None) -> Incomplete: ...
+def tukey(
+    M: int,
+    alpha: float = 0.5,
+    sym: bool = True,
+    *,
+    xp: ModuleType,
+    device: Incomplete | None = None,
+) -> Incomplete: ...
 
 #
 def general_cosine(M: int, a: onp.ToFloat1D, sym: bool = True) -> _Float64_1D: ...
@@ -193,21 +340,45 @@ def general_cosine(M: int, a: onp.ToFloat1D, sym: bool = True) -> _Float64_1D: .
 #
 @overload
 def exponential(
-    M: int, center: float | None = None, tau: float = 1.0, sym: bool = True, *, xp: None = None, device: _DeviceNP | None = None
+    M: int,
+    center: float | None = None,
+    tau: float = 1.0,
+    sym: bool = True,
+    *,
+    xp: None = None,
+    device: _DeviceNP | None = None,
 ) -> _Float64_1D: ...
 @overload
 def exponential(
-    M: int, center: float | None = None, tau: float = 1.0, sym: bool = True, *, xp: ModuleType, device: Incomplete | None = None
+    M: int,
+    center: float | None = None,
+    tau: float = 1.0,
+    sym: bool = True,
+    *,
+    xp: ModuleType,
+    device: Incomplete | None = None,
 ) -> Incomplete: ...
 
 #
 @overload
 def general_gaussian(
-    M: int, p: float, sig: float, sym: bool = True, *, xp: None = None, device: _DeviceNP | None = None
+    M: int,
+    p: float,
+    sig: float,
+    sym: bool = True,
+    *,
+    xp: None = None,
+    device: _DeviceNP | None = None,
 ) -> _Float64_1D: ...
 @overload
 def general_gaussian(
-    M: int, p: float, sig: float, sym: bool = True, *, xp: ModuleType, device: Incomplete | None = None
+    M: int,
+    p: float,
+    sig: float,
+    sym: bool = True,
+    *,
+    xp: ModuleType,
+    device: Incomplete | None = None,
 ) -> Incomplete: ...
 
 #

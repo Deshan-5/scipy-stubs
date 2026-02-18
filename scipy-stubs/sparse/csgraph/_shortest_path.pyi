@@ -11,7 +11,9 @@ _Int2D: TypeAlias = onp.Array2D[np.int32]
 _Float1D: TypeAlias = onp.Array1D[np.float64]
 _Float2D: TypeAlias = onp.Array2D[np.float64]
 
-_ToGraphArray: TypeAlias = onp.ToFloat2D | _spbase[np.bool_ | npc.integer | npc.floating]
+_ToGraphArray: TypeAlias = (
+    onp.ToFloat2D | _spbase[np.bool_ | npc.integer | npc.floating]
+)
 
 _ShortestPathMethod: TypeAlias = Literal["auto", "FW", "D", "BF", "J"]
 
@@ -66,7 +68,11 @@ def floyd_warshall(
 ) -> _Float2D: ...
 @overload
 def floyd_warshall(
-    csgraph: _ToGraphArray, directed: bool, return_predecessors: onp.ToTrue, unweighted: bool = False, overwrite: bool = False
+    csgraph: _ToGraphArray,
+    directed: bool,
+    return_predecessors: onp.ToTrue,
+    unweighted: bool = False,
+    overwrite: bool = False,
 ) -> tuple[_Float2D, _Int2D]: ...
 @overload
 def floyd_warshall(
@@ -155,7 +161,11 @@ def bellman_ford(
 ) -> _Float2D: ...
 @overload
 def bellman_ford(
-    csgraph: _ToGraphArray, directed: bool, indices: onp.ToIntND | None, return_predecessors: onp.ToTrue, unweighted: bool = False
+    csgraph: _ToGraphArray,
+    directed: bool,
+    indices: onp.ToIntND | None,
+    return_predecessors: onp.ToTrue,
+    unweighted: bool = False,
 ) -> tuple[_Float2D, _Int2D]: ...
 @overload
 def bellman_ford(
@@ -178,7 +188,11 @@ def johnson(
 ) -> _Float2D: ...
 @overload
 def johnson(
-    csgraph: _ToGraphArray, directed: bool, indices: onp.ToIntND | None, return_predecessors: onp.ToTrue, unweighted: bool = False
+    csgraph: _ToGraphArray,
+    directed: bool,
+    indices: onp.ToIntND | None,
+    return_predecessors: onp.ToTrue,
+    unweighted: bool = False,
 ) -> tuple[_Float2D, _Int2D]: ...
 @overload
 def johnson(

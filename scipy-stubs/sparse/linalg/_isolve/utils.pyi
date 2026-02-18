@@ -12,7 +12,9 @@ __all__: list[str] = []
 
 _T = TypeVar("_T")
 _Char: TypeAlias = Literal["f", "d", "F", "D"]
-_ToLinearOperator: TypeAlias = onp.CanArrayND[npc.number | np.bool_] | _spbase | LinearOperator
+_ToLinearOperator: TypeAlias = (
+    onp.CanArrayND[npc.number | np.bool_] | _spbase | LinearOperator
+)
 _Inexact: TypeAlias = np.float32 | np.float64 | np.complex64 | np.complex128
 
 ###
@@ -23,7 +25,10 @@ _coerce_rules: Final[dict[tuple[_Char, _Char], _Char]]
 def id(x: _T) -> _T: ...
 def coerce(x: str, y: str) -> _Char: ...
 def make_system(
-    A: _ToLinearOperator, M: _ToLinearOperator | None, x0: onp.ToComplex1D | Literal["Mb"] | None, b: onp.ToComplex1D
+    A: _ToLinearOperator,
+    M: _ToLinearOperator | None,
+    x0: onp.ToComplex1D | Literal["Mb"] | None,
+    b: onp.ToComplex1D,
 ) -> tuple[
     LinearOperator,  # A
     LinearOperator,  # M

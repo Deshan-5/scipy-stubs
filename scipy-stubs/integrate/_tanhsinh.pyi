@@ -23,7 +23,9 @@ _Callback: TypeAlias = Callable[[_ResultT], object]  # return value is ignored
 
 _Integrand: TypeAlias = Callable[Concatenate[_InT, ...], onp.ArrayND[_ScalarT]]
 _IntegrandReal: TypeAlias = _Integrand[onp.ArrayND[np.float64], npc.floating]
-_IntegrandComplex: TypeAlias = _Integrand[onp.ArrayND[np.float64] | onp.ArrayND[np.complex128], npc.complexfloating]
+_IntegrandComplex: TypeAlias = _Integrand[
+    onp.ArrayND[np.float64] | onp.ArrayND[np.complex128], npc.complexfloating
+]
 
 @type_check_only
 class _TanhSinhResult(
@@ -65,7 +67,9 @@ class _NSumResult0(_RichResult[np.bool_ | np.int32 | np.float64]):
     nfev: Final[np.int32]
 
 @type_check_only
-class _NSumResultN(_RichResult[onp.ArrayND[np.bool_] | onp.ArrayND[np.int32] | onp.ArrayND[np.float64]]):
+class _NSumResultN(
+    _RichResult[onp.ArrayND[np.bool_] | onp.ArrayND[np.int32] | onp.ArrayND[np.float64]]
+):
     sum: Final[onp.ArrayND[np.float64]]
     error: Final[onp.ArrayND[np.float64]]
     success: Final[onp.ArrayND[np.bool_]]

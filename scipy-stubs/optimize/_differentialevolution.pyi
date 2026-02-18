@@ -48,20 +48,30 @@ def differential_evolution(
     func: Callable[Concatenate[_Float1D, ...], onp.ToFloat],
     bounds: tuple[onp.ToFloat | onp.ToFloat1D, onp.ToFloat | onp.ToFloat1D] | Bounds,
     args: tuple[object, ...] = (),
-    strategy: _StrategyName | Callable[[int, _Float2D, np.random.Generator], onp.ToFloat1D] = "best1bin",
+    strategy: (
+        _StrategyName | Callable[[int, _Float2D, np.random.Generator], onp.ToFloat1D]
+    ) = "best1bin",
     maxiter: onp.ToJustInt = 1000,
     popsize: onp.ToJustInt = 15,
     tol: onp.ToFloat = 0.01,
     mutation: onp.ToFloat | tuple[onp.ToFloat, onp.ToFloat] = (0.5, 1),
     recombination: onp.ToFloat = 0.7,
     rng: onp.random.ToRNG | None = None,
-    callback: Callable[[OptimizeResult], None] | Callable[[_Float1D, onp.ToFloat], None] | None = None,
+    callback: (
+        Callable[[OptimizeResult], None]
+        | Callable[[_Float1D, onp.ToFloat], None]
+        | None
+    ) = None,
     disp: onp.ToBool = False,
     polish: onp.ToBool = True,
-    init: onp.ToFloat2D | Literal["sobol", "halton", "random", "latinhypercube"] = "latinhypercube",
+    init: (
+        onp.ToFloat2D | Literal["sobol", "halton", "random", "latinhypercube"]
+    ) = "latinhypercube",
     atol: onp.ToFloat = 0,
     updating: Literal["immediate", "deferred"] = "immediate",
-    workers: onp.ToJustInt | Callable[[Callable[[_S], _T], Iterable[_S]], Iterable[_T]] = 1,
+    workers: (
+        onp.ToJustInt | Callable[[Callable[[_S], _T], Iterable[_S]], Iterable[_T]]
+    ) = 1,
     constraints: NonlinearConstraint | LinearConstraint | Bounds | tuple[()] = (),
     x0: onp.ToArray1D | None = None,
     *,

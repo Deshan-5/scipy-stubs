@@ -24,4 +24,6 @@ def tnc_minimize(
     pgtol: float,
     rescale: float,
     callback: Callable[..., object] | None = None,
-) -> tuple[int, int, int, onp.Array1D[np.float64], float, onp.Array1D[np.float64]]: ...  # -> (rc, nfeval, niter, x, f, g)
+) -> tuple[
+    int, int, int, onp.Array1D[np.float64], float, onp.Array1D[np.float64]
+]: ...  # -> (rc, nfeval, niter, x, f, g)

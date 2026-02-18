@@ -14,7 +14,9 @@ from ._util import _RichResult
 
 _FloatT = TypeVar("_FloatT", bound=npc.floating)
 _ShapeT = TypeVar("_ShapeT", bound=tuple[int, *tuple[int, ...]])
-_FuncRealT = TypeVar("_FuncRealT", bound=Callable[Concatenate[onp.ArrayND[np.float64], ...], object])
+_FuncRealT = TypeVar(
+    "_FuncRealT", bound=Callable[Concatenate[onp.ArrayND[np.float64], ...], object]
+)
 _ModuleT = TypeVar("_ModuleT", bound=ModuleType)
 _WorkT = TypeVar("_WorkT", bound=Mapping[str, Any])
 _ResT = TypeVar("_ResT", bound=_RichResult[Any])
@@ -60,7 +62,9 @@ def _loop(
     args: tuple[onp.ArrayND[npc.floating], ...],
     dtype: npc.inexact,
     pre_func_eval: Callable[[_ResT], onp.Array[_ShapeT, _FloatT]],
-    post_func_eval: Callable[[onp.Array[_ShapeT, _FloatT], onp.Array[_ShapeT, npc.floating], _ResT], _Ignored],
+    post_func_eval: Callable[
+        [onp.Array[_ShapeT, _FloatT], onp.Array[_ShapeT, npc.floating], _ResT], _Ignored
+    ],
     check_termination: Callable[[_ResT], onp.Array[_ShapeT, np.bool_]],
     post_termination_check: Callable[[_ResT], _Ignored],
     customize_result: Callable[[_ResT, tuple[int, ...]], tuple[int, ...]],

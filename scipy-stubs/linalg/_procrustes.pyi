@@ -13,11 +13,15 @@ _Complex: TypeAlias = np.complex64 | np.complex128
 
 @overload
 def orthogonal_procrustes(
-    A: onp.ToFloat64, B: onp.ToIntND | onp.ToJustFloat64, check_finite: op.CanBool = True
+    A: onp.ToFloat64,
+    B: onp.ToIntND | onp.ToJustFloat64,
+    check_finite: op.CanBool = True,
 ) -> tuple[onp.ArrayND[np.float64], np.float64]: ...
 @overload
 def orthogonal_procrustes(
-    A: onp.ToIntND | onp.ToJustFloat64, B: onp.ToFloat64, check_finite: op.CanBool = True
+    A: onp.ToIntND | onp.ToJustFloat64,
+    B: onp.ToFloat64,
+    check_finite: op.CanBool = True,
 ) -> tuple[onp.ArrayND[np.float64], np.float64]: ...
 @overload
 def orthogonal_procrustes(

@@ -8,7 +8,12 @@ import optype.numpy as onp
 from ._minimize import OptimizeResult
 from ._trustregion import BaseQuadraticSubproblem
 
-__all__ = ["IterativeSubproblem", "_minimize_trustregion_exact", "estimate_smallest_singular_value", "singular_leading_submatrix"]
+__all__ = [
+    "IterativeSubproblem",
+    "_minimize_trustregion_exact",
+    "estimate_smallest_singular_value",
+    "singular_leading_submatrix",
+]
 
 class _TrustRegionOptions(TypedDict, total=False):
     initial_trust_radius: onp.ToFloat
@@ -22,12 +27,20 @@ def _minimize_trustregion_exact(
     fun: Callable[Concatenate[onp.Array1D[np.float64], ...], onp.ToFloat],
     x0: onp.ToFloat1D,
     args: tuple[object, ...] = (),
-    jac: Callable[Concatenate[onp.Array1D[np.float64], ...], onp.ToFloat1D] | None = None,
-    hess: Callable[Concatenate[onp.Array1D[np.float64], ...], onp.ToFloat2D] | None = None,
+    jac: (
+        Callable[Concatenate[onp.Array1D[np.float64], ...], onp.ToFloat1D] | None
+    ) = None,
+    hess: (
+        Callable[Concatenate[onp.Array1D[np.float64], ...], onp.ToFloat2D] | None
+    ) = None,
     **trust_region_options: Unpack[_TrustRegionOptions],
 ) -> OptimizeResult: ...
-def estimate_smallest_singular_value(U: onp.ToFloat2D) -> tuple[float | np.float64, onp.Array1D[np.float64]]: ...
-def gershgorin_bounds(H: onp.ToFloat2D) -> tuple[float | np.float64, float | np.float64]: ...
+def estimate_smallest_singular_value(
+    U: onp.ToFloat2D,
+) -> tuple[float | np.float64, onp.Array1D[np.float64]]: ...
+def gershgorin_bounds(
+    H: onp.ToFloat2D,
+) -> tuple[float | np.float64, float | np.float64]: ...
 def singular_leading_submatrix(
     A: onp.ToFloat2D, U: onp.ToFloat2D, k: onp.ToJustInt
 ) -> tuple[float | np.float64, onp.Array1D[np.float64]]: ...
@@ -55,11 +68,18 @@ class IterativeSubproblem(BaseQuadraticSubproblem):
         fun: Callable[[onp.Array1D[np.float64]], onp.ToFloat],
         jac: Callable[[onp.Array1D[np.float64]], onp.ToFloat1D],
         hess: Callable[[onp.Array1D[np.float64]], onp.ToFloat2D],
-        hessp: Callable[[onp.Array1D[np.float64], onp.Array1D[np.float64]], onp.ToFloat1D] | None = None,
+        hessp: (
+            Callable[[onp.Array1D[np.float64], onp.Array1D[np.float64]], onp.ToFloat1D]
+            | None
+        ) = None,
         k_easy: onp.ToFloat = 0.1,
         k_hard: onp.ToFloat = 0.2,
         maxiter: float | None = None,
     ) -> None: ...
     @override
     # pyrefly: ignore[bad-param-name-override]
-    def solve(self, /, tr_radius: onp.ToFloat) -> tuple[onp.ArrayND[np.float64], bool]: ...  # pyright: ignore[reportIncompatibleMethodOverride] # ty: ignore[invalid-method-override]
+    def solve(
+        self, /, tr_radius: onp.ToFloat
+    ) -> tuple[
+        onp.ArrayND[np.float64], bool
+    ]: ...  # pyright: ignore[reportIncompatibleMethodOverride] # ty: ignore[invalid-method-override]

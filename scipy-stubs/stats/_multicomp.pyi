@@ -27,7 +27,9 @@ class DunnettResult:
     _ci: ConfidenceInterval | None = None
     _ci_cl: float | npc.floating | None = None
 
-    def confidence_interval(self, /, confidence_level: float | npc.floating = 0.95) -> ConfidenceInterval: ...
+    def confidence_interval(
+        self, /, confidence_level: float | npc.floating = 0.95
+    ) -> ConfidenceInterval: ...
 
 def dunnett(
     *samples: onp.ToFloat1D,

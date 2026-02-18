@@ -38,13 +38,24 @@ class MMFile:
     FIELD_REAL: ClassVar[str] = "real"
     FIELD_COMPLEX: ClassVar[str] = "complex"
     FIELD_PATTERN: ClassVar[str] = "pattern"
-    FIELD_VALUES: ClassVar[tuple[str, ...]] = "integer", "unsigned-integer", "real", "complex", "pattern"
+    FIELD_VALUES: ClassVar[tuple[str, ...]] = (
+        "integer",
+        "unsigned-integer",
+        "real",
+        "complex",
+        "pattern",
+    )
 
     SYMMETRY_GENERAL: ClassVar[str] = "general"
     SYMMETRY_SYMMETRIC: ClassVar[str] = "symmetric"
     SYMMETRY_SKEW_SYMMETRIC: ClassVar[str] = "skew-symmetric"
     SYMMETRY_HERMITIAN: ClassVar[str] = "hermitian"
-    SYMMETRY_VALUES: ClassVar[tuple[str, ...]] = "general", "symmetric", "skew-symmetric", "hermitian"
+    SYMMETRY_VALUES: ClassVar[tuple[str, ...]] = (
+        "general",
+        "symmetric",
+        "skew-symmetric",
+        "hermitian",
+    )
 
     DTYPES_BY_FIELD: ClassVar[dict[_Field, Literal["intp", "uint64", "d", "D"]]] = ...
 
@@ -68,9 +79,13 @@ class MMFile:
 
     #
     @overload
-    def read(self, /, source: FileLike[bytes], *, spmatrix: onp.ToTrue = True) -> onp.ArrayND[npc.number] | coo_array: ...
+    def read(
+        self, /, source: FileLike[bytes], *, spmatrix: onp.ToTrue = True
+    ) -> onp.ArrayND[npc.number] | coo_array: ...
     @overload
-    def read(self, /, source: FileLike[bytes], *, spmatrix: onp.ToFalse) -> onp.ArrayND[npc.number] | coo_matrix: ...
+    def read(
+        self, /, source: FileLike[bytes], *, spmatrix: onp.ToFalse
+    ) -> onp.ArrayND[npc.number] | coo_matrix: ...
 
     #
     def write(

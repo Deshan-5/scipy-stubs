@@ -25,4 +25,6 @@ idx: int = 1  # undocumented
 sig: tuple[bytes, int] = ...  # undocumented
 sigs: list[tuple[bytes, int]] = ...  # undocumented
 
-def test_call_cython(callback_obj: Callable[[float], SupportsFloat], value: float) -> float: ...  # undocumented
+def test_call_cython(
+    callback_obj: Callable[[float], SupportsFloat], value: float
+) -> float: ...  # undocumented

@@ -12,7 +12,9 @@ _ArrayT = TypeVar("_ArrayT", bound=onp.ArrayND[npc.inexact32 | npc.inexact64])
 @final
 class error(Exception): ...  # undocumented
 
-def _inv(Am: _ArrayT, structure: int, overwrite_a: bool, lower: bool, /) -> tuple[_ArrayT, list[dict[str, float]]]: ...
+def _inv(
+    Am: _ArrayT, structure: int, overwrite_a: bool, lower: bool, /
+) -> tuple[_ArrayT, list[dict[str, float]]]: ...
 def _solve(
     Am: _ArrayT,
     b: onp.ArrayND[npc.inexact32 | npc.inexact64],

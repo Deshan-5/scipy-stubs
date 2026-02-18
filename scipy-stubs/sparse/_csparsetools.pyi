@@ -31,13 +31,28 @@ _FusedScalarT = TypeVar(
 
 #
 def lil_get1(
-    M: _Index, N: _Index, rows: list[list[_FusedScalarT]], datas: list[list[_FusedScalarT]], i: int, j: int
+    M: _Index,
+    N: _Index,
+    rows: list[list[_FusedScalarT]],
+    datas: list[list[_FusedScalarT]],
+    i: int,
+    j: int,
 ) -> _FusedScalarT: ...
 def lil_insert(
-    M: _Index, N: _Index, rows: list[list[_FusedScalarT]], datas: list[list[_FusedScalarT]], i: int, j: int, x: _FusedScalarT
+    M: _Index,
+    N: _Index,
+    rows: list[list[_FusedScalarT]],
+    datas: list[list[_FusedScalarT]],
+    i: int,
+    j: int,
+    x: _FusedScalarT,
 ) -> None: ...
-def lil_get_lengths(input: list[list[_FusedScalarT]], output: onp.Array1D[npc.integer]) -> None: ...
-def lil_flatten_to_array(input: onp.Array1D[np.object_ | np.float64], output: onp.Array1D[_Scalar]) -> None: ...
+def lil_get_lengths(
+    input: list[list[_FusedScalarT]], output: onp.Array1D[npc.integer]
+) -> None: ...
+def lil_flatten_to_array(
+    input: onp.Array1D[np.object_ | np.float64], output: onp.Array1D[_Scalar]
+) -> None: ...
 def lil_fancy_get(
     M: _Index,
     N: _Index,

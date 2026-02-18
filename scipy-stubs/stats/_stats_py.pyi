@@ -176,10 +176,40 @@ class BrunnerMunzelResult(_TestResultTuple[_FloatOrArrayT_co], Generic[_FloatOrA
 class F_onewayResult(_TestResultTuple[_FloatOrArrayT_co], Generic[_FloatOrArrayT_co]): ...
 
 class ConfidenceInterval(NamedTuple, Generic[_FloatOrArrayT_co]):
+    """
+    Confidence interval for an estimate.
+
+    Parameters
+    ----------
+    low : float | array_like
+        Lower bound of the confidence interval.
+    high : float | array_like
+        Upper bound of the confidence interval.
+    """
+
     low: _FloatOrArrayT_co
     high: _FloatOrArrayT_co
 
 class DescribeResult(NamedTuple, Generic[_RealOrArrayT_co, _FloatOrArrayT_co]):
+    """
+    Result of a descriptive statistics computation.
+
+    Parameters
+    ----------
+    nobs : int
+        Number of observations.
+    minmax : tuple
+        Minimum and maximum of the data.
+    mean : float | array_like
+        Mean of the data.
+    variance : float | array_like
+        Variance of the data.
+    skewness : float | array_like
+        Skewness of the data.
+    kurtosis : float | array_like
+        Kurtosis of the data.
+    """
+
     nobs: int
     minmax: tuple[_RealOrArrayT_co, _RealOrArrayT_co]
     mean: _FloatOrArrayT_co
@@ -188,39 +218,143 @@ class DescribeResult(NamedTuple, Generic[_RealOrArrayT_co, _FloatOrArrayT_co]):
     kurtosis: _FloatOrArrayT_co
 
 class ModeResult(NamedTuple, Generic[_RealOrArrayT_co, _IntOrArrayT_co]):
+    """
+    Result of computing the mode(s) of a dataset.
+
+    Parameters
+    ----------
+    mode : array_like
+        Mode value(s) of the data.
+    count : int | array_like
+        Count(s) of occurrences of the mode(s).
+    """
+
     mode: _RealOrArrayT_co
     count: _IntOrArrayT_co  # type: ignore[assignment]  # pyright: ignore[reportIncompatibleMethodOverride]
 
 class HistogramResult(NamedTuple):
+    """
+    Result of a histogram computation.
+
+    Parameters
+    ----------
+    count : array_like
+        Number of occurrences in each bin.
+    lowerlimit : float
+        Lower limit of the first bin.
+    binsize : array_like
+        Size of each bin.
+    extrapoints : int
+        Number of points outside the histogram range.
+    """
+
     count: onp.Array1D[np.float64]  # type: ignore[assignment]  # pyright: ignore[reportIncompatibleMethodOverride]
     lowerlimit: L[0] | npc.floating
     binsize: onp.Array1D[np.float64]
     extrapoints: int
 
 class CumfreqResult(NamedTuple):
+    """
+    Result of cumulative frequency computation.
+
+    Parameters
+    ----------
+    cumcount : array_like
+        Cumulative counts for each bin.
+    lowerlimit : float
+        Lower limit of the first bin.
+    binsize : array_like
+        Size of each bin.
+    extrapoints : int
+        Number of points outside the histogram range.
+    """
+
     cumcount: onp.Array1D[np.float64]
     lowerlimit: L[0] | npc.floating
     binsize: onp.Array1D[np.float64]
     extrapoints: int
 
 class RelfreqResult(NamedTuple):
+    """
+    Result of relative frequency computation.
+
+    Parameters
+    ----------
+    frequency : array_like
+        Relative frequency of each bin.
+    lowerlimit : float
+        Lower limit of the first bin.
+    binsize : array_like
+        Size of each bin.
+    extrapoints : int
+        Number of points outside the histogram range.
+    """
+
     frequency: onp.Array1D[np.float64]
     lowerlimit: L[0] | npc.floating
     binsize: onp.Array1D[np.float64]
     extrapoints: int
 
 class SigmaclipResult(NamedTuple, Generic[_RealT_co, _FloatOrArrayT_co]):
+    """
+    Result of sigma-clipping on a dataset.
+
+    Parameters
+    ----------
+    clipped : array_like
+        Data points that remain after clipping.
+    lower : float | array_like
+        Lower bound used for clipping.
+    upper : float | array_like
+        Upper bound used for clipping.
+    """
+
     clipped: onp.Array1D[_RealT_co]
     lower: _FloatOrArrayT_co
     upper: _FloatOrArrayT_co
 
 @dataclass
 class AlexanderGovernResult:
+    """
+    Result of the Alexander-Govern statistical test.
+
+    Parameters
+    ----------
+    statistic : float
+        Computed test statistic.
+    pvalue : float
+        Associated p-value of the test.
+    """
+
     statistic: float
     pvalue: float
 
 @dataclass
 class QuantileTestResult:
+    """
+    Result of a quantile test.
+
+    Parameters
+    ----------
+    statistic : float
+        Computed test statistic.
+    statistic_type : int
+        Type of test statistic used.
+    pvalue : float
+        P-value of the test.
+    _alternative : list[str]
+        Type of alternative hypothesis.
+    _x : array_like
+        Input sample data.
+    _p : float
+        Probability parameter of the test.
+
+    Methods
+    -------
+    confidence_interval(confidence_level)
+        Returns the confidence interval for the tested quantile.
+    """
+
     statistic: float
     statistic_type: int
     pvalue: float
@@ -230,9 +364,59 @@ class QuantileTestResult:
     def confidence_interval(self, /, confidence_level: float = 0.95) -> float: ...
 
 class SignificanceResult(_TestResultBunch[_FloatOrArrayT_co, _FloatOrArrayT_co], Generic[_FloatOrArrayT_co]): ...
-class PearsonRResultBase(_TestResultBunch[_FloatOrArrayT_co, _F64OrArrayT_co], Generic[_FloatOrArrayT_co, _F64OrArrayT_co]): ...
+    """
+    Generic significance test result.
+
+    Parameters
+    ----------
+    statistic : float
+        Computed test statistic value.
+    pvalue : float
+        Associated p-value of the test.
+    """
+    ...
+
+class PearsonRResultBase(_TestResultBunch[_FloatOrArrayT_co, _F64OrArrayT_co], Generic[_FloatOrArrayT_co, _F64OrArrayT_co]):
+    """
+    Base result class for Pearson correlation tests.
+
+    Parameters
+    ----------
+    statistic : float
+        Correlation coefficient.
+    pvalue : float
+        Associated p-value.
+    """
+    ...
 
 class PearsonRResult(PearsonRResultBase[_FloatOrArrayT_co, _F64OrArrayT_co], Generic[_FloatOrArrayT_co, _F64OrArrayT_co]):
+    """
+    Result of a Pearson correlation coefficient test.
+
+    Parameters
+    ----------
+    statistic : float
+        Correlation coefficient (alias for `statistic`).
+    pvalue : float
+        Associated p-value.
+    alternative : Alternative
+        Type of alternative hypothesis.
+    n : int
+        Number of paired observations.
+    x : array_like
+        Input sample data for first variable.
+    y : array_like
+        Input sample data for second variable.
+    axis : int
+        Axis along which the correlation was computed.
+
+    Methods
+    -------
+    confidence_interval(confidence_level, method=None)
+        Returns the confidence interval for the correlation coefficient.
+    """
+    ...
+
     _alternative: Alternative
     _n: int
     _x: onp.ArrayND[_Real0D]
@@ -256,6 +440,20 @@ class PearsonRResult(PearsonRResultBase[_FloatOrArrayT_co, _F64OrArrayT_co], Gen
     ) -> ConfidenceInterval[_FloatOrArrayT_co]: ...
 
 class TtestResultBase(_TestResultBunch[_FloatOrArrayT_co, _FloatOrArrayT_co], Generic[_FloatOrArrayT_co]):
+    """
+    Base result class for t-tests.
+
+    Parameters
+    ----------
+    statistic : float
+        Computed t-statistic.
+    pvalue : float
+        Associated p-value.
+    df : float
+        Degrees of freedom of the test.
+    """
+    ...
+
     @property
     def df(self, /) -> _FloatOrArrayT_co: ...
     def __new__(_cls, statistic: _FloatOrArrayT_co, pvalue: _FloatOrArrayT_co, *, df: _FloatOrArrayT_co) -> Self: ...
@@ -268,6 +466,26 @@ class TtestResult(TtestResultBase[_FloatOrArrayT_co], Generic[_FloatOrArrayT_co]
     _statistic_np: _FloatOrArrayT_co
     _dtype: np.dtype[npc.floating]
     _xp: ModuleType
+    """
+    Result of a t-test.
+
+    Parameters
+    ----------
+    statistic : float
+        Computed t-statistic.
+    pvalue : float
+        Associated p-value.
+    df : float
+        Degrees of freedom of the test.
+    alternative : Alternative
+        Type of alternative hypothesis.
+    standard_error : float
+        Standard error of the estimate.
+    estimate : float
+        Estimated mean difference.
+    """
+    ...
+
 
     def __init__(  # pyright: ignore[reportInconsistentConstructor]
         self,
@@ -284,6 +502,21 @@ class TtestResult(TtestResultBase[_FloatOrArrayT_co], Generic[_FloatOrArrayT_co]
     def confidence_interval(self, /, confidence_level: float = 0.95) -> ConfidenceInterval[_FloatOrArrayT_co]: ...
 
 class KstestResult(_TestResultBunch[np.float64, np.float64]):
+    """
+    Result of a Kolmogorov–Smirnov test.
+
+    Parameters
+    ----------
+    statistic : float
+        KS test statistic.
+    pvalue : float
+        Associated p-value.
+    statistic_location : float
+        Location of the test statistic.
+    statistic_sign : int
+        Sign of the test statistic.
+    """
+
     @property
     def statistic_location(self, /) -> np.float64: ...
     @property
@@ -304,6 +537,29 @@ class LinregressResult(
     tuple[_FloatOrArrayT_co, _FloatOrArrayT_co, _FloatOrArrayT_co, _FloatOrArrayT_co, _FloatOrArrayT_co, _FloatOrArrayT_co],
     Generic[_FloatOrArrayT_co],
 ):
+    """
+    Result of a linear least-squares regression.
+
+    Parameters
+    ----------
+    slope : float | array_like
+        Slope of the regression line.
+    intercept : float | array_like
+        Intercept of the regression line.
+    rvalue : float | array_like
+        Correlation coefficient.
+    pvalue : float | array_like
+        Two-sided p-value for a hypothesis test whose null hypothesis is that the slope is zero.
+    stderr : float | array_like
+        Standard error of the estimated slope.
+    intercept_stderr : float | array_like
+        Standard error of the estimated intercept.
+
+    Notes
+    -----
+    This class inherits tuple behavior and allows access by attribute names.
+    """
+
     def __new__(
         _cls,
         slope: _FloatOrArrayT_co,

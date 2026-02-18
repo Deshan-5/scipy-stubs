@@ -7,7 +7,9 @@ import optype.numpy as onp
 
 class error(Exception): ...  # undocumented
 
-def nnls(A: onp.Array2D[np.float64], b: onp.Array1D[np.float64], maxiter: int, /) -> onp.Array1D[np.float64]: ...  # undocumented
+def nnls(
+    A: onp.Array2D[np.float64], b: onp.Array1D[np.float64], maxiter: int, /
+) -> onp.Array1D[np.float64]: ...  # undocumented
 def slsqp(
     state_dict: dict[str, Any],
     funx: float,

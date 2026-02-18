@@ -77,7 +77,10 @@ def _asarray(
 def xp_copy(x: Array, *, xp: ModuleType | None = None) -> Array: ...
 def default_xp(xp: ModuleType) -> _GeneratorContextManager[None]: ...
 def eager_warns(
-    warning_type: type[Warning] | tuple[type[Warning], ...], *, match: str | re.Pattern[str] | None = None, xp: ModuleType
+    warning_type: type[Warning] | tuple[type[Warning], ...],
+    *,
+    match: str | re.Pattern[str] | None = None,
+    xp: ModuleType,
 ) -> _GeneratorContextManager[None]: ...  # _pytest.recwarn.WarningsChecker
 def xp_assert_equal(
     actual: object,
@@ -149,10 +152,16 @@ def xp_vector_norm(
     xp: ModuleType | None = None,
 ) -> Array: ...
 def xp_ravel(x: Array, /, *, xp: ModuleType | None = None) -> Array: ...
-def xp_result_type(*args: Incomplete, force_floating: bool = False, xp: ModuleType) -> type: ...
-def xp_promote(*args: Incomplete, broadcast: bool = False, force_floating: bool = False, xp: ModuleType | None) -> Array: ...
+def xp_result_type(
+    *args: Incomplete, force_floating: bool = False, xp: ModuleType
+) -> type: ...
+def xp_promote(
+    *args: Incomplete,
+    broadcast: bool = False,
+    force_floating: bool = False,
+    xp: ModuleType | None,
+) -> Array: ...
 def is_marray(xp: ModuleType) -> bool: ...
-
 @dataclasses.dataclass(repr=False)
 class _XPSphinxCapability:
     cpu: bool | None
@@ -182,7 +191,9 @@ def make_xp_test_case(
     *funcs: Callable[..., Any], capabilities_table: _CapabilitiesTable | None = None
 ) -> Callable[[Callable[..., None]], Callable[..., None]]: ...
 def make_xp_pytest_param(
-    func: Callable[..., Any], *args: Any, capabilities_table: _CapabilitiesTable | None = None
+    func: Callable[..., Any],
+    *args: Any,
+    capabilities_table: _CapabilitiesTable | None = None,
 ) -> _pytest.mark.ParameterSet: ...
 def make_xp_pytest_marks(
     *funcs: Callable[..., Any], capabilities_table: _CapabilitiesTable | None = None

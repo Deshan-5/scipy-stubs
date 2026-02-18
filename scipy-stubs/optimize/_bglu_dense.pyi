@@ -22,11 +22,15 @@ class LU(Generic[_NumberT_co]):  # undocumented
     m: int
     n: int
 
-    def __init__(self, /, A: onp.Array2D[_NumberT_co], b: onp.Array1D[np.intp]) -> None: ...
+    def __init__(
+        self, /, A: onp.Array2D[_NumberT_co], b: onp.Array1D[np.intp]
+    ) -> None: ...
     def __setstate_cython__(self, /, state: tuple[object, ...]) -> None: ...
     def __reduce_cython__(self) -> tuple[Any, ...]: ...
     def update(self, /, i: int, j: int) -> None: ...
-    def solve(self, /, q: onp.ArrayND[npc.number], transposed: bool = False) -> onp.ArrayND[_NumberT_co]: ...
+    def solve(
+        self, /, q: onp.ArrayND[npc.number], transposed: bool = False
+    ) -> onp.ArrayND[_NumberT_co]: ...
 
 class BGLU(LU[_NumberT_co], Generic[_NumberT_co]):  # undocumented
     plu: tuple[onp.ArrayND[Any], ...]
@@ -43,7 +47,12 @@ class BGLU(LU[_NumberT_co], Generic[_NumberT_co]):  # undocumented
     mast: bool
 
     def __init__(
-        self, /, A: onp.Array2D[_NumberT_co], b: onp.Array1D[np.intp], max_updates: int = 10, mast: bool = False
+        self,
+        /,
+        A: onp.Array2D[_NumberT_co],
+        b: onp.Array1D[np.intp],
+        max_updates: int = 10,
+        mast: bool = False,
     ) -> None: ...
     def refactor(self, /, *args: Never) -> None: ...  # *args are needed for stubtest
     def update_basis(self, /, i: int, j: int) -> None: ...

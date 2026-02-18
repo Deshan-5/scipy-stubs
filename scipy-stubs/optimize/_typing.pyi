@@ -43,9 +43,18 @@ class _ConstraintDict(TypedDict):
 Constraint: TypeAlias = LinearConstraint | NonlinearConstraint | _ConstraintDict
 Constraints: TypeAlias = Constraint | Sequence[Constraint]
 
-Brack: TypeAlias = tuple[onp.ToFloat, onp.ToFloat] | tuple[onp.ToFloat, onp.ToFloat, onp.ToFloat]
+Brack: TypeAlias = (
+    tuple[onp.ToFloat, onp.ToFloat] | tuple[onp.ToFloat, onp.ToFloat, onp.ToFloat]
+)
 
-Solver: TypeAlias = Literal["minimize", "minimize_scalar", "root", "root_salar", "linprog", "quadratic_assignment"]
+Solver: TypeAlias = Literal[
+    "minimize",
+    "minimize_scalar",
+    "root",
+    "root_salar",
+    "linprog",
+    "quadratic_assignment",
+]
 TRSolver: TypeAlias = Literal["exact", "lsmr"]
 
 MethodMimimize: TypeAlias = Literal[
@@ -80,7 +89,9 @@ _MethodRoot: TypeAlias = Literal[
     "krylov",
     "df-sane",
 ]  # fmt: skip
-MethodRootScalar: TypeAlias = Literal["bisect", "brentq", "brenth", "ridder", "toms748", "newton", "secant", "halley"]
+MethodRootScalar: TypeAlias = Literal[
+    "bisect", "brentq", "brenth", "ridder", "toms748", "newton", "secant", "halley"
+]
 _MethodQuadraticAssignment: TypeAlias = Literal["faq", "2opt"]
 MethodAll: TypeAlias = Literal[
     MethodMimimize,
@@ -97,7 +108,11 @@ _FDMethod: TypeAlias = Literal["2-point", "3-point", "cs"]
 class MinimizerKwargs(TypedDict, total=False):
     method: MethodMimimize
     jac: Callable[Concatenate[_Float1D, ...], onp.ToFloat1D] | _FDMethod | bool
-    hess: Callable[Concatenate[_Float1D, ...], onp.ToFloat2D] | _FDMethod | HessianUpdateStrategy
+    hess: (
+        Callable[Concatenate[_Float1D, ...], onp.ToFloat2D]
+        | _FDMethod
+        | HessianUpdateStrategy
+    )
     hessp: Callable[Concatenate[_Float1D, _Float1D, ...], onp.ToFloat1D]
     constraints: Constraints
     tol: onp.ToFloat

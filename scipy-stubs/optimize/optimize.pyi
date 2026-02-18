@@ -29,8 +29,14 @@ __all__ = [
 ]
 
 @deprecated("will be removed in SciPy v2.0.0")
-def zeros(shape: object, dtype: object = ..., order: object = ..., *, device: object = ..., like: object = ...) -> object: ...
-
+def zeros(
+    shape: object,
+    dtype: object = ...,
+    order: object = ...,
+    *,
+    device: object = ...,
+    like: object = ...,
+) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
 class OptimizeResult(_OptimizeResult): ...
 
@@ -38,14 +44,26 @@ class OptimizeResult(_OptimizeResult): ...
 class OptimizeWarning(UserWarning): ...
 
 @deprecated("will be removed in SciPy v2.0.0")
-def approx_fprime(xk: object, f: object, epsilon: object = ..., *args: object) -> object: ...
+def approx_fprime(
+    xk: object, f: object, epsilon: object = ..., *args: object
+) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
 def bracket(
-    func: object, xa: object = 0.0, xb: object = 1.0, args: object = (), grow_limit: object = 110.0, maxiter: object = 1000
+    func: object,
+    xa: object = 0.0,
+    xb: object = 1.0,
+    args: object = (),
+    grow_limit: object = 110.0,
+    maxiter: object = 1000,
 ) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
 def brent(
-    func: object, args: object = (), brack: object = None, tol: object = 1.48e-08, full_output: object = 0, maxiter: object = 500
+    func: object,
+    args: object = (),
+    brack: object = None,
+    tol: object = 1.48e-08,
+    full_output: object = 0,
+    maxiter: object = 500,
 ) -> float | object: ...
 @deprecated("will be removed in SciPy v2.0.0")
 def brute(
@@ -166,7 +184,12 @@ def fminbound(
 ) -> float | object: ...
 @deprecated("will be removed in SciPy v2.0.0")
 def golden(
-    func: object, args: object = (), brack: object = None, tol: object = ..., full_output: object = 0, maxiter: object = 5000
+    func: object,
+    args: object = (),
+    brack: object = None,
+    tol: object = ...,
+    full_output: object = 0,
+    maxiter: object = 5000,
 ) -> float | object: ...
 @deprecated("will be removed in SciPy v2.0.0")
 def line_search(
@@ -193,4 +216,6 @@ def rosen_hess(x: object) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
 def rosen_hess_prod(x: object, p: object) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
-def show_options(solver: object = None, method: object = None, disp: object = True) -> str: ...
+def show_options(
+    solver: object = None, method: object = None, disp: object = True
+) -> str: ...

@@ -54,7 +54,9 @@ _DispatchTypeSlice: TypeAlias = (
 class _Backend(Protocol[_T_co]):
     __ua_domain__: ClassVar[str] = ...
     @staticmethod
-    def __ua_function__(method: Callable[..., Any], args: tuple[Any, ...], kwargs: dict[str, Any], /) -> _T_co: ...
+    def __ua_function__(
+        method: Callable[..., Any], args: tuple[Any, ...], kwargs: dict[str, Any], /
+    ) -> _T_co: ...
 
 @final
 @type_check_only
@@ -100,7 +102,13 @@ class Dispatchable(Generic[_T_co]):
     type: _DispatchType[_T_co]
     coercible: Final[bool]
 
-    def __init__(self, /, value: _T_co, dispatch_type: _DispatchType[_T_co], coercible: onp.ToBool = True) -> None: ...
+    def __init__(
+        self,
+        /,
+        value: _T_co,
+        dispatch_type: _DispatchType[_T_co],
+        coercible: onp.ToBool = True,
+    ) -> None: ...
     @overload
     def __getitem__(self, index: Literal[1, -1], /) -> _T_co: ...
     @overload
@@ -116,33 +124,51 @@ def set_state(state: _BackendState) -> _GeneratorContextManager[None]: ...
 
 #
 def create_multimethod(
-    *args: ArgumentReplacerType | str | Callable[_Tss, _T], **kwargs: ArgumentReplacerType | str | Callable[_Tss, _T]
+    *args: ArgumentReplacerType | str | Callable[_Tss, _T],
+    **kwargs: ArgumentReplacerType | str | Callable[_Tss, _T],
 ) -> Callable[[ArgumentExtractorType], _Function[_Tss, _T]]: ...
 @overload
 def generate_multimethod(
-    argument_extractor: ArgumentExtractorType, argument_replacer: ArgumentReplacerType, domain: str, default: None = None
+    argument_extractor: ArgumentExtractorType,
+    argument_replacer: ArgumentReplacerType,
+    domain: str,
+    default: None = None,
 ) -> _Function: ...
 @overload
 def generate_multimethod(
-    argument_extractor: ArgumentExtractorType, argument_replacer: ArgumentReplacerType, domain: str, default: Callable[_Tss, _T]
+    argument_extractor: ArgumentExtractorType,
+    argument_replacer: ArgumentReplacerType,
+    domain: str,
+    default: Callable[_Tss, _T],
 ) -> _Function[_Tss, _T]: ...
 
 #
-def set_backend(backend: _Backend, coerce: onp.ToBool = False, only: onp.ToBool = False) -> _SetBackendContext: ...
+def set_backend(
+    backend: _Backend, coerce: onp.ToBool = False, only: onp.ToBool = False
+) -> _SetBackendContext: ...
 def skip_backend(backend: _Backend) -> _SkipBackendContext: ...
 
 #
 def set_global_backend(
-    backend: _Backend, coerce: onp.ToBool = False, only: onp.ToBool = False, *, try_last: onp.ToBool = False
+    backend: _Backend,
+    coerce: onp.ToBool = False,
+    only: onp.ToBool = False,
+    *,
+    try_last: onp.ToBool = False,
 ) -> None: ...
 def register_backend(backend: _Backend) -> None: ...
-def clear_backends(domain: str | None, registered: onp.ToBool = True, globals: onp.ToBool = False) -> None: ...
+def clear_backends(
+    domain: str | None, registered: onp.ToBool = True, globals: onp.ToBool = False
+) -> None: ...
 
 #
 def mark_as(dispatch_type: type[_T] | str) -> Callable[[_T], Dispatchable[_T]]: ...
 def all_of_type(
     arg_type: type[_T] | str,
-) -> Callable[[Callable[_Tss, Iterable[_T | Dispatchable[_T2]]]], Callable[_Tss, tuple[Dispatchable[_T | _T2], ...]]]: ...
+) -> Callable[
+    [Callable[_Tss, Iterable[_T | Dispatchable[_T2]]]],
+    Callable[_Tss, tuple[Dispatchable[_T | _T2], ...]],
+]: ...
 
 #
 @overload
@@ -156,7 +182,9 @@ def wrap_single_convertor(
 @overload
 def wrap_single_convertor(
     convert_single: Callable[[_V, _DispatchType[_V], bool], _C | NotImplementedType],
-) -> Callable[[Iterable[Dispatchable[_V]], onp.ToBool], list[_C] | NotImplementedType]: ...
+) -> Callable[
+    [Iterable[Dispatchable[_V]], onp.ToBool], list[_C] | NotImplementedType
+]: ...
 @overload
 def wrap_single_convertor_instance(
     convert_single: Callable[[_S, _V, _DispatchType[_V], bool], _C],
@@ -167,12 +195,21 @@ def wrap_single_convertor_instance(
 ) -> Callable[[_S, Iterable[Dispatchable[_V]], onp.ToBool], NotImplementedType]: ...
 @overload
 def wrap_single_convertor_instance(
-    convert_single: Callable[[_S, _V, _DispatchType[_V], bool], _C | NotImplementedType],
-) -> Callable[[_S, Iterable[Dispatchable[_V]], onp.ToBool], list[_C] | NotImplementedType]: ...
+    convert_single: Callable[
+        [_S, _V, _DispatchType[_V], bool], _C | NotImplementedType
+    ],
+) -> Callable[
+    [_S, Iterable[Dispatchable[_V]], onp.ToBool], list[_C] | NotImplementedType
+]: ...
 
 #
 def determine_backend(
-    value: _V, dispatch_type: _DispatchType[_V], *, domain: str, only: onp.ToBool = True, coerce: onp.ToBool = False
+    value: _V,
+    dispatch_type: _DispatchType[_V],
+    *,
+    domain: str,
+    only: onp.ToBool = True,
+    coerce: onp.ToBool = False,
 ) -> _SetBackendContext: ...
 def determine_backend_multi(
     dispatchables: Iterable[_V | Dispatchable[_V]],

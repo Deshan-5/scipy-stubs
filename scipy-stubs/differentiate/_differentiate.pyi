@@ -10,15 +10,29 @@ import optype.numpy.compat as npc
 from scipy._lib._util import _RichResult
 
 _FloatT = TypeVar("_FloatT", bound=npc.floating, default=np.float64)
-_FloatT_co = TypeVar("_FloatT_co", bound=npc.floating, default=np.float64, covariant=True)
-_ShapeT_co = TypeVar("_ShapeT_co", bound=tuple[int, *tuple[int, ...]], default=tuple[Any, ...], covariant=True)
-_ShapeT2_co = TypeVar("_ShapeT2_co", bound=tuple[int, int, *tuple[int, ...]], default=tuple[Any, ...], covariant=True)
+_FloatT_co = TypeVar(
+    "_FloatT_co", bound=npc.floating, default=np.float64, covariant=True
+)
+_ShapeT_co = TypeVar(
+    "_ShapeT_co",
+    bound=tuple[int, *tuple[int, ...]],
+    default=tuple[Any, ...],
+    covariant=True,
+)
+_ShapeT2_co = TypeVar(
+    "_ShapeT2_co",
+    bound=tuple[int, int, *tuple[int, ...]],
+    default=tuple[Any, ...],
+    covariant=True,
+)
 
 _Ignored: TypeAlias = object
 
 _Function00: TypeAlias = Callable[Concatenate[_FloatT, ...], onp.ToFloat]
 _Function11: TypeAlias = Callable[Concatenate[onp.Array1D[_FloatT], ...], onp.ToFloat1D]
-_FunctionNN: TypeAlias = Callable[Concatenate[onp.ArrayND[_FloatT, Any], ...], onp.ToFloatND]
+_FunctionNN: TypeAlias = Callable[
+    Concatenate[onp.ArrayND[_FloatT, Any], ...], onp.ToFloatND
+]
 
 @type_check_only
 class _Tolerances(TypedDict, total=False):
@@ -107,7 +121,9 @@ def derivative(
     step_factor: onp.ToFloat = 2.0,
     step_direction: onp.ToJustInt | onp.ToJustIntStrict1D = 0,
     preserve_shape: Literal[False] = False,
-    callback: Callable[[_DerivativeResultND[_FloatT, tuple[int]]], _Ignored] | None = None,
+    callback: (
+        Callable[[_DerivativeResultND[_FloatT, tuple[int]]], _Ignored] | None
+    ) = None,
 ) -> _DerivativeResultND[_FloatT, tuple[int]]: ...
 @overload  # n-d <known>
 def derivative(

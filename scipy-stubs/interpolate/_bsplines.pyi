@@ -12,7 +12,9 @@ __all__ = ["BSpline", "make_interp_spline", "make_lsq_spline", "make_smoothing_s
 
 ###
 
-_CT_co = TypeVar("_CT_co", bound=np.float64 | np.complex128, default=np.float64, covariant=True)
+_CT_co = TypeVar(
+    "_CT_co", bound=np.float64 | np.complex128, default=np.float64, covariant=True
+)
 
 _Extrapolate: TypeAlias = Literal["periodic"] | bool
 _BCType: TypeAlias = Literal["not-a-knot", "natural", "clamped", "periodic"]
@@ -29,7 +31,9 @@ class BSpline(Generic[_CT_co]):
     extrapolate: _Extrapolate
 
     @property
-    def tck(self, /) -> tuple[onp.Array1D[np.float64], onp.Array[onp.AtLeast1D[Any], _CT_co], int]: ...
+    def tck(
+        self, /
+    ) -> tuple[onp.Array1D[np.float64], onp.Array[onp.AtLeast1D[Any], _CT_co], int]: ...
 
     #
     @classmethod
@@ -69,7 +73,11 @@ class BSpline(Generic[_CT_co]):
 
     # NOTE: Complex `x` will unsafely be cast to `float64`, even if the coefficients are complex
     def __call__(
-        self, /, x: onp.ToComplex | onp.ToComplexND, nu: int = 0, extrapolate: _Extrapolate | None = None
+        self,
+        /,
+        x: onp.ToComplex | onp.ToComplexND,
+        nu: int = 0,
+        extrapolate: _Extrapolate | None = None,
     ) -> onp.ArrayND[_CT_co]: ...
 
     #
@@ -81,34 +89,55 @@ class BSpline(Generic[_CT_co]):
 
     # NOTE: `integrate` will raise a (cryptic) `ValueError` for complex coefficients
     def integrate(
-        self: BSpline[np.float64], /, a: onp.ToFloat, b: onp.ToFloat, extrapolate: _Extrapolate | None = None
+        self: BSpline[np.float64],
+        /,
+        a: onp.ToFloat,
+        b: onp.ToFloat,
+        extrapolate: _Extrapolate | None = None,
     ) -> onp.ArrayND[np.float64]: ...
 
     #
     @overload
     @classmethod
-    def basis_element(cls, t: onp.ToFloatND, extrapolate: _Extrapolate = True) -> BSpline[np.float64]: ...
+    def basis_element(
+        cls, t: onp.ToFloatND, extrapolate: _Extrapolate = True
+    ) -> BSpline[np.float64]: ...
     @overload
     @classmethod
-    def basis_element(cls, t: onp.ToJustComplexND, extrapolate: _Extrapolate = True) -> BSpline[np.complex128]: ...
+    def basis_element(
+        cls, t: onp.ToJustComplexND, extrapolate: _Extrapolate = True
+    ) -> BSpline[np.complex128]: ...
     @overload
     @classmethod
-    def basis_element(cls, t: onp.ToComplexND, extrapolate: _Extrapolate = True) -> BSpline[Any]: ...
+    def basis_element(
+        cls, t: onp.ToComplexND, extrapolate: _Extrapolate = True
+    ) -> BSpline[Any]: ...
 
     #
     @classmethod
-    def from_power_basis(cls, pp: CubicSpline[_CT_co], bc_type: _BCType = "not-a-knot") -> Self: ...
+    def from_power_basis(
+        cls, pp: CubicSpline[_CT_co], bc_type: _BCType = "not-a-knot"
+    ) -> Self: ...
 
     #
     @classmethod
     def construct_fast(
-        cls, t: onp.ArrayND[np.float64], c: onp.ArrayND[_CT_co], k: int, extrapolate: _Extrapolate = True, axis: int = 0
+        cls,
+        t: onp.ArrayND[np.float64],
+        c: onp.ArrayND[_CT_co],
+        k: int,
+        extrapolate: _Extrapolate = True,
+        axis: int = 0,
     ) -> Self: ...
 
     #
     @classmethod
     def design_matrix(
-        cls, x: onp.ToFloat1D, t: onp.ToFloat1D, k: op.CanIndex, extrapolate: _Extrapolate = False
+        cls,
+        x: onp.ToFloat1D,
+        t: onp.ToFloat1D,
+        k: op.CanIndex,
+        extrapolate: _Extrapolate = False,
     ) -> csr_array[np.float64, tuple[int, int]]: ...
 
 #
@@ -192,4 +221,6 @@ def make_smoothing_spline(
 ) -> BSpline[np.float64]: ...
 
 #
-def fpcheck(x: onp.ToFloat1D, t: onp.ToFloat1D, k: int, periodic: bool = False) -> None: ...  # undocumented
+def fpcheck(
+    x: onp.ToFloat1D, t: onp.ToFloat1D, k: int, periodic: bool = False
+) -> None: ...  # undocumented

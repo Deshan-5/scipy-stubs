@@ -18,15 +18,26 @@ __all__ = ["isspmatrix_lil", "lil_array", "lil_matrix"]
 
 _T = TypeVar("_T")
 _ScalarT = TypeVar("_ScalarT", bound=npc.number | np.bool_)
-_ScalarT_co = TypeVar("_ScalarT_co", bound=npc.number | np.bool_, default=Any, covariant=True)
+_ScalarT_co = TypeVar(
+    "_ScalarT_co", bound=npc.number | np.bool_, default=Any, covariant=True
+)
 
 _ToMatrixPy: TypeAlias = list[_T] | list[list[_T]]  # intentionally invariant
-_ToMatrix: TypeAlias = _spbase[_ScalarT] | onp.CanArrayND[_ScalarT] | Sequence[onp.CanArrayND[_ScalarT]] | _ToMatrixPy[_ScalarT]
+_ToMatrix: TypeAlias = (
+    _spbase[_ScalarT]
+    | onp.CanArrayND[_ScalarT]
+    | Sequence[onp.CanArrayND[_ScalarT]]
+    | _ToMatrixPy[_ScalarT]
+)
 _ToAnyLIL: TypeAlias = _ToShape2D | _ToMatrix[npc.number | np.bool_]
 
 ###
 
-class _lil_base(_spbase[_ScalarT_co, tuple[int, int]], IndexMixin[_ScalarT_co, tuple[int, int]], Generic[_ScalarT_co]):
+class _lil_base(
+    _spbase[_ScalarT_co, tuple[int, int]],
+    IndexMixin[_ScalarT_co, tuple[int, int]],
+    Generic[_ScalarT_co],
+):
     dtype: np.dtype[_ScalarT_co]
     data: onp.Array1D[np.object_]
     rows: onp.Array1D[np.object_]
@@ -55,9 +66,13 @@ class _lil_base(_spbase[_ScalarT_co, tuple[int, int]], IndexMixin[_ScalarT_co, t
 
     #
     @override
-    def __iadd__(self, other: onp.ToFalse | _spbase | onp.ArrayND[npc.number | np.bool_], /) -> Self: ...
+    def __iadd__(
+        self, other: onp.ToFalse | _spbase | onp.ArrayND[npc.number | np.bool_], /
+    ) -> Self: ...
     @override
-    def __isub__(self, other: onp.ToFalse | _spbase | onp.ArrayND[npc.number | np.bool_], /) -> Self: ...
+    def __isub__(
+        self, other: onp.ToFalse | _spbase | onp.ArrayND[npc.number | np.bool_], /
+    ) -> Self: ...
     @override
     def __imul__(self, other: onp.ToComplex, /) -> Self: ...  # type: ignore[override]
     @override
@@ -67,7 +82,11 @@ class _lil_base(_spbase[_ScalarT_co, tuple[int, int]], IndexMixin[_ScalarT_co, t
     @override
     def tolil(self, /, copy: bool = False) -> Self: ...  # type: ignore[override]  # ty: ignore[invalid-method-override]
     @override
-    def resize(self, /, *shape: int) -> None: ...  # pyright: ignore[reportIncompatibleMethodOverride]  # pyrefly: ignore[bad-override]
+    def resize(
+        self, /, *shape: int
+    ) -> (
+        None
+    ): ...  # pyright: ignore[reportIncompatibleMethodOverride]  # pyrefly: ignore[bad-override]
 
     # NOTE: Adding `@override` here will crash stubtest (mypy 1.15.0)
     @overload
@@ -77,9 +96,13 @@ class _lil_base(_spbase[_ScalarT_co, tuple[int, int]], IndexMixin[_ScalarT_co, t
 
     #
     def getrowview(self, /, i: int) -> Self: ...
-    def getrow(self, /, i: onp.ToJustInt) -> csr_array[_ScalarT_co, tuple[int, int]] | csr_matrix[_ScalarT_co]: ...
+    def getrow(
+        self, /, i: onp.ToJustInt
+    ) -> csr_array[_ScalarT_co, tuple[int, int]] | csr_matrix[_ScalarT_co]: ...
 
-class lil_array(_lil_base[_ScalarT_co], sparray[_ScalarT_co, tuple[int, int]], Generic[_ScalarT_co]):
+class lil_array(
+    _lil_base[_ScalarT_co], sparray[_ScalarT_co, tuple[int, int]], Generic[_ScalarT_co]
+):
     # NOTE: These two methods do not exist at runtime.
     # See the relevant comment in `sparse._base._spbase` for more information.
     @override
@@ -87,7 +110,9 @@ class lil_array(_lil_base[_ScalarT_co], sparray[_ScalarT_co, tuple[int, int]], G
     def __assoc_stacked__(self, /) -> coo_array[_ScalarT_co, tuple[int, int]]: ...
     @override
     @type_check_only
-    def __assoc_stacked_as__(self, sctype: _ScalarT, /) -> coo_array[_ScalarT, tuple[int, int]]: ...
+    def __assoc_stacked_as__(
+        self, sctype: _ScalarT, /
+    ) -> coo_array[_ScalarT, tuple[int, int]]: ...
 
     # NOTE: keep the in sync with `lil_matrix.__init__`
     @overload  # matrix-like (known dtype), dtype: None
@@ -280,7 +305,9 @@ class lil_array(_lil_base[_ScalarT_co], sparray[_ScalarT_co, tuple[int, int]], G
 
     #
     @override
-    def getrow(self, /, i: onp.ToJustInt) -> csr_array[_ScalarT_co, tuple[int, int]]: ...
+    def getrow(
+        self, /, i: onp.ToJustInt
+    ) -> csr_array[_ScalarT_co, tuple[int, int]]: ...
 
 class lil_matrix(_lil_base[_ScalarT_co], spmatrix[_ScalarT_co], Generic[_ScalarT_co]):
     # NOTE: These two methods do not exist at runtime.

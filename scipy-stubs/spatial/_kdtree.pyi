@@ -7,13 +7,23 @@ import optype.numpy as onp
 
 from ._ckdtree import cKDTree, cKDTreeNode
 
-__all__ = ["KDTree", "Rectangle", "distance_matrix", "minkowski_distance", "minkowski_distance_p"]
+__all__ = [
+    "KDTree",
+    "Rectangle",
+    "distance_matrix",
+    "minkowski_distance",
+    "minkowski_distance_p",
+]
 
 _Float1D: TypeAlias = onp.Array1D[np.float64]
 _Float2D: TypeAlias = onp.Array2D[np.float64]
 
-_BoxSizeT_co = TypeVar("_BoxSizeT_co", bound=_Float2D | None, default=_Float2D | None, covariant=True)
-_BoxSizeDataT_co = TypeVar("_BoxSizeDataT_co", bound=_Float1D | None, default=_Float1D | None, covariant=True)
+_BoxSizeT_co = TypeVar(
+    "_BoxSizeT_co", bound=_Float2D | None, default=_Float2D | None, covariant=True
+)
+_BoxSizeDataT_co = TypeVar(
+    "_BoxSizeDataT_co", bound=_Float1D | None, default=_Float1D | None, covariant=True
+)
 
 ###
 
@@ -23,15 +33,27 @@ class Rectangle:
     def __init__(self, /, maxes: onp.ToFloat1D, mins: onp.ToFloat1D) -> None: ...
     def volume(self, /) -> np.float64: ...
     def split(self, /, d: op.CanIndex, split: onp.ToFloat) -> tuple[Self, Self]: ...
-    def min_distance_point(self, /, x: onp.ToFloat | onp.ToFloatND, p: onp.ToFloat = 2.0) -> onp.ArrayND[np.float64]: ...
-    def max_distance_point(self, /, x: onp.ToFloat | onp.ToFloatND, p: onp.ToFloat = 2.0) -> onp.ArrayND[np.float64]: ...
-    def min_distance_rectangle(self, /, other: Rectangle, p: onp.ToFloat = 2.0) -> onp.ArrayND[np.float64]: ...
-    def max_distance_rectangle(self, /, other: Rectangle, p: onp.ToFloat = 2.0) -> onp.ArrayND[np.float64]: ...
+    def min_distance_point(
+        self, /, x: onp.ToFloat | onp.ToFloatND, p: onp.ToFloat = 2.0
+    ) -> onp.ArrayND[np.float64]: ...
+    def max_distance_point(
+        self, /, x: onp.ToFloat | onp.ToFloatND, p: onp.ToFloat = 2.0
+    ) -> onp.ArrayND[np.float64]: ...
+    def min_distance_rectangle(
+        self, /, other: Rectangle, p: onp.ToFloat = 2.0
+    ) -> onp.ArrayND[np.float64]: ...
+    def max_distance_rectangle(
+        self, /, other: Rectangle, p: onp.ToFloat = 2.0
+    ) -> onp.ArrayND[np.float64]: ...
 
-class KDTree(cKDTree[_BoxSizeT_co, _BoxSizeDataT_co], Generic[_BoxSizeT_co, _BoxSizeDataT_co]):
+class KDTree(
+    cKDTree[_BoxSizeT_co, _BoxSizeDataT_co], Generic[_BoxSizeT_co, _BoxSizeDataT_co]
+):
     class node:
         @staticmethod
-        def _create(ckdtree_node: cKDTreeNode | None = None) -> KDTree.leafnode | KDTree.innernode: ...
+        def _create(
+            ckdtree_node: cKDTreeNode | None = None,
+        ) -> KDTree.leafnode | KDTree.innernode: ...
         def __init__(self, /, ckdtree_node: cKDTreeNode | None = None) -> None: ...
         def __lt__(self, other: object, /) -> bool: ...
         def __gt__(self, other: object, /) -> bool: ...
@@ -102,18 +124,28 @@ class KDTree(cKDTree[_BoxSizeT_co, _BoxSizeDataT_co], Generic[_BoxSizeT_co, _Box
         p: onp.ToFloat = 2.0,
         distance_upper_bound: float = float("inf"),  # noqa: PYI011
         workers: int | None = 1,
-    ) -> tuple[float, np.intp] | tuple[onp.ArrayND[np.float64], onp.ArrayND[np.intp]]: ...
+    ) -> (
+        tuple[float, np.intp] | tuple[onp.ArrayND[np.float64], onp.ArrayND[np.intp]]
+    ): ...
 
 @overload
-def minkowski_distance_p(x: onp.ToFloatND, y: onp.ToFloatND, p: float = 2.0) -> onp.ArrayND[np.float64]: ...
+def minkowski_distance_p(
+    x: onp.ToFloatND, y: onp.ToFloatND, p: float = 2.0
+) -> onp.ArrayND[np.float64]: ...
 @overload
-def minkowski_distance_p(x: onp.ToComplexND, y: onp.ToComplexND, p: float = 2.0) -> onp.ArrayND[np.float64 | np.complex128]: ...
+def minkowski_distance_p(
+    x: onp.ToComplexND, y: onp.ToComplexND, p: float = 2.0
+) -> onp.ArrayND[np.float64 | np.complex128]: ...
 
 #
 @overload
-def minkowski_distance(x: onp.ToFloatND, y: onp.ToFloatND, p: float = 2.0) -> onp.ArrayND[np.float64]: ...
+def minkowski_distance(
+    x: onp.ToFloatND, y: onp.ToFloatND, p: float = 2.0
+) -> onp.ArrayND[np.float64]: ...
 @overload
-def minkowski_distance(x: onp.ToComplexND, y: onp.ToComplexND, p: float = 2.0) -> onp.ArrayND[np.float64 | np.complex128]: ...
+def minkowski_distance(
+    x: onp.ToComplexND, y: onp.ToComplexND, p: float = 2.0
+) -> onp.ArrayND[np.float64 | np.complex128]: ...
 
 #
 @overload

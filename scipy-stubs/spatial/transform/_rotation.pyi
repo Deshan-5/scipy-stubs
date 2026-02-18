@@ -31,7 +31,9 @@ _RotationT = TypeVar("_RotationT", bound=Rotation)
 backend_registry: Final[dict[ModuleType, ModuleType]] = ...  # undocumented
 
 # either `._rotation_cy` or `._rotation_xp`
-def select_backend(xp: ModuleType, cython_compatible: bool) -> ModuleType: ...  # undocumented
+def select_backend(
+    xp: ModuleType, cython_compatible: bool
+) -> ModuleType: ...  # undocumented
 
 class Rotation:
     @property
@@ -41,33 +43,64 @@ class Rotation:
 
     #
     def __init__(
-        self, /, quat: onp.ToFloat1D | onp.ToFloat2D, normalize: bool = True, copy: bool = True, scalar_first: bool = False
+        self,
+        /,
+        quat: onp.ToFloat1D | onp.ToFloat2D,
+        normalize: bool = True,
+        copy: bool = True,
+        scalar_first: bool = False,
     ) -> None: ...
 
     #
     def __bool__(self, /) -> L[True]: ...
     def __len__(self, /) -> int: ...
-    def __getitem__(self, key: op.CanIndex | onp.SequenceND[op.CanIndex] | onp.ToIntND | slice, /) -> Rotation: ...
-    def __setitem__(self, indexer: int | slice | EllipsisType | None, value: Rotation, /) -> None: ...
+    def __getitem__(
+        self, key: op.CanIndex | onp.SequenceND[op.CanIndex] | onp.ToIntND | slice, /
+    ) -> Rotation: ...
+    def __setitem__(
+        self, indexer: int | slice | EllipsisType | None, value: Rotation, /
+    ) -> None: ...
     def __iter__(self) -> Iterator[Rotation]: ...
     def __mul__(self, other: Rotation, /) -> Rotation: ...
     def __pow__(self, n: onp.ToFloat, /, modulus: None = None) -> Rotation: ...
     def inv(self, /) -> Self: ...
-    def mean(self, /, weights: onp.ToFloat1D | None = None, axis: int | tuple[int, ...] | None = None) -> Rotation: ...
+    def mean(
+        self,
+        /,
+        weights: onp.ToFloat1D | None = None,
+        axis: int | tuple[int, ...] | None = None,
+    ) -> Rotation: ...
 
     #
     def as_matrix(self, /) -> _Float2D3D: ...
     def as_mrp(self, /) -> _Float1D2D: ...
     def as_rotvec(self, /, degrees: bool = False) -> _Float1D2D: ...
-    def as_euler(self, /, seq: _RotAxisSeq, degrees: bool = False, *, suppress_warnings: bool = False) -> _Float1D2D: ...
-    def as_quat(self, /, canonical: bool = False, *, scalar_first: bool = False) -> _Float1D2D: ...
+    def as_euler(
+        self,
+        /,
+        seq: _RotAxisSeq,
+        degrees: bool = False,
+        *,
+        suppress_warnings: bool = False,
+    ) -> _Float1D2D: ...
+    def as_quat(
+        self, /, canonical: bool = False, *, scalar_first: bool = False
+    ) -> _Float1D2D: ...
     def as_davenport(
-        self, /, axes: onp.ToFloat1D | onp.ToFloat2D, order: _RotOrder, degrees: bool = False, *, suppress_warnings: bool = False
+        self,
+        /,
+        axes: onp.ToFloat1D | onp.ToFloat2D,
+        order: _RotOrder,
+        degrees: bool = False,
+        *,
+        suppress_warnings: bool = False,
     ) -> _Float1D2D: ...
 
     #
     def magnitude(self, /) -> float | np.float64 | _Float1D: ...
-    def apply(self, /, vectors: onp.ToFloat1D | onp.ToFloat2D, inverse: bool = False) -> _Float1D2D: ...
+    def apply(
+        self, /, vectors: onp.ToFloat1D | onp.ToFloat2D, inverse: bool = False
+    ) -> _Float1D2D: ...
     def approx_equal(
         self, /, other: Rotation, atol: onp.ToFloat | None = None, degrees: bool = False
     ) -> bool | np.bool_ | onp.Array1D[np.bool_]: ...
@@ -75,28 +108,51 @@ class Rotation:
     #
     @overload
     def reduce(
-        self, /, left: Rotation | None = None, right: Rotation | None = None, return_indices: L[False] = False
+        self,
+        /,
+        left: Rotation | None = None,
+        right: Rotation | None = None,
+        return_indices: L[False] = False,
     ) -> Self: ...
     @overload
     def reduce(
         self, /, left: Rotation | None, right: Rotation | None, return_indices: L[True]
-    ) -> tuple[Self, onp.ArrayND[np.int32 | np.int64], onp.ArrayND[np.int32 | np.int64]]: ...
+    ) -> tuple[
+        Self, onp.ArrayND[np.int32 | np.int64], onp.ArrayND[np.int32 | np.int64]
+    ]: ...
     @overload
     def reduce(
-        self, /, left: Rotation | None = None, right: Rotation | None = None, *, return_indices: L[True]
-    ) -> tuple[Self, onp.ArrayND[np.int32 | np.int64], onp.ArrayND[np.int32 | np.int64]]: ...
+        self,
+        /,
+        left: Rotation | None = None,
+        right: Rotation | None = None,
+        *,
+        return_indices: L[True],
+    ) -> tuple[
+        Self, onp.ArrayND[np.int32 | np.int64], onp.ArrayND[np.int32 | np.int64]
+    ]: ...
 
     #
     @staticmethod
-    def from_matrix(matrix: onp.ToFloat2D | onp.ToFloat3D, *, assume_valid: bool = False) -> Rotation: ...
+    def from_matrix(
+        matrix: onp.ToFloat2D | onp.ToFloat3D, *, assume_valid: bool = False
+    ) -> Rotation: ...
     @staticmethod
     def from_mrp(mrp: onp.ToFloat1D | onp.ToFloat2D) -> Rotation: ...
     @staticmethod
-    def from_quat(quat: onp.ToFloat1D | onp.ToFloat2D, *, scalar_first: bool = False) -> Rotation: ...
+    def from_quat(
+        quat: onp.ToFloat1D | onp.ToFloat2D, *, scalar_first: bool = False
+    ) -> Rotation: ...
     @staticmethod
-    def from_rotvec(rotvec: onp.ToFloat1D | onp.ToFloat2D, degrees: bool = False) -> Rotation: ...
+    def from_rotvec(
+        rotvec: onp.ToFloat1D | onp.ToFloat2D, degrees: bool = False
+    ) -> Rotation: ...
     @staticmethod
-    def from_euler(seq: str, angles: onp.ToFloat | onp.ToFloat1D | onp.ToFloat2D, degrees: bool = False) -> Rotation: ...
+    def from_euler(
+        seq: str,
+        angles: onp.ToFloat | onp.ToFloat1D | onp.ToFloat2D,
+        degrees: bool = False,
+    ) -> Rotation: ...
     @staticmethod
     def from_davenport(
         axes: onp.ToFloat1D | onp.ToFloat2D,
@@ -117,7 +173,9 @@ class Rotation:
     @classmethod
     def create_group(cls, group: _RotGroup, axis: _RotAxis = "Z") -> Self: ...
     @staticmethod
-    def identity(num: int | None = None, *, shape: int | tuple[int, ...] | None = None) -> Rotation: ...
+    def identity(
+        num: int | None = None, *, shape: int | tuple[int, ...] | None = None
+    ) -> Rotation: ...
     @staticmethod
     def random(
         num: int | None = None,

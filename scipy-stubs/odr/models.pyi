@@ -2,4 +2,11 @@
 from ._models import exponential, multilinear, polynomial, quadratic, unilinear
 from ._odrpack import Model
 
-__all__ = ["Model", "exponential", "multilinear", "polynomial", "quadratic", "unilinear"]
+__all__ = [
+    "Model",
+    "exponential",
+    "multilinear",
+    "polynomial",
+    "quadratic",
+    "unilinear",
+]

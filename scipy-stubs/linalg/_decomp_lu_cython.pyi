@@ -9,5 +9,8 @@ import numpy.typing as npt
 _LapackT = TypeVar("_LapackT", np.float32, np.float64, np.complex64, np.complex128)
 
 def lu_dispatcher(
-    a: npt.NDArray[_LapackT], u: npt.NDArray[_LapackT], piv: npt.NDArray[np.integer[Any]], permute_l: bool
+    a: npt.NDArray[_LapackT],
+    u: npt.NDArray[_LapackT],
+    piv: npt.NDArray[np.integer[Any]],
+    permute_l: bool,
 ) -> None: ...

@@ -6,7 +6,19 @@ from typing import Literal, LiteralString, TypeAlias, overload
 import numpy as np
 import optype.numpy as onp
 
-__all__ = ["bisplev", "bisplrep", "insert", "spalde", "splantider", "splder", "splev", "splint", "splprep", "splrep", "sproot"]
+__all__ = [
+    "bisplev",
+    "bisplrep",
+    "insert",
+    "spalde",
+    "splantider",
+    "splder",
+    "splev",
+    "splint",
+    "splprep",
+    "splrep",
+    "sproot",
+]
 
 _Float1D: TypeAlias = onp.Array1D[np.float64]
 _Float2D: TypeAlias = onp.Array2D[np.float64]
@@ -131,9 +143,13 @@ def splev(x: onp.ToFloatND, tck: _ToTCK, der: int = 0, ext: _Ext = 0) -> _FloatN
 
 #
 @overload  # full_output: falsy
-def splint(a: onp.ToFloat, b: onp.ToFloat, tck: _ToTCK, full_output: onp.ToFalse = 0) -> float | list[float]: ...
+def splint(
+    a: onp.ToFloat, b: onp.ToFloat, tck: _ToTCK, full_output: onp.ToFalse = 0
+) -> float | list[float]: ...
 @overload  # full_output: truthy
-def splint(a: onp.ToFloat, b: onp.ToFloat, tck: _ToTCK, full_output: onp.ToTrue) -> tuple[float | list[float], _Float1D]: ...
+def splint(
+    a: onp.ToFloat, b: onp.ToFloat, tck: _ToTCK, full_output: onp.ToTrue
+) -> tuple[float | list[float], _Float1D]: ...
 
 #
 def sproot(tck: _ToTCK, mest: int = 10) -> _Float1D | list[_Float1D]: ...
@@ -144,7 +160,9 @@ def spalde(x: onp.ToFloatStrict1D, tck: _ToTCK) -> _Float1D: ...
 @overload  # x: 2-d
 def spalde(x: onp.ToFloatStrict2D, tck: _ToTCK) -> list[_Float1D]: ...
 @overload  # x: {1,2}-d
-def spalde(x: onp.ToFloat1D | onp.ToFloat2D, tck: _ToTCK) -> _Float1D | list[_Float1D]: ...
+def spalde(
+    x: onp.ToFloat1D | onp.ToFloat2D, tck: _ToTCK
+) -> _Float1D | list[_Float1D]: ...
 
 #
 @overload  # full_output: falsy = ...
@@ -216,20 +234,30 @@ def bisplrep(
 ) -> tuple[_OutTCK2, float, int, LiteralString]: ...
 
 # requires `len(tck) == 5`
-def bisplev(x: onp.ToFloat1D, y: onp.ToFloat1D, tck: _ToTCK, dx: int = 0, dy: int = 0) -> _Float2D: ...
-def dblint(xa: onp.ToFloat, xb: onp.ToFloat, ya: onp.ToFloat, yb: onp.ToFloat, tck: _ToTCK) -> float: ...
+def bisplev(
+    x: onp.ToFloat1D, y: onp.ToFloat1D, tck: _ToTCK, dx: int = 0, dy: int = 0
+) -> _Float2D: ...
+def dblint(
+    xa: onp.ToFloat, xb: onp.ToFloat, ya: onp.ToFloat, yb: onp.ToFloat, tck: _ToTCK
+) -> float: ...
 
 # requires `len(tck) == 3`
-def insert(x: onp.ToFloat, tck: _ToTCK, m: int = 1, per: onp.ToBool = 0) -> _OutTCK1: ...
+def insert(
+    x: onp.ToFloat, tck: _ToTCK, m: int = 1, per: onp.ToBool = 0
+) -> _OutTCK1: ...
 
 #
 @overload
 def splder(tck: _ToTCK, n: int = 1, xp: None = None) -> _OutTCK1: ...
 @overload
-def splder(tck: _ToTCK, n: int = 1, *, xp: ModuleType) -> tuple[Incomplete, Incomplete, int]: ...
+def splder(
+    tck: _ToTCK, n: int = 1, *, xp: ModuleType
+) -> tuple[Incomplete, Incomplete, int]: ...
 
 #
 @overload
 def splantider(tck: _ToTCK, n: int = 1, *, xp: None = None) -> _OutTCK1: ...
 @overload
-def splantider(tck: _ToTCK, n: int = 1, *, xp: ModuleType) -> tuple[Incomplete, Incomplete, int]: ...
+def splantider(
+    tck: _ToTCK, n: int = 1, *, xp: ModuleType
+) -> tuple[Incomplete, Incomplete, int]: ...

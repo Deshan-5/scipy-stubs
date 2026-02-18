@@ -26,7 +26,13 @@ class BSpline(_bsplines.BSpline): ...
 
 @deprecated("will be removed in SciPy v2.0.0")
 def make_interp_spline(
-    x: object, y: object, k: object = 3, t: object = None, bc_type: object = None, axis: object = 0, check_finite: object = True
+    x: object,
+    y: object,
+    k: object = 3,
+    t: object = None,
+    bc_type: object = None,
+    axis: object = 0,
+    check_finite: object = True,
 ) -> Any: ...
 
 # _fitpack2
@@ -49,7 +55,9 @@ class PPoly(_interpolate.PPoly): ...
 class interp1d(_interpolate.interp1d): ...
 
 @deprecated("will be removed in SciPy v2.0.0")
-class interp2d(_interpolate.interp2d): ...  # pyright: ignore[reportDeprecated]  # ty: ignore[deprecated]
+class interp2d(
+    _interpolate.interp2d
+): ...  # pyright: ignore[reportDeprecated]  # ty: ignore[deprecated]
 
 @deprecated("will be removed in SciPy v2.0.0")
 def lagrange(x: object, w: object) -> Any: ...
@@ -61,5 +69,10 @@ class RegularGridInterpolator(_rgi.RegularGridInterpolator): ...
 
 @deprecated("will be removed in SciPy v2.0.0")
 def interpn(
-    points: object, values: object, xi: object, method: object = "linear", bounds_error: object = True, fill_value: object = ...
+    points: object,
+    values: object,
+    xi: object,
+    method: object = "linear",
+    bounds_error: object = True,
+    fill_value: object = ...,
 ) -> Any: ...

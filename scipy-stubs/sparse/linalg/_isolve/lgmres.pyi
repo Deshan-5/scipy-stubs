@@ -19,7 +19,9 @@ _ComplexT = TypeVar("_ComplexT", bound=_Complex, default=np.complex128)
 _ScalarT = TypeVar("_ScalarT", bound=npc.number | np.bool_)
 
 _ToInt: TypeAlias = npc.integer | np.bool_
-_ToLinearOperator: TypeAlias = onp.CanArrayND[_ScalarT] | _spbase[_ScalarT] | LinearOperator[_ScalarT]
+_ToLinearOperator: TypeAlias = (
+    onp.CanArrayND[_ScalarT] | _spbase[_ScalarT] | LinearOperator[_ScalarT]
+)
 
 _Ignored: TypeAlias = object
 _Callback: TypeAlias = Callable[[onp.Array1D[_ScalarT]], _Ignored]
@@ -56,7 +58,9 @@ def lgmres(
     callback: _Callback[_ComplexT] | None = None,
     inner_m: int = 30,
     outer_k: int = 3,
-    outer_v: list[tuple[onp.ArrayND[_Float | _Complex], onp.ArrayND[_Complex] | None]] | None = None,
+    outer_v: (
+        list[tuple[onp.ArrayND[_Float | _Complex], onp.ArrayND[_Complex] | None]] | None
+    ) = None,
     store_outer_Av: onp.ToBool = True,
     prepend_outer_v: onp.ToBool = False,
 ) -> tuple[onp.Array1D[_ComplexT], int]: ...

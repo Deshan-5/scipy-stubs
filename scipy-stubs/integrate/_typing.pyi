@@ -11,7 +11,9 @@ __all__ = "QuadInfoDict", "QuadOpts", "QuadWeights"
 _IntLike: TypeAlias = int | npc.integer
 _FloatLike: TypeAlias = float | npc.floating
 
-QuadWeights: TypeAlias = Literal["cos", "sin", "alg", "alg-loga", "alg-logb", "alg-log", "cauchy"]
+QuadWeights: TypeAlias = Literal[
+    "cos", "sin", "alg", "alg-loga", "alg-logb", "alg-log", "cauchy"
+]
 
 @type_check_only
 class QuadOpts(TypedDict, total=False):

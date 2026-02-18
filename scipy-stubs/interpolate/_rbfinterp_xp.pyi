@@ -19,7 +19,14 @@ _InexactArrT = TypeVar("_InexactArrT")
 _IntMat: TypeAlias = Incomplete
 
 _KernelName: TypeAlias = Literal[
-    "linear", "thin_plate_spline", "cubic", "quintic", "multiquadric", "inverse_multiquadric", "inverse_quadratic", "gaussian"
+    "linear",
+    "thin_plate_spline",
+    "cubic",
+    "quintic",
+    "multiquadric",
+    "inverse_multiquadric",
+    "inverse_quadratic",
+    "gaussian",
 ]
 
 ###
@@ -27,7 +34,13 @@ _KernelName: TypeAlias = Literal[
 
 def _monomial_powers(ndim: int, degree: int, xp: ModuleType) -> _IntMat: ...
 def _build_and_solve_system(
-    y: _FloatMatT, d: _FloatMatT, smoothing: _FloatVecT, kernel: str, epsilon: float, powers: _IntMat, xp: ModuleType
+    y: _FloatMatT,
+    d: _FloatMatT,
+    smoothing: _FloatVecT,
+    kernel: str,
+    epsilon: float,
+    powers: _IntMat,
+    xp: ModuleType,
 ) -> tuple[_FloatMatT, _FloatVecT, _FloatVecT]: ...
 
 #
@@ -42,12 +55,20 @@ def gaussian(r: _InexactArrT, xp: ModuleType) -> _InexactArrT: ...
 
 NAME_TO_FUNC: Final[dict[_KernelName, _KernelFunc]] = ...
 
-def kernel_matrix(x: _FloatMatT, kernel_func: Callable[[_FloatMatT, _ModuleT], _T], xp: _ModuleT) -> _T: ...
+def kernel_matrix(
+    x: _FloatMatT, kernel_func: Callable[[_FloatMatT, _ModuleT], _T], xp: _ModuleT
+) -> _T: ...
 def polynomial_matrix(x: _FloatMatT, powers: _IntMat, xp: ModuleType) -> _FloatMatT: ...
 
 #
 def _build_system(
-    y: _FloatMatT, d: _FloatMatT, smoothing: _FloatVecT, kernel: _KernelName, epsilon: float, powers: _IntMat, xp: ModuleType
+    y: _FloatMatT,
+    d: _FloatMatT,
+    smoothing: _FloatVecT,
+    kernel: _KernelName,
+    epsilon: float,
+    powers: _IntMat,
+    xp: ModuleType,
 ) -> tuple[_FloatMatT, _FloatMatT, _FloatVecT, _FloatVecT]: ...
 def _build_evaluation_coefficients(
     x: _FloatMatT,

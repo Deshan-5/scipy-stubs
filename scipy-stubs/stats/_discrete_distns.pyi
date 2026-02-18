@@ -70,17 +70,27 @@ class yulesimon_gen(rv_discrete): ...
 
 class _nchypergeom_gen(rv_discrete):
     rvs_name: ClassVar[Literal["rvs_fisher", "rvs_wallenius"] | None] = None
-    dist: ClassVar[type[_PyFishersNCHypergeometric | _PyWalleniusNCHypergeometric] | None] = None
+    dist: ClassVar[
+        type[_PyFishersNCHypergeometric | _PyWalleniusNCHypergeometric] | None
+    ] = None
 
 @final
 class nchypergeom_fisher_gen(_nchypergeom_gen):
-    rvs_name: ClassVar[Literal["rvs_fisher"]] = "rvs_fisher"  # pyright: ignore[reportIncompatibleVariableOverride]
-    dist: ClassVar[type[_PyFishersNCHypergeometric]] = ...  # pyright: ignore[reportIncompatibleVariableOverride]
+    rvs_name: ClassVar[Literal["rvs_fisher"]] = (
+        "rvs_fisher"  # pyright: ignore[reportIncompatibleVariableOverride]
+    )
+    dist: ClassVar[type[_PyFishersNCHypergeometric]] = (
+        ...
+    )  # pyright: ignore[reportIncompatibleVariableOverride]
 
 @final
 class nchypergeom_wallenius_gen(_nchypergeom_gen):
-    rvs_name: ClassVar[Literal["rvs_wallenius"]] = "rvs_wallenius"  # pyright: ignore[reportIncompatibleVariableOverride]
-    dist: ClassVar[type[_PyWalleniusNCHypergeometric]] = ...  # pyright: ignore[reportIncompatibleVariableOverride]
+    rvs_name: ClassVar[Literal["rvs_wallenius"]] = (
+        "rvs_wallenius"  # pyright: ignore[reportIncompatibleVariableOverride]
+    )
+    dist: ClassVar[type[_PyWalleniusNCHypergeometric]] = (
+        ...
+    )  # pyright: ignore[reportIncompatibleVariableOverride]
 
 binom: Final[binom_gen]
 bernoulli: Final[bernoulli_gen]

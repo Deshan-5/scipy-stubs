@@ -5,7 +5,17 @@ from typing_extensions import deprecated
 
 from . import _dsolve
 
-__all__ = ["MatrixRankWarning", "SuperLU", "factorized", "spilu", "splu", "spsolve", "spsolve_triangular", "test", "use_solver"]
+__all__ = [
+    "MatrixRankWarning",
+    "SuperLU",
+    "factorized",
+    "spilu",
+    "splu",
+    "spsolve",
+    "spsolve_triangular",
+    "test",
+    "use_solver",
+]
 
 test: ModuleType
 
@@ -19,7 +29,9 @@ class SuperLU(_dsolve.SuperLU): ...  # type: ignore[misc]  # pyright: ignore[rep
 @deprecated("will be removed in SciPy v2.0.0")
 def use_solver(**kwargs: object) -> None: ...
 @deprecated("will be removed in SciPy v2.0.0")
-def spsolve(A: object, b: object, permc_spec: object = None, use_umfpack: object = True) -> object: ...
+def spsolve(
+    A: object, b: object, permc_spec: object = None, use_umfpack: object = True
+) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
 def splu(
     A: object,

@@ -14,7 +14,9 @@ _InexactT = TypeVar("_InexactT", bound=npc.inexact)
 _InitMethod: TypeAlias = Literal["random", "points", "++", "matrix"]
 _MissingMethod: TypeAlias = Literal["warn", "raise"]
 
-_ToFloat32_2D: TypeAlias = onp.ToArray2D[int, np.float32 | np.float16 | npc.integer16 | npc.integer8]
+_ToFloat32_2D: TypeAlias = onp.ToArray2D[
+    int, np.float32 | np.float16 | npc.integer16 | npc.integer8
+]
 _AsFloat64_2D: TypeAlias = onp.ToArray2D[float, npc.floating64 | npc.integer]
 _PyFloatMax2D: TypeAlias = Sequence[float] | Sequence[Sequence[float]]
 
@@ -25,9 +27,13 @@ class ClusterError(Exception): ...
 
 #
 @overload
-def whiten(obs: onp.ArrayND[np.bool_ | npc.integer], check_finite: bool | None = None) -> onp.Array2D[np.float64]: ...
+def whiten(
+    obs: onp.ArrayND[np.bool_ | npc.integer], check_finite: bool | None = None
+) -> onp.Array2D[np.float64]: ...
 @overload
-def whiten(obs: onp.ArrayND[_InexactT], check_finite: bool | None = None) -> onp.Array2D[_InexactT]: ...
+def whiten(
+    obs: onp.ArrayND[_InexactT], check_finite: bool | None = None
+) -> onp.Array2D[_InexactT]: ...
 
 #
 @overload  # float32
@@ -100,7 +106,13 @@ def _kpp(
 ) -> onp.Array2D[np.float64]: ...  # undocumented
 
 _valid_init_meth: Final[
-    dict[str, Callable[[onp.ArrayND[npc.inexact], int, onp.random.ToRNG, ModuleType], onp.Array2D[npc.inexact]]]
+    dict[
+        str,
+        Callable[
+            [onp.ArrayND[npc.inexact], int, onp.random.ToRNG, ModuleType],
+            onp.Array2D[npc.inexact],
+        ],
+    ]
 ] = ...  # undocumented
 
 def _missing_warn() -> None: ...  # undocumented

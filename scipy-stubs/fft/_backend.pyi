@@ -19,12 +19,25 @@ class _ScipyBackend(_Backend[_T_co], Generic[_T_co]):
 
     @override
     @staticmethod
-    def __ua_function__(method: Callable[..., _T_co], args: Sequence[object], kwargs: Mapping[str, object]) -> _T_co: ...
+    def __ua_function__(
+        method: Callable[..., _T_co],
+        args: Sequence[object],
+        kwargs: Mapping[str, object],
+    ) -> _T_co: ...
 
 _named_backends: Final[dict[str, type[_Backend[Any]]]] = ...
 
-def _backend_from_arg(backend: _ToBackend[_T]) -> type[_Backend[_T]]: ...  # undocumented
-def set_global_backend(backend: _ToBackend, coerce: bool = False, only: bool = False, try_last: bool = False) -> None: ...
+def _backend_from_arg(
+    backend: _ToBackend[_T],
+) -> type[_Backend[_T]]: ...  # undocumented
+def set_global_backend(
+    backend: _ToBackend,
+    coerce: bool = False,
+    only: bool = False,
+    try_last: bool = False,
+) -> None: ...
 def register_backend(backend: _ToBackend) -> None: ...
-def set_backend(backend: _ToBackend, coerce: bool = False, only: bool = False) -> op.CanWith[None, None]: ...
+def set_backend(
+    backend: _ToBackend, coerce: bool = False, only: bool = False
+) -> op.CanWith[None, None]: ...
 def skip_backend(backend: _ToBackend) -> op.CanWith[None, None]: ...

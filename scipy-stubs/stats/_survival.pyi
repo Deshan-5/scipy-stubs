@@ -25,7 +25,9 @@ _SampleData: TypeAlias = onp.ToFloatND | CensoredData[np.float64]
 
 @type_check_only
 class _CanStep(Protocol[_KwargsT_contra, _LineT]):
-    def step(self, x: _Float1D, y: _Float1D, /, **kwargs: _KwargsT_contra) -> list[_LineT]: ...
+    def step(
+        self, x: _Float1D, y: _Float1D, /, **kwargs: _KwargsT_contra
+    ) -> list[_LineT]: ...
 
 ###
 
@@ -39,12 +41,16 @@ class EmpiricalDistributionFunction:
     _sf: _Float1D
     _kind: _EDFKind
 
-    def __init__(self, /, q: _Float1D, p: _Float1D, n: _Int1D, d: _Int1D, kind: _EDFKind) -> None: ...
+    def __init__(
+        self, /, q: _Float1D, p: _Float1D, n: _Int1D, d: _Int1D, kind: _EDFKind
+    ) -> None: ...
     def evaluate(self, /, x: onp.ToFloatND) -> onp.ArrayND[np.float64]: ...
     @overload
     def plot(self, /, ax: None = None, **kwds: object) -> list[Any]: ...
     @overload
-    def plot(self, /, ax: _CanStep[_KwargsT, _LineT], **kwds: _KwargsT) -> list[_LineT]: ...
+    def plot(
+        self, /, ax: _CanStep[_KwargsT, _LineT], **kwds: _KwargsT
+    ) -> list[_LineT]: ...
     def confidence_interval(
         self, /, confidence_level: onp.ToFloat = 0.95, *, method: _CIMethod = "linear"
     ) -> ConfidenceInterval: ...
@@ -54,7 +60,9 @@ class ECDFResult:
     cdf: Final[EmpiricalDistributionFunction]
     sf: Final[EmpiricalDistributionFunction]
 
-    def __init__(self, /, q: _Float1D, cdf: _Float1D, sf: _Float1D, n: _Int1D, d: _Int1D) -> None: ...
+    def __init__(
+        self, /, q: _Float1D, cdf: _Float1D, sf: _Float1D, n: _Int1D, d: _Int1D
+    ) -> None: ...
 
 @dataclass
 class LogRankResult:
@@ -62,4 +70,6 @@ class LogRankResult:
     pvalue: np.float64
 
 def ecdf(sample: _SampleData) -> ECDFResult: ...
-def logrank(x: _SampleData, y: _SampleData, alternative: Alternative = "two-sided") -> LogRankResult: ...
+def logrank(
+    x: _SampleData, y: _SampleData, alternative: Alternative = "two-sided"
+) -> LogRankResult: ...

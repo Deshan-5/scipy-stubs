@@ -43,16 +43,36 @@ _ScalarT = TypeVar("_ScalarT", bound=np.bool_ | npc.number, default=Any)
 
 _Ignored: TypeAlias = object
 
-_Mode: TypeAlias = Literal["reflect", "constant", "nearest", "mirror", "wrap", "grid-constant", "grid-mirror", "grid-wrap"]
+_Mode: TypeAlias = Literal[
+    "reflect",
+    "constant",
+    "nearest",
+    "mirror",
+    "wrap",
+    "grid-constant",
+    "grid-mirror",
+    "grid-wrap",
+]
 _Modes: TypeAlias = _Mode | Sequence[_Mode]
 _Ints: TypeAlias = int | Sequence[int]
 _AnyOutput: TypeAlias = onp.ArrayND[npc.number | np.bool_] | onp.AnyDType
 
-_FilterFunc1D: TypeAlias = Callable[Concatenate[onp.Array1D[np.float64], onp.Array1D[np.float64], ...], _Ignored]
-_FilterFuncND: TypeAlias = Callable[Concatenate[onp.Array1D[np.float64], ...], onp.ToComplex | onp.ToComplexND]
+_FilterFunc1D: TypeAlias = Callable[
+    Concatenate[onp.Array1D[np.float64], onp.Array1D[np.float64], ...], _Ignored
+]
+_FilterFuncND: TypeAlias = Callable[
+    Concatenate[onp.Array1D[np.float64], ...], onp.ToComplex | onp.ToComplexND
+]
 _Derivative: TypeAlias = Callable[
     # (input, axis, output, mode, cval, *extra_arguments, **extra_keywords)
-    Concatenate[np.ndarray[Any, _DTypeT], int, onp.Array[Any, _ScalarT] | np.dtype[_ScalarT], _Mode, onp.ToComplex, ...],
+    Concatenate[
+        np.ndarray[Any, _DTypeT],
+        int,
+        onp.Array[Any, _ScalarT] | np.dtype[_ScalarT],
+        _Mode,
+        onp.ToComplex,
+        ...,
+    ],
     onp.ArrayND[Any],
 ]
 

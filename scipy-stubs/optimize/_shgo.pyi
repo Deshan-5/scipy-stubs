@@ -60,7 +60,11 @@ def shgo(
     callback: Callable[[_Float1D], None] | None = None,
     minimizer_kwargs: MinimizerKwargs | None = None,
     options: _SHGOOptions | None = None,
-    sampling_method: Callable[[int, int], onp.ToFloat2D] | Literal["simplicial", "halton", "sobol"] = "simplicial",
+    sampling_method: (
+        Callable[[int, int], onp.ToFloat2D] | Literal["simplicial", "halton", "sobol"]
+    ) = "simplicial",
     *,
-    workers: onp.ToJustInt | Callable[[Callable[[_VT], _RT], Iterable[_VT]], Sequence[_RT]] = 1,
+    workers: (
+        onp.ToJustInt | Callable[[Callable[[_VT], _RT], Iterable[_VT]], Sequence[_RT]]
+    ) = 1,
 ) -> OptimizeResult: ...

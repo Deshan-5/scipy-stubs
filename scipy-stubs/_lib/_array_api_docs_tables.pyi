@@ -14,9 +14,17 @@ class BackendSupportStatus(enum.Enum):
     OUT_OF_SCOPE = 3
     UNKNOWN = 4
 
-def _process_capabilities_table_entry(entry: dict[str, Any] | None) -> dict[str, dict[str, bool]]: ...
+def _process_capabilities_table_entry(
+    entry: dict[str, Any] | None,
+) -> dict[str, dict[str, bool]]: ...
 def is_named_function_like_object(obj: object) -> bool: ...
 def make_flat_capabilities_table(
-    modules: str | list[str], backend_type: str, /, *, capabilities_table: _CapabilitiesTable | None = None
+    modules: str | list[str],
+    backend_type: str,
+    /,
+    *,
+    capabilities_table: _CapabilitiesTable | None = None,
 ) -> list[dict[str, str]]: ...
-def calculate_table_statistics(flat_table: list[dict[str, str]]) -> dict[str, tuple[dict[str, str], bool]]: ...
+def calculate_table_statistics(
+    flat_table: list[dict[str, str]],
+) -> dict[str, tuple[dict[str, str], bool]]: ...

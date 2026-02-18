@@ -37,7 +37,9 @@ _Origin: TypeAlias = int | tuple[int, ...]
 _ScalarArrayOut: TypeAlias = onp.ArrayND[npc.number | np.bool_]
 
 def iterate_structure(
-    structure: onp.ToInt | onp.ToIntND, iterations: onp.ToInt, origin: _Origin | None = None
+    structure: onp.ToInt | onp.ToIntND,
+    iterations: onp.ToInt,
+    origin: _Origin | None = None,
 ) -> _BoolArrayOut: ...
 def generate_binary_structure(rank: int, connectivity: int) -> _BoolArrayOut: ...
 
@@ -232,7 +234,11 @@ def distance_transform_bf(
     return_indices: onp.ToBool = False,
     distances: onp.ArrayND[np.float64 | np.uint32] | None = None,
     indices: onp.ArrayND[np.int32] | None = None,
-) -> _ScalarArrayOut | onp.ArrayND[np.int32] | tuple[_ScalarArrayOut, onp.ArrayND[np.int32]]: ...
+) -> (
+    _ScalarArrayOut
+    | onp.ArrayND[np.int32]
+    | tuple[_ScalarArrayOut, onp.ArrayND[np.int32]]
+): ...
 def distance_transform_cdt(
     input: onp.ToComplex | onp.ToComplexND,
     metric: _MetricCDT | onp.ToScalar | onp.ToArrayND = "chessboard",
@@ -248,4 +254,8 @@ def distance_transform_edt(
     return_indices: onp.ToBool = False,
     distances: onp.ArrayND[np.float64] | None = None,
     indices: onp.ArrayND[np.int32] | None = None,
-) -> onp.ArrayND[np.float64] | onp.ArrayND[np.int32] | tuple[onp.ArrayND[np.float64], onp.ArrayND[np.int32]]: ...
+) -> (
+    onp.ArrayND[np.float64]
+    | onp.ArrayND[np.int32]
+    | tuple[onp.ArrayND[np.float64], onp.ArrayND[np.int32]]
+): ...

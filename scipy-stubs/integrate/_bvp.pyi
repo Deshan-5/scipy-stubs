@@ -14,12 +14,27 @@ from scipy.sparse import csc_matrix
 _SCT_fc = TypeVar("_SCT_fc", bound=npc.inexact, default=np.float64 | np.complex128)
 
 _FunRHS: TypeAlias = Callable[[onp.Array1D, onp.Array2D[_SCT_fc]], onp.ArrayND[_SCT_fc]]
-_FunRHS_p: TypeAlias = Callable[[onp.Array1D, onp.Array2D[_SCT_fc], onp.Array1D], onp.ArrayND[_SCT_fc]]
-_FunRHS_x: TypeAlias = Callable[[onp.Array1D, onp.Array2D[_SCT_fc], onp.Array1D], onp.Array2D[_SCT_fc]]
-_FunBCR: TypeAlias = Callable[[onp.Array1D[_SCT_fc], onp.Array1D[_SCT_fc]], onp.ArrayND[_SCT_fc]]
-_FunBCR_p: TypeAlias = Callable[[onp.Array1D[_SCT_fc], onp.Array1D[_SCT_fc], onp.Array1D], onp.ArrayND[_SCT_fc]]
-_FunBCR_x: TypeAlias = Callable[[onp.Array1D[_SCT_fc], onp.Array1D[_SCT_fc], onp.Array1D], onp.Array1D[_SCT_fc]]
-_Funs_x: TypeAlias = tuple[_FunRHS_x[_SCT_fc], _FunBCR_x[_SCT_fc], _FunRHS_jac_x[_SCT_fc], _FunBCR_jac_x[_SCT_fc]]
+_FunRHS_p: TypeAlias = Callable[
+    [onp.Array1D, onp.Array2D[_SCT_fc], onp.Array1D], onp.ArrayND[_SCT_fc]
+]
+_FunRHS_x: TypeAlias = Callable[
+    [onp.Array1D, onp.Array2D[_SCT_fc], onp.Array1D], onp.Array2D[_SCT_fc]
+]
+_FunBCR: TypeAlias = Callable[
+    [onp.Array1D[_SCT_fc], onp.Array1D[_SCT_fc]], onp.ArrayND[_SCT_fc]
+]
+_FunBCR_p: TypeAlias = Callable[
+    [onp.Array1D[_SCT_fc], onp.Array1D[_SCT_fc], onp.Array1D], onp.ArrayND[_SCT_fc]
+]
+_FunBCR_x: TypeAlias = Callable[
+    [onp.Array1D[_SCT_fc], onp.Array1D[_SCT_fc], onp.Array1D], onp.Array1D[_SCT_fc]
+]
+_Funs_x: TypeAlias = tuple[
+    _FunRHS_x[_SCT_fc],
+    _FunBCR_x[_SCT_fc],
+    _FunRHS_jac_x[_SCT_fc],
+    _FunBCR_jac_x[_SCT_fc],
+]
 
 _FunRHS_jac: TypeAlias = Callable[
     [onp.Array1D[np.float64], onp.Array2D[_SCT_fc]],
@@ -49,7 +64,12 @@ _FunBCR_jac_x: TypeAlias = Callable[
 
 _FunCol: TypeAlias = Callable[
     [onp.Array2D[_SCT_fc], onp.Array1D[np.float64]],
-    tuple[onp.Array2D[_SCT_fc], onp.Array2D[_SCT_fc], onp.Array2D[_SCT_fc], onp.Array2D[_SCT_fc]],
+    tuple[
+        onp.Array2D[_SCT_fc],
+        onp.Array2D[_SCT_fc],
+        onp.Array2D[_SCT_fc],
+        onp.Array2D[_SCT_fc],
+    ],
 ]
 _FunCol_jac: TypeAlias = Callable[
     [
@@ -97,9 +117,15 @@ def estimate_bc_jac(
     yb: onp.Array1D[_SCT_fc],
     p: onp.Array1D[np.float64],
     bc0: onp.Array1D[_SCT_fc] | None = None,
-) -> tuple[onp.Array2D[_SCT_fc], onp.Array2D[_SCT_fc], onp.Array2D[_SCT_fc] | None]: ...  # undocumented
-def compute_jac_indices(n: int, m: int, k: int) -> tuple[onp.Array1D[np.intp], onp.Array1D[np.intp]]: ...  # undocumented
-def stacked_matmul(a: onp.ArrayND[_SCT_fc], b: onp.ArrayND[_SCT_fc]) -> onp.ArrayND[_SCT_fc]: ...  # undocumented
+) -> tuple[
+    onp.Array2D[_SCT_fc], onp.Array2D[_SCT_fc], onp.Array2D[_SCT_fc] | None
+]: ...  # undocumented
+def compute_jac_indices(
+    n: int, m: int, k: int
+) -> tuple[onp.Array1D[np.intp], onp.Array1D[np.intp]]: ...  # undocumented
+def stacked_matmul(
+    a: onp.ArrayND[_SCT_fc], b: onp.ArrayND[_SCT_fc]
+) -> onp.ArrayND[_SCT_fc]: ...  # undocumented
 def construct_global_jac(
     n: int,
     m: int,
@@ -116,8 +142,17 @@ def construct_global_jac(
     dbc_dp: onp.Array2D[_SCT_fc] | None,
 ) -> csc_matrix: ...  # undocumented
 def collocation_fun(
-    fun: _FunRHS_x[_SCT_fc], y: onp.Array2D[_SCT_fc], p: onp.Array1D[np.float64], x: onp.Array1D[np.float64], h: float
-) -> tuple[onp.Array2D[_SCT_fc], onp.Array2D[_SCT_fc], onp.Array2D[_SCT_fc], onp.Array2D[_SCT_fc]]: ...  # undocumented
+    fun: _FunRHS_x[_SCT_fc],
+    y: onp.Array2D[_SCT_fc],
+    p: onp.Array1D[np.float64],
+    x: onp.Array1D[np.float64],
+    h: float,
+) -> tuple[
+    onp.Array2D[_SCT_fc],
+    onp.Array2D[_SCT_fc],
+    onp.Array2D[_SCT_fc],
+    onp.Array2D[_SCT_fc],
+]: ...  # undocumented
 def prepare_sys(
     n: int,
     m: int,
@@ -144,7 +179,11 @@ def solve_newton(
 ) -> tuple[onp.Array2D[_SCT_fc], onp.Array1D[np.float64], bool]: ...  # undocumented
 def print_iteration_header() -> None: ...  # undocumented
 def print_iteration_progress(
-    iteration: int, residual: complex, bc_residual: complex, total_nodes: int, nodes_added: int
+    iteration: int,
+    residual: complex,
+    bc_residual: complex,
+    total_nodes: int,
+    nodes_added: int,
 ) -> None: ...  # undocumented
 def estimate_rms_residuals(
     fun: _FunRHS_x[_SCT_fc],
@@ -156,7 +195,10 @@ def estimate_rms_residuals(
     f_middle: onp.Array2D[_SCT_fc],
 ) -> onp.Array1D: ...  # undocumented
 def create_spline(
-    y: onp.Array2D[_SCT_fc], yp: onp.Array2D[_SCT_fc], x: onp.Array1D[np.float64], h: float
+    y: onp.Array2D[_SCT_fc],
+    yp: onp.Array2D[_SCT_fc],
+    x: onp.Array1D[np.float64],
+    h: float,
 ) -> PPoly: ...  # undocumented
 def modify_mesh(
     x: onp.Array1D, insert_1: onp.Array1D[np.intp], insert_2: onp.Array1D[np.intp]

@@ -4,7 +4,12 @@ import numpy as np
 import optype.numpy as onp
 
 def _coloc(
-    x: onp.Array1D[np.float64], t: onp.Array1D[np.float64], k: int, ab: onp.Array2D[np.float64], offset: int = 0, /
+    x: onp.Array1D[np.float64],
+    t: onp.Array1D[np.float64],
+    k: int,
+    ab: onp.Array2D[np.float64],
+    offset: int = 0,
+    /,
 ) -> None: ...  # undocumented
 def _coloc_nd(
     xvals: onp.Array2D[np.float64],
@@ -65,10 +70,20 @@ def qr_reduce_periodic(
 
 #
 def data_matrix(
-    x: onp.Array1D[np.float64], t: onp.Array1D[np.float64], k: int, w: onp.Array1D[np.float64], extrapolate: bool = False, /
+    x: onp.Array1D[np.float64],
+    t: onp.Array1D[np.float64],
+    k: int,
+    w: onp.Array1D[np.float64],
+    extrapolate: bool = False,
+    /,
 ) -> onp.Array2D[np.float64]: ...  # undocumented
 def data_matrix_periodic(
-    x: onp.Array1D[np.float64], t: onp.Array1D[np.float64], k: int, w: onp.Array1D[np.float64], extrapolate: bool = False, /
+    x: onp.Array1D[np.float64],
+    t: onp.Array1D[np.float64],
+    k: int,
+    w: onp.Array1D[np.float64],
+    extrapolate: bool = False,
+    /,
 ) -> tuple[
     onp.Array2D[np.float64],  # A
     onp.Array2D[np.float64],  # H1
@@ -95,14 +110,23 @@ def evaluate_ndbspline(
     /,
 ) -> onp.Array2D[np.float64]: ...  # undocumented
 def evaluate_spline(
-    t: onp.Array1D[np.float64], c: onp.Array2D[np.float64], k: int, xp: onp.Array1D[np.float64], nu: int, extrapolate: bool
+    t: onp.Array1D[np.float64],
+    c: onp.Array2D[np.float64],
+    k: int,
+    xp: onp.Array1D[np.float64],
+    nu: int,
+    extrapolate: bool,
 ) -> onp.Array2D[np.float64]: ...  # undocumented
 
 #
-def find_interval(t: onp.Array1D[np.float64], k: int, xval: float, prev_l: int, extrapolate: bool) -> int: ...  # undocumented
+def find_interval(
+    t: onp.Array1D[np.float64], k: int, xval: float, prev_l: int, extrapolate: bool
+) -> int: ...  # undocumented
 
 #
-def fpback(R: onp.Array2D[np.float64], nc: int, y: onp.Array2D[np.float64]) -> onp.Array2D[np.float64]: ...  # undocumented
+def fpback(
+    R: onp.Array2D[np.float64], nc: int, y: onp.Array2D[np.float64]
+) -> onp.Array2D[np.float64]: ...  # undocumented
 def fpbacp(
     A1: onp.Array2D[np.float64],
     A2: onp.Array2D[np.float64],
@@ -120,10 +144,17 @@ def fpbacp(
     float,  # fp
 ]: ...  # undocumented
 def fpknot(
-    x: onp.Array1D[np.float64], t: onp.Array1D[np.float64], k: int, residuals: onp.Array2D[np.float64]
+    x: onp.Array1D[np.float64],
+    t: onp.Array1D[np.float64],
+    k: int,
+    residuals: onp.Array2D[np.float64],
 ) -> float: ...  # undocumented
 
 #
 def qr_reduce(
-    a: onp.Array2D[np.float64], offset: int, nc: int, y: onp.Array2D[np.float64], startrow: int = 1
+    a: onp.Array2D[np.float64],
+    offset: int,
+    nc: int,
+    y: onp.Array2D[np.float64],
+    startrow: int = 1,
 ) -> None: ...  # undocumented

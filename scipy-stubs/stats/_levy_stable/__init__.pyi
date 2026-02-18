@@ -14,7 +14,9 @@ levy_stable: Final[levy_stable_gen] = ...
 
 class levy_stable_gen(rv_continuous):
     parameterization: Literal["S0", "S1"]
-    pdf_default_method: Literal["piecewise", "best", "zolotarev", "dni", "quadrature", "fft-simpson"]
+    pdf_default_method: Literal[
+        "piecewise", "best", "zolotarev", "dni", "quadrature", "fft-simpson"
+    ]
     cdf_default_method: Literal["piecewise", "fft-simpson"]
     quad_eps: float
     piecewise_x_tol_near_zeta: float

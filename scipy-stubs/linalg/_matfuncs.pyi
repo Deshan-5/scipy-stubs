@@ -30,7 +30,9 @@ _InexactT = TypeVar("_InexactT", bound=npc.inexact)
 _ComplexT = TypeVar("_ComplexT", bound=npc.complexfloating)
 _ShapeT = TypeVar("_ShapeT", bound=tuple[int, ...])
 
-_FuncND: TypeAlias = Callable[[onp.Array[Any, _InexactT]], onp.ToComplexND]  # return type is unsafely cast to the input type
+_FuncND: TypeAlias = Callable[
+    [onp.Array[Any, _InexactT]], onp.ToComplexND
+]  # return type is unsafely cast to the input type
 
 _ToPosInt: TypeAlias = npc.unsignedinteger | Literal[0, 1, 2, 4, 5, 6, 7, 8]
 
@@ -47,18 +49,26 @@ _AsFloat64ND: TypeAlias = onp.ToArrayND[float, np.float64 | npc.integer | np.boo
 
 eps: Final[np.float64] = ...  # undocumented
 feps: Final[np.float32] = ...  # undocumented
-_array_precision: Final[dict[Literal["i", "l", "f", "d", "F", "D"], Literal[0, 1]]] = ...  # undocumented
+_array_precision: Final[dict[Literal["i", "l", "f", "d", "F", "D"], Literal[0, 1]]] = (
+    ...
+)  # undocumented
 
-def _asarray_square(A: onp.ToArray2D[_InexactT]) -> onp.Array2D[_InexactT]: ...  # undocumented
+def _asarray_square(
+    A: onp.ToArray2D[_InexactT],
+) -> onp.Array2D[_InexactT]: ...  # undocumented
 
 #
 @overload
 def _maybe_real(
-    A: onp.ArrayND[npc.inexact], B: onp.ArrayND[npc.inexact64, _ShapeT], tol: float | None = None
+    A: onp.ArrayND[npc.inexact],
+    B: onp.ArrayND[npc.inexact64, _ShapeT],
+    tol: float | None = None,
 ) -> onp.ArrayND[np.float64, _ShapeT]: ...  # undocumented
 @overload
 def _maybe_real(
-    A: onp.ArrayND[npc.inexact], B: onp.ArrayND[npc.inexact32, _ShapeT], tol: float | None = None
+    A: onp.ArrayND[npc.inexact],
+    B: onp.ArrayND[npc.inexact32, _ShapeT],
+    tol: float | None = None,
 ) -> onp.ArrayND[np.float32, _ShapeT]: ...  # undocumented
 
 #
@@ -69,9 +79,13 @@ def fractional_matrix_power(A: onp.ToJustFloat64_ND, t: onp.ToInt) -> _Float64ND
 @overload  # ~floating, +integer
 def fractional_matrix_power(A: onp.ToJustFloatND, t: onp.ToInt) -> _FloatND: ...
 @overload  # ~complex128, +float64
-def fractional_matrix_power(A: onp.ToJustComplex128_ND, t: onp.ToFloat64) -> _Complex128ND: ...
+def fractional_matrix_power(
+    A: onp.ToJustComplex128_ND, t: onp.ToFloat64
+) -> _Complex128ND: ...
 @overload  # +complex128, ~float64
-def fractional_matrix_power(A: onp.ToComplex128_ND, t: onp.ToJustFloat64) -> _Complex128ND: ...
+def fractional_matrix_power(
+    A: onp.ToComplex128_ND, t: onp.ToJustFloat64
+) -> _Complex128ND: ...
 @overload  # +complexfloating, ~float
 def fractional_matrix_power(A: onp.ToComplexND, t: onp.ToJustFloat) -> _ComplexND: ...
 @overload  # +complex, +floating
@@ -95,16 +109,24 @@ def sqrtm(A: onp.ToComplexND, disp: onp.ToTrue) -> _InexactND: ...
 @deprecated("The `disp` argument is deprecated and will be removed in SciPy 1.18.0.")
 def sqrtm(A: onp.ToComplexND, disp: onp.ToFalse) -> tuple[_InexactND, np.float64]: ...
 @overload
-@deprecated("The `blocksize` argument is deprecated and will be removed in SciPy 1.18.0.")
+@deprecated(
+    "The `blocksize` argument is deprecated and will be removed in SciPy 1.18.0."
+)
 def sqrtm(A: onp.ToComplexND, *, blocksize: int) -> _InexactND: ...
 @overload
-@deprecated("The `blocksize` argument is deprecated and will be removed in SciPy 1.18.0.")
+@deprecated(
+    "The `blocksize` argument is deprecated and will be removed in SciPy 1.18.0."
+)
 @deprecated("The `disp` argument is deprecated and will be removed in SciPy 1.18.0.")
 def sqrtm(A: onp.ToComplexND, disp: onp.ToTrue, blocksize: int) -> _InexactND: ...
 @overload
-@deprecated("The `blocksize` argument is deprecated and will be removed in SciPy 1.18.0.")
+@deprecated(
+    "The `blocksize` argument is deprecated and will be removed in SciPy 1.18.0."
+)
 @deprecated("The `disp` argument is deprecated and will be removed in SciPy 1.18.0.")
-def sqrtm(A: onp.ToComplexND, disp: onp.ToFalse, blocksize: int) -> tuple[_InexactND, np.float64]: ...
+def sqrtm(
+    A: onp.ToComplexND, disp: onp.ToFalse, blocksize: int
+) -> tuple[_InexactND, np.float64]: ...
 
 # NOTE: return dtype depends on the sign of the values
 @overload  # +integer | ~float64
@@ -140,7 +162,9 @@ def expm(A: onp.ToJustComplexND) -> _ComplexND: ...
 def expm(A: onp.ToComplexND) -> _InexactND: ...
 
 #
-def _exp_sinch(x: onp.ArrayND[_ComplexT, _ShapeT]) -> onp.ArrayND[_ComplexT, _ShapeT]: ...  # undocumented
+def _exp_sinch(
+    x: onp.ArrayND[_ComplexT, _ShapeT],
+) -> onp.ArrayND[_ComplexT, _ShapeT]: ...  # undocumented
 
 #
 @overload  # +integer | ~float64
@@ -216,17 +240,29 @@ def tanhm(A: onp.ToComplexND) -> _InexactND: ...
 
 #
 @overload  # +float64, disp: True = ...
-def funm(A: onp.ToFloat64_ND, func: _FuncND[np.float64], disp: onp.ToTrue = True) -> _Float64ND: ...
+def funm(
+    A: onp.ToFloat64_ND, func: _FuncND[np.float64], disp: onp.ToTrue = True
+) -> _Float64ND: ...
 @overload  # +floating, disp: False
-def funm(A: onp.ToFloat64_ND, func: _FuncND[np.float64], disp: onp.ToFalse) -> tuple[_Float64ND, float]: ...
+def funm(
+    A: onp.ToFloat64_ND, func: _FuncND[np.float64], disp: onp.ToFalse
+) -> tuple[_Float64ND, float]: ...
 @overload  # +complexfloating, disp: True = ...
-def funm(A: onp.ToJustComplex128_ND, func: _FuncND[np.complex128], disp: onp.ToTrue = True) -> _Complex128ND: ...
+def funm(
+    A: onp.ToJustComplex128_ND, func: _FuncND[np.complex128], disp: onp.ToTrue = True
+) -> _Complex128ND: ...
 @overload  # +complexfloating, disp: False
-def funm(A: onp.ToJustComplex128_ND, func: _FuncND[np.complex128], disp: onp.ToFalse) -> tuple[_Complex128ND, float]: ...
+def funm(
+    A: onp.ToJustComplex128_ND, func: _FuncND[np.complex128], disp: onp.ToFalse
+) -> tuple[_Complex128ND, float]: ...
 @overload  # T: inexact, disp: True = ...
-def funm(A: onp.CanArrayND[_InexactT], func: _FuncND[_InexactT], disp: onp.ToTrue = True) -> onp.ArrayND[_InexactT]: ...
+def funm(
+    A: onp.CanArrayND[_InexactT], func: _FuncND[_InexactT], disp: onp.ToTrue = True
+) -> onp.ArrayND[_InexactT]: ...
 @overload  # T: inexact, disp: False
-def funm(A: onp.CanArrayND[_InexactT], func: _FuncND[_InexactT], disp: onp.ToFalse) -> tuple[onp.ArrayND[_InexactT], float]: ...
+def funm(
+    A: onp.CanArrayND[_InexactT], func: _FuncND[_InexactT], disp: onp.ToFalse
+) -> tuple[onp.ArrayND[_InexactT], float]: ...
 
 #
 @overload  # +float64

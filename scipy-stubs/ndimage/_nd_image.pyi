@@ -107,10 +107,20 @@ def fourier_filter(
     /,
 ) -> None: ...
 def fourier_shift(
-    input: onp.ArrayND[npc.number], order: int, axis: int, output: onp.ArrayND[npc.number], mode: int, /
+    input: onp.ArrayND[npc.number],
+    order: int,
+    axis: int,
+    output: onp.ArrayND[npc.number],
+    mode: int,
+    /,
 ) -> None: ...
 def spline_filter1d(
-    input: onp.ArrayND[npc.number], order: int, axis: int, output: onp.ArrayND[npc.number], mode: int, /
+    input: onp.ArrayND[npc.number],
+    order: int,
+    axis: int,
+    output: onp.ArrayND[npc.number],
+    mode: int,
+    /,
 ) -> None: ...
 def geometric_transform(
     input: onp.ArrayND[npc.number],
@@ -142,7 +152,9 @@ def zoom_shift(
 
 #
 def find_objects(input: onp.ArrayND[npc.number], max_label: int) -> None: ...
-def value_indices(arr: onp.ArrayND[npc.integer], ignoreValIsNone: bool, ignorevalArr: onp.ArrayND, /) -> None: ...
+def value_indices(
+    arr: onp.ArrayND[npc.integer], ignoreValIsNone: bool, ignorevalArr: onp.ArrayND, /
+) -> None: ...
 
 #
 def watershed_ift(
@@ -165,7 +177,9 @@ def distance_transform_op(
     features: onp.ArrayND[npc.number] | None,
 ) -> None: ...
 def euclidean_feature_transform(
-    input: onp.ArrayND[npc.number], sampling: onp.ArrayND[npc.number] | None, features: onp.ArrayND[npc.number]
+    input: onp.ArrayND[npc.number],
+    sampling: onp.ArrayND[npc.number] | None,
+    features: onp.ArrayND[npc.number],
 ) -> None: ...
 
 #

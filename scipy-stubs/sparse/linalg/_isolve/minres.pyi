@@ -16,7 +16,9 @@ _ScalarT = TypeVar("_ScalarT", bound=npc.number | np.bool_)
 
 _Ignored: TypeAlias = object
 _ToInt: TypeAlias = npc.integer | np.bool_
-_ToLinearOperator: TypeAlias = onp.CanArrayND[_ScalarT] | _spbase[_ScalarT] | LinearOperator[_ScalarT]
+_ToLinearOperator: TypeAlias = (
+    onp.CanArrayND[_ScalarT] | _spbase[_ScalarT] | LinearOperator[_ScalarT]
+)
 
 ###
 

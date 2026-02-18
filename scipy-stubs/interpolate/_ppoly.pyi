@@ -3,7 +3,9 @@
 import numpy as np
 import optype.numpy as onp
 
-def _croots_poly1(c: onp.Array1D[np.float64], w: onp.Array1D[np.complex128], y: float = 0.0) -> None: ...  # undocumented
+def _croots_poly1(
+    c: onp.Array1D[np.float64], w: onp.Array1D[np.complex128], y: float = 0.0
+) -> None: ...  # undocumented
 def evaluate(
     c: onp.Array3D[np.float64 | np.complex128],
     x: onp.Array1D[np.float64],
@@ -29,7 +31,9 @@ def evaluate_nd(
     extrapolate: bool,
     out: onp.Array2D[np.float64 | np.complex128],
 ) -> None: ...  # undocumented
-def fix_continuity(c: onp.Array3D[np.float64 | np.complex128], x: onp.Array1D[np.float64], order: int) -> None: ...
+def fix_continuity(
+    c: onp.Array3D[np.float64 | np.complex128], x: onp.Array1D[np.float64], order: int
+) -> None: ...
 def integrate(
     c: onp.Array3D[np.float64 | np.complex128],
     x: onp.Array1D[np.float64],
@@ -39,5 +43,9 @@ def integrate(
     out: onp.Array1D[np.float64 | np.complex128],
 ) -> None: ...  # undocumented
 def real_roots(
-    c: onp.Array3D[np.float64], x: onp.Array1D[np.float64], y: float, report_discont: bool, extrapolate: bool
+    c: onp.Array3D[np.float64],
+    x: onp.Array1D[np.float64],
+    y: float,
+    report_discont: bool,
+    extrapolate: bool,
 ) -> list[onp.Array1D[np.float64]]: ...  # undocumented

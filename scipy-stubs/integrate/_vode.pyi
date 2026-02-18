@@ -10,8 +10,12 @@ _VecF64: TypeAlias = onp.Array1D[np.float64]
 _VecC128: TypeAlias = onp.Array1D[np.complex128]
 
 # (t, y) -> ydot or jac
-_FnCallbackD: TypeAlias = Callable[Concatenate[float, _VecF64, ...], onp.ArrayND[npc.floating]]
-_FnCallbackZ: TypeAlias = Callable[Concatenate[float, _VecC128, ...], onp.ArrayND[npc.complexfloating]]
+_FnCallbackD: TypeAlias = Callable[
+    Concatenate[float, _VecF64, ...], onp.ArrayND[npc.floating]
+]
+_FnCallbackZ: TypeAlias = Callable[
+    Concatenate[float, _VecC128, ...], onp.ArrayND[npc.complexfloating]
+]
 
 @type_check_only
 @final

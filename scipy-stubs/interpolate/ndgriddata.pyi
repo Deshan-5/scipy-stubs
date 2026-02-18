@@ -4,7 +4,12 @@ from typing_extensions import deprecated
 
 from . import _interpnd, _ndgriddata
 
-__all__ = ["CloughTocher2DInterpolator", "LinearNDInterpolator", "NearestNDInterpolator", "griddata"]
+__all__ = [
+    "CloughTocher2DInterpolator",
+    "LinearNDInterpolator",
+    "NearestNDInterpolator",
+    "griddata",
+]
 
 # interpnd
 
@@ -21,5 +26,10 @@ class NearestNDInterpolator(_ndgriddata.NearestNDInterpolator): ...
 
 @deprecated("will be removed in SciPy v2.0.0")
 def griddata(
-    points: object, values: object, xi: object, method: object = "linear", fill_value: float = ..., rescale: object = False
+    points: object,
+    values: object,
+    xi: object,
+    method: object = "linear",
+    fill_value: float = ...,
+    rescale: object = False,
 ) -> object: ...

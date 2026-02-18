@@ -12,7 +12,9 @@ __all__ = ["dct", "dctn", "dst", "dstn", "idct", "idctn", "idst", "idstn"]
 
 _NormKind: TypeAlias = Literal["ortho"] | None
 
-_ArrayReal: TypeAlias = onp.ArrayND[np.float32 | np.float64 | np.longdouble]  # no float16
+_ArrayReal: TypeAlias = onp.ArrayND[
+    np.float32 | np.float64 | np.longdouble
+]  # no float16
 _ArrayComplex: TypeAlias = onp.ArrayND[npc.complexfloating]
 
 ###

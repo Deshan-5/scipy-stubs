@@ -4,18 +4,34 @@ from typing_extensions import deprecated
 
 import numpy as np
 
-__all__ = ["LinAlgError", "diagsvd", "get_lapack_funcs", "null_space", "orth", "subspace_angles", "svd", "svdvals"]
+__all__ = [
+    "LinAlgError",
+    "diagsvd",
+    "get_lapack_funcs",
+    "null_space",
+    "orth",
+    "subspace_angles",
+    "svd",
+    "svdvals",
+]
 
 @deprecated("will be removed in SciPy v2.0.0")
 class LinAlgError(np.linalg.LinAlgError): ...
 
 @deprecated("will be removed in SciPy v2.0.0")
-def get_lapack_funcs(names: object, arrays: object = (), dtype: object = None, ilp64: object = False) -> object: ...
+def get_lapack_funcs(
+    names: object, arrays: object = (), dtype: object = None, ilp64: object = False
+) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
 def diagsvd(s: object, M: object, N: object) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
 def null_space(
-    A: object, rcond: object = None, *, overwrite_a: bool = False, check_finite: bool = True, lapack_driver: str = "gesdd"
+    A: object,
+    rcond: object = None,
+    *,
+    overwrite_a: bool = False,
+    check_finite: bool = True,
+    lapack_driver: str = "gesdd",
 ) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
 def orth(A: object, rcond: object = None) -> object: ...
@@ -31,4 +47,6 @@ def svd(
     lapack_driver: object = "gesdd",
 ) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
-def svdvals(a: object, overwrite_a: object = False, check_finite: object = True) -> object: ...
+def svdvals(
+    a: object, overwrite_a: object = False, check_finite: object = True
+) -> object: ...

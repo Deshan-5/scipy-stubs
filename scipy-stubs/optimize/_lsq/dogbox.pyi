@@ -35,7 +35,9 @@ class OptimizeResult(_OptimizeResult):
     njev: int
     status: Literal[0, 1, 2, 3, 4]
 
-def lsmr_operator(Jop: LinearOperator, d: _Vector_f8, active_set: _Vector_b1) -> LinearOperator: ...  # undocumented
+def lsmr_operator(
+    Jop: LinearOperator, d: _Vector_f8, active_set: _Vector_b1
+) -> LinearOperator: ...  # undocumented
 
 #
 def find_intersection(

@@ -24,4 +24,6 @@ def direct(
     sigma_reltol: float,
     callback: Callable[..., object],
     /,
-) -> tuple[list[Incomplete], float, int, int, int]: ...  # -> (x_seq, minf, ret_code, numfunc, numiter)
+) -> tuple[
+    list[Incomplete], float, int, int, int
+]: ...  # -> (x_seq, minf, ret_code, numfunc, numiter)

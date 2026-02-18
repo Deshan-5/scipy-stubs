@@ -8,7 +8,9 @@ import optype.numpy as onp
 _Float1D: TypeAlias = onp.Array1D[np.float64]
 
 _NameT = TypeVar("_NameT", bound=str)
-_FuncT_co = TypeVar("_FuncT_co", bound=Callable[..., object], default=Callable[..., Any], covariant=True)
+_FuncT_co = TypeVar(
+    "_FuncT_co", bound=Callable[..., object], default=Callable[..., Any], covariant=True
+)
 
 @final
 @type_check_only
@@ -24,7 +26,9 @@ class _FortranFunction(Protocol[_NameT, _FuncT_co]):
 
 @type_check_only
 class _Func_fpchec(Protocol):
-    def __call__(self, /, x: onp.ToFloat1D, t: onp.ToFloat1D, k: onp.ToJustInt) -> int: ...
+    def __call__(
+        self, /, x: onp.ToFloat1D, t: onp.ToFloat1D, k: onp.ToJustInt
+    ) -> int: ...
 
 @type_check_only
 class _Func_splev(Protocol):

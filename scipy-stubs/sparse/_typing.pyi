@@ -31,7 +31,9 @@ _Format: TypeAlias = Literal["bsr", "coo", "csc", "csr", "dia", "dok", "lil"]
 # Interfaces for emulated dependent associated types
 
 _AssocT_co = TypeVar("_AssocT_co", covariant=True)
-_ScalarT_contra = TypeVar("_ScalarT_contra", bound=npc.number | np.bool_, contravariant=True)
+_ScalarT_contra = TypeVar(
+    "_ScalarT_contra", bound=npc.number | np.bool_, contravariant=True
+)
 
 @final
 @type_check_only

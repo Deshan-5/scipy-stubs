@@ -36,7 +36,13 @@ from ._matrix import spmatrix as spmatrix
 from ._typing import _Format
 from scipy._lib._sparse import SparseABC, issparse
 
-__all__ = ["SparseEfficiencyWarning", "SparseWarning", "issparse", "isspmatrix", "sparray"]
+__all__ = [
+    "SparseEfficiencyWarning",
+    "SparseWarning",
+    "issparse",
+    "isspmatrix",
+    "sparray",
+]
 
 ###
 
@@ -47,11 +53,22 @@ _ScalarT_co = TypeVar("_ScalarT_co", bound=_Numeric, default=Any, covariant=True
 
 _Numeric: TypeAlias = npc.number | np.bool_
 
-_COOShapeT = TypeVar("_COOShapeT", bound=tuple[int, *tuple[int, ...]], default=tuple[Any, ...])
-_CSRShapeT = TypeVar("_CSRShapeT", bound=tuple[int] | tuple[int, int], default=tuple[Any, ...])
-_DOKShapeT = TypeVar("_DOKShapeT", bound=tuple[int] | tuple[int, int], default=tuple[Any, ...])
+_COOShapeT = TypeVar(
+    "_COOShapeT", bound=tuple[int, *tuple[int, ...]], default=tuple[Any, ...]
+)
+_CSRShapeT = TypeVar(
+    "_CSRShapeT", bound=tuple[int] | tuple[int, int], default=tuple[Any, ...]
+)
+_DOKShapeT = TypeVar(
+    "_DOKShapeT", bound=tuple[int] | tuple[int, int], default=tuple[Any, ...]
+)
 _ShapeT = TypeVar("_ShapeT", bound=tuple[Any, ...])
-_ShapeT_co = TypeVar("_ShapeT_co", bound=tuple[int, *tuple[int, ...]], default=tuple[Any, ...], covariant=True)
+_ShapeT_co = TypeVar(
+    "_ShapeT_co",
+    bound=tuple[int, *tuple[int, ...]],
+    default=tuple[Any, ...],
+    covariant=True,
+)
 
 _Sp1dT = TypeVar("_Sp1dT", bound=_spbase[_Numeric, _1D])
 _Sp2dT = TypeVar("_Sp2dT", bound=_spbase[_Numeric, _2D])
@@ -94,7 +111,9 @@ _SpMatrix: TypeAlias = (
     | dok_matrix[_ScalarT]
     | lil_matrix[_ScalarT]
 )
-_SpMatrixOut: TypeAlias = bsr_matrix[_ScalarT] | csc_matrix[_ScalarT] | csr_matrix[_ScalarT]
+_SpMatrixOut: TypeAlias = (
+    bsr_matrix[_ScalarT] | csc_matrix[_ScalarT] | csr_matrix[_ScalarT]
+)
 
 _SpArray: TypeAlias = (
     bsr_array[_ScalarT]
@@ -105,7 +124,9 @@ _SpArray: TypeAlias = (
     | dok_array[_ScalarT]
     | lil_array[_ScalarT]
 )
-_SpArray1D: TypeAlias = coo_array[_ScalarT, _1D] | csr_array[_ScalarT, _1D] | dok_array[_ScalarT, _1D]
+_SpArray1D: TypeAlias = (
+    coo_array[_ScalarT, _1D] | csr_array[_ScalarT, _1D] | dok_array[_ScalarT, _1D]
+)
 _SpArray2D: TypeAlias = (
     bsr_array[_ScalarT]
     | coo_array[_ScalarT, _2D]
@@ -117,20 +138,41 @@ _SpArray2D: TypeAlias = (
 )
 _SpArrayND = TypeAliasType(
     "_SpArrayND",
-    coo_array[_ScalarT, _ShapeT] | csr_array[_ScalarT, _ShapeT] | dok_array[_ScalarT, _ShapeT],
+    coo_array[_ScalarT, _ShapeT]
+    | csr_array[_ScalarT, _ShapeT]
+    | dok_array[_ScalarT, _ShapeT],
     type_params=(_ShapeT, _ScalarT),
 )
 
 _SpArrayOut: TypeAlias = bsr_array[_ScalarT] | csc_array[_ScalarT] | csr_array[_ScalarT]
 
-_ToCSRArray: TypeAlias = coo_array[_ScalarT] | csr_array[_ScalarT] | dia_array[_ScalarT] | dok_array[_ScalarT]
-_ToCSRMatrix: TypeAlias = coo_matrix[_ScalarT] | csr_matrix[_ScalarT] | dia_matrix[_ScalarT] | dok_matrix[_ScalarT]
-
-_SparseLike = TypeAliasType("_SparseLike", _T | _ScalarT | _spbase[_ScalarT], type_params=(_T, _ScalarT))
-_To2D = TypeAliasType(
-    "_To2D", Sequence[Sequence[_T | _ScalarT] | onp.CanArrayND[_ScalarT]] | onp.CanArrayND[_ScalarT], type_params=(_T, _ScalarT)
+_ToCSRArray: TypeAlias = (
+    coo_array[_ScalarT]
+    | csr_array[_ScalarT]
+    | dia_array[_ScalarT]
+    | dok_array[_ScalarT]
 )
-_To2DLike = TypeAliasType("_To2DLike", Sequence[_T | _ScalarT] | _To2D[_T, _ScalarT], type_params=(_T, _ScalarT))
+_ToCSRMatrix: TypeAlias = (
+    coo_matrix[_ScalarT]
+    | csr_matrix[_ScalarT]
+    | dia_matrix[_ScalarT]
+    | dok_matrix[_ScalarT]
+)
+
+_SparseLike = TypeAliasType(
+    "_SparseLike", _T | _ScalarT | _spbase[_ScalarT], type_params=(_T, _ScalarT)
+)
+_To2D = TypeAliasType(
+    "_To2D",
+    Sequence[Sequence[_T | _ScalarT] | onp.CanArrayND[_ScalarT]]
+    | onp.CanArrayND[_ScalarT],
+    type_params=(_T, _ScalarT),
+)
+_To2DLike = TypeAliasType(
+    "_To2DLike",
+    Sequence[_T | _ScalarT] | _To2D[_T, _ScalarT],
+    type_params=(_T, _ScalarT),
+)
 
 _BinOp: TypeAlias = Callable[[object, object], Any]
 
@@ -158,7 +200,9 @@ class SparseEfficiencyWarning(SparseWarning): ...
 class _spbase(SparseABC, Generic[_ScalarT_co, _ShapeT_co]):
     __array_priority__: ClassVar[float] = 10.1
     _format: ClassVar[str] = "und"
-    _allow_nd: ClassVar[Sequence[int]] = (2,)  # will be either a `tuple[int, ...]` or a `builtins.range` instance
+    _allow_nd: ClassVar[Sequence[int]] = (
+        2,
+    )  # will be either a `tuple[int, ...]` or a `builtins.range` instance
 
     maxprint: Final[int | None]
 
@@ -168,9 +212,13 @@ class _spbase(SparseABC, Generic[_ScalarT_co, _ShapeT_co]):
     # Note that overloads cannot be used due to limitations in the constraint matching
     # algorithms of the supported static type checkers (hence two methods).
     @type_check_only
-    def __assoc_stacked__(self, /) -> _spbase[_ScalarT_co, tuple[int, int]]: ...  # always 2d
+    def __assoc_stacked__(
+        self, /
+    ) -> _spbase[_ScalarT_co, tuple[int, int]]: ...  # always 2d
     @type_check_only
-    def __assoc_stacked_as__(self, sctype: _ScalarT, /) -> _spbase[_ScalarT, tuple[int, int]]: ...
+    def __assoc_stacked_as__(
+        self, sctype: _ScalarT, /
+    ) -> _spbase[_ScalarT, tuple[int, int]]: ...
 
     #
     @property
@@ -196,36 +244,76 @@ class _spbase(SparseABC, Generic[_ScalarT_co, _ShapeT_co]):
     #
     @overload  # shape
     def __init__(
-        self: _spbase[np.float64], /, arg1: tuple[SupportsIndex, *tuple[SupportsIndex, ...]], *, maxprint: int | None = None
+        self: _spbase[np.float64],
+        /,
+        arg1: tuple[SupportsIndex, *tuple[SupportsIndex, ...]],
+        *,
+        maxprint: int | None = None,
     ) -> None: ...
     @overload  # sparse
-    def __init__(self, /, arg1: _spbase[_ScalarT_co], *, maxprint: int | None = None) -> None: ...
+    def __init__(
+        self, /, arg1: _spbase[_ScalarT_co], *, maxprint: int | None = None
+    ) -> None: ...
     @overload  # dense array-like
-    def __init__(self, /, arg1: _ToSparseArray[_ScalarT_co], *, maxprint: int | None = None) -> None: ...
+    def __init__(
+        self, /, arg1: _ToSparseArray[_ScalarT_co], *, maxprint: int | None = None
+    ) -> None: ...
     @overload  # dense array-like bool
-    def __init__(self: _spbase[np.bool_], /, arg1: _ToSparseSeq[bool], *, maxprint: int | None = None) -> None: ...
+    def __init__(
+        self: _spbase[np.bool_],
+        /,
+        arg1: _ToSparseSeq[bool],
+        *,
+        maxprint: int | None = None,
+    ) -> None: ...
     @overload  # dense array-like int
-    def __init__(self: _spbase[np.int_], /, arg1: _ToSparseSeq[op.JustInt], *, maxprint: int | None = None) -> None: ...
+    def __init__(
+        self: _spbase[np.int_],
+        /,
+        arg1: _ToSparseSeq[op.JustInt],
+        *,
+        maxprint: int | None = None,
+    ) -> None: ...
     @overload  # dense array-like float
-    def __init__(self: _spbase[np.float64], /, arg1: _ToSparseSeq[op.JustFloat], *, maxprint: int | None = None) -> None: ...
+    def __init__(
+        self: _spbase[np.float64],
+        /,
+        arg1: _ToSparseSeq[op.JustFloat],
+        *,
+        maxprint: int | None = None,
+    ) -> None: ...
     @overload  # dense array-like cfloat
-    def __init__(self: _spbase[np.complex128], /, arg1: _ToSparseSeq[op.JustComplex], *, maxprint: int | None = None) -> None: ...
+    def __init__(
+        self: _spbase[np.complex128],
+        /,
+        arg1: _ToSparseSeq[op.JustComplex],
+        *,
+        maxprint: int | None = None,
+    ) -> None: ...
 
     #
     def __bool__(self, /) -> bool: ...
 
     # only `dok_*` doesn't raise `TypeError` when passed to `len`
-    def __len__(self: dok_array | dok_matrix, /) -> int: ...  # pyright: ignore[reportGeneralTypeIssues]
+    def __len__(
+        self: dok_array | dok_matrix, /
+    ) -> int: ...  # pyright: ignore[reportGeneralTypeIssues]
 
     #
     @overload  # 1-d {csr,dok}_array
-    def __iter__(self: csr_array[_ScalarT, _1D] | dok_array[_ScalarT, _1D], /) -> Iterator[_ScalarT]: ...
+    def __iter__(
+        self: csr_array[_ScalarT, _1D] | dok_array[_ScalarT, _1D], /
+    ) -> Iterator[_ScalarT]: ...
     @overload  # 2-d {csc,csr}_array
-    def __iter__(self: csc_array[_ScalarT] | csr_array[_ScalarT, _2D], /) -> Iterator[csr_array[_ScalarT, _1D]]: ...
+    def __iter__(
+        self: csc_array[_ScalarT] | csr_array[_ScalarT, _2D], /
+    ) -> Iterator[csr_array[_ScalarT, _1D]]: ...
     @overload  # lil_array
     def __iter__(self: lil_array[_ScalarT], /) -> Iterator[lil_array[_ScalarT]]: ...
     @overload  # {csc,csr}_matrix
-    def __iter__(self: csc_matrix[_ScalarT] | csr_matrix[_ScalarT], /) -> Iterator[csr_matrix[_ScalarT]]: ...
+    def __iter__(
+        self: csc_matrix[_ScalarT] | csr_matrix[_ScalarT], /
+    ) -> Iterator[csr_matrix[_ScalarT]]: ...
     @overload  # dok_matrix
     def __iter__(self: dok_matrix[_ScalarT], /) -> Iterator[dok_matrix[_ScalarT]]: ...
     @overload  # lil_matrix
@@ -233,40 +321,66 @@ class _spbase(SparseABC, Generic[_ScalarT_co, _ShapeT_co]):
 
     #
     @overload
-    def __lt__(self: _SpBoolT, other: _spbase[_ToFloat, _ShapeT_co] | onp.ToFloat, /) -> _SpBoolT: ...
+    def __lt__(
+        self: _SpBoolT, other: _spbase[_ToFloat, _ShapeT_co] | onp.ToFloat, /
+    ) -> _SpBoolT: ...
     @overload
-    def __lt__(self: _SpArray2D, other: _spbase[_ToFloat, _2D] | onp.ToFloat, /) -> csr_array[np.bool_, _2D]: ...
+    def __lt__(
+        self: _SpArray2D, other: _spbase[_ToFloat, _2D] | onp.ToFloat, /
+    ) -> csr_array[np.bool_, _2D]: ...
     @overload
-    def __lt__(self: _SpArray1D, other: _spbase[_ToFloat, _1D] | onp.ToFloat, /) -> csr_array[np.bool_, _1D]: ...
+    def __lt__(
+        self: _SpArray1D, other: _spbase[_ToFloat, _1D] | onp.ToFloat, /
+    ) -> csr_array[np.bool_, _1D]: ...
     @overload
     def __lt__(self: spmatrix, other: _spbase[_ToFloat], /) -> csr_matrix[np.bool_]: ...
     #
     @overload
-    def __gt__(self: _SpBoolT, other: _spbase[_ToFloat, _ShapeT_co] | onp.ToFloat, /) -> _SpBoolT: ...
+    def __gt__(
+        self: _SpBoolT, other: _spbase[_ToFloat, _ShapeT_co] | onp.ToFloat, /
+    ) -> _SpBoolT: ...
     @overload
-    def __gt__(self: _SpArray2D, other: _spbase[_ToFloat, _2D] | onp.ToFloat, /) -> csr_array[np.bool_, _2D]: ...
+    def __gt__(
+        self: _SpArray2D, other: _spbase[_ToFloat, _2D] | onp.ToFloat, /
+    ) -> csr_array[np.bool_, _2D]: ...
     @overload
-    def __gt__(self: _SpArray1D, other: _spbase[_ToFloat, _1D] | onp.ToFloat, /) -> csr_array[np.bool_, _1D]: ...
+    def __gt__(
+        self: _SpArray1D, other: _spbase[_ToFloat, _1D] | onp.ToFloat, /
+    ) -> csr_array[np.bool_, _1D]: ...
     @overload
     def __gt__(self: spmatrix, other: _spbase[_ToFloat], /) -> csr_matrix[np.bool_]: ...
     #
     @overload
-    def __le__(self: _SpBoolT, other: _spbase[_ToFloat, _ShapeT_co] | onp.ToFloat, /) -> _SpBoolT: ...
+    def __le__(
+        self: _SpBoolT, other: _spbase[_ToFloat, _ShapeT_co] | onp.ToFloat, /
+    ) -> _SpBoolT: ...
     @overload
-    def __le__(self: _SpArray2D, other: _spbase[_ToFloat, _2D] | onp.ToFloat, /) -> csr_array[np.bool_, _2D]: ...
+    def __le__(
+        self: _SpArray2D, other: _spbase[_ToFloat, _2D] | onp.ToFloat, /
+    ) -> csr_array[np.bool_, _2D]: ...
     @overload
-    def __le__(self: _SpArray1D, other: _spbase[_ToFloat, _1D] | onp.ToFloat, /) -> csr_array[np.bool_, _1D]: ...
+    def __le__(
+        self: _SpArray1D, other: _spbase[_ToFloat, _1D] | onp.ToFloat, /
+    ) -> csr_array[np.bool_, _1D]: ...
     @overload
     def __le__(self: spmatrix, other: _spbase[_ToFloat], /) -> csr_matrix[np.bool_]: ...
     #
     @overload
-    def __ge__(self: _SpBoolT, other: _spbase[_ToFloat, _ShapeT_co] | onp.ToFloat, /) -> _SpBoolT: ...
+    def __ge__(
+        self: _SpBoolT, other: _spbase[_ToFloat, _ShapeT_co] | onp.ToFloat, /
+    ) -> _SpBoolT: ...
     @overload
-    def __ge__(self: _SpArray2D, other: _spbase[_ToFloat, _2D] | onp.ToFloat, /) -> csr_array[np.bool_, _2D]: ...
+    def __ge__(
+        self: _SpArray2D, other: _spbase[_ToFloat, _2D] | onp.ToFloat, /
+    ) -> csr_array[np.bool_, _2D]: ...
     @overload
-    def __ge__(self: _SpArray1D, other: _spbase[_ToFloat, _1D] | onp.ToFloat, /) -> csr_array[np.bool_, _1D]: ...
+    def __ge__(
+        self: _SpArray1D, other: _spbase[_ToFloat, _1D] | onp.ToFloat, /
+    ) -> csr_array[np.bool_, _1D]: ...
     @overload
-    def __ge__(self: spmatrix, other: _spbase[_ToFloat], /) -> _SpMatrixOut[np.bool_]: ...
+    def __ge__(
+        self: spmatrix, other: _spbase[_ToFloat], /
+    ) -> _SpMatrixOut[np.bool_]: ...
 
     #
     def __neg__(self, /) -> Self: ...
@@ -279,23 +393,41 @@ class _spbase(SparseABC, Generic[_ScalarT_co, _ShapeT_co]):
     @overload  # sparse[-Int], sparse[+Int8]
     def __add__(self: _SpFromIntT, other: _spbase[_ToInt8], /) -> _SpFromIntT: ...
     @overload  # sparse[-Float], sparse[+Float32]
-    def __add__(self: _SpFromFloatT, other: _spbase[_ToFloat32], /) -> _SpFromFloatT: ...
+    def __add__(
+        self: _SpFromFloatT, other: _spbase[_ToFloat32], /
+    ) -> _SpFromFloatT: ...
     @overload  # sparse[-Complex], sparse[+Complex64]
-    def __add__(self: _SpFromComplexT, other: _spbase[_ToComplex64], /) -> _SpFromComplexT: ...
+    def __add__(
+        self: _SpFromComplexT, other: _spbase[_ToComplex64], /
+    ) -> _SpFromComplexT: ...
     @overload  # spmatrix[-Int], array[+Int8]
-    def __add__(self: spmatrix[_FromInt], other: onp.ArrayND[_ToInt8], /) -> onp.Matrix[_ScalarT_co]: ...
+    def __add__(
+        self: spmatrix[_FromInt], other: onp.ArrayND[_ToInt8], /
+    ) -> onp.Matrix[_ScalarT_co]: ...
     @overload  # spmatrix[-Float], array[+Float32]
-    def __add__(self: spmatrix[_FromFloat], other: onp.ArrayND[_ToFloat32], /) -> onp.Matrix[_ScalarT_co]: ...
+    def __add__(
+        self: spmatrix[_FromFloat], other: onp.ArrayND[_ToFloat32], /
+    ) -> onp.Matrix[_ScalarT_co]: ...
     @overload  # spmatrix[-Complex], array[+Complex64]
-    def __add__(self: spmatrix[_FromComplex], other: onp.ArrayND[_ToComplex64], /) -> onp.Matrix[_ScalarT_co]: ...
+    def __add__(
+        self: spmatrix[_FromComplex], other: onp.ArrayND[_ToComplex64], /
+    ) -> onp.Matrix[_ScalarT_co]: ...
     @overload  # sparse[-Int], array[+Int8]
-    def __add__(self: _spbase[_FromInt], other: onp.ArrayND[_ToInt8], /) -> onp.ArrayND[_ScalarT_co, _ShapeT_co]: ...
+    def __add__(
+        self: _spbase[_FromInt], other: onp.ArrayND[_ToInt8], /
+    ) -> onp.ArrayND[_ScalarT_co, _ShapeT_co]: ...
     @overload  # sparse[-Float], array[+Float32]
-    def __add__(self: _spbase[_FromFloat], other: onp.ArrayND[_ToFloat32], /) -> onp.ArrayND[_ScalarT_co, _ShapeT_co]: ...
+    def __add__(
+        self: _spbase[_FromFloat], other: onp.ArrayND[_ToFloat32], /
+    ) -> onp.ArrayND[_ScalarT_co, _ShapeT_co]: ...
     @overload  # sparse[-Complex], arrau[+Complex64]
-    def __add__(self: _spbase[_FromComplex], other: onp.ArrayND[_ToComplex64], /) -> onp.ArrayND[_ScalarT_co, _ShapeT_co]: ...
+    def __add__(
+        self: _spbase[_FromComplex], other: onp.ArrayND[_ToComplex64], /
+    ) -> onp.ArrayND[_ScalarT_co, _ShapeT_co]: ...
     @overload  # catch-all
-    def __add__(self, other: onp.ArrayND[_Numeric] | _spbase, /) -> _spbase[Any] | onp.ArrayND[Any]: ...
+    def __add__(
+        self, other: onp.ArrayND[_Numeric] | _spbase, /
+    ) -> _spbase[Any] | onp.ArrayND[Any]: ...
 
     #
     @overload  # `0` or sparse of same dtype
@@ -303,23 +435,41 @@ class _spbase(SparseABC, Generic[_ScalarT_co, _ShapeT_co]):
     @overload  # sparse[-Int], sparse[+Int8]
     def __sub__(self: _SpFromIntT, other: _spbase[_ToInt8], /) -> _SpFromIntT: ...
     @overload  # sparse[-Float], sparse[+Float32]
-    def __sub__(self: _SpFromFloatT, other: _spbase[_ToFloat32], /) -> _SpFromFloatT: ...
+    def __sub__(
+        self: _SpFromFloatT, other: _spbase[_ToFloat32], /
+    ) -> _SpFromFloatT: ...
     @overload  # sparse[-Complex], sparse[+Complex64]
-    def __sub__(self: _SpFromComplexT, other: _spbase[_ToComplex64], /) -> _SpFromComplexT: ...
+    def __sub__(
+        self: _SpFromComplexT, other: _spbase[_ToComplex64], /
+    ) -> _SpFromComplexT: ...
     @overload  # spmatrix[-Int], array[+Int8]
-    def __sub__(self: spmatrix[_FromInt], other: onp.ArrayND[_ToInt8], /) -> onp.Matrix[_ScalarT_co]: ...
+    def __sub__(
+        self: spmatrix[_FromInt], other: onp.ArrayND[_ToInt8], /
+    ) -> onp.Matrix[_ScalarT_co]: ...
     @overload  # spmatrix[-Float], array[+Float32]
-    def __sub__(self: spmatrix[_FromFloat], other: onp.ArrayND[_ToFloat32], /) -> onp.Matrix[_ScalarT_co]: ...
+    def __sub__(
+        self: spmatrix[_FromFloat], other: onp.ArrayND[_ToFloat32], /
+    ) -> onp.Matrix[_ScalarT_co]: ...
     @overload  # spmatrix[-Complex], array[+Complex64]
-    def __sub__(self: spmatrix[_FromComplex], other: onp.ArrayND[_ToComplex64], /) -> onp.Matrix[_ScalarT_co]: ...
+    def __sub__(
+        self: spmatrix[_FromComplex], other: onp.ArrayND[_ToComplex64], /
+    ) -> onp.Matrix[_ScalarT_co]: ...
     @overload  # sparse[-Int], array[+Int8]
-    def __sub__(self: _spbase[_FromInt], other: onp.ArrayND[_ToInt8], /) -> onp.ArrayND[_ScalarT_co, _ShapeT_co]: ...
+    def __sub__(
+        self: _spbase[_FromInt], other: onp.ArrayND[_ToInt8], /
+    ) -> onp.ArrayND[_ScalarT_co, _ShapeT_co]: ...
     @overload  # sparse[-Float], array[+Float32]
-    def __sub__(self: _spbase[_FromFloat], other: onp.ArrayND[_ToFloat32], /) -> onp.ArrayND[_ScalarT_co, _ShapeT_co]: ...
+    def __sub__(
+        self: _spbase[_FromFloat], other: onp.ArrayND[_ToFloat32], /
+    ) -> onp.ArrayND[_ScalarT_co, _ShapeT_co]: ...
     @overload  # sparse[-Complex], arrau[+Complex64]
-    def __sub__(self: _spbase[_FromComplex], other: onp.ArrayND[_ToComplex64], /) -> onp.ArrayND[_ScalarT_co, _ShapeT_co]: ...
+    def __sub__(
+        self: _spbase[_FromComplex], other: onp.ArrayND[_ToComplex64], /
+    ) -> onp.ArrayND[_ScalarT_co, _ShapeT_co]: ...
     @overload  # catch-all
-    def __sub__(self, other: onp.ArrayND[_Numeric] | _spbase, /) -> _spbase[Any] | onp.ArrayND[Any]: ...
+    def __sub__(
+        self, other: onp.ArrayND[_Numeric] | _spbase, /
+    ) -> _spbase[Any] | onp.ArrayND[Any]: ...
 
     # NOTE: `other` isn't positional-only because we re-use it for `multiply`
     # NOTE: keep in sync with `__rmul__`
@@ -332,63 +482,113 @@ class _spbase(SparseABC, Generic[_ScalarT_co, _ShapeT_co]):
     @overload  # Self[-Complex], /, other: scalar-like +Complex
     def __mul__(self: _SpFromComplexT, /, other: onp.ToComplex) -> _SpFromComplexT: ...
     @overload  # sparray[-Bool], /, other: sparse +Bool
-    def __mul__(self: _SpArrayOutT, /, other: _spbase[np.bool_ | _ScalarT_co]) -> _SpArrayOutT: ...
+    def __mul__(
+        self: _SpArrayOutT, /, other: _spbase[np.bool_ | _ScalarT_co]
+    ) -> _SpArrayOutT: ...
     @overload  # sparray[-Bool], /, other: array-like +Bool
-    def __mul__(self: _SpArray, /, other: _To2DLike[bool, np.bool_]) -> coo_array[_ScalarT_co, _ShapeT_co]: ...
+    def __mul__(
+        self: _SpArray, /, other: _To2DLike[bool, np.bool_]
+    ) -> coo_array[_ScalarT_co, _ShapeT_co]: ...
     @overload  # sparray[-Int], /, other: sparse +Int
-    def __mul__(self: _SpArray[_FromInt], /, other: _spbase[_ToInt8 | _ScalarT_co]) -> _SpArrayOut[_ScalarT_co]: ...
+    def __mul__(
+        self: _SpArray[_FromInt], /, other: _spbase[_ToInt8 | _ScalarT_co]
+    ) -> _SpArrayOut[_ScalarT_co]: ...
     @overload  # sparray[-Int], /, other: array-like +Int
-    def __mul__(self: _SpArray[_FromInt], /, other: _To2DLike[bool, _ToInt8]) -> coo_array[_ScalarT_co, _ShapeT_co]: ...
+    def __mul__(
+        self: _SpArray[_FromInt], /, other: _To2DLike[bool, _ToInt8]
+    ) -> coo_array[_ScalarT_co, _ShapeT_co]: ...
     @overload  # sparray[-Float], /, other: sparse +Float
-    def __mul__(self: _SpArray[_FromFloat], /, other: _spbase[_ToFloat32 | _ScalarT_co]) -> _SpArrayOut[_ScalarT_co]: ...
+    def __mul__(
+        self: _SpArray[_FromFloat], /, other: _spbase[_ToFloat32 | _ScalarT_co]
+    ) -> _SpArrayOut[_ScalarT_co]: ...
     @overload  # sparray[-Float], /, other: array-like +Float
-    def __mul__(self: _SpArray[_FromFloat], /, other: _To2DLike[int, _ToFloat32]) -> coo_array[_ScalarT_co, _ShapeT_co]: ...
+    def __mul__(
+        self: _SpArray[_FromFloat], /, other: _To2DLike[int, _ToFloat32]
+    ) -> coo_array[_ScalarT_co, _ShapeT_co]: ...
     @overload  # sparray[-Complex], /, other: sparse +Complex
-    def __mul__(self: _SpArray[_FromComplex], /, other: _spbase[_ToComplex64 | _ScalarT_co]) -> _SpArrayOut[_ScalarT_co]: ...
+    def __mul__(
+        self: _SpArray[_FromComplex], /, other: _spbase[_ToComplex64 | _ScalarT_co]
+    ) -> _SpArrayOut[_ScalarT_co]: ...
     @overload  # sparray[-Complex], /, other: array-like +Complex
-    def __mul__(self: _SpArray[_FromComplex], /, other: _To2DLike[int, _ToComplex64]) -> coo_array[_ScalarT_co, _ShapeT_co]: ...
+    def __mul__(
+        self: _SpArray[_FromComplex], /, other: _To2DLike[int, _ToComplex64]
+    ) -> coo_array[_ScalarT_co, _ShapeT_co]: ...
     @overload  # spmatrix, /, other: spmatrix
     def __mul__(self: _SpMatrixT, /, other: _SpMatrixT) -> _SpMatrixT: ...
     @overload  # spmatrix[-Bool], /, other: sparse +Bool
-    def __mul__(self: spmatrix, /, other: _spbase[np.bool_]) -> _SpMatrixOut[_ScalarT_co]: ...
+    def __mul__(
+        self: spmatrix, /, other: _spbase[np.bool_]
+    ) -> _SpMatrixOut[_ScalarT_co]: ...
     @overload  # spmatrix[-Bool], /, other: array-like +Bool
-    def __mul__(self: spmatrix, /, other: _To2D[bool, np.bool_]) -> onp.Array2D[_ScalarT_co]: ...
+    def __mul__(
+        self: spmatrix, /, other: _To2D[bool, np.bool_]
+    ) -> onp.Array2D[_ScalarT_co]: ...
     @overload  # spmatrix[-Int], /, other: sparse +Int
-    def __mul__(self: spmatrix[_FromInt], /, other: _spbase[_ToInt8]) -> _SpMatrixOut[_ScalarT_co]: ...
+    def __mul__(
+        self: spmatrix[_FromInt], /, other: _spbase[_ToInt8]
+    ) -> _SpMatrixOut[_ScalarT_co]: ...
     @overload  # spmatrix[-Int], /, other: array-like +Int
-    def __mul__(self: spmatrix[_FromInt], /, other: _To2D[bool, _ToInt8]) -> onp.Array2D[_ScalarT_co]: ...
+    def __mul__(
+        self: spmatrix[_FromInt], /, other: _To2D[bool, _ToInt8]
+    ) -> onp.Array2D[_ScalarT_co]: ...
     @overload  # spmatrix[-Float], /, other: sparse +Float
-    def __mul__(self: spmatrix[_FromFloat], /, other: _spbase[_ToFloat32 | _ScalarT_co]) -> _SpMatrixOut[_ScalarT_co]: ...
+    def __mul__(
+        self: spmatrix[_FromFloat], /, other: _spbase[_ToFloat32 | _ScalarT_co]
+    ) -> _SpMatrixOut[_ScalarT_co]: ...
     @overload  # spmatrix[-Float], /, other: array-like +Float
-    def __mul__(self: spmatrix[_FromFloat], /, other: _To2D[int, _ToFloat32]) -> onp.Array2D[_ScalarT_co]: ...
+    def __mul__(
+        self: spmatrix[_FromFloat], /, other: _To2D[int, _ToFloat32]
+    ) -> onp.Array2D[_ScalarT_co]: ...
     @overload  # spmatrix[-Complex], /, other: sparse +Complex
-    def __mul__(self: spmatrix[_FromComplex], /, other: _spbase[_ToComplex64 | _ScalarT_co]) -> _SpMatrixOut[_ScalarT_co]: ...
+    def __mul__(
+        self: spmatrix[_FromComplex], /, other: _spbase[_ToComplex64 | _ScalarT_co]
+    ) -> _SpMatrixOut[_ScalarT_co]: ...
     @overload  # spmatrix[-Complex], /, other: array-like +Complex
-    def __mul__(self: spmatrix[_FromComplex], /, other: _To2D[float, _ToComplex64]) -> onp.Array2D[_ScalarT_co]: ...
+    def __mul__(
+        self: spmatrix[_FromComplex], /, other: _To2D[float, _ToComplex64]
+    ) -> onp.Array2D[_ScalarT_co]: ...
     @overload  # spmatrix[+Bool], /, other: scalar- or matrix-like ~Int
-    def __mul__(self: spmatrix[np.bool_], /, other: _SparseLike[op.JustInt, npc.integer]) -> spmatrix[npc.integer]: ...
+    def __mul__(
+        self: spmatrix[np.bool_], /, other: _SparseLike[op.JustInt, npc.integer]
+    ) -> spmatrix[npc.integer]: ...
     @overload  # spmatrix[+Bool], /, other: array-like ~Int
-    def __mul__(self: spmatrix[np.bool_], /, other: _To2D[op.JustInt, npc.integer]) -> onp.Array2D[npc.integer]: ...
+    def __mul__(
+        self: spmatrix[np.bool_], /, other: _To2D[op.JustInt, npc.integer]
+    ) -> onp.Array2D[npc.integer]: ...
     @overload  # spmatrix[+Int], /, other: scalar- or matrix-like ~Float
-    def __mul__(self: spmatrix[_ToInt], /, other: _SparseLike[op.JustFloat, npc.floating]) -> spmatrix[npc.floating]: ...
+    def __mul__(
+        self: spmatrix[_ToInt], /, other: _SparseLike[op.JustFloat, npc.floating]
+    ) -> spmatrix[npc.floating]: ...
     @overload  # spmatrix[+Int], /, other: array-like ~Float
-    def __mul__(self: spmatrix[_ToInt], /, other: _To2D[op.JustFloat, npc.floating]) -> onp.Array2D[npc.floating]: ...
+    def __mul__(
+        self: spmatrix[_ToInt], /, other: _To2D[op.JustFloat, npc.floating]
+    ) -> onp.Array2D[npc.floating]: ...
     @overload  # spmatrix[+Float], /, other: scalar- or matrix-like ~Complex
     def __mul__(
-        self: spmatrix[_ToFloat], /, other: _SparseLike[op.JustComplex, npc.complexfloating]
+        self: spmatrix[_ToFloat],
+        /,
+        other: _SparseLike[op.JustComplex, npc.complexfloating],
     ) -> spmatrix[npc.complexfloating]: ...
     @overload  # spmatrix[+Float], /, other: array-like ~Complex
     def __mul__(
         self: spmatrix[_ToFloat], /, other: _To2D[op.JustComplex, npc.complexfloating]
     ) -> onp.Array2D[npc.complexfloating]: ...
     @overload  # Self[+Bool], /, other: -Int
-    def __mul__(self: _spbase[np.bool_], /, other: _FromIntT) -> _spbase[_FromIntT, _ShapeT_co]: ...
+    def __mul__(
+        self: _spbase[np.bool_], /, other: _FromIntT
+    ) -> _spbase[_FromIntT, _ShapeT_co]: ...
     @overload  # Self[+Int], /, other: -Float
-    def __mul__(self: _spbase[_ToInt], /, other: _FromFloatT) -> _spbase[_FromFloatT, _ShapeT_co]: ...
+    def __mul__(
+        self: _spbase[_ToInt], /, other: _FromFloatT
+    ) -> _spbase[_FromFloatT, _ShapeT_co]: ...
     @overload  # Self[+Float], /, other: -Complex
-    def __mul__(self: _spbase[_ToFloat], /, other: _FromComplexT) -> _spbase[_FromComplexT, _ShapeT_co]: ...
+    def __mul__(
+        self: _spbase[_ToFloat], /, other: _FromComplexT
+    ) -> _spbase[_FromComplexT, _ShapeT_co]: ...
     @overload  # catch-all
-    def __mul__(self, /, other: _To2DLike[complex, _Numeric] | _spbase) -> _spbase[Any] | onp.ArrayND[Any]: ...
+    def __mul__(
+        self, /, other: _To2DLike[complex, _Numeric] | _spbase
+    ) -> _spbase[Any] | onp.ArrayND[Any]: ...
 
     #
     multiply = __mul__
@@ -404,79 +604,143 @@ class _spbase(SparseABC, Generic[_ScalarT_co, _ShapeT_co]):
     @overload  # Self[-Complex], /, other: scalar-like +Complex
     def __rmul__(self: _SpFromComplexT, /, other: onp.ToComplex) -> _SpFromComplexT: ...
     @overload  # sparray[-Bool], /, other: sparse +Bool
-    def __rmul__(self: _SpArrayOutT, /, other: _spbase[np.bool_ | _ScalarT_co]) -> _SpArrayOutT: ...
+    def __rmul__(
+        self: _SpArrayOutT, /, other: _spbase[np.bool_ | _ScalarT_co]
+    ) -> _SpArrayOutT: ...
     @overload  # sparray[-Bool], /, other: array-like +Bool
-    def __rmul__(self: _SpArray, /, other: _To2DLike[bool, np.bool_]) -> coo_array[_ScalarT_co, _ShapeT_co]: ...
+    def __rmul__(
+        self: _SpArray, /, other: _To2DLike[bool, np.bool_]
+    ) -> coo_array[_ScalarT_co, _ShapeT_co]: ...
     @overload  # sparray[-Int], /, other: sparse +Int
-    def __rmul__(self: _SpArray[_FromInt], /, other: _spbase[_ToInt8 | _ScalarT_co]) -> _SpArrayOut[_ScalarT_co]: ...
+    def __rmul__(
+        self: _SpArray[_FromInt], /, other: _spbase[_ToInt8 | _ScalarT_co]
+    ) -> _SpArrayOut[_ScalarT_co]: ...
     @overload  # sparray[-Int], /, other: array-like +Int
-    def __rmul__(self: _SpArray[_FromInt], /, other: _To2DLike[bool, _ToInt8]) -> coo_array[_ScalarT_co, _ShapeT_co]: ...
+    def __rmul__(
+        self: _SpArray[_FromInt], /, other: _To2DLike[bool, _ToInt8]
+    ) -> coo_array[_ScalarT_co, _ShapeT_co]: ...
     @overload  # sparray[-Float], /, other: sparse +Float
-    def __rmul__(self: _SpArray[_FromFloat], /, other: _spbase[_ToFloat32 | _ScalarT_co]) -> _SpArrayOut[_ScalarT_co]: ...
+    def __rmul__(
+        self: _SpArray[_FromFloat], /, other: _spbase[_ToFloat32 | _ScalarT_co]
+    ) -> _SpArrayOut[_ScalarT_co]: ...
     @overload  # sparray[-Float], /, other: array-like +Float
-    def __rmul__(self: _SpArray[_FromFloat], /, other: _To2DLike[int, _ToFloat32]) -> coo_array[_ScalarT_co, _ShapeT_co]: ...
+    def __rmul__(
+        self: _SpArray[_FromFloat], /, other: _To2DLike[int, _ToFloat32]
+    ) -> coo_array[_ScalarT_co, _ShapeT_co]: ...
     @overload  # sparray[-Complex], /, other: sparse +Complex
-    def __rmul__(self: _SpArray[_FromComplex], /, other: _spbase[_ToComplex64 | _ScalarT_co]) -> _SpArrayOut[_ScalarT_co]: ...
+    def __rmul__(
+        self: _SpArray[_FromComplex], /, other: _spbase[_ToComplex64 | _ScalarT_co]
+    ) -> _SpArrayOut[_ScalarT_co]: ...
     @overload  # sparray[-Complex], /, other: array-like +Complex
-    def __rmul__(self: _SpArray[_FromComplex], /, other: _To2DLike[int, _ToComplex64]) -> coo_array[_ScalarT_co, _ShapeT_co]: ...
+    def __rmul__(
+        self: _SpArray[_FromComplex], /, other: _To2DLike[int, _ToComplex64]
+    ) -> coo_array[_ScalarT_co, _ShapeT_co]: ...
     @overload  # spmatrix, /, other: spmatrix
     def __rmul__(self: _SpMatrixT, /, other: _SpMatrixT) -> _SpMatrixT: ...
     @overload  # spmatrix[-Bool], /, other: sparse +Bool
-    def __rmul__(self: spmatrix, /, other: _spbase[np.bool_]) -> _SpMatrixOut[_ScalarT_co]: ...
+    def __rmul__(
+        self: spmatrix, /, other: _spbase[np.bool_]
+    ) -> _SpMatrixOut[_ScalarT_co]: ...
     @overload  # spmatrix[-Bool], /, other: array-like +Bool
-    def __rmul__(self: spmatrix, /, other: _To2D[bool, np.bool_]) -> onp.Array2D[_ScalarT_co]: ...
+    def __rmul__(
+        self: spmatrix, /, other: _To2D[bool, np.bool_]
+    ) -> onp.Array2D[_ScalarT_co]: ...
     @overload  # spmatrix[-Int], /, other: sparse +Int
-    def __rmul__(self: spmatrix[_FromInt], /, other: _spbase[_ToInt8]) -> _SpMatrixOut[_ScalarT_co]: ...
+    def __rmul__(
+        self: spmatrix[_FromInt], /, other: _spbase[_ToInt8]
+    ) -> _SpMatrixOut[_ScalarT_co]: ...
     @overload  # spmatrix[-Int], /, other: array-like +Int
-    def __rmul__(self: spmatrix[_FromInt], /, other: _To2D[bool, _ToInt8]) -> onp.Array2D[_ScalarT_co]: ...
+    def __rmul__(
+        self: spmatrix[_FromInt], /, other: _To2D[bool, _ToInt8]
+    ) -> onp.Array2D[_ScalarT_co]: ...
     @overload  # spmatrix[-Float], /, other: sparse +Float
-    def __rmul__(self: spmatrix[_FromFloat], /, other: _spbase[_ToFloat32 | _ScalarT_co]) -> _SpMatrixOut[_ScalarT_co]: ...
+    def __rmul__(
+        self: spmatrix[_FromFloat], /, other: _spbase[_ToFloat32 | _ScalarT_co]
+    ) -> _SpMatrixOut[_ScalarT_co]: ...
     @overload  # spmatrix[-Float], /, other: array-like +Float
-    def __rmul__(self: spmatrix[_FromFloat], /, other: _To2D[int, _ToFloat32]) -> onp.Array2D[_ScalarT_co]: ...
+    def __rmul__(
+        self: spmatrix[_FromFloat], /, other: _To2D[int, _ToFloat32]
+    ) -> onp.Array2D[_ScalarT_co]: ...
     @overload  # spmatrix[-Complex], /, other: sparse +Complex
-    def __rmul__(self: spmatrix[_FromComplex], /, other: _spbase[_ToComplex64 | _ScalarT_co]) -> _SpMatrixOut[_ScalarT_co]: ...
+    def __rmul__(
+        self: spmatrix[_FromComplex], /, other: _spbase[_ToComplex64 | _ScalarT_co]
+    ) -> _SpMatrixOut[_ScalarT_co]: ...
     @overload  # spmatrix[-Complex], /, other: array-like +Complex
-    def __rmul__(self: spmatrix[_FromComplex], /, other: _To2D[float, _ToComplex64]) -> onp.Array2D[_ScalarT_co]: ...
+    def __rmul__(
+        self: spmatrix[_FromComplex], /, other: _To2D[float, _ToComplex64]
+    ) -> onp.Array2D[_ScalarT_co]: ...
     @overload  # spmatrix[+Bool], /, other: scalar- or matrix-like ~Int
-    def __rmul__(self: spmatrix[np.bool_], /, other: _SparseLike[op.JustInt, npc.integer]) -> spmatrix[npc.integer]: ...
+    def __rmul__(
+        self: spmatrix[np.bool_], /, other: _SparseLike[op.JustInt, npc.integer]
+    ) -> spmatrix[npc.integer]: ...
     @overload  # spmatrix[+Bool], /, other: array-like ~Int
-    def __rmul__(self: spmatrix[np.bool_], /, other: _To2D[op.JustInt, npc.integer]) -> onp.Array2D[npc.integer]: ...
+    def __rmul__(
+        self: spmatrix[np.bool_], /, other: _To2D[op.JustInt, npc.integer]
+    ) -> onp.Array2D[npc.integer]: ...
     @overload  # spmatrix[+Int], /, other: scalar- or matrix-like ~Float
-    def __rmul__(self: spmatrix[_ToInt], /, other: _SparseLike[op.JustFloat, npc.floating]) -> spmatrix[npc.floating]: ...
+    def __rmul__(
+        self: spmatrix[_ToInt], /, other: _SparseLike[op.JustFloat, npc.floating]
+    ) -> spmatrix[npc.floating]: ...
     @overload  # spmatrix[+Int], /, other: array-like ~Float
-    def __rmul__(self: spmatrix[_ToInt], /, other: _To2D[op.JustFloat, npc.floating]) -> onp.Array2D[npc.floating]: ...
+    def __rmul__(
+        self: spmatrix[_ToInt], /, other: _To2D[op.JustFloat, npc.floating]
+    ) -> onp.Array2D[npc.floating]: ...
     @overload  # spmatrix[+Float], /, other: scalar- or matrix-like ~Complex
     def __rmul__(
-        self: spmatrix[_ToFloat], /, other: _SparseLike[op.JustComplex, npc.complexfloating]
+        self: spmatrix[_ToFloat],
+        /,
+        other: _SparseLike[op.JustComplex, npc.complexfloating],
     ) -> spmatrix[npc.complexfloating]: ...
     @overload  # spmatrix[+Float], /, other: array-like ~Complex
     def __rmul__(
         self: spmatrix[_ToFloat], /, other: _To2D[op.JustComplex, npc.complexfloating]
     ) -> onp.Array2D[npc.complexfloating]: ...
     @overload  # Self[+Bool], /, other: -Int
-    def __rmul__(self: _spbase[np.bool_], /, other: _FromIntT) -> _spbase[_FromIntT, _ShapeT_co]: ...
+    def __rmul__(
+        self: _spbase[np.bool_], /, other: _FromIntT
+    ) -> _spbase[_FromIntT, _ShapeT_co]: ...
     @overload  # Self[+Int], /, other: -Float
-    def __rmul__(self: _spbase[_ToInt], /, other: _FromFloatT) -> _spbase[_FromFloatT, _ShapeT_co]: ...
+    def __rmul__(
+        self: _spbase[_ToInt], /, other: _FromFloatT
+    ) -> _spbase[_FromFloatT, _ShapeT_co]: ...
     @overload  # Self[+Float], /, other: -Complex
-    def __rmul__(self: _spbase[_ToFloat], /, other: _FromComplexT) -> _spbase[_FromComplexT, _ShapeT_co]: ...
+    def __rmul__(
+        self: _spbase[_ToFloat], /, other: _FromComplexT
+    ) -> _spbase[_FromComplexT, _ShapeT_co]: ...
     @overload  # catch-all
-    def __rmul__(self, /, other: _To2DLike[complex, _Numeric] | _spbase) -> _spbase[Any] | onp.ArrayND[Any]: ...
+    def __rmul__(
+        self, /, other: _To2DLike[complex, _Numeric] | _spbase
+    ) -> _spbase[Any] | onp.ArrayND[Any]: ...
 
     #
     @overload  # sparray[-Bool], other: sparse +Bool
-    def __matmul__(self: _SpArrayOutT, other: _spbase[np.bool_ | _ScalarT_co], /) -> _SpArrayOutT: ...
+    def __matmul__(
+        self: _SpArrayOutT, other: _spbase[np.bool_ | _ScalarT_co], /
+    ) -> _SpArrayOutT: ...
     @overload  # sparray[-Bool], other: array-like +Bool
-    def __matmul__(self: _SpArray, other: _To2DLike[bool, np.bool_], /) -> onp.ArrayND[_ScalarT_co, _ShapeT_co]: ...
+    def __matmul__(
+        self: _SpArray, other: _To2DLike[bool, np.bool_], /
+    ) -> onp.ArrayND[_ScalarT_co, _ShapeT_co]: ...
     @overload  # sparray[-Int], other: sparse +Int
-    def __matmul__(self: _SpArray[_FromInt], other: _spbase[_ToInt8 | _ScalarT_co], /) -> _SpArrayOut[_ScalarT_co]: ...
+    def __matmul__(
+        self: _SpArray[_FromInt], other: _spbase[_ToInt8 | _ScalarT_co], /
+    ) -> _SpArrayOut[_ScalarT_co]: ...
     @overload  # sparray[-Int], other: array-like +Int
-    def __matmul__(self: _SpArray[_FromInt], other: _To2DLike[bool, _ToInt8], /) -> onp.ArrayND[_ScalarT_co, _ShapeT_co]: ...
+    def __matmul__(
+        self: _SpArray[_FromInt], other: _To2DLike[bool, _ToInt8], /
+    ) -> onp.ArrayND[_ScalarT_co, _ShapeT_co]: ...
     @overload  # sparray[-Float], other: sparse +Float
-    def __matmul__(self: _SpArray[_FromFloat], other: _spbase[_ToFloat32 | _ScalarT_co], /) -> _SpArrayOut[_ScalarT_co]: ...
+    def __matmul__(
+        self: _SpArray[_FromFloat], other: _spbase[_ToFloat32 | _ScalarT_co], /
+    ) -> _SpArrayOut[_ScalarT_co]: ...
     @overload  # sparray[-Float], other: array-like +Float
-    def __matmul__(self: _SpArray[_FromFloat], other: _To2DLike[int, _ToFloat32], /) -> onp.ArrayND[_ScalarT_co, _ShapeT_co]: ...
+    def __matmul__(
+        self: _SpArray[_FromFloat], other: _To2DLike[int, _ToFloat32], /
+    ) -> onp.ArrayND[_ScalarT_co, _ShapeT_co]: ...
     @overload  # sparray[-Complex], other: sparse +Complex
-    def __matmul__(self: _SpArray[_FromComplex], other: _spbase[_ToComplex64 | _ScalarT_co], /) -> _SpArrayOut[_ScalarT_co]: ...
+    def __matmul__(
+        self: _SpArray[_FromComplex], other: _spbase[_ToComplex64 | _ScalarT_co], /
+    ) -> _SpArrayOut[_ScalarT_co]: ...
     @overload  # sparray[-Complex], other: array-like +Complex
     def __matmul__(
         self: _SpArray[_FromComplex], other: _To2DLike[int, _ToComplex64], /
@@ -484,70 +748,124 @@ class _spbase(SparseABC, Generic[_ScalarT_co, _ShapeT_co]):
     @overload  # spmatrix, other: spmatrix
     def __matmul__(self: _SpMatrixT, other: _SpMatrixT, /) -> _SpMatrixT: ...
     @overload  # spmatrix[-Bool], other: sparse +Bool
-    def __matmul__(self: spmatrix, other: _spbase[np.bool_], /) -> _SpMatrixOut[_ScalarT_co]: ...
+    def __matmul__(
+        self: spmatrix, other: _spbase[np.bool_], /
+    ) -> _SpMatrixOut[_ScalarT_co]: ...
     @overload  # spmatrix[-Bool], other: array-like +Bool
-    def __matmul__(self: spmatrix, other: _To2D[bool, np.bool_], /) -> onp.Array2D[_ScalarT_co]: ...
+    def __matmul__(
+        self: spmatrix, other: _To2D[bool, np.bool_], /
+    ) -> onp.Array2D[_ScalarT_co]: ...
     @overload  # spmatrix[-Int], other: sparse +Int
-    def __matmul__(self: spmatrix[_FromInt], other: _spbase[_ToInt8], /) -> _SpMatrixOut[_ScalarT_co]: ...
+    def __matmul__(
+        self: spmatrix[_FromInt], other: _spbase[_ToInt8], /
+    ) -> _SpMatrixOut[_ScalarT_co]: ...
     @overload  # spmatrix[-Int], other: array-like +Int
-    def __matmul__(self: spmatrix[_FromInt], other: _To2D[bool, _ToInt8], /) -> onp.Array2D[_ScalarT_co]: ...
+    def __matmul__(
+        self: spmatrix[_FromInt], other: _To2D[bool, _ToInt8], /
+    ) -> onp.Array2D[_ScalarT_co]: ...
     @overload  # spmatrix[-Float], other: sparse +Float
-    def __matmul__(self: spmatrix[_FromFloat], other: _spbase[_ToFloat32 | _ScalarT_co], /) -> _SpMatrixOut[_ScalarT_co]: ...
+    def __matmul__(
+        self: spmatrix[_FromFloat], other: _spbase[_ToFloat32 | _ScalarT_co], /
+    ) -> _SpMatrixOut[_ScalarT_co]: ...
     @overload  # spmatrix[-Float], other: array-like +Float
-    def __matmul__(self: spmatrix[_FromFloat], other: _To2D[int, _ToFloat32], /) -> onp.Array2D[_ScalarT_co]: ...
+    def __matmul__(
+        self: spmatrix[_FromFloat], other: _To2D[int, _ToFloat32], /
+    ) -> onp.Array2D[_ScalarT_co]: ...
     @overload  # spmatrix[-Complex], other: sparse +Complex
-    def __matmul__(self: spmatrix[_FromComplex], other: _spbase[_ToComplex64 | _ScalarT_co], /) -> _SpMatrixOut[_ScalarT_co]: ...
+    def __matmul__(
+        self: spmatrix[_FromComplex], other: _spbase[_ToComplex64 | _ScalarT_co], /
+    ) -> _SpMatrixOut[_ScalarT_co]: ...
     @overload  # spmatrix[-Complex], other: array-like +Complex
-    def __matmul__(self: spmatrix[_FromComplex], other: _To2D[float, _ToComplex64], /) -> onp.Array2D[_ScalarT_co]: ...
+    def __matmul__(
+        self: spmatrix[_FromComplex], other: _To2D[float, _ToComplex64], /
+    ) -> onp.Array2D[_ScalarT_co]: ...
     @overload  # spmatrix[+Bool], other: scalar- or matrix-like ~Int
-    def __matmul__(self: spmatrix[np.bool_], other: _spbase[npc.integer], /) -> _SpMatrixOut[npc.integer]: ...
+    def __matmul__(
+        self: spmatrix[np.bool_], other: _spbase[npc.integer], /
+    ) -> _SpMatrixOut[npc.integer]: ...
     @overload  # spmatrix[+Bool], other: array-like ~Int
-    def __matmul__(self: spmatrix[np.bool_], other: _To2D[op.JustInt, npc.integer], /) -> onp.Array2D[npc.integer]: ...
+    def __matmul__(
+        self: spmatrix[np.bool_], other: _To2D[op.JustInt, npc.integer], /
+    ) -> onp.Array2D[npc.integer]: ...
     @overload  # spmatrix[+Int], other: scalar- or matrix-like ~Float
-    def __matmul__(self: spmatrix[_ToInt], other: _spbase[npc.floating], /) -> _SpMatrixOut[npc.floating]: ...
+    def __matmul__(
+        self: spmatrix[_ToInt], other: _spbase[npc.floating], /
+    ) -> _SpMatrixOut[npc.floating]: ...
     @overload  # spmatrix[+Int], other: array-like ~Float
-    def __matmul__(self: spmatrix[_ToInt], other: _To2D[op.JustFloat, npc.floating], /) -> onp.Array2D[npc.floating]: ...
+    def __matmul__(
+        self: spmatrix[_ToInt], other: _To2D[op.JustFloat, npc.floating], /
+    ) -> onp.Array2D[npc.floating]: ...
     @overload  # spmatrix[+Float], other: scalar- or matrix-like ~Complex
-    def __matmul__(self: spmatrix[_ToFloat], other: _spbase[npc.complexfloating], /) -> _SpMatrixOut[npc.complexfloating]: ...
+    def __matmul__(
+        self: spmatrix[_ToFloat], other: _spbase[npc.complexfloating], /
+    ) -> _SpMatrixOut[npc.complexfloating]: ...
     @overload  # spmatrix[+Float], other: array-like ~Complex
     def __matmul__(
         self: spmatrix[_ToFloat], other: _To2D[op.JustComplex, npc.complexfloating], /
     ) -> onp.Array2D[npc.complexfloating]: ...
     @overload  # catch-all
-    def __matmul__(self, other: _To2DLike[complex, _Numeric] | _spbase, /) -> _spbase[Any] | onp.ArrayND[Any]: ...
+    def __matmul__(
+        self, other: _To2DLike[complex, _Numeric] | _spbase, /
+    ) -> _spbase[Any] | onp.ArrayND[Any]: ...
 
     # NOTE: for scalars: `dok` and `lil` keep `integer` dtypes (not bool), the others upcast to `float64`
     # TODO(jorenham): Override this in the concrete subclasses.
     @overload
-    def __truediv__(self: _spbase[np.bool_], rhs: _ToInt, /) -> _SpArray[np.int_] | _SpMatrix[np.float64]: ...
+    def __truediv__(
+        self: _spbase[np.bool_], rhs: _ToInt, /
+    ) -> _SpArray[np.int_] | _SpMatrix[np.float64]: ...
     @overload
     def __truediv__(self: _SpFromFloatT, rhs: _ToFloat32, /) -> _SpFromFloatT: ...
     @overload
     def __truediv__(self: _SpFromComplexT, rhs: _ToComplex64, /) -> _SpFromComplexT: ...
     @overload
-    def __truediv__(self: sparray, rhs: complex | _Numeric, /) -> _SpArray[np.int_ | _FromFloat]: ...
+    def __truediv__(
+        self: sparray, rhs: complex | _Numeric, /
+    ) -> _SpArray[np.int_ | _FromFloat]: ...
     @overload
-    def __truediv__(self: spmatrix, rhs: complex | _Numeric, /) -> _SpMatrix[np.int_ | _FromFloat]: ...
+    def __truediv__(
+        self: spmatrix, rhs: complex | _Numeric, /
+    ) -> _SpMatrix[np.int_ | _FromFloat]: ...
     @overload
-    def __truediv__(self: sparray[_ToFloat], rhs: _spbase[_ToFloat, _ShapeT_co], /) -> onp.ArrayND[np.float64, _ShapeT_co]: ...
+    def __truediv__(
+        self: sparray[_ToFloat], rhs: _spbase[_ToFloat, _ShapeT_co], /
+    ) -> onp.ArrayND[np.float64, _ShapeT_co]: ...
     @overload
-    def __truediv__(self: spmatrix[_ToFloat], rhs: spmatrix[_ToFloat], /) -> onp.Matrix[np.float64]: ...
+    def __truediv__(
+        self: spmatrix[_ToFloat], rhs: spmatrix[_ToFloat], /
+    ) -> onp.Matrix[np.float64]: ...
     @overload
-    def __truediv__(self: sparray, rhs: onp.ArrayND[_Numeric], /) -> coo_array[np.int_ | _FromFloat]: ...
+    def __truediv__(
+        self: sparray, rhs: onp.ArrayND[_Numeric], /
+    ) -> coo_array[np.int_ | _FromFloat]: ...
     @overload
-    def __truediv__(self: spmatrix, rhs: onp.ArrayND[_Numeric], /) -> coo_matrix[np.int_ | _FromFloat]: ...
+    def __truediv__(
+        self: spmatrix, rhs: onp.ArrayND[_Numeric], /
+    ) -> coo_matrix[np.int_ | _FromFloat]: ...
     @overload
-    def __truediv__(self: spmatrix, rhs: _spbase[_FromComplex, tuple[int, int]], /) -> onp.Matrix[_FromComplex]: ...
+    def __truediv__(
+        self: spmatrix, rhs: _spbase[_FromComplex, tuple[int, int]], /
+    ) -> onp.Matrix[_FromComplex]: ...
     @overload
-    def __truediv__(self: spmatrix, rhs: _spbase[_FromFloat, tuple[int, int]], /) -> onp.Matrix[_FromFloat]: ...
+    def __truediv__(
+        self: spmatrix, rhs: _spbase[_FromFloat, tuple[int, int]], /
+    ) -> onp.Matrix[_FromFloat]: ...
     @overload
-    def __truediv__(self: spmatrix, rhs: _spbase[Any, tuple[int, int]], /) -> onp.Matrix[np.int_ | _FromFloat]: ...
+    def __truediv__(
+        self: spmatrix, rhs: _spbase[Any, tuple[int, int]], /
+    ) -> onp.Matrix[np.int_ | _FromFloat]: ...
     @overload
-    def __truediv__(self, rhs: _spbase[_FromComplex, _ShapeT_co], /) -> onp.ArrayND[_FromComplex, _ShapeT_co]: ...
+    def __truediv__(
+        self, rhs: _spbase[_FromComplex, _ShapeT_co], /
+    ) -> onp.ArrayND[_FromComplex, _ShapeT_co]: ...
     @overload
-    def __truediv__(self, rhs: _spbase[_FromFloat, _ShapeT_co], /) -> onp.ArrayND[_FromFloat, _ShapeT_co]: ...
+    def __truediv__(
+        self, rhs: _spbase[_FromFloat, _ShapeT_co], /
+    ) -> onp.ArrayND[_FromFloat, _ShapeT_co]: ...
     @overload
-    def __truediv__(self, rhs: _spbase, /) -> onp.ArrayND[np.int_ | _FromFloat, _ShapeT_co]: ...
+    def __truediv__(
+        self, rhs: _spbase, /
+    ) -> onp.ArrayND[np.int_ | _FromFloat, _ShapeT_co]: ...
 
     #
     def __pow__(self, rhs: op.CanIndex, /) -> Self: ...
@@ -580,85 +898,157 @@ class _spbase(SparseABC, Generic[_ScalarT_co, _ShapeT_co]):
     @overload  # Self[-Complex], /, other: scalar-like +Complex
     def dot(self: _SpFromComplexT, /, other: onp.ToComplex) -> _SpFromComplexT: ...
     @overload  # spmatrix[+Bool], /, other: scalar-like ~Int
-    def dot(self: spmatrix[np.bool_], /, other: op.JustInt) -> spmatrix[npc.integer]: ...
+    def dot(
+        self: spmatrix[np.bool_], /, other: op.JustInt
+    ) -> spmatrix[npc.integer]: ...
     @overload  # spmatrix[+Int], /, other: scalar-like ~Float
-    def dot(self: spmatrix[_ToInt], /, other: op.JustFloat) -> spmatrix[npc.floating]: ...
+    def dot(
+        self: spmatrix[_ToInt], /, other: op.JustFloat
+    ) -> spmatrix[npc.floating]: ...
     @overload  # spmatrix[+Float], /, other: scalar-like ~Complex
-    def dot(self: spmatrix[_ToFloat], /, other: op.JustComplex) -> spmatrix[npc.complexfloating]: ...
+    def dot(
+        self: spmatrix[_ToFloat], /, other: op.JustComplex
+    ) -> spmatrix[npc.complexfloating]: ...
     @overload  # sparray[-Bool], /, other: sparse +Bool
-    def dot(self: _SpArray, /, other: _spbase[np.bool_ | _ScalarT_co]) -> _SpArrayOut[_ScalarT_co]: ...
+    def dot(
+        self: _SpArray, /, other: _spbase[np.bool_ | _ScalarT_co]
+    ) -> _SpArrayOut[_ScalarT_co]: ...
     @overload  # sparray[-Bool], /, other: array-like +Bool
-    def dot(self: _SpArray, /, other: _To2DLike[bool, np.bool_]) -> onp.ArrayND[_ScalarT_co, _ShapeT_co]: ...
+    def dot(
+        self: _SpArray, /, other: _To2DLike[bool, np.bool_]
+    ) -> onp.ArrayND[_ScalarT_co, _ShapeT_co]: ...
     @overload  # sparray[-Int], /, other: sparse +Int
-    def dot(self: _SpArray[_FromInt], /, other: _spbase[_ToInt8 | _ScalarT_co]) -> _SpArrayOut[_ScalarT_co]: ...
+    def dot(
+        self: _SpArray[_FromInt], /, other: _spbase[_ToInt8 | _ScalarT_co]
+    ) -> _SpArrayOut[_ScalarT_co]: ...
     @overload  # sparray[-Int], /, other: array-like +Int
-    def dot(self: _SpArray[_FromInt], /, other: _To2DLike[bool, _ToInt8]) -> onp.ArrayND[_ScalarT_co, _ShapeT_co]: ...
+    def dot(
+        self: _SpArray[_FromInt], /, other: _To2DLike[bool, _ToInt8]
+    ) -> onp.ArrayND[_ScalarT_co, _ShapeT_co]: ...
     @overload  # sparray[-Float], /, other: sparse +Float
-    def dot(self: _SpArray[_FromFloat], /, other: _spbase[_ToFloat32 | _ScalarT_co]) -> _SpArrayOut[_ScalarT_co]: ...
+    def dot(
+        self: _SpArray[_FromFloat], /, other: _spbase[_ToFloat32 | _ScalarT_co]
+    ) -> _SpArrayOut[_ScalarT_co]: ...
     @overload  # sparray[-Float], /, other: array-like +Float
-    def dot(self: _SpArray[_FromFloat], /, other: _To2DLike[int, _ToFloat32]) -> onp.ArrayND[_ScalarT_co, _ShapeT_co]: ...
+    def dot(
+        self: _SpArray[_FromFloat], /, other: _To2DLike[int, _ToFloat32]
+    ) -> onp.ArrayND[_ScalarT_co, _ShapeT_co]: ...
     @overload  # sparray[-Complex], /, other: sparse +Complex
-    def dot(self: _SpArray[_FromComplex], /, other: _spbase[_ToComplex64 | _ScalarT_co]) -> _SpArrayOut[_ScalarT_co]: ...
+    def dot(
+        self: _SpArray[_FromComplex], /, other: _spbase[_ToComplex64 | _ScalarT_co]
+    ) -> _SpArrayOut[_ScalarT_co]: ...
     @overload  # sparray[-Complex], /, other: array-like +Complex
-    def dot(self: _SpArray[_FromComplex], /, other: _To2DLike[int, _ToComplex64]) -> onp.ArrayND[_ScalarT_co, _ShapeT_co]: ...
+    def dot(
+        self: _SpArray[_FromComplex], /, other: _To2DLike[int, _ToComplex64]
+    ) -> onp.ArrayND[_ScalarT_co, _ShapeT_co]: ...
     @overload  # spmatrix, /, other: spmatrix
     def dot(self: _SpMatrixT, /, other: _SpMatrixT) -> _SpMatrixT: ...
     @overload  # spmatrix[-Bool], /, other: sparse +Bool
-    def dot(self: spmatrix, /, other: _spbase[np.bool_]) -> _SpMatrixOut[_ScalarT_co]: ...
+    def dot(
+        self: spmatrix, /, other: _spbase[np.bool_]
+    ) -> _SpMatrixOut[_ScalarT_co]: ...
     @overload  # spmatrix[-Bool], /, other: array-like +Bool
-    def dot(self: spmatrix, /, other: _To2D[bool, np.bool_]) -> onp.Array2D[_ScalarT_co]: ...
+    def dot(
+        self: spmatrix, /, other: _To2D[bool, np.bool_]
+    ) -> onp.Array2D[_ScalarT_co]: ...
     @overload  # spmatrix[-Int], /, other: sparse +Int
-    def dot(self: spmatrix[_FromInt], /, other: _spbase[_ToInt8]) -> _SpMatrixOut[_ScalarT_co]: ...
+    def dot(
+        self: spmatrix[_FromInt], /, other: _spbase[_ToInt8]
+    ) -> _SpMatrixOut[_ScalarT_co]: ...
     @overload  # spmatrix[-Int], /, other: array-like +Int
-    def dot(self: spmatrix[_FromInt], /, other: _To2D[bool, _ToInt8]) -> onp.Array2D[_ScalarT_co]: ...
+    def dot(
+        self: spmatrix[_FromInt], /, other: _To2D[bool, _ToInt8]
+    ) -> onp.Array2D[_ScalarT_co]: ...
     @overload  # spmatrix[-Float], /, other: sparse +Float
-    def dot(self: spmatrix[_FromFloat], /, other: _spbase[_ToFloat32 | _ScalarT_co]) -> _SpMatrixOut[_ScalarT_co]: ...
+    def dot(
+        self: spmatrix[_FromFloat], /, other: _spbase[_ToFloat32 | _ScalarT_co]
+    ) -> _SpMatrixOut[_ScalarT_co]: ...
     @overload  # spmatrix[-Float], /, other: array-like +Float
-    def dot(self: spmatrix[_FromFloat], /, other: _To2D[int, _ToFloat32]) -> onp.Array2D[_ScalarT_co]: ...
+    def dot(
+        self: spmatrix[_FromFloat], /, other: _To2D[int, _ToFloat32]
+    ) -> onp.Array2D[_ScalarT_co]: ...
     @overload  # spmatrix[-Complex], /, other: sparse +Complex
-    def dot(self: spmatrix[_FromComplex], /, other: _spbase[_ToComplex64 | _ScalarT_co]) -> _SpMatrixOut[_ScalarT_co]: ...
+    def dot(
+        self: spmatrix[_FromComplex], /, other: _spbase[_ToComplex64 | _ScalarT_co]
+    ) -> _SpMatrixOut[_ScalarT_co]: ...
     @overload  # spmatrix[-Complex], /, other: array-like +Complex
-    def dot(self: spmatrix[_FromComplex], /, other: _To2D[float, _ToComplex64]) -> onp.Array2D[_ScalarT_co]: ...
+    def dot(
+        self: spmatrix[_FromComplex], /, other: _To2D[float, _ToComplex64]
+    ) -> onp.Array2D[_ScalarT_co]: ...
     @overload  # spmatrix[+Bool], /, other: scalar- or matrix-like ~Int
-    def dot(self: spmatrix[np.bool_], /, other: _spbase[npc.integer]) -> _SpMatrixOut[npc.integer]: ...
+    def dot(
+        self: spmatrix[np.bool_], /, other: _spbase[npc.integer]
+    ) -> _SpMatrixOut[npc.integer]: ...
     @overload  # spmatrix[+Bool], /, other: array-like ~Int
-    def dot(self: spmatrix[np.bool_], /, other: _To2D[op.JustInt, npc.integer]) -> onp.Array2D[npc.integer]: ...
+    def dot(
+        self: spmatrix[np.bool_], /, other: _To2D[op.JustInt, npc.integer]
+    ) -> onp.Array2D[npc.integer]: ...
     @overload  # spmatrix[+Int], /, other: scalar- or matrix-like ~Float
-    def dot(self: spmatrix[_ToInt], /, other: _spbase[npc.floating]) -> _SpMatrixOut[npc.floating]: ...
+    def dot(
+        self: spmatrix[_ToInt], /, other: _spbase[npc.floating]
+    ) -> _SpMatrixOut[npc.floating]: ...
     @overload  # spmatrix[+Int], /, other: array-like ~Float
-    def dot(self: spmatrix[_ToInt], /, other: _To2D[op.JustFloat, npc.floating]) -> onp.Array2D[npc.floating]: ...
+    def dot(
+        self: spmatrix[_ToInt], /, other: _To2D[op.JustFloat, npc.floating]
+    ) -> onp.Array2D[npc.floating]: ...
     @overload  # spmatrix[+Float], /, other: scalar- or matrix-like ~Complex
-    def dot(self: spmatrix[_ToFloat], /, other: _spbase[npc.complexfloating]) -> _SpMatrixOut[npc.complexfloating]: ...
+    def dot(
+        self: spmatrix[_ToFloat], /, other: _spbase[npc.complexfloating]
+    ) -> _SpMatrixOut[npc.complexfloating]: ...
     @overload  # spmatrix[+Float], /, other: array-like ~Complex
     def dot(
         self: spmatrix[_ToFloat], /, other: _To2D[op.JustComplex, npc.complexfloating]
     ) -> onp.Array2D[npc.complexfloating]: ...
     @overload  # catch-all
-    def dot(self, /, other: _To2DLike[complex, _Numeric] | _spbase) -> _spbase[Any] | onp.ArrayND[Any]: ...
+    def dot(
+        self, /, other: _To2DLike[complex, _Numeric] | _spbase
+    ) -> _spbase[Any] | onp.ArrayND[Any]: ...
 
     #
     @overload  # Self[-Int], +Int8
-    def maximum(self: _SpFromIntT, /, other: bool | _ToInt8 | _spbase[_ToInt8]) -> _SpFromIntT: ...
+    def maximum(
+        self: _SpFromIntT, /, other: bool | _ToInt8 | _spbase[_ToInt8]
+    ) -> _SpFromIntT: ...
     @overload  # Self[-Float], +Float32
-    def maximum(self: _SpFromFloatT, /, other: int | _ToFloat32 | _spbase[_ToFloat32]) -> _SpFromFloatT: ...
+    def maximum(
+        self: _SpFromFloatT, /, other: int | _ToFloat32 | _spbase[_ToFloat32]
+    ) -> _SpFromFloatT: ...
     @overload  # Self[-Complex], +Complex64
-    def maximum(self: _SpFromComplexT, /, other: float | _ToComplex64 | _spbase[_ToComplex64]) -> _SpFromComplexT: ...
+    def maximum(
+        self: _SpFromComplexT, /, other: float | _ToComplex64 | _spbase[_ToComplex64]
+    ) -> _SpFromComplexT: ...
     @overload  # bsr_array, sparse or scalar
-    def maximum(self: bsr_array, /, other: _spbase[_ScalarT] | _ScalarT) -> bsr_array[_ScalarT_co | _ScalarT]: ...
+    def maximum(
+        self: bsr_array, /, other: _spbase[_ScalarT] | _ScalarT
+    ) -> bsr_array[_ScalarT_co | _ScalarT]: ...
     @overload  # bsr_matrix, sparse or scalar
-    def maximum(self: bsr_matrix, /, other: _spbase[_ScalarT] | _ScalarT) -> bsr_matrix[_ScalarT_co | _ScalarT]: ...
+    def maximum(
+        self: bsr_matrix, /, other: _spbase[_ScalarT] | _ScalarT
+    ) -> bsr_matrix[_ScalarT_co | _ScalarT]: ...
     @overload  # csc_array, sparse or scalar
-    def maximum(self: csc_array, /, other: _spbase[_ScalarT] | _ScalarT) -> csc_array[_ScalarT_co | _ScalarT]: ...
+    def maximum(
+        self: csc_array, /, other: _spbase[_ScalarT] | _ScalarT
+    ) -> csc_array[_ScalarT_co | _ScalarT]: ...
     @overload  # csc_matrix, sparse or scalar
-    def maximum(self: csc_matrix, /, other: _spbase[_ScalarT] | _ScalarT) -> csc_matrix[_ScalarT_co | _ScalarT]: ...
+    def maximum(
+        self: csc_matrix, /, other: _spbase[_ScalarT] | _ScalarT
+    ) -> csc_matrix[_ScalarT_co | _ScalarT]: ...
     @overload  # other sparray, sparse or scalar
-    def maximum(self: _ToCSRArray, /, other: _spbase[_ScalarT] | _ScalarT) -> csr_array[_ScalarT_co | _ScalarT]: ...
+    def maximum(
+        self: _ToCSRArray, /, other: _spbase[_ScalarT] | _ScalarT
+    ) -> csr_array[_ScalarT_co | _ScalarT]: ...
     @overload  # other spmatrix, sparse or scalar
-    def maximum(self: _ToCSRMatrix, /, other: _spbase[_ScalarT] | _ScalarT) -> csr_matrix[_ScalarT_co | _ScalarT]: ...
+    def maximum(
+        self: _ToCSRMatrix, /, other: _spbase[_ScalarT] | _ScalarT
+    ) -> csr_matrix[_ScalarT_co | _ScalarT]: ...
     @overload  # sparray, dense
-    def maximum(self: sparray, /, other: onp.ArrayND[_ScalarT]) -> onp.ArrayND[_ScalarT_co | _ScalarT, _ShapeT_co]: ...
+    def maximum(
+        self: sparray, /, other: onp.ArrayND[_ScalarT]
+    ) -> onp.ArrayND[_ScalarT_co | _ScalarT, _ShapeT_co]: ...
     @overload  # spmatrix, dense
-    def maximum(self: spmatrix, /, other: onp.ArrayND[_ScalarT]) -> onp.Matrix[_ScalarT_co | _ScalarT]: ...
+    def maximum(
+        self: spmatrix, /, other: onp.ArrayND[_ScalarT]
+    ) -> onp.Matrix[_ScalarT_co | _ScalarT]: ...
     @overload  # sparray, unknown scalar
     def maximum(self: sparray, /, other: onp.ToComplex) -> _SpArrayOut[Any]: ...
     @overload  # spmatrix, unknown scalar
@@ -666,27 +1056,49 @@ class _spbase(SparseABC, Generic[_ScalarT_co, _ShapeT_co]):
 
     # NOTE: signature identical to `maximum`
     @overload  # Self[-Int], +Int8
-    def minimum(self: _SpFromIntT, /, other: bool | _ToInt8 | _spbase[_ToInt8]) -> _SpFromIntT: ...
+    def minimum(
+        self: _SpFromIntT, /, other: bool | _ToInt8 | _spbase[_ToInt8]
+    ) -> _SpFromIntT: ...
     @overload  # Self[-Float], +Float32
-    def minimum(self: _SpFromFloatT, /, other: int | _ToFloat32 | _spbase[_ToFloat32]) -> _SpFromFloatT: ...
+    def minimum(
+        self: _SpFromFloatT, /, other: int | _ToFloat32 | _spbase[_ToFloat32]
+    ) -> _SpFromFloatT: ...
     @overload  # Self[-Complex], +Complex64
-    def minimum(self: _SpFromComplexT, /, other: float | _ToComplex64 | _spbase[_ToComplex64]) -> _SpFromComplexT: ...
+    def minimum(
+        self: _SpFromComplexT, /, other: float | _ToComplex64 | _spbase[_ToComplex64]
+    ) -> _SpFromComplexT: ...
     @overload  # bsr_array, sparse or scalar
-    def minimum(self: bsr_array, /, other: _spbase[_ScalarT] | _ScalarT) -> bsr_array[_ScalarT_co | _ScalarT]: ...
+    def minimum(
+        self: bsr_array, /, other: _spbase[_ScalarT] | _ScalarT
+    ) -> bsr_array[_ScalarT_co | _ScalarT]: ...
     @overload  # bsr_matrix, sparse or scalar
-    def minimum(self: bsr_matrix, /, other: _spbase[_ScalarT] | _ScalarT) -> bsr_matrix[_ScalarT_co | _ScalarT]: ...
+    def minimum(
+        self: bsr_matrix, /, other: _spbase[_ScalarT] | _ScalarT
+    ) -> bsr_matrix[_ScalarT_co | _ScalarT]: ...
     @overload  # csc_array, sparse or scalar
-    def minimum(self: csc_array, /, other: _spbase[_ScalarT] | _ScalarT) -> csc_array[_ScalarT_co | _ScalarT]: ...
+    def minimum(
+        self: csc_array, /, other: _spbase[_ScalarT] | _ScalarT
+    ) -> csc_array[_ScalarT_co | _ScalarT]: ...
     @overload  # csc_matrix, sparse or scalar
-    def minimum(self: csc_matrix, /, other: _spbase[_ScalarT] | _ScalarT) -> csc_matrix[_ScalarT_co | _ScalarT]: ...
+    def minimum(
+        self: csc_matrix, /, other: _spbase[_ScalarT] | _ScalarT
+    ) -> csc_matrix[_ScalarT_co | _ScalarT]: ...
     @overload  # other sparray, sparse or scalar
-    def minimum(self: _ToCSRArray, /, other: _spbase[_ScalarT] | _ScalarT) -> csr_array[_ScalarT_co | _ScalarT]: ...
+    def minimum(
+        self: _ToCSRArray, /, other: _spbase[_ScalarT] | _ScalarT
+    ) -> csr_array[_ScalarT_co | _ScalarT]: ...
     @overload  # other spmatrix, sparse or scalar
-    def minimum(self: _ToCSRMatrix, /, other: _spbase[_ScalarT] | _ScalarT) -> csr_matrix[_ScalarT_co | _ScalarT]: ...
+    def minimum(
+        self: _ToCSRMatrix, /, other: _spbase[_ScalarT] | _ScalarT
+    ) -> csr_matrix[_ScalarT_co | _ScalarT]: ...
     @overload  # sparray, dense
-    def minimum(self: sparray, /, other: onp.ArrayND[_ScalarT]) -> onp.ArrayND[_ScalarT_co | _ScalarT, _ShapeT_co]: ...
+    def minimum(
+        self: sparray, /, other: onp.ArrayND[_ScalarT]
+    ) -> onp.ArrayND[_ScalarT_co | _ScalarT, _ShapeT_co]: ...
     @overload  # spmatrix, dense
-    def minimum(self: spmatrix, /, other: onp.ArrayND[_ScalarT]) -> onp.Matrix[_ScalarT_co | _ScalarT]: ...
+    def minimum(
+        self: spmatrix, /, other: onp.ArrayND[_ScalarT]
+    ) -> onp.Matrix[_ScalarT_co | _ScalarT]: ...
     @overload  # sparray, unknown scalar
     def minimum(self: sparray, /, other: onp.ToComplex) -> _SpArrayOut[Any]: ...
     @overload  # spmatrix, unknown scalar
@@ -694,17 +1106,27 @@ class _spbase(SparseABC, Generic[_ScalarT_co, _ShapeT_co]):
 
     #
     @overload
-    def power(self, /, n: op.CanIndex, dtype: onp.ToDType[_ScalarT_co] | None = None) -> Self: ...
+    def power(
+        self, /, n: op.CanIndex, dtype: onp.ToDType[_ScalarT_co] | None = None
+    ) -> Self: ...
     @overload
-    def power(self, /, n: op.CanIndex, dtype: onp.AnyBoolDType) -> _spbase[np.bool_]: ...
+    def power(
+        self, /, n: op.CanIndex, dtype: onp.AnyBoolDType
+    ) -> _spbase[np.bool_]: ...
     @overload
     def power(self, /, n: op.CanIndex, dtype: onp.AnyIntDType) -> _spbase[np.int_]: ...
     @overload
-    def power(self, /, n: op.CanIndex, dtype: onp.AnyFloat64DType) -> _spbase[np.float64]: ...
+    def power(
+        self, /, n: op.CanIndex, dtype: onp.AnyFloat64DType
+    ) -> _spbase[np.float64]: ...
     @overload
-    def power(self, /, n: op.CanIndex, dtype: onp.AnyComplex128DType) -> _spbase[np.complex128]: ...
+    def power(
+        self, /, n: op.CanIndex, dtype: onp.AnyComplex128DType
+    ) -> _spbase[np.complex128]: ...
     @overload
-    def power(self, /, n: op.CanIndex, dtype: onp.ToDType[_ScalarT]) -> _spbase[_ScalarT]: ...
+    def power(
+        self, /, n: op.CanIndex, dtype: onp.ToDType[_ScalarT]
+    ) -> _spbase[_ScalarT]: ...
 
     #
     def nonzero(self, /) -> tuple[onp.Array1D[np.int32], onp.Array1D[np.int32]]: ...
@@ -724,203 +1146,449 @@ class _spbase(SparseABC, Generic[_ScalarT_co, _ShapeT_co]):
 
     #
     @overload  # out: array (keyword)
-    def sum(self, /, axis: op.CanIndex | None = None, dtype: npt.DTypeLike | None = None, *, out: _ArrayT) -> _ArrayT: ...
+    def sum(
+        self,
+        /,
+        axis: op.CanIndex | None = None,
+        dtype: npt.DTypeLike | None = None,
+        *,
+        out: _ArrayT,
+    ) -> _ArrayT: ...
     @overload  # axis: None = ..., dtype: <known>  (keyword)
-    def sum(self, /, axis: None = None, *, dtype: onp.ToDType[_ScalarT], out: None = None) -> _ScalarT: ...
+    def sum(
+        self, /, axis: None = None, *, dtype: onp.ToDType[_ScalarT], out: None = None
+    ) -> _ScalarT: ...
     @overload  # Self[+Bool]
-    def sum(self: _spbase[np.bool_], /, axis: None = None, dtype: None = None, out: None = None) -> np.int_: ...
+    def sum(
+        self: _spbase[np.bool_],
+        /,
+        axis: None = None,
+        dtype: None = None,
+        out: None = None,
+    ) -> np.int_: ...
     @overload  # sparray[-Bool, 2d], axis: index
-    def sum(self: _SpArray2D[np.bool_], /, axis: op.CanIndex, dtype: None = None, out: None = None) -> onp.Array1D[np.int_]: ...
+    def sum(
+        self: _SpArray2D[np.bool_],
+        /,
+        axis: op.CanIndex,
+        dtype: None = None,
+        out: None = None,
+    ) -> onp.Array1D[np.int_]: ...
     @overload  # sparray[-Bool, 2d], axis: index
-    def sum(self: _SpArray1D[np.bool_], /, axis: op.CanIndex | None = None, dtype: None = None, out: None = None) -> np.int_: ...
+    def sum(
+        self: _SpArray1D[np.bool_],
+        /,
+        axis: op.CanIndex | None = None,
+        dtype: None = None,
+        out: None = None,
+    ) -> np.int_: ...
     @overload  # spmatrix[-Bool], axis: index
-    def sum(self: spmatrix[np.bool_], /, axis: op.CanIndex, dtype: None = None, out: None = None) -> onp.Matrix[np.int_]: ...
+    def sum(
+        self: spmatrix[np.bool_],
+        /,
+        axis: op.CanIndex,
+        dtype: None = None,
+        out: None = None,
+    ) -> onp.Matrix[np.int_]: ...
     @overload  # Self[-Int]
-    def sum(self: _spbase[_FromIntT], /, axis: None = None, dtype: None = None, out: None = None) -> _FromIntT: ...
+    def sum(
+        self: _spbase[_FromIntT],
+        /,
+        axis: None = None,
+        dtype: None = None,
+        out: None = None,
+    ) -> _FromIntT: ...
     @overload  # sparray[-Int, 2d], axis: index
     def sum(
-        self: _SpArray2D[_FromIntT], /, axis: op.CanIndex, dtype: None = None, out: None = None
+        self: _SpArray2D[_FromIntT],
+        /,
+        axis: op.CanIndex,
+        dtype: None = None,
+        out: None = None,
     ) -> onp.Array1D[_FromIntT]: ...
     @overload  # sparray[-Int, 1d], axis: index
     def sum(
-        self: _SpArray1D[_FromIntT], /, axis: op.CanIndex | None = None, dtype: None = None, out: None = None
+        self: _SpArray1D[_FromIntT],
+        /,
+        axis: op.CanIndex | None = None,
+        dtype: None = None,
+        out: None = None,
     ) -> _FromIntT: ...
     @overload  # spmatrix[-Int], axis: index
-    def sum(self: spmatrix[_FromIntT], /, axis: op.CanIndex, dtype: None = None, out: None = None) -> onp.Matrix[_FromIntT]: ...
+    def sum(
+        self: spmatrix[_FromIntT],
+        /,
+        axis: op.CanIndex,
+        dtype: None = None,
+        out: None = None,
+    ) -> onp.Matrix[_FromIntT]: ...
     @overload  # spmatrix, axis: index, dtype: <unknown>
-    def sum(self: spmatrix, /, axis: op.CanIndex, dtype: npt.DTypeLike, out: None = None) -> onp.Matrix[Any]: ...
+    def sum(
+        self: spmatrix, /, axis: op.CanIndex, dtype: npt.DTypeLike, out: None = None
+    ) -> onp.Matrix[Any]: ...
     @overload  # dtype: <unknown>  (keyword)
-    def sum(self, /, axis: op.CanIndex | None = None, *, dtype: npt.DTypeLike, out: None = None) -> Any: ...
+    def sum(
+        self,
+        /,
+        axis: op.CanIndex | None = None,
+        *,
+        dtype: npt.DTypeLike,
+        out: None = None,
+    ) -> Any: ...
 
     #
     @overload  # out: array (keyword)
-    def mean(self, /, axis: op.CanIndex | None = None, dtype: npt.DTypeLike | None = None, *, out: _ArrayT) -> _ArrayT: ...
+    def mean(
+        self,
+        /,
+        axis: op.CanIndex | None = None,
+        dtype: npt.DTypeLike | None = None,
+        *,
+        out: _ArrayT,
+    ) -> _ArrayT: ...
     @overload  # axis: None = ..., dtype: <known>  (keyword)
-    def mean(self, /, axis: None = None, *, dtype: onp.ToDType[_ScalarT], out: None = None) -> _ScalarT: ...
+    def mean(
+        self, /, axis: None = None, *, dtype: onp.ToDType[_ScalarT], out: None = None
+    ) -> _ScalarT: ...
     @overload  # Self[+Int], axis: None = ...
-    def mean(self: _spbase[np.bool_], /, axis: None = None, dtype: None = None, out: None = None) -> np.float64: ...
+    def mean(
+        self: _spbase[np.bool_],
+        /,
+        axis: None = None,
+        dtype: None = None,
+        out: None = None,
+    ) -> np.float64: ...
     @overload  # Self[-Float], axis: None = ...
-    def mean(self: _spbase[_FromFloatT], /, axis: None = None, dtype: None = None, out: None = None) -> _FromFloatT: ...
+    def mean(
+        self: _spbase[_FromFloatT],
+        /,
+        axis: None = None,
+        dtype: None = None,
+        out: None = None,
+    ) -> _FromFloatT: ...
     @overload  # sparray[+Int, 2d], axis: index
     def mean(
-        self: _SpArray2D[np.bool_], /, axis: op.CanIndex, dtype: None = None, out: None = None
+        self: _SpArray2D[np.bool_],
+        /,
+        axis: op.CanIndex,
+        dtype: None = None,
+        out: None = None,
     ) -> onp.Array1D[np.float64]: ...
     @overload  # sparray[+Int, 1d]
     def mean(
-        self: _SpArray1D[np.bool_], /, axis: op.CanIndex | None = None, dtype: None = None, out: None = None
+        self: _SpArray1D[np.bool_],
+        /,
+        axis: op.CanIndex | None = None,
+        dtype: None = None,
+        out: None = None,
     ) -> np.float64: ...
     @overload  # spmatrix[+Int], axis: index
-    def mean(self: spmatrix[np.bool_], /, axis: op.CanIndex, dtype: None = None, out: None = None) -> onp.Matrix[np.float64]: ...
+    def mean(
+        self: spmatrix[np.bool_],
+        /,
+        axis: op.CanIndex,
+        dtype: None = None,
+        out: None = None,
+    ) -> onp.Matrix[np.float64]: ...
     @overload  # sparray[-Float, 2d], axis: index
     def mean(
-        self: _SpArray2D[_FromFloatT], /, axis: op.CanIndex, dtype: None = None, out: None = None
+        self: _SpArray2D[_FromFloatT],
+        /,
+        axis: op.CanIndex,
+        dtype: None = None,
+        out: None = None,
     ) -> onp.Array1D[_FromFloatT]: ...
     @overload  # sparray[-Float, 1d]
     def mean(
-        self: _SpArray1D[_FromFloatT], /, axis: op.CanIndex | None = None, dtype: None = None, out: None = None
+        self: _SpArray1D[_FromFloatT],
+        /,
+        axis: op.CanIndex | None = None,
+        dtype: None = None,
+        out: None = None,
     ) -> onp.Array1D[_FromFloatT]: ...
     @overload  # spmatrix[-Float], axis: index
     def mean(
-        self: spmatrix[_FromFloatT], /, axis: op.CanIndex, dtype: None = None, out: None = None
+        self: spmatrix[_FromFloatT],
+        /,
+        axis: op.CanIndex,
+        dtype: None = None,
+        out: None = None,
     ) -> onp.Matrix[_FromFloatT]: ...
     @overload  # spmatrix, axis: index, dtype: <unknown>
-    def mean(self: spmatrix, /, axis: op.CanIndex, dtype: npt.DTypeLike, out: None = None) -> onp.Matrix[Any]: ...
+    def mean(
+        self: spmatrix, /, axis: op.CanIndex, dtype: npt.DTypeLike, out: None = None
+    ) -> onp.Matrix[Any]: ...
     @overload  # dtype: <unknown>  (keyword)
-    def mean(self, /, axis: op.CanIndex | None = None, *, dtype: npt.DTypeLike, out: None = None) -> Any: ...
+    def mean(
+        self,
+        /,
+        axis: op.CanIndex | None = None,
+        *,
+        dtype: npt.DTypeLike,
+        out: None = None,
+    ) -> Any: ...
 
     #
     def copy(self, /) -> Self: ...
 
     #
     @overload
-    def reshape(self: _Sp1dT, shape: tuple[SupportsIndex], /, *, order: L["C", "F"] = "C", copy: bool = False) -> _Sp1dT: ...
+    def reshape(
+        self: _Sp1dT,
+        shape: tuple[SupportsIndex],
+        /,
+        *,
+        order: L["C", "F"] = "C",
+        copy: bool = False,
+    ) -> _Sp1dT: ...
     @overload
     def reshape(
-        self: _Sp2dT, shape: tuple[SupportsIndex, SupportsIndex], /, *, order: L["C", "F"] = "C", copy: bool = False
+        self: _Sp2dT,
+        shape: tuple[SupportsIndex, SupportsIndex],
+        /,
+        *,
+        order: L["C", "F"] = "C",
+        copy: bool = False,
     ) -> _Sp2dT: ...
 
     # NOTE: the following two ignored errors won't cause any problems (when using the public API)
     @overload  # current type
-    def astype(self, /, dtype: onp.ToDType[_ScalarT_co], casting: _Casting = "unsafe", copy: bool = True) -> Self: ...
+    def astype(
+        self,
+        /,
+        dtype: onp.ToDType[_ScalarT_co],
+        casting: _Casting = "unsafe",
+        copy: bool = True,
+    ) -> Self: ...
     @overload  # known type -> sparray
     def astype(
-        self: bsr_array, /, dtype: onp.ToDType[_ScalarT], casting: _Casting = "unsafe", copy: bool = True
+        self: bsr_array,
+        /,
+        dtype: onp.ToDType[_ScalarT],
+        casting: _Casting = "unsafe",
+        copy: bool = True,
     ) -> bsr_array[_ScalarT]: ...
     @overload
     def astype(
-        self: coo_array[Any, _COOShapeT], /, dtype: onp.ToDType[_ScalarT], casting: _Casting = "unsafe", copy: bool = True
+        self: coo_array[Any, _COOShapeT],
+        /,
+        dtype: onp.ToDType[_ScalarT],
+        casting: _Casting = "unsafe",
+        copy: bool = True,
     ) -> coo_array[_ScalarT, _COOShapeT]: ...
     @overload
     def astype(
-        self: csc_array, /, dtype: onp.ToDType[_ScalarT], casting: _Casting = "unsafe", copy: bool = True
+        self: csc_array,
+        /,
+        dtype: onp.ToDType[_ScalarT],
+        casting: _Casting = "unsafe",
+        copy: bool = True,
     ) -> csc_array[_ScalarT]: ...
     @overload
     def astype(
-        self: csr_array[Any, _CSRShapeT], /, dtype: onp.ToDType[_ScalarT], casting: _Casting = "unsafe", copy: bool = True
+        self: csr_array[Any, _CSRShapeT],
+        /,
+        dtype: onp.ToDType[_ScalarT],
+        casting: _Casting = "unsafe",
+        copy: bool = True,
     ) -> csr_array[_ScalarT, _CSRShapeT]: ...
     @overload
     def astype(
-        self: dia_array, /, dtype: onp.ToDType[_ScalarT], casting: _Casting = "unsafe", copy: bool = True
+        self: dia_array,
+        /,
+        dtype: onp.ToDType[_ScalarT],
+        casting: _Casting = "unsafe",
+        copy: bool = True,
     ) -> dia_array[_ScalarT]: ...
     @overload
     def astype(
-        self: dok_array[Any, _DOKShapeT], /, dtype: onp.ToDType[_ScalarT], casting: _Casting = "unsafe", copy: bool = True
+        self: dok_array[Any, _DOKShapeT],
+        /,
+        dtype: onp.ToDType[_ScalarT],
+        casting: _Casting = "unsafe",
+        copy: bool = True,
     ) -> dok_array[_ScalarT, _DOKShapeT]: ...
     @overload
     def astype(
-        self: lil_array, /, dtype: onp.ToDType[_ScalarT], casting: _Casting = "unsafe", copy: bool = True
+        self: lil_array,
+        /,
+        dtype: onp.ToDType[_ScalarT],
+        casting: _Casting = "unsafe",
+        copy: bool = True,
     ) -> lil_array[_ScalarT]: ...
     @overload  # known type -> spmatrix
     def astype(
-        self: bsr_matrix, /, dtype: onp.ToDType[_ScalarT], casting: _Casting = "unsafe", copy: bool = True
+        self: bsr_matrix,
+        /,
+        dtype: onp.ToDType[_ScalarT],
+        casting: _Casting = "unsafe",
+        copy: bool = True,
     ) -> bsr_matrix[_ScalarT]: ...
     @overload
     def astype(
-        self: coo_matrix, /, dtype: onp.ToDType[_ScalarT], casting: _Casting = "unsafe", copy: bool = True
+        self: coo_matrix,
+        /,
+        dtype: onp.ToDType[_ScalarT],
+        casting: _Casting = "unsafe",
+        copy: bool = True,
     ) -> coo_matrix[_ScalarT]: ...
     @overload
     def astype(
-        self: csc_matrix, /, dtype: onp.ToDType[_ScalarT], casting: _Casting = "unsafe", copy: bool = True
+        self: csc_matrix,
+        /,
+        dtype: onp.ToDType[_ScalarT],
+        casting: _Casting = "unsafe",
+        copy: bool = True,
     ) -> csc_matrix[_ScalarT]: ...
     @overload
     def astype(
-        self: csr_matrix, /, dtype: onp.ToDType[_ScalarT], casting: _Casting = "unsafe", copy: bool = True
+        self: csr_matrix,
+        /,
+        dtype: onp.ToDType[_ScalarT],
+        casting: _Casting = "unsafe",
+        copy: bool = True,
     ) -> csr_matrix[_ScalarT]: ...
     @overload
     def astype(
-        self: dia_matrix, /, dtype: onp.ToDType[_ScalarT], casting: _Casting = "unsafe", copy: bool = True
+        self: dia_matrix,
+        /,
+        dtype: onp.ToDType[_ScalarT],
+        casting: _Casting = "unsafe",
+        copy: bool = True,
     ) -> dia_matrix[_ScalarT]: ...
     @overload
     def astype(
-        self: dok_matrix, /, dtype: onp.ToDType[_ScalarT], casting: _Casting = "unsafe", copy: bool = True
+        self: dok_matrix,
+        /,
+        dtype: onp.ToDType[_ScalarT],
+        casting: _Casting = "unsafe",
+        copy: bool = True,
     ) -> dok_matrix[_ScalarT]: ...
     @overload
     def astype(
-        self: lil_matrix, /, dtype: onp.ToDType[_ScalarT], casting: _Casting = "unsafe", copy: bool = True
+        self: lil_matrix,
+        /,
+        dtype: onp.ToDType[_ScalarT],
+        casting: _Casting = "unsafe",
+        copy: bool = True,
     ) -> lil_matrix[_ScalarT]: ...
     @overload  # catch-all
-    def astype(self, /, dtype: npt.DTypeLike, casting: _Casting = "unsafe", copy: bool = True) -> _spbase[Any, _ShapeT_co]: ...
+    def astype(
+        self, /, dtype: npt.DTypeLike, casting: _Casting = "unsafe", copy: bool = True
+    ) -> _spbase[Any, _ShapeT_co]: ...
 
     #
     @overload
-    def asformat(self: sparray, /, format: L["bsr"], copy: bool = False) -> bsr_array[_ScalarT_co]: ...
+    def asformat(
+        self: sparray, /, format: L["bsr"], copy: bool = False
+    ) -> bsr_array[_ScalarT_co]: ...
     @overload
-    def asformat(self: spmatrix, /, format: L["bsr"], copy: bool = False) -> bsr_matrix[_ScalarT_co]: ...
+    def asformat(
+        self: spmatrix, /, format: L["bsr"], copy: bool = False
+    ) -> bsr_matrix[_ScalarT_co]: ...
     @overload
-    def asformat(self: sparray, /, format: L["coo"], copy: bool = False) -> coo_array[_ScalarT_co, _ShapeT_co]: ...
+    def asformat(
+        self: sparray, /, format: L["coo"], copy: bool = False
+    ) -> coo_array[_ScalarT_co, _ShapeT_co]: ...
     @overload
-    def asformat(self: spmatrix, /, format: L["coo"], copy: bool = False) -> coo_matrix[_ScalarT_co]: ...
+    def asformat(
+        self: spmatrix, /, format: L["coo"], copy: bool = False
+    ) -> coo_matrix[_ScalarT_co]: ...
     @overload
-    def asformat(self: sparray, /, format: L["csc"], copy: bool = False) -> csc_array[_ScalarT_co]: ...
+    def asformat(
+        self: sparray, /, format: L["csc"], copy: bool = False
+    ) -> csc_array[_ScalarT_co]: ...
     @overload
-    def asformat(self: spmatrix, /, format: L["csc"], copy: bool = False) -> csc_matrix[_ScalarT_co]: ...
+    def asformat(
+        self: spmatrix, /, format: L["csc"], copy: bool = False
+    ) -> csc_matrix[_ScalarT_co]: ...
     @overload
-    def asformat(self: _SpArrayND[_ShapeT], /, format: L["csr"], copy: bool = False) -> csr_array[_ScalarT_co, _ShapeT]: ...
+    def asformat(
+        self: _SpArrayND[_ShapeT], /, format: L["csr"], copy: bool = False
+    ) -> csr_array[_ScalarT_co, _ShapeT]: ...
     @overload
-    def asformat(self: spmatrix, /, format: L["csr"], copy: bool = False) -> csr_matrix[_ScalarT_co]: ...
+    def asformat(
+        self: spmatrix, /, format: L["csr"], copy: bool = False
+    ) -> csr_matrix[_ScalarT_co]: ...
     @overload
-    def asformat(self: sparray, /, format: L["dia"], copy: bool = False) -> dia_array[_ScalarT_co]: ...
+    def asformat(
+        self: sparray, /, format: L["dia"], copy: bool = False
+    ) -> dia_array[_ScalarT_co]: ...
     @overload
-    def asformat(self: spmatrix, /, format: L["dia"], copy: bool = False) -> dia_matrix[_ScalarT_co]: ...
+    def asformat(
+        self: spmatrix, /, format: L["dia"], copy: bool = False
+    ) -> dia_matrix[_ScalarT_co]: ...
     @overload
-    def asformat(self: _SpArrayND[_ShapeT], /, format: L["dok"], copy: bool = False) -> dok_array[_ScalarT_co, _ShapeT]: ...
+    def asformat(
+        self: _SpArrayND[_ShapeT], /, format: L["dok"], copy: bool = False
+    ) -> dok_array[_ScalarT_co, _ShapeT]: ...
     @overload
-    def asformat(self: spmatrix, /, format: L["dok"], copy: bool = False) -> dok_matrix[_ScalarT_co]: ...
+    def asformat(
+        self: spmatrix, /, format: L["dok"], copy: bool = False
+    ) -> dok_matrix[_ScalarT_co]: ...
     @overload
-    def asformat(self: sparray, /, format: L["lil"], copy: bool = False) -> lil_array[_ScalarT_co]: ...
+    def asformat(
+        self: sparray, /, format: L["lil"], copy: bool = False
+    ) -> lil_array[_ScalarT_co]: ...
     @overload
-    def asformat(self: spmatrix, /, format: L["lil"], copy: bool = False) -> lil_matrix[_ScalarT_co]: ...
+    def asformat(
+        self: spmatrix, /, format: L["lil"], copy: bool = False
+    ) -> lil_matrix[_ScalarT_co]: ...
 
     #
     @overload  # self: spmatrix, out: None
-    def todense(self: spmatrix, /, order: L["C", "F"] | None = None, out: None = None) -> onp.Matrix[_ScalarT_co]: ...
+    def todense(
+        self: spmatrix, /, order: L["C", "F"] | None = None, out: None = None
+    ) -> onp.Matrix[_ScalarT_co]: ...
     @overload  # self: spmatrix, out: array (positional)
-    def todense(self: spmatrix, /, order: L["C", "F"] | None, out: onp.ArrayND[_ScalarT]) -> onp.Matrix[_ScalarT]: ...
+    def todense(
+        self: spmatrix, /, order: L["C", "F"] | None, out: onp.ArrayND[_ScalarT]
+    ) -> onp.Matrix[_ScalarT]: ...
     @overload  # self: spmatrix, out: array (keyword)
-    def todense(self: spmatrix, /, order: L["C", "F"] | None = None, *, out: onp.ArrayND[_ScalarT]) -> onp.Matrix[_ScalarT]: ...
+    def todense(
+        self: spmatrix,
+        /,
+        order: L["C", "F"] | None = None,
+        *,
+        out: onp.ArrayND[_ScalarT],
+    ) -> onp.Matrix[_ScalarT]: ...
     @overload  # out: None
-    def todense(self, /, order: L["C", "F"] | None = None, out: None = None) -> onp.Array[_ShapeT_co, _ScalarT_co]: ...
+    def todense(
+        self, /, order: L["C", "F"] | None = None, out: None = None
+    ) -> onp.Array[_ShapeT_co, _ScalarT_co]: ...
     @overload  # out: array (positional)
     def todense(self, /, order: L["C", "F"] | None, out: _ArrayT) -> _ArrayT: ...
     @overload  # out: array (keyword)
-    def todense(self, /, order: L["C", "F"] | None = None, *, out: _ArrayT) -> _ArrayT: ...
+    def todense(
+        self, /, order: L["C", "F"] | None = None, *, out: _ArrayT
+    ) -> _ArrayT: ...
 
     #
     @overload  # out: None
-    def toarray(self, /, order: L["C", "F"] | None = None, out: None = None) -> onp.Array2D[_ScalarT_co]: ...
+    def toarray(
+        self, /, order: L["C", "F"] | None = None, out: None = None
+    ) -> onp.Array2D[_ScalarT_co]: ...
     @overload  # out: array (positional)
     def toarray(self, /, order: L["C", "F"] | None, out: _ArrayT) -> _ArrayT: ...
     @overload  # out: array  (keyword)
-    def toarray(self, /, order: L["C", "F"] | None = None, *, out: _ArrayT) -> _ArrayT: ...
+    def toarray(
+        self, /, order: L["C", "F"] | None = None, *, out: _ArrayT
+    ) -> _ArrayT: ...
 
     #
     @overload
-    def tobsr(self: sparray, /, blocksize: _2D | None = None, copy: bool = False) -> bsr_array[_ScalarT_co]: ...
+    def tobsr(
+        self: sparray, /, blocksize: _2D | None = None, copy: bool = False
+    ) -> bsr_array[_ScalarT_co]: ...
     @overload
-    def tobsr(self: spmatrix, /, blocksize: _2D | None = None, copy: bool = False) -> bsr_matrix[_ScalarT_co]: ...
+    def tobsr(
+        self: spmatrix, /, blocksize: _2D | None = None, copy: bool = False
+    ) -> bsr_matrix[_ScalarT_co]: ...
     #
     @overload
-    def tocoo(self: sparray, /, copy: bool = False) -> coo_array[_ScalarT_co, _ShapeT_co]: ...
+    def tocoo(
+        self: sparray, /, copy: bool = False
+    ) -> coo_array[_ScalarT_co, _ShapeT_co]: ...
     @overload
     def tocoo(self: spmatrix, /, copy: bool = False) -> coo_matrix[_ScalarT_co]: ...
     #
@@ -930,7 +1598,9 @@ class _spbase(SparseABC, Generic[_ScalarT_co, _ShapeT_co]):
     def tocsc(self: spmatrix, /, copy: bool = False) -> csc_matrix[_ScalarT_co]: ...
     #
     @overload
-    def tocsr(self: sparray[Any, _ShapeT], /, copy: bool = False) -> csr_array[_ScalarT_co, _ShapeT]: ...
+    def tocsr(
+        self: sparray[Any, _ShapeT], /, copy: bool = False
+    ) -> csr_array[_ScalarT_co, _ShapeT]: ...
     @overload
     def tocsr(self: spmatrix, /, copy: bool = False) -> csr_matrix[_ScalarT_co]: ...
     #
@@ -940,7 +1610,9 @@ class _spbase(SparseABC, Generic[_ScalarT_co, _ShapeT_co]):
     def todia(self: spmatrix, /, copy: bool = False) -> dia_matrix[_ScalarT_co]: ...
     #
     @overload
-    def todok(self: sparray[Any, _ShapeT], /, copy: bool = False) -> dok_array[_ScalarT_co, _ShapeT]: ...
+    def todok(
+        self: sparray[Any, _ShapeT], /, copy: bool = False
+    ) -> dok_array[_ScalarT_co, _ShapeT]: ...
     @overload
     def todok(self: spmatrix, /, copy: bool = False) -> dok_matrix[_ScalarT_co]: ...
     #
@@ -955,7 +1627,11 @@ class _spbase(SparseABC, Generic[_ScalarT_co, _ShapeT_co]):
     #
     def setdiag(self, /, values: onp.ToComplex1D, k: int = 0) -> None: ...
 
-_StackedSparseArray: TypeAlias = coo_array[_ScalarT, tuple[int, int]] | csc_array[_ScalarT] | csr_array[_ScalarT, tuple[int, int]]
+_StackedSparseArray: TypeAlias = (
+    coo_array[_ScalarT, tuple[int, int]]
+    | csc_array[_ScalarT]
+    | csr_array[_ScalarT, tuple[int, int]]
+)
 
 class sparray(Generic[_ScalarT_co, _ShapeT_co]):
     # NOTE: These two methods do not exist at runtime.
@@ -963,7 +1639,9 @@ class sparray(Generic[_ScalarT_co, _ShapeT_co]):
     @type_check_only
     def __assoc_stacked__(self, /) -> _StackedSparseArray[_ScalarT_co]: ...
     @type_check_only
-    def __assoc_stacked_as__(self, sctype: _ScalarT, /) -> _StackedSparseArray[_ScalarT]: ...
+    def __assoc_stacked_as__(
+        self, sctype: _ScalarT, /
+    ) -> _StackedSparseArray[_ScalarT]: ...
 
     #
     @classmethod

@@ -284,5 +284,7 @@ class WAVE_FORMAT(IntEnum):  # undocumented
 
 def read(filename: FileLike[bytes], mmap: bool = False) -> tuple[int, onp.Array]: ...
 def write(
-    filename: FileLike[bytes], rate: int, data: onp.ArrayND[npc.signedinteger | np.uint8 | np.float32 | np.float64]
+    filename: FileLike[bytes],
+    rate: int,
+    data: onp.ArrayND[npc.signedinteger | np.uint8 | np.float32 | np.float64],
 ) -> None: ...

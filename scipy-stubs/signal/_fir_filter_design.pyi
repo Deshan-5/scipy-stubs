@@ -7,7 +7,17 @@ import optype.numpy.compat as npc
 
 from .windows._windows import _ToWindow
 
-__all__ = ["firls", "firwin", "firwin2", "firwin_2d", "kaiser_atten", "kaiser_beta", "kaiserord", "minimum_phase", "remez"]
+__all__ = [
+    "firls",
+    "firwin",
+    "firwin2",
+    "firwin_2d",
+    "kaiser_atten",
+    "kaiser_beta",
+    "kaiserord",
+    "minimum_phase",
+    "remez",
+]
 
 ###
 
@@ -75,11 +85,21 @@ def firwin2(
 #
 @overload
 def firls(
-    numtaps: int, bands: onp.ToFloat1D, desired: onp.ToFloat1D, *, weight: onp.ToFloat1D | None = None, fs: float | None = None
+    numtaps: int,
+    bands: onp.ToFloat1D,
+    desired: onp.ToFloat1D,
+    *,
+    weight: onp.ToFloat1D | None = None,
+    fs: float | None = None,
 ) -> onp.Array1D[np.float64]: ...
 @overload
 def firls(
-    numtaps: int, bands: onp.ToFloat2D, desired: onp.ToFloat2D, *, weight: onp.ToFloat1D | None = None, fs: float | None = None
+    numtaps: int,
+    bands: onp.ToFloat2D,
+    desired: onp.ToFloat2D,
+    *,
+    weight: onp.ToFloat1D | None = None,
+    fs: float | None = None,
 ) -> onp.Array1D[np.float64]: ...
 
 #
@@ -97,5 +117,9 @@ def remez(
 
 #
 def minimum_phase(
-    h: onp.ToFloat1D, method: _LinearPhaseFIRMethod = "homomorphic", n_fft: int | None = None, *, half: bool = True
+    h: onp.ToFloat1D,
+    method: _LinearPhaseFIRMethod = "homomorphic",
+    n_fft: int | None = None,
+    *,
+    half: bool = True,
 ) -> onp.Array1D[np.float64]: ...

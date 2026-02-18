@@ -13,7 +13,10 @@ class BaseQuadraticSubproblem:
         fun: Callable[[onp.Array1D[np.float64]], onp.ToFloat],
         jac: Callable[[onp.Array1D[np.float64]], onp.ToFloat1D],
         hess: Callable[[onp.Array1D[np.float64]], onp.ToFloat2D] | None = None,
-        hessp: Callable[[onp.Array1D[np.float64], onp.Array1D[np.float64]], onp.ToFloat1D] | None = None,
+        hessp: (
+            Callable[[onp.Array1D[np.float64], onp.Array1D[np.float64]], onp.ToFloat1D]
+            | None
+        ) = None,
     ) -> None: ...
     def __call__(self, /, p: onp.ToFloat1D) -> float | np.float64: ...
 
@@ -34,4 +37,6 @@ class BaseQuadraticSubproblem:
     ) -> list[float | np.float64]: ...  # list of size 2
 
     #
-    def solve(self, /, trust_radius: onp.ToFloat) -> tuple[onp.Array1D[np.float64], bool]: ...
+    def solve(
+        self, /, trust_radius: onp.ToFloat
+    ) -> tuple[onp.Array1D[np.float64], bool]: ...

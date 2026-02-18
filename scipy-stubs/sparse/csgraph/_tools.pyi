@@ -27,55 +27,92 @@ ITYPE: Final[type[np.int32]] = ...
 
 #
 @overload
-def csgraph_from_masked(graph: onp.MArray2D[npc.integer]) -> csr_array[np.int32, tuple[int, int]]: ...
+def csgraph_from_masked(
+    graph: onp.MArray2D[npc.integer],
+) -> csr_array[np.int32, tuple[int, int]]: ...
 @overload
-def csgraph_from_masked(graph: onp.MArray2D[npc.floating]) -> csr_array[np.float64, tuple[int, int]]: ...
+def csgraph_from_masked(
+    graph: onp.MArray2D[npc.floating],
+) -> csr_array[np.float64, tuple[int, int]]: ...
 @overload
-def csgraph_from_masked(graph: onp.MArray2D[_Real]) -> csr_array[np.float64 | np.int32, tuple[int, int]]: ...
+def csgraph_from_masked(
+    graph: onp.MArray2D[_Real],
+) -> csr_array[np.float64 | np.int32, tuple[int, int]]: ...
 
 #
 @overload
 def csgraph_masked_from_dense(
-    graph: onp.ToInt2D, null_value: int | None = 0, nan_null: bool = True, infinity_null: bool = True, copy: bool = True
+    graph: onp.ToInt2D,
+    null_value: int | None = 0,
+    nan_null: bool = True,
+    infinity_null: bool = True,
+    copy: bool = True,
 ) -> onp.MArray2D[np.int32]: ...
 @overload
 def csgraph_masked_from_dense(
-    graph: onp.ToJustFloat2D, null_value: float | None = 0, nan_null: bool = True, infinity_null: bool = True, copy: bool = True
+    graph: onp.ToJustFloat2D,
+    null_value: float | None = 0,
+    nan_null: bool = True,
+    infinity_null: bool = True,
+    copy: bool = True,
 ) -> onp.MArray2D[np.float64]: ...
 @overload
 def csgraph_masked_from_dense(
-    graph: onp.ToFloat2D, null_value: float | None = 0, nan_null: bool = True, infinity_null: bool = True, copy: bool = True
+    graph: onp.ToFloat2D,
+    null_value: float | None = 0,
+    nan_null: bool = True,
+    infinity_null: bool = True,
+    copy: bool = True,
 ) -> onp.MArray2D[np.float64 | np.int32]: ...
 
 #
 @overload
 def csgraph_from_dense(
-    graph: onp.ToInt2D, null_value: int | None = 0, nan_null: bool = True, infinity_null: bool = True
+    graph: onp.ToInt2D,
+    null_value: int | None = 0,
+    nan_null: bool = True,
+    infinity_null: bool = True,
 ) -> csr_array[np.int32, tuple[int, int]]: ...
 @overload
 def csgraph_from_dense(
-    graph: onp.ToJustFloat2D, null_value: float | None = 0, nan_null: bool = True, infinity_null: bool = True
+    graph: onp.ToJustFloat2D,
+    null_value: float | None = 0,
+    nan_null: bool = True,
+    infinity_null: bool = True,
 ) -> csr_array[np.float64, tuple[int, int]]: ...
 @overload
 def csgraph_from_dense(
-    graph: onp.ToFloat2D, null_value: float | None = 0, nan_null: bool = True, infinity_null: bool = True
+    graph: onp.ToFloat2D,
+    null_value: float | None = 0,
+    nan_null: bool = True,
+    infinity_null: bool = True,
 ) -> csr_array[np.float64 | np.int32, tuple[int, int]]: ...
 
 #
 @overload
-def csgraph_to_dense(csgraph: _SparseGraph[npc.integer], null_value: int | None = 0) -> onp.Array2D[np.int32]: ...
+def csgraph_to_dense(
+    csgraph: _SparseGraph[npc.integer], null_value: int | None = 0
+) -> onp.Array2D[np.int32]: ...
 @overload
-def csgraph_to_dense(csgraph: _SparseGraph[npc.floating], null_value: float | None = 0) -> onp.Array2D[np.float64]: ...
+def csgraph_to_dense(
+    csgraph: _SparseGraph[npc.floating], null_value: float | None = 0
+) -> onp.Array2D[np.float64]: ...
 @overload
-def csgraph_to_dense(csgraph: _SparseGraph[_Real], null_value: float | None = 0) -> onp.Array2D[np.float64 | np.int32]: ...
+def csgraph_to_dense(
+    csgraph: _SparseGraph[_Real], null_value: float | None = 0
+) -> onp.Array2D[np.float64 | np.int32]: ...
 
 #
 @overload
 def csgraph_to_masked(csgraph: _SparseGraph[npc.integer]) -> onp.MArray2D[np.int32]: ...
 @overload
-def csgraph_to_masked(csgraph: _SparseGraph[npc.floating]) -> onp.MArray2D[np.float64]: ...
+def csgraph_to_masked(
+    csgraph: _SparseGraph[npc.floating],
+) -> onp.MArray2D[np.float64]: ...
 @overload
-def csgraph_to_masked(csgraph: _SparseGraph[_Real]) -> onp.MArray2D[np.float64 | np.int32]: ...
+def csgraph_to_masked(
+    csgraph: _SparseGraph[_Real],
+) -> onp.MArray2D[np.float64 | np.int32]: ...
 
 #
 @overload
@@ -94,13 +131,22 @@ def reconstruct_path(
 #
 @overload
 def construct_dist_matrix(
-    graph: _Graph[npc.integer], predecessors: onp.ToIntND, directed: bool = True, null_value: float = ...
+    graph: _Graph[npc.integer],
+    predecessors: onp.ToIntND,
+    directed: bool = True,
+    null_value: float = ...,
 ) -> onp.Array2D[np.int32]: ...
 @overload
 def construct_dist_matrix(
-    graph: _Graph[npc.floating], predecessors: onp.ToFloatND, directed: bool = True, null_value: float = ...
+    graph: _Graph[npc.floating],
+    predecessors: onp.ToFloatND,
+    directed: bool = True,
+    null_value: float = ...,
 ) -> onp.Array2D[np.float64]: ...
 @overload
 def construct_dist_matrix(
-    graph: _ToGraph, predecessors: onp.ToFloatND, directed: bool = True, null_value: float = ...
+    graph: _ToGraph,
+    predecessors: onp.ToFloatND,
+    directed: bool = True,
+    null_value: float = ...,
 ) -> onp.Array2D[np.float64 | np.int32]: ...

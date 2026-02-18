@@ -13,8 +13,20 @@ __pythran__: tuple[str, str]
 
 def _pythran_polynomial_matrix(x: _Float2D, powers: _Int2D, /) -> _Float2D: ...
 def _pythran_build_system(
-    y: _Float2D, d: _Float2D, smoothing: _Float1D, kernel: str, epsilon: float, powers: _Int2D, /
+    y: _Float2D,
+    d: _Float2D,
+    smoothing: _Float1D,
+    kernel: str,
+    epsilon: float,
+    powers: _Int2D,
+    /,
 ) -> tuple[_Float2D, _Float2D, _Float1D, _Float1D]: ...
 def _build_evaluation_coefficients(
-    x: _Float2D, y: _Float2D, kernel: str, epsilon: float, powers: _Int2D, shift: _Float1D, scale: _Float1D
+    x: _Float2D,
+    y: _Float2D,
+    kernel: str,
+    epsilon: float,
+    powers: _Int2D,
+    shift: _Float1D,
+    scale: _Float1D,
 ) -> _Float2D: ...

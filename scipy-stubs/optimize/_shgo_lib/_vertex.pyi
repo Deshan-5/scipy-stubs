@@ -29,7 +29,13 @@ class VertexBase(abc.ABC):
     st: set[VertexBase]  # might not be set
     feasible: bool  # might not be set
 
-    def __init__(self, /, x: onp.ToFloat1D, nn: Iterable[VertexBase] | None = None, index: int | None = None) -> None: ...
+    def __init__(
+        self,
+        /,
+        x: onp.ToFloat1D,
+        nn: Iterable[VertexBase] | None = None,
+        index: int | None = None,
+    ) -> None: ...
     @abc.abstractmethod
     def connect(self, /, v: VertexBase) -> None: ...
     @abc.abstractmethod
@@ -72,7 +78,13 @@ class VertexVectorField(_VertexMixin, VertexBase):
     ) -> None: ...
 
 class VertexCube(_VertexMixin, VertexBase):
-    def __init__(self, /, x: onp.ToFloat1D, nn: Iterable[VertexBase] | None = None, index: int | None = None) -> None: ...
+    def __init__(
+        self,
+        /,
+        x: onp.ToFloat1D,
+        nn: Iterable[VertexBase] | None = None,
+        index: int | None = None,
+    ) -> None: ...
 
 class VertexCacheBase(Generic[_VT_co]):
     cache: OrderedDict[onp.ToFloat1D, _VT_co]
@@ -117,7 +129,9 @@ class VertexCacheField(VertexCacheBase[VertexScalarField]):
         g_cons_args: tuple[object, ...] = (),
         workers: int = 1,
     ) -> None: ...
-    def __getitem__(self, x: onp.ToFloat1D, /, nn: Iterable[VertexBase] | None = None) -> VertexScalarField: ...
+    def __getitem__(
+        self, x: onp.ToFloat1D, /, nn: Iterable[VertexBase] | None = None
+    ) -> VertexScalarField: ...
     def process_pools(self, /) -> None: ...
     def feasibility_check(self, /, v: VertexBase) -> bool: ...
     def compute_sfield(self, /, v: VertexBase) -> None: ...
@@ -133,12 +147,16 @@ class ConstraintWrapper:
     g_cons: Sequence[_Fun1D]
     g_cons_args: Sequence[tuple[object, ...]]
 
-    def __init__(self, /, g_cons: Sequence[_Fun1D], g_cons_args: Sequence[tuple[object, ...]]) -> None: ...
+    def __init__(
+        self, /, g_cons: Sequence[_Fun1D], g_cons_args: Sequence[tuple[object, ...]]
+    ) -> None: ...
     def gcons(self, /, v_x_a: _Float1D) -> bool: ...
 
 class FieldWrapper:
     field: _Fun0D | _Fun1D
     field_args: tuple[object, ...]
 
-    def __init__(self, /, field: _Fun0D | _Fun1D, field_args: tuple[object, ...]) -> None: ...
+    def __init__(
+        self, /, field: _Fun0D | _Fun1D, field_args: tuple[object, ...]
+    ) -> None: ...
     def func(self, /, v_x_a: _Float1D) -> onp.ToFloat | onp.ToFloat1D: ...

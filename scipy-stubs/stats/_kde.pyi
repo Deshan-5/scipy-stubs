@@ -11,20 +11,26 @@ __all__ = ["gaussian_kde"]
 ###
 
 _FloatingT = TypeVar("_FloatingT", bound=npc.floating)
-_FloatingT_co = TypeVar("_FloatingT_co", bound=npc.floating, default=np.float64, covariant=True)
+_FloatingT_co = TypeVar(
+    "_FloatingT_co", bound=npc.floating, default=np.float64, covariant=True
+)
 
 _co_integer: TypeAlias = npc.integer | np.bool_  # noqa: PYI042
 
 _ToFloatMax1D: TypeAlias = onp.ToFloat | onp.ToFloat1D
 _ToFloatMax2D: TypeAlias = _ToFloatMax1D | onp.ToFloat2D
 
-_BWMethod: TypeAlias = Literal["scott", "silverman"] | onp.ToFloat | Callable[[gaussian_kde], onp.ToFloat]
+_BWMethod: TypeAlias = (
+    Literal["scott", "silverman"] | onp.ToFloat | Callable[[gaussian_kde], onp.ToFloat]
+)
 
 ###
 
 class gaussian_kde(Generic[_FloatingT_co]):
     dataset: onp.Array2D[_FloatingT_co]  # readonly
-    covariance: Final[onp.Array2D[np.float64 | Any]]  # usually float64, sometimes longdouble
+    covariance: Final[
+        onp.Array2D[np.float64 | Any]
+    ]  # usually float64, sometimes longdouble
     factor: Final[np.float64]
     d: Final[int]
     n: Final[int]
@@ -49,7 +55,10 @@ class gaussian_kde(Generic[_FloatingT_co]):
     def __init__(
         self: gaussian_kde[_FloatingT],
         /,
-        dataset: onp.ToArray1D[_FloatingT, _FloatingT] | onp.ToArray2D[_FloatingT, _FloatingT],
+        dataset: (
+            onp.ToArray1D[_FloatingT, _FloatingT]
+            | onp.ToArray2D[_FloatingT, _FloatingT]
+        ),
         bw_method: _BWMethod | None = None,
         weights: _ToFloatMax1D | None = None,
     ) -> None: ...
@@ -69,8 +78,12 @@ class gaussian_kde(Generic[_FloatingT_co]):
     def logpdf(self, /, x: _ToFloatMax2D) -> onp.Array1D[np.float64]: ...
 
     #
-    def integrate_gaussian(self, /, mean: _ToFloatMax1D, cov: onp.ToFloat | onp.ToFloat2D) -> np.float64: ...
-    def integrate_box_1d(self, /, low: onp.ToFloat, high: onp.ToFloat) -> np.float64: ...
+    def integrate_gaussian(
+        self, /, mean: _ToFloatMax1D, cov: onp.ToFloat | onp.ToFloat2D
+    ) -> np.float64: ...
+    def integrate_box_1d(
+        self, /, low: onp.ToFloat, high: onp.ToFloat
+    ) -> np.float64: ...
     def integrate_box(
         self,
         /,
@@ -83,7 +96,9 @@ class gaussian_kde(Generic[_FloatingT_co]):
     def integrate_kde(self, /, other: Self) -> np.float64: ...
 
     #
-    def resample(self, /, size: int | None = None, seed: onp.random.ToRNG | None = None) -> onp.Array2D[np.float64]: ...
+    def resample(
+        self, /, size: int | None = None, seed: onp.random.ToRNG | None = None
+    ) -> onp.Array2D[np.float64]: ...
 
     #
     def scotts_factor(self, /) -> np.float64: ...

@@ -162,5 +162,10 @@ def variation(
 ) -> onp.ArrayND[_FloatingT]: ...
 @overload  # fallback
 def variation(
-    a: onp.ToFloatND, axis: int | None = 0, nan_policy: NanPolicy = "propagate", ddof: int = 0, *, keepdims: bool = False
+    a: onp.ToFloatND,
+    axis: int | None = 0,
+    nan_policy: NanPolicy = "propagate",
+    ddof: int = 0,
+    *,
+    keepdims: bool = False,
 ) -> onp.ArrayND[np.float64 | Any] | Any: ...

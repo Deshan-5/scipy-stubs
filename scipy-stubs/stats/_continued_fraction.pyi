@@ -17,7 +17,9 @@ _AT = TypeVar("_AT", bound=npt.ArrayLike)
 _BT = TypeVar("_BT", bound=npt.ArrayLike)
 
 _ShapeT = TypeVar("_ShapeT", bound=tuple[int, ...])
-_ShapeT_co = TypeVar("_ShapeT_co", bound=tuple[int, ...], default=tuple[Any, ...], covariant=True)
+_ShapeT_co = TypeVar(
+    "_ShapeT_co", bound=tuple[int, ...], default=tuple[Any, ...], covariant=True
+)
 
 _FnCoef: TypeAlias = Callable[Concatenate[int, ...], _T]
 
@@ -48,17 +50,28 @@ class _ContinuedFractionND(_RichResult, Generic[_ShapeT_co]):
 @overload
 def _logaddexp(x: onp.ToFloat, y: onp.ToFloat, xp: None = None) -> np.float64 | Any: ...
 @overload
-def _logaddexp(x: onp.ToComplex, y: onp.ToComplex, xp: None = None) -> np.complex128 | Any: ...
+def _logaddexp(
+    x: onp.ToComplex, y: onp.ToComplex, xp: None = None
+) -> np.complex128 | Any: ...
 @overload
-def _logaddexp(x: onp.ToFloatND, y: onp.ToFloat | onp.ToFloatND, xp: None = None) -> onp.ArrayND[np.float64 | Any]: ...
+def _logaddexp(
+    x: onp.ToFloatND, y: onp.ToFloat | onp.ToFloatND, xp: None = None
+) -> onp.ArrayND[np.float64 | Any]: ...
 @overload
-def _logaddexp(x: onp.ToComplexND, y: onp.ToComplex | onp.ToComplexND, xp: None = None) -> onp.ArrayND[np.complex128 | Any]: ...
+def _logaddexp(
+    x: onp.ToComplexND, y: onp.ToComplex | onp.ToComplexND, xp: None = None
+) -> onp.ArrayND[np.complex128 | Any]: ...
 @overload
 def _logaddexp(x: Incomplete, y: Incomplete, xp: ModuleType) -> Incomplete: ...
 
 # undocumented
 def _continued_fraction_iv(
-    a: _FnCoef[_AT], b: _FnCoef[_BT], args: tuple[object, ...], tolerances: _Tolerances | None, maxiter: int, log: bool
+    a: _FnCoef[_AT],
+    b: _FnCoef[_BT],
+    args: tuple[object, ...],
+    tolerances: _Tolerances | None,
+    maxiter: int,
+    log: bool,
 ) -> tuple[
     _FnCoef[_AT],  # a
     _FnCoef[_BT],  # b
@@ -88,7 +101,9 @@ def _continued_fraction(
 @overload
 def _continued_fraction(
     a: _FnCoef[onp.ArrayND[npc.floating | npc.integer | np.bool_, _ShapeT]],
-    b: _FnCoef[onp.ArrayND[npc.floating | npc.integer | np.bool_, _ShapeT] | onp.ToFloat],
+    b: _FnCoef[
+        onp.ArrayND[npc.floating | npc.integer | np.bool_, _ShapeT] | onp.ToFloat
+    ],
     *,
     args: tuple[object, ...] = (),
     tolerances: _Tolerances | None = None,
@@ -97,7 +112,9 @@ def _continued_fraction(
 ) -> _ContinuedFractionND[_ShapeT]: ...
 @overload
 def _continued_fraction(
-    a: _FnCoef[onp.ArrayND[npc.floating | npc.integer | np.bool_, _ShapeT] | onp.ToFloat],
+    a: _FnCoef[
+        onp.ArrayND[npc.floating | npc.integer | np.bool_, _ShapeT] | onp.ToFloat
+    ],
     b: _FnCoef[onp.ArrayND[npc.floating | npc.integer | np.bool_, _ShapeT]],
     *,
     args: tuple[object, ...] = (),

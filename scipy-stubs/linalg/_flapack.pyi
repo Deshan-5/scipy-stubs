@@ -7,15 +7,47 @@ from typing import Final, TypeAlias
 _Incomplete2: TypeAlias = tuple[Incomplete, Incomplete]
 _Incomplete3: TypeAlias = tuple[Incomplete, Incomplete, Incomplete]
 _Incomplete4: TypeAlias = tuple[Incomplete, Incomplete, Incomplete, Incomplete]
-_Incomplete5: TypeAlias = tuple[Incomplete, Incomplete, Incomplete, Incomplete, Incomplete]
-_Incomplete6: TypeAlias = tuple[Incomplete, Incomplete, Incomplete, Incomplete, Incomplete, Incomplete]
-_Incomplete7: TypeAlias = tuple[Incomplete, Incomplete, Incomplete, Incomplete, Incomplete, Incomplete, Incomplete]
-_Incomplete8: TypeAlias = tuple[Incomplete, Incomplete, Incomplete, Incomplete, Incomplete, Incomplete, Incomplete, Incomplete]
+_Incomplete5: TypeAlias = tuple[
+    Incomplete, Incomplete, Incomplete, Incomplete, Incomplete
+]
+_Incomplete6: TypeAlias = tuple[
+    Incomplete, Incomplete, Incomplete, Incomplete, Incomplete, Incomplete
+]
+_Incomplete7: TypeAlias = tuple[
+    Incomplete, Incomplete, Incomplete, Incomplete, Incomplete, Incomplete, Incomplete
+]
+_Incomplete8: TypeAlias = tuple[
+    Incomplete,
+    Incomplete,
+    Incomplete,
+    Incomplete,
+    Incomplete,
+    Incomplete,
+    Incomplete,
+    Incomplete,
+]
 _Incomplete9: TypeAlias = tuple[
-    Incomplete, Incomplete, Incomplete, Incomplete, Incomplete, Incomplete, Incomplete, Incomplete, Incomplete
+    Incomplete,
+    Incomplete,
+    Incomplete,
+    Incomplete,
+    Incomplete,
+    Incomplete,
+    Incomplete,
+    Incomplete,
+    Incomplete,
 ]
 _Incomplete10: TypeAlias = tuple[
-    Incomplete, Incomplete, Incomplete, Incomplete, Incomplete, Incomplete, Incomplete, Incomplete, Incomplete, Incomplete
+    Incomplete,
+    Incomplete,
+    Incomplete,
+    Incomplete,
+    Incomplete,
+    Incomplete,
+    Incomplete,
+    Incomplete,
+    Incomplete,
+    Incomplete,
 ]
 _Incomplete11: TypeAlias = tuple[
     Incomplete,
@@ -736,8 +768,12 @@ sstebz: Final[Callable[..., _Incomplete5]] = ...
 dstebz: Final[Callable[..., _Incomplete5]] = ...
 
 # (d, e, w, iblock, isplit) -> (z, info)
-sstein: Final[Callable[[Incomplete, Incomplete, Incomplete, Incomplete, Incomplete], _Incomplete2]] = ...
-dstein: Final[Callable[[Incomplete, Incomplete, Incomplete, Incomplete, Incomplete], _Incomplete2]] = ...
+sstein: Final[
+    Callable[[Incomplete, Incomplete, Incomplete, Incomplete, Incomplete], _Incomplete2]
+] = ...
+dstein: Final[
+    Callable[[Incomplete, Incomplete, Incomplete, Incomplete, Incomplete], _Incomplete2]
+] = ...
 
 # (d, e, range, vl, vu, il, iu, [compute_v, lwork, liwork, overwrite_d]) -> (m, w, z, info)
 sstemr: Final[Callable[..., _Incomplete4]] = ...

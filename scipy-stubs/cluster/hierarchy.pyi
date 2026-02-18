@@ -46,8 +46,12 @@ __all__ = [
 
 _T = TypeVar("_T")
 
-_LinkageMethod: TypeAlias = Literal["single", "complete", "average", "weighted", "centroid", "median", "ward"]
-_ClusterCriterion: TypeAlias = Literal["inconsistent", "distance", "maxclust", "monocrit", "maxclust_monocrit"]
+_LinkageMethod: TypeAlias = Literal[
+    "single", "complete", "average", "weighted", "centroid", "median", "ward"
+]
+_ClusterCriterion: TypeAlias = Literal[
+    "inconsistent", "distance", "maxclust", "monocrit", "maxclust_monocrit"
+]
 _SortOrder: TypeAlias = Literal["ascending", "descending"]
 _TruncateMode: TypeAlias = Literal["lastp", "level"]
 _Orientation: TypeAlias = Literal["top", "bottom", "left", "right"]
@@ -80,10 +84,24 @@ class ClusterNode:
     # NOTE: either both `left` and `right` are None, or both are `ClusterNode`
     @overload
     def __init__(
-        self: ClusterNode, /, id: int, left: None = None, right: None = None, dist: float = 0.0, count: int = 1
+        self: ClusterNode,
+        /,
+        id: int,
+        left: None = None,
+        right: None = None,
+        dist: float = 0.0,
+        count: int = 1,
     ) -> None: ...
     @overload
-    def __init__(self, /, id: int, left: ClusterNode, right: ClusterNode, dist: float = 0.0, count: int = 1) -> None: ...
+    def __init__(
+        self,
+        /,
+        id: int,
+        left: ClusterNode,
+        right: ClusterNode,
+        dist: float = 0.0,
+        count: int = 1,
+    ) -> None: ...
 
     # NOTE: These raise a `ValueError` if passed anything other than `ClusterNode`
     @override
@@ -128,13 +146,21 @@ def ward(y: onp.ToFloat1D | onp.ToFloat2D) -> onp.Array2D[np.float64]: ...
 @overload  # Y: None  (default)
 def cophenet(Z: onp.ToFloat2D, Y: None = None) -> onp.Array1D[np.float64]: ...
 @overload  # Y: 1d +f64
-def cophenet(Z: onp.ToFloat2D, Y: onp.ToFloat64_1D) -> tuple[np.float64, onp.Array1D[np.float64]]: ...
+def cophenet(
+    Z: onp.ToFloat2D, Y: onp.ToFloat64_1D
+) -> tuple[np.float64, onp.Array1D[np.float64]]: ...
 @overload  # Y: 1d ~f80
-def cophenet(Z: onp.ToFloat2D, Y: onp.ToJustLongDouble1D) -> tuple[np.longdouble, onp.Array1D[np.float64]]: ...
+def cophenet(
+    Z: onp.ToFloat2D, Y: onp.ToJustLongDouble1D
+) -> tuple[np.longdouble, onp.Array1D[np.float64]]: ...
 @overload  # Y: 1d ~c128
-def cophenet(Z: onp.ToFloat2D, Y: onp.ToJustComplex128_1D) -> tuple[np.complex128, onp.Array1D[np.float64]]: ...
+def cophenet(
+    Z: onp.ToFloat2D, Y: onp.ToJustComplex128_1D
+) -> tuple[np.complex128, onp.Array1D[np.float64]]: ...
 @overload  # Y: 1d ~c160
-def cophenet(Z: onp.ToFloat2D, Y: onp.ToJustCLongDouble1D) -> tuple[np.clongdouble, onp.Array1D[np.float64]]: ...
+def cophenet(
+    Z: onp.ToFloat2D, Y: onp.ToJustCLongDouble1D
+) -> tuple[np.clongdouble, onp.Array1D[np.float64]]: ...
 
 #
 def from_mlab_linkage(Z: onp.ToFloat2D) -> onp.Array2D[np.float64]: ...
@@ -179,28 +205,54 @@ def leaves_list(Z: onp.ToFloat2D) -> onp.Array1D[np.int32]: ...
 @overload
 def to_tree(Z: onp.ToFloat2D, rd: onp.ToFalse = False) -> ClusterNode: ...
 @overload
-def to_tree(Z: onp.ToFloat2D, rd: onp.ToTrue) -> tuple[ClusterNode, list[ClusterNode]]: ...
+def to_tree(
+    Z: onp.ToFloat2D, rd: onp.ToTrue
+) -> tuple[ClusterNode, list[ClusterNode]]: ...
 
 #
 def cut_tree(
-    Z: onp.ToFloat2D, n_clusters: onp.ToInt1D | None = None, height: onp.ToFloat1D | None = None
+    Z: onp.ToFloat2D,
+    n_clusters: onp.ToInt1D | None = None,
+    height: onp.ToFloat1D | None = None,
 ) -> onp.Array2D[np.int64]: ...
 
 #
-def optimal_leaf_ordering(Z: onp.ToFloat2D, y: onp.ToFloat1D, metric: _Metric = "euclidean") -> onp.Array2D[np.float64]: ...
+def optimal_leaf_ordering(
+    Z: onp.ToFloat2D, y: onp.ToFloat1D, metric: _Metric = "euclidean"
+) -> onp.Array2D[np.float64]: ...
 
 # keep in sync with `is_valid_linkage`
 @overload
-def is_valid_im(R: onp.ToArrayND, warning: bool = False, throw: Literal[False] = False, name: str | None = None) -> bool: ...
+def is_valid_im(
+    R: onp.ToArrayND,
+    warning: bool = False,
+    throw: Literal[False] = False,
+    name: str | None = None,
+) -> bool: ...
 @overload
-def is_valid_im(R: onp.ToJustFloat64_2D, warning: bool = False, *, throw: Literal[True], name: str | None = None) -> bool: ...
+def is_valid_im(
+    R: onp.ToJustFloat64_2D,
+    warning: bool = False,
+    *,
+    throw: Literal[True],
+    name: str | None = None,
+) -> bool: ...
 
 # keep in sync with `is_valid_im`
 @overload
-def is_valid_linkage(Z: onp.ToArrayND, warning: bool = False, throw: Literal[False] = False, name: str | None = None) -> bool: ...
+def is_valid_linkage(
+    Z: onp.ToArrayND,
+    warning: bool = False,
+    throw: Literal[False] = False,
+    name: str | None = None,
+) -> bool: ...
 @overload
 def is_valid_linkage(
-    Z: onp.ToJustFloat64_2D, warning: bool = False, *, throw: Literal[True], name: str | None = None
+    Z: onp.ToJustFloat64_2D,
+    warning: bool = False,
+    *,
+    throw: Literal[True],
+    name: str | None = None,
 ) -> bool: ...
 
 #
@@ -252,4 +304,6 @@ def fclusterdata(
 ) -> onp.Array1D[np.int32]: ...
 
 #
-def leaders(Z: onp.ToFloat2D, T: onp.Array1D[np.int32]) -> tuple[onp.Array1D[np.int32], onp.Array1D[np.int32]]: ...
+def leaders(
+    Z: onp.ToFloat2D, T: onp.Array1D[np.int32]
+) -> tuple[onp.Array1D[np.int32], onp.Array1D[np.int32]]: ...

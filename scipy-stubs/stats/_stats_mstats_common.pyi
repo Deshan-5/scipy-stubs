@@ -10,13 +10,22 @@ from ._typing import BunchMixin, NanPolicy
 
 __all__ = ["_find_repeats", "siegelslopes", "theilslopes"]
 
-_ResultT_co = TypeVar("_ResultT_co", bound=np.float64 | onp.ArrayND[np.float64], default=np.float64 | Any, covariant=True)
+_ResultT_co = TypeVar(
+    "_ResultT_co",
+    bound=np.float64 | onp.ArrayND[np.float64],
+    default=np.float64 | Any,
+    covariant=True,
+)
 
 _Method: TypeAlias = Literal["hierarchical", "separate"]
 
 ###
 
-class SiegelslopesResult(BunchMixin[tuple[_ResultT_co, _ResultT_co]], tuple[_ResultT_co, _ResultT_co], Generic[_ResultT_co]):
+class SiegelslopesResult(
+    BunchMixin[tuple[_ResultT_co, _ResultT_co]],
+    tuple[_ResultT_co, _ResultT_co],
+    Generic[_ResultT_co],
+):
     def __new__(_cls, slope: _ResultT_co, intercept: _ResultT_co) -> Self: ...
     def __init__(self, /, slope: _ResultT_co, intercept: _ResultT_co) -> None: ...
     @property
@@ -29,9 +38,20 @@ class TheilslopesResult(
     tuple[_ResultT_co, _ResultT_co, _ResultT_co, _ResultT_co],
     Generic[_ResultT_co],
 ):
-    def __new__(_cls, slope: _ResultT_co, intercept: _ResultT_co, low_slope: _ResultT_co, high_slope: _ResultT_co) -> Self: ...
+    def __new__(
+        _cls,
+        slope: _ResultT_co,
+        intercept: _ResultT_co,
+        low_slope: _ResultT_co,
+        high_slope: _ResultT_co,
+    ) -> Self: ...
     def __init__(
-        self, /, slope: _ResultT_co, intercept: _ResultT_co, low_slope: _ResultT_co, high_slope: _ResultT_co
+        self,
+        /,
+        slope: _ResultT_co,
+        intercept: _ResultT_co,
+        low_slope: _ResultT_co,
+        high_slope: _ResultT_co,
     ) -> None: ...
     @property
     def slope(self, /) -> _ResultT_co: ...
@@ -44,7 +64,9 @@ class TheilslopesResult(
 
 ###
 
-def _find_repeats(arr: onp.ArrayND[npc.number]) -> tuple[onp.ArrayND[np.float64], onp.ArrayND[np.intp]]: ...  # undocumented
+def _find_repeats(
+    arr: onp.ArrayND[npc.number],
+) -> tuple[onp.ArrayND[np.float64], onp.ArrayND[np.intp]]: ...  # undocumented
 
 #
 @overload

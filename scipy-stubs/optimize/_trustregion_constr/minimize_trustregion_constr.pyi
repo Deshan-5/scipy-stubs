@@ -84,8 +84,16 @@ class LagrangianHessian:
     objective_hess: Final[_ObjectiveHessFunc]
     constraints_hess: Final[_ConstraintsHessFunc]
 
-    def __init__(self, /, n: int, objective_hess: _ObjectiveHessFunc, constraints_hess: _ConstraintsHessFunc) -> None: ...
-    def __call__(self, /, x: _Float1D, v_eq: _Float1D, v_ineq: _Float1D | None = None) -> LinearOperator: ...
+    def __init__(
+        self,
+        /,
+        n: int,
+        objective_hess: _ObjectiveHessFunc,
+        constraints_hess: _ConstraintsHessFunc,
+    ) -> None: ...
+    def __call__(
+        self, /, x: _Float1D, v_eq: _Float1D, v_ineq: _Float1D | None = None
+    ) -> LinearOperator: ...
 
 # undocumented
 def update_state_sqp(
@@ -121,7 +129,10 @@ def _minimize_trustregion_constr(
     x0: onp.ToFloat1D,
     args: tuple[object, ...],
     grad: Callable[Concatenate[_Float1D, ...], onp.ToFloat1D] | None,
-    hess: Callable[Concatenate[_Float1D, ...], onp.ToFloat2D | _Sparse | LinearOperator] | None,
+    hess: (
+        Callable[Concatenate[_Float1D, ...], onp.ToFloat2D | _Sparse | LinearOperator]
+        | None
+    ),
     hessp: _HessPFunc | None,
     bounds: Bounds | None,
     constraints: LinearConstraint | NonlinearConstraint | None,

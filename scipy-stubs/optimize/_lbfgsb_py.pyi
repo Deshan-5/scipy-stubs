@@ -13,7 +13,9 @@ __all__ = ["LbfgsInvHessProduct", "fmin_l_bfgs_b"]
 _T = TypeVar("_T")
 _Ts = TypeVarTuple("_Ts", default=Unpack[tuple[()]])
 
-_Fn = TypeAliasType("_Fn", Callable[[onp.Array1D[np.float64], *_Ts], _T], type_params=(_T, _Ts))
+_Fn = TypeAliasType(
+    "_Fn", Callable[[onp.Array1D[np.float64], *_Ts], _T], type_params=(_T, _Ts)
+)
 
 _Bounds: TypeAlias = Sequence[tuple[onp.ToFloat | None, onp.ToFloat | None]]
 _FMinResult: TypeAlias = tuple[onp.Array1D[np.float64], float, _InfoDict]
@@ -186,7 +188,9 @@ def fmin_l_bfgs_b(
     maxls: onp.ToJustInt = 20,
 ) -> _FMinResult: ...
 @overload  # iprint and disp
-@deprecated("The `iprint` and `disp` keywords are deprecated and will be removed from SciPy 1.18.0.")
+@deprecated(
+    "The `iprint` and `disp` keywords are deprecated and will be removed from SciPy 1.18.0."
+)
 def fmin_l_bfgs_b(
     func: _Fn[onp.ToFloat, *_Ts] | _Fn[_ToFloatAnd1D, *_Ts],
     x0: _ToFloatOr1D,

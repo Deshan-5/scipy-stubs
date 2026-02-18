@@ -81,7 +81,13 @@ class memoryview:  # undocumented
 
 class _memoryviewslize(memoryview):  # undocumented
     def count(self, /, value: Incomplete) -> int: ...
-    def index(self, /, value: Incomplete, start: SupportsIndex = 0, stop: SupportsIndex | None = None) -> int: ...
+    def index(
+        self,
+        /,
+        value: Incomplete,
+        start: SupportsIndex = 0,
+        stop: SupportsIndex | None = None,
+    ) -> int: ...
 
 class array:  # undocumented
     memview: Final[memoryview]
@@ -101,5 +107,12 @@ class array:  # undocumented
     def __setstate__(self, state: Never, /) -> None: ...  # will raise `TypeError`
     if sys.version_info >= (3, 12):
         def __buffer__(self, flags: int, /) -> py_memoryview: ...
+
     def count(self, /, value: Incomplete) -> int: ...
-    def index(self, /, value: Incomplete, start: SupportsIndex = 0, stop: SupportsIndex | None = None) -> int: ...
+    def index(
+        self,
+        /,
+        value: Incomplete,
+        start: SupportsIndex = 0,
+        stop: SupportsIndex | None = None,
+    ) -> int: ...

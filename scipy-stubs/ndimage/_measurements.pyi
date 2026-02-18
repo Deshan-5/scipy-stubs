@@ -33,7 +33,9 @@ _SCT = TypeVar("_SCT", bound=npc.number | np.bool_)
 _ISCT = TypeVar("_ISCT", bound=npc.inexact, default=npc.inexact)
 
 __Func1: TypeAlias = Callable[[onp.ToComplex | onp.ToComplexND], onp.ToComplex]
-__Func2: TypeAlias = Callable[[onp.ToComplex | onp.ToComplexND, onp.ToComplex | onp.ToComplexND], onp.ToComplex]
+__Func2: TypeAlias = Callable[
+    [onp.ToComplex | onp.ToComplexND, onp.ToComplex | onp.ToComplexND], onp.ToComplex
+]
 _ComprehensionFunc: TypeAlias = __Func1 | __Func2
 
 _Idx0D: TypeAlias = tuple[np.intp, ...]
@@ -56,11 +58,15 @@ def label(
 ) -> int: ...
 @overload
 def label(
-    input: onp.ToComplex | onp.ToComplexND, structure: onp.ToComplex | onp.ToComplexND | None = None, output: None = None
+    input: onp.ToComplex | onp.ToComplexND,
+    structure: onp.ToComplex | onp.ToComplexND | None = None,
+    output: None = None,
 ) -> tuple[onp.ArrayND[np.int32 | np.intp], int]: ...
 
 #
-def find_objects(input: onp.ToInt | onp.ToIntND, max_label: int = 0) -> list[tuple[slice, ...]]: ...
+def find_objects(
+    input: onp.ToInt | onp.ToIntND, max_label: int = 0
+) -> list[tuple[slice, ...]]: ...
 
 #
 def value_indices(
@@ -114,43 +120,86 @@ def labeled_comprehension(
 class _DefStatistic(Protocol):
     @overload
     def __call__(
-        self, /, input: onp.CanArrayND[_ISCT], labels: onp.ToInt | onp.ToIntND | None = None, index: None = None
+        self,
+        /,
+        input: onp.CanArrayND[_ISCT],
+        labels: onp.ToInt | onp.ToIntND | None = None,
+        index: None = None,
     ) -> _ISCT: ...
     @overload
     def __call__(
-        self, /, input: onp.CanArrayND[_ISCT], labels: onp.ToInt | onp.ToIntND, index: onp.ArrayND[npc.integer]
+        self,
+        /,
+        input: onp.CanArrayND[_ISCT],
+        labels: onp.ToInt | onp.ToIntND,
+        index: onp.ArrayND[npc.integer],
     ) -> onp.ArrayND[_ISCT]: ...
     @overload
     def __call__(
-        self, /, input: onp.CanArrayND[_ISCT], labels: onp.ToInt | onp.ToIntND | None = None, *, index: onp.ArrayND[npc.integer]
+        self,
+        /,
+        input: onp.CanArrayND[_ISCT],
+        labels: onp.ToInt | onp.ToIntND | None = None,
+        *,
+        index: onp.ArrayND[npc.integer],
     ) -> onp.ArrayND[_ISCT]: ...
     @overload
     def __call__(
-        self, /, input: onp.CanArrayND[_ISCT], labels: onp.ToInt | onp.ToIntND, index: onp.ToInt | onp.ToIntND
+        self,
+        /,
+        input: onp.CanArrayND[_ISCT],
+        labels: onp.ToInt | onp.ToIntND,
+        index: onp.ToInt | onp.ToIntND,
     ) -> onp.ArrayND[_ISCT]: ...
     @overload
     def __call__(
-        self, /, input: onp.CanArrayND[_ISCT], labels: onp.ToInt | onp.ToIntND | None = None, *, index: onp.ToInt | onp.ToIntND
+        self,
+        /,
+        input: onp.CanArrayND[_ISCT],
+        labels: onp.ToInt | onp.ToIntND | None = None,
+        *,
+        index: onp.ToInt | onp.ToIntND,
     ) -> onp.ArrayND[_ISCT]: ...
     @overload
     def __call__(
-        self, /, input: onp.ToInt | onp.ToIntND, labels: onp.ToInt | onp.ToIntND | None = None, index: None = None
+        self,
+        /,
+        input: onp.ToInt | onp.ToIntND,
+        labels: onp.ToInt | onp.ToIntND | None = None,
+        index: None = None,
     ) -> np.float64: ...
     @overload
     def __call__(
-        self, /, input: onp.ToInt | onp.ToIntND, labels: onp.ToInt | onp.ToIntND, index: onp.ArrayND[npc.integer]
+        self,
+        /,
+        input: onp.ToInt | onp.ToIntND,
+        labels: onp.ToInt | onp.ToIntND,
+        index: onp.ArrayND[npc.integer],
     ) -> onp.ArrayND[np.float64]: ...
     @overload
     def __call__(
-        self, /, input: onp.ToInt | onp.ToIntND, labels: onp.ToInt | onp.ToIntND | None = None, *, index: onp.ArrayND[npc.integer]
+        self,
+        /,
+        input: onp.ToInt | onp.ToIntND,
+        labels: onp.ToInt | onp.ToIntND | None = None,
+        *,
+        index: onp.ArrayND[npc.integer],
     ) -> onp.ArrayND[np.float64]: ...
     @overload
     def __call__(
-        self, /, input: onp.ToComplex | onp.ToComplexND, labels: onp.ToInt | onp.ToIntND | None = None, index: None = None
+        self,
+        /,
+        input: onp.ToComplex | onp.ToComplexND,
+        labels: onp.ToInt | onp.ToIntND | None = None,
+        index: None = None,
     ) -> npc.inexact: ...
     @overload
     def __call__(
-        self, /, input: onp.ToComplex | onp.ToComplexND, labels: onp.ToInt | onp.ToIntND, index: onp.ArrayND[npc.integer]
+        self,
+        /,
+        input: onp.ToComplex | onp.ToComplexND,
+        labels: onp.ToInt | onp.ToIntND,
+        index: onp.ArrayND[npc.integer],
     ) -> onp.ArrayND[npc.inexact]: ...
     @overload
     def __call__(
@@ -182,19 +231,36 @@ median: _DefStatistic
 class _DefExtreme(Protocol):
     @overload
     def __call__(
-        self, /, input: onp.CanArrayND[_SCT], labels: onp.ToInt | onp.ToIntND | None = None, index: None = None
+        self,
+        /,
+        input: onp.CanArrayND[_SCT],
+        labels: onp.ToInt | onp.ToIntND | None = None,
+        index: None = None,
     ) -> _SCT: ...
     @overload
     def __call__(
-        self, /, input: onp.CanArrayND[_SCT], labels: onp.ToInt | onp.ToIntND, index: onp.ToIntND
+        self,
+        /,
+        input: onp.CanArrayND[_SCT],
+        labels: onp.ToInt | onp.ToIntND,
+        index: onp.ToIntND,
     ) -> onp.ArrayND[_SCT]: ...
     @overload
     def __call__(
-        self, /, input: onp.CanArrayND[_SCT], labels: onp.ToInt | onp.ToIntND | None = None, *, index: onp.ToIntND
+        self,
+        /,
+        input: onp.CanArrayND[_SCT],
+        labels: onp.ToInt | onp.ToIntND | None = None,
+        *,
+        index: onp.ToIntND,
     ) -> onp.ArrayND[_SCT]: ...
     @overload
     def __call__(
-        self, /, input: onp.ToComplex | onp.ToComplexND, labels: onp.ToInt | onp.ToIntND, index: onp.ArrayND[npc.integer]
+        self,
+        /,
+        input: onp.ToComplex | onp.ToComplexND,
+        labels: onp.ToInt | onp.ToIntND,
+        index: onp.ArrayND[npc.integer],
     ) -> onp.ArrayND[Any]: ...
     @overload
     def __call__(
@@ -228,7 +294,9 @@ maximum: _DefExtreme
 #
 @overload
 def extrema(
-    input: onp.ToJustFloat64 | onp.ToJustFloat64_ND, labels: onp.ToInt | onp.ToIntND | None = None, index: onp.ToInt | None = None
+    input: onp.ToJustFloat64 | onp.ToJustFloat64_ND,
+    labels: onp.ToInt | onp.ToIntND | None = None,
+    index: onp.ToInt | None = None,
 ) -> _Extrema0D[np.float64]: ...
 @overload
 def extrema(
@@ -238,43 +306,71 @@ def extrema(
 ) -> _Extrema0D[np.complex128]: ...
 @overload
 def extrema(
-    input: _ArrayLike[_SCT], labels: onp.ToInt | onp.ToIntND | None = None, index: onp.ToInt | None = None
+    input: _ArrayLike[_SCT],
+    labels: onp.ToInt | onp.ToIntND | None = None,
+    index: onp.ToInt | None = None,
 ) -> _Extrema0D[_SCT]: ...
 @overload
 def extrema(
-    input: onp.ToComplex | onp.ToComplexND, labels: onp.ToInt | onp.ToIntND | None = None, index: onp.ToInt | None = None
+    input: onp.ToComplex | onp.ToComplexND,
+    labels: onp.ToInt | onp.ToIntND | None = None,
+    index: onp.ToInt | None = None,
 ) -> _Extrema0D[Any]: ...
 @overload
 def extrema(
-    input: onp.ToJustFloat64 | onp.ToJustFloat64_ND, labels: onp.ToInt | onp.ToIntND, index: onp.ToIntND
+    input: onp.ToJustFloat64 | onp.ToJustFloat64_ND,
+    labels: onp.ToInt | onp.ToIntND,
+    index: onp.ToIntND,
 ) -> _ExtremaND[np.float64]: ...
 @overload
 def extrema(
-    input: onp.ToJustFloat64 | onp.ToJustFloat64_ND, labels: onp.ToInt | onp.ToIntND | None = None, *, index: onp.ToIntND
+    input: onp.ToJustFloat64 | onp.ToJustFloat64_ND,
+    labels: onp.ToInt | onp.ToIntND | None = None,
+    *,
+    index: onp.ToIntND,
 ) -> _ExtremaND[np.float64]: ...
 @overload
 def extrema(
-    input: onp.ToJustComplex128 | onp.ToJustComplex128_ND, labels: onp.ToInt | onp.ToIntND, index: onp.ToIntND
+    input: onp.ToJustComplex128 | onp.ToJustComplex128_ND,
+    labels: onp.ToInt | onp.ToIntND,
+    index: onp.ToIntND,
 ) -> _ExtremaND[np.complex128]: ...
 @overload
 def extrema(
-    input: onp.ToJustComplex128 | onp.ToJustComplex128_ND, labels: onp.ToInt | onp.ToIntND | None = None, *, index: onp.ToIntND
+    input: onp.ToJustComplex128 | onp.ToJustComplex128_ND,
+    labels: onp.ToInt | onp.ToIntND | None = None,
+    *,
+    index: onp.ToIntND,
 ) -> _ExtremaND[np.complex128]: ...
 @overload
-def extrema(input: _ArrayLike[_SCT], labels: onp.ToInt | onp.ToIntND, index: onp.ToIntND) -> _ExtremaND[_SCT]: ...
-@overload
 def extrema(
-    input: _ArrayLike[_SCT], labels: onp.ToInt | onp.ToIntND | None = None, *, index: onp.ToIntND
+    input: _ArrayLike[_SCT], labels: onp.ToInt | onp.ToIntND, index: onp.ToIntND
 ) -> _ExtremaND[_SCT]: ...
 @overload
-def extrema(input: onp.ToComplex | onp.ToComplexND, labels: onp.ToInt | onp.ToIntND, index: onp.ToIntND) -> _ExtremaND[Any]: ...
+def extrema(
+    input: _ArrayLike[_SCT],
+    labels: onp.ToInt | onp.ToIntND | None = None,
+    *,
+    index: onp.ToIntND,
+) -> _ExtremaND[_SCT]: ...
 @overload
 def extrema(
-    input: onp.ToComplex | onp.ToComplexND, labels: onp.ToInt | onp.ToIntND | None = None, *, index: onp.ToIntND
+    input: onp.ToComplex | onp.ToComplexND,
+    labels: onp.ToInt | onp.ToIntND,
+    index: onp.ToIntND,
 ) -> _ExtremaND[Any]: ...
 @overload
 def extrema(
-    input: _ArrayLike[_SCT], labels: onp.ToInt | onp.ToIntND | None = None, index: onp.ToInt | onp.ToIntND | None = None
+    input: onp.ToComplex | onp.ToComplexND,
+    labels: onp.ToInt | onp.ToIntND | None = None,
+    *,
+    index: onp.ToIntND,
+) -> _ExtremaND[Any]: ...
+@overload
+def extrema(
+    input: _ArrayLike[_SCT],
+    labels: onp.ToInt | onp.ToIntND | None = None,
+    index: onp.ToInt | onp.ToIntND | None = None,
 ) -> _Extrema0D[_SCT] | _ExtremaND[_SCT]: ...
 @overload
 def extrema(
@@ -288,11 +384,19 @@ def extrema(
 class _DefArgExtreme(Protocol):
     @overload
     def __call__(
-        self, /, input: onp.ToComplex | onp.ToComplexND, labels: onp.ToInt | onp.ToIntND | None = None, index: None = None
+        self,
+        /,
+        input: onp.ToComplex | onp.ToComplexND,
+        labels: onp.ToInt | onp.ToIntND | None = None,
+        index: None = None,
     ) -> _Idx0D: ...
     @overload
     def __call__(
-        self, /, input: onp.ToComplex | onp.ToComplexND, labels: onp.ToInt | onp.ToIntND, index: onp.ArrayND[npc.integer]
+        self,
+        /,
+        input: onp.ToComplex | onp.ToComplexND,
+        labels: onp.ToInt | onp.ToIntND,
+        index: onp.ArrayND[npc.integer],
     ) -> _IdxND: ...
     @overload
     def __call__(
@@ -318,19 +422,28 @@ maximum_position: _DefArgExtreme
 #
 @overload
 def center_of_mass(
-    input: onp.ToComplex | onp.ToComplexND, labels: onp.ToInt | onp.ToIntND | None = None, index: onp.ToInt | None = None
+    input: onp.ToComplex | onp.ToComplexND,
+    labels: onp.ToInt | onp.ToIntND | None = None,
+    index: onp.ToInt | None = None,
 ) -> _Coord0D: ...
 @overload
 def center_of_mass(
-    input: onp.ToComplex | onp.ToComplexND, labels: onp.ToInt | onp.ToIntND, index: Sequence[onp.ToInt]
+    input: onp.ToComplex | onp.ToComplexND,
+    labels: onp.ToInt | onp.ToIntND,
+    index: Sequence[onp.ToInt],
 ) -> _Coord1D: ...
 @overload
 def center_of_mass(
-    input: onp.ToComplex | onp.ToComplexND, labels: onp.ToInt | onp.ToIntND | None = None, *, index: Sequence[onp.ToInt]
+    input: onp.ToComplex | onp.ToComplexND,
+    labels: onp.ToInt | onp.ToIntND | None = None,
+    *,
+    index: Sequence[onp.ToInt],
 ) -> _Coord1D: ...
 @overload
 def center_of_mass(
-    input: onp.ToComplex | onp.ToComplexND, labels: onp.ToInt | onp.ToIntND, index: Sequence[Sequence[onp.ToInt | onp.ToIntND]]
+    input: onp.ToComplex | onp.ToComplexND,
+    labels: onp.ToInt | onp.ToIntND,
+    index: Sequence[Sequence[onp.ToInt | onp.ToIntND]],
 ) -> _CoordND: ...
 @overload
 def center_of_mass(

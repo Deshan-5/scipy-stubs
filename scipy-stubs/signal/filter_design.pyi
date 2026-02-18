@@ -73,11 +73,22 @@ def freqz(
     include_nyquist: object = False,
 ) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
-def freqz_zpk(z: object, p: object, k: object, worN: object = 512, whole: object = False, fs: object = ...) -> object: ...
+def freqz_zpk(
+    z: object,
+    p: object,
+    k: object,
+    worN: object = 512,
+    whole: object = False,
+    fs: object = ...,
+) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
-def group_delay(system: object, w: object = 512, whole: object = False, fs: object = ...) -> object: ...
+def group_delay(
+    system: object, w: object = 512, whole: object = False, fs: object = ...
+) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
-def freqz_sos(sos: object, worN: object = 512, whole: object = False, fs: object = ...) -> object: ...
+def freqz_sos(
+    sos: object, worN: object = 512, whole: object = False, fs: object = ...
+) -> object: ...
 
 sosfreqz = freqz_sos  # pyright: ignore[reportDeprecated] # pyrefly: ignore[deprecated] # ty: ignore[deprecated]
 
@@ -86,13 +97,17 @@ def tf2zpk(b: object, a: object) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
 def zpk2tf(z: object, p: object, k: object) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
-def tf2sos(b: object, a: object, pairing: object = None, *, analog: object = False) -> object: ...
+def tf2sos(
+    b: object, a: object, pairing: object = None, *, analog: object = False
+) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
 def sos2tf(sos: object) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
 def sos2zpk(sos: object) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
-def zpk2sos(z: object, p: object, k: object, pairing: object = None, *, analog: object = False) -> object: ...
+def zpk2sos(
+    z: object, p: object, k: object, pairing: object = None, *, analog: object = False
+) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
 def normalize(b: object, a: object) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
@@ -135,20 +150,41 @@ def lp2lp_zpk(z: object, p: object, k: object, wo: object = 1.0) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
 def lp2hp_zpk(z: object, p: object, k: object, wo: object = 1.0) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
-def lp2bp_zpk(z: object, p: object, k: object, wo: object = 1.0, bw: object = 1.0) -> object: ...
+def lp2bp_zpk(
+    z: object, p: object, k: object, wo: object = 1.0, bw: object = 1.0
+) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
-def lp2bs_zpk(z: object, p: object, k: object, wo: object = 1.0, bw: object = 1.0) -> object: ...
+def lp2bs_zpk(
+    z: object, p: object, k: object, wo: object = 1.0, bw: object = 1.0
+) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
 def butter(
-    N: object, Wn: object, btype: object = "low", analog: object = False, output: object = "ba", fs: object = None
+    N: object,
+    Wn: object,
+    btype: object = "low",
+    analog: object = False,
+    output: object = "ba",
+    fs: object = None,
 ) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
 def cheby1(
-    N: object, rp: object, Wn: object, btype: object = "low", analog: object = False, output: object = "ba", fs: object = None
+    N: object,
+    rp: object,
+    Wn: object,
+    btype: object = "low",
+    analog: object = False,
+    output: object = "ba",
+    fs: object = None,
 ) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
 def cheby2(
-    N: object, rs: object, Wn: object, btype: object = "low", analog: object = False, output: object = "ba", fs: object = None
+    N: object,
+    rs: object,
+    Wn: object,
+    btype: object = "low",
+    analog: object = False,
+    output: object = "ba",
+    fs: object = None,
 ) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
 def ellip(
@@ -173,30 +209,76 @@ def bessel(
 ) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
 def band_stop_obj(
-    wp: object, ind: object, passb: object, stopb: object, gpass: object, gstop: object, type: object
+    wp: object,
+    ind: object,
+    passb: object,
+    stopb: object,
+    gpass: object,
+    gstop: object,
+    type: object,
 ) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
-def buttord(wp: object, ws: object, gpass: object, gstop: object, analog: object = False, fs: object = None) -> object: ...
+def buttord(
+    wp: object,
+    ws: object,
+    gpass: object,
+    gstop: object,
+    analog: object = False,
+    fs: object = None,
+) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
-def cheb1ord(wp: object, ws: object, gpass: object, gstop: object, analog: object = False, fs: object = None) -> object: ...
+def cheb1ord(
+    wp: object,
+    ws: object,
+    gpass: object,
+    gstop: object,
+    analog: object = False,
+    fs: object = None,
+) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
-def cheb2ord(wp: object, ws: object, gpass: object, gstop: object, analog: object = False, fs: object = None) -> object: ...
+def cheb2ord(
+    wp: object,
+    ws: object,
+    gpass: object,
+    gstop: object,
+    analog: object = False,
+    fs: object = None,
+) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
-def ellipord(wp: object, ws: object, gpass: object, gstop: object, analog: object = False, fs: object = None) -> object: ...
+def ellipord(
+    wp: object,
+    ws: object,
+    gpass: object,
+    gstop: object,
+    analog: object = False,
+    fs: object = None,
+) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
 def buttap(N: object, *, xp: object = None, device: object = None) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
-def cheb1ap(N: object, rp: object, *, xp: object = None, device: object = None) -> object: ...
+def cheb1ap(
+    N: object, rp: object, *, xp: object = None, device: object = None
+) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
-def cheb2ap(N: object, rs: object, *, xp: object = None, device: object = None) -> object: ...
+def cheb2ap(
+    N: object, rs: object, *, xp: object = None, device: object = None
+) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
-def ellipap(N: object, rp: object, rs: object, *, xp: object = None, device: object = None) -> object: ...
+def ellipap(
+    N: object, rp: object, rs: object, *, xp: object = None, device: object = None
+) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
-def besselap(N: object, norm: object = "phase", *, xp: object = None, device: object = None) -> object: ...
+def besselap(
+    N: object, norm: object = "phase", *, xp: object = None, device: object = None
+) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
-def iirnotch(w0: object, Q: object, fs: object = 2.0, *, xp: object = None, device: object = None) -> object: ...
+def iirnotch(
+    w0: object, Q: object, fs: object = 2.0, *, xp: object = None, device: object = None
+) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
-def iirpeak(w0: object, Q: object, fs: object = 2.0, *, xp: object = None, device: object = None) -> object: ...
+def iirpeak(
+    w0: object, Q: object, fs: object = 2.0, *, xp: object = None, device: object = None
+) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
 def iircomb(
     w0: object,

@@ -211,7 +211,10 @@ def find_best_blas_type(
 #
 @overload
 def get_blas_funcs(
-    names: str, arrays: Sequence[onp.ArrayND] = (), dtype: npt.DTypeLike | None = None, ilp64: L["preferred"] | bool = False
+    names: str,
+    arrays: Sequence[onp.ArrayND] = (),
+    dtype: npt.DTypeLike | None = None,
+    ilp64: L["preferred"] | bool = False,
 ) -> _FortranFunction: ...
 @overload
 def get_blas_funcs(

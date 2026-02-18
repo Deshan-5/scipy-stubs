@@ -58,7 +58,9 @@ class UnivariateSpline:
         ext: _Ext = 0,
         check_finite: onp.ToBool = False,
     ) -> None: ...
-    def __call__(self, /, x: onp.ToFloat1D, nu: int = 0, ext: _Ext | None = None) -> _Float1D: ...
+    def __call__(
+        self, /, x: onp.ToFloat1D, nu: int = 0, ext: _Ext | None = None
+    ) -> _Float1D: ...
 
     #
     def get_knots(self, /) -> _Float1D: ...
@@ -101,15 +103,27 @@ class LSQUnivariateSpline(UnivariateSpline):
     ) -> None: ...
 
 class _BivariateSplineBase:  # undocumented
-    def __call__(self, /, x: onp.ToFloatND, y: onp.ToFloatND, dx: int = 0, dy: int = 0, grid: onp.ToBool = True) -> _Float1D: ...
+    def __call__(
+        self,
+        /,
+        x: onp.ToFloatND,
+        y: onp.ToFloatND,
+        dx: int = 0,
+        dy: int = 0,
+        grid: onp.ToBool = True,
+    ) -> _Float1D: ...
     def get_residual(self, /) -> float: ...
     def get_knots(self, /) -> tuple[_Float1D, _Float1D]: ...
     def get_coeffs(self, /) -> _Float1D: ...
     def partial_derivative(self, /, dx: int, dy: int) -> _DerivedBivariateSpline: ...
 
 class BivariateSpline(_BivariateSplineBase):
-    def ev(self, /, xi: onp.ToFloatND, yi: onp.ToFloatND, dx: int = 0, dy: int = 0) -> _FloatND: ...
-    def integral(self, /, xa: onp.ToFloat, xb: onp.ToFloat, ya: onp.ToFloat, yb: onp.ToFloat) -> float: ...
+    def ev(
+        self, /, xi: onp.ToFloatND, yi: onp.ToFloatND, dx: int = 0, dy: int = 0
+    ) -> _FloatND: ...
+    def integral(
+        self, /, xa: onp.ToFloat, xb: onp.ToFloat, ya: onp.ToFloat, yb: onp.ToFloat
+    ) -> float: ...
 
 class _DerivedBivariateSpline(_BivariateSplineBase):  # undocumented
     @property
@@ -177,9 +191,22 @@ class RectBivariateSpline(BivariateSpline):
 class SphereBivariateSpline(_BivariateSplineBase):
     @override
     def __call__(  # type: ignore[override]  # pyright: ignore[reportIncompatibleMethodOverride]  # ty: ignore[invalid-method-override]
-        self, /, theta: onp.ToFloat1D, phi: onp.ToFloat1D, dtheta: int = 0, dphi: int = 0, grid: onp.ToBool = True
+        self,
+        /,
+        theta: onp.ToFloat1D,
+        phi: onp.ToFloat1D,
+        dtheta: int = 0,
+        dphi: int = 0,
+        grid: onp.ToBool = True,
     ) -> _FloatND: ...
-    def ev(self, /, theta: onp.ToFloatND, phi: onp.ToFloatND, dtheta: int = 0, dphi: int = 0) -> _FloatND: ...
+    def ev(
+        self,
+        /,
+        theta: onp.ToFloatND,
+        phi: onp.ToFloatND,
+        dtheta: int = 0,
+        dphi: int = 0,
+    ) -> _FloatND: ...
 
 class SmoothSphereBivariateSpline(SphereBivariateSpline):
     fp: Final[float]

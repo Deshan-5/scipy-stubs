@@ -26,9 +26,15 @@ _AxisT = TypeVar("_AxisT", bound=npc.integer)
 
 ###
 
-np_long: Final[type[np.int32 | np.int64]] = ...  # `np.long` on `numpy>=2`, else `np.int_`
-np_ulong: Final[type[np.uint32 | np.uint64]] = ...  # `np.ulong` on `numpy>=2`, else `np.uint`
-copy_if_needed: Final[Literal[False] | None] = ...  # `None` on `numpy>=2`, otherwise `False`
+np_long: Final[type[np.int32 | np.int64]] = (
+    ...
+)  # `np.long` on `numpy>=2`, else `np.int_`
+np_ulong: Final[type[np.uint32 | np.uint64]] = (
+    ...
+)  # `np.ulong` on `numpy>=2`, else `np.uint`
+copy_if_needed: Final[Literal[False] | None] = (
+    ...
+)  # `None` on `numpy>=2`, otherwise `False`
 
 ###
 
@@ -44,7 +50,9 @@ SeedType: TypeAlias = IntNumber | _RNG | None
 GeneratorType = TypeVar("GeneratorType", bound=_RNG)  # noqa: PYI001  # oof
 
 if sys.version_info >= (3, 14):
-    def wrapped_inspect_signature(callable: Callable[..., object]) -> inspect.Signature: ...
+    def wrapped_inspect_signature(
+        callable: Callable[..., object],
+    ) -> inspect.Signature: ...
 
 else:
     wrapped_inspect_signature = inspect.signature
@@ -56,9 +64,13 @@ class AxisError(ValueError, IndexError):
     axis: Final[int | None]
     ndim: Final[onp.NDim | None]
     @overload
-    def __init__(self, /, axis: str, ndim: None = None, msg_prefix: None = None) -> None: ...
+    def __init__(
+        self, /, axis: str, ndim: None = None, msg_prefix: None = None
+    ) -> None: ...
     @overload
-    def __init__(self, /, axis: int, ndim: onp.NDim, msg_prefix: str | None = None) -> None: ...
+    def __init__(
+        self, /, axis: int, ndim: onp.NDim, msg_prefix: str | None = None
+    ) -> None: ...
 
 class FullArgSpec(NamedTuple):
     args: list[str]
@@ -75,14 +87,25 @@ class _FunctionWrapper(Generic[_T_contra, _T_co]):
     @overload
     def __init__(self, /, f: Callable[[_T_contra], _T_co], args: tuple[()]) -> None: ...
     @overload
-    def __init__(self, /, f: Callable[Concatenate[_T_contra, ...], _T_co], args: tuple[object, ...]) -> None: ...
+    def __init__(
+        self,
+        /,
+        f: Callable[Concatenate[_T_contra, ...], _T_co],
+        args: tuple[object, ...],
+    ) -> None: ...
     def __call__(self, /, x: _T_contra) -> _T_co: ...
 
 class MapWrapper(ExitMixin):
     pool: int | mpp.Pool | None
 
-    def __init__(self, /, pool: Callable[[Callable[[_VT], _RT], Iterable[_VT]], Iterable[_RT]] | int = 1) -> None: ...
-    def __call__(self, /, func: Callable[[_VT], _RT], iterable: Iterable[_VT]) -> Iterable[_RT]: ...
+    def __init__(
+        self,
+        /,
+        pool: Callable[[Callable[[_VT], _RT], Iterable[_VT]], Iterable[_RT]] | int = 1,
+    ) -> None: ...
+    def __call__(
+        self, /, func: Callable[[_VT], _RT], iterable: Iterable[_VT]
+    ) -> Iterable[_RT]: ...
     def __enter__(self, /) -> Self: ...
     def terminate(self, /) -> None: ...
     def join(self, /) -> None: ...
@@ -112,7 +135,9 @@ def getfullargspec_no_self(func: Callable[..., object]) -> FullArgSpec: ...
 @overload
 def check_random_state(seed: _AnyRNGT) -> _AnyRNGT: ...
 @overload
-def check_random_state(seed: onp.ToJustInt | types.ModuleType | None) -> np.random.RandomState: ...
+def check_random_state(
+    seed: onp.ToJustInt | types.ModuleType | None,
+) -> np.random.RandomState: ...
 
 #
 @overload
@@ -135,7 +160,9 @@ def rng_integers(
 ) -> npc.integer | onp.ArrayND[npc.integer]: ...
 
 #
-def ignore_warns(expected_warning: type[Warning], *, match: str | None = None) -> _GeneratorContextManager[None]: ...
+def ignore_warns(
+    expected_warning: type[Warning], *, match: str | None = None
+) -> _GeneratorContextManager[None]: ...
 
 #
 @overload
@@ -147,15 +174,33 @@ def normalize_axis_index(axis: _AxisT, ndim: onp.NDim | _AxisT) -> _AxisT: ...
 
 #
 @overload
-def np_vecdot(x1: onp.ToIntStrict1D, x2: onp.ToIntStrict1D, /, *, axis: op.CanIndex = -1) -> npc.integer: ...
+def np_vecdot(
+    x1: onp.ToIntStrict1D, x2: onp.ToIntStrict1D, /, *, axis: op.CanIndex = -1
+) -> npc.integer: ...
 @overload
-def np_vecdot(x1: onp.ToFloatStrict1D, x2: onp.ToJustFloatStrict1D, /, *, axis: op.CanIndex = -1) -> npc.floating: ...
+def np_vecdot(
+    x1: onp.ToFloatStrict1D, x2: onp.ToJustFloatStrict1D, /, *, axis: op.CanIndex = -1
+) -> npc.floating: ...
 @overload
-def np_vecdot(x1: onp.ToJustFloatStrict1D, x2: onp.ToFloatStrict1D, /, *, axis: op.CanIndex = -1) -> npc.floating: ...
+def np_vecdot(
+    x1: onp.ToJustFloatStrict1D, x2: onp.ToFloatStrict1D, /, *, axis: op.CanIndex = -1
+) -> npc.floating: ...
 @overload
-def np_vecdot(x1: onp.ToComplexStrict1D, x2: onp.ToJustComplexStrict1D, /, *, axis: op.CanIndex = -1) -> npc.complexfloating: ...
+def np_vecdot(
+    x1: onp.ToComplexStrict1D,
+    x2: onp.ToJustComplexStrict1D,
+    /,
+    *,
+    axis: op.CanIndex = -1,
+) -> npc.complexfloating: ...
 @overload
-def np_vecdot(x1: onp.ToJustComplexStrict1D, x2: onp.ToComplexStrict1D, /, *, axis: op.CanIndex = -1) -> npc.complexfloating: ...
+def np_vecdot(
+    x1: onp.ToJustComplexStrict1D,
+    x2: onp.ToComplexStrict1D,
+    /,
+    *,
+    axis: op.CanIndex = -1,
+) -> npc.complexfloating: ...
 
 #
 def broadcastable(shape_a: tuple[int, ...], shape_b: tuple[int, ...]) -> bool: ...

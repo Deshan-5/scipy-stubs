@@ -7,7 +7,14 @@ import optype.numpy as onp
 
 from ._odrpack import Model
 
-__all__ = ["Model", "exponential", "multilinear", "polynomial", "quadratic", "unilinear"]
+__all__ = [
+    "Model",
+    "exponential",
+    "multilinear",
+    "polynomial",
+    "quadratic",
+    "unilinear",
+]
 
 @type_check_only
 class _NamedModel(Model):

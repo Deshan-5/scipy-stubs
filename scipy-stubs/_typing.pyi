@@ -10,7 +10,13 @@ __all__ = "AnyShape", "ExitMixin"
 @type_check_only
 class ExitMixin:
     @final
-    def __exit__(self, /, type: type[BaseException] | None, value: BaseException | None, tb: TracebackType | None) -> None: ...
+    def __exit__(
+        self,
+        /,
+        type: type[BaseException] | None,
+        value: BaseException | None,
+        tb: TracebackType | None,
+    ) -> None: ...
 
 # equivalent to `numpy._typing._shape._ShapeLike`
 AnyShape: TypeAlias = SupportsIndex | Sequence[SupportsIndex]

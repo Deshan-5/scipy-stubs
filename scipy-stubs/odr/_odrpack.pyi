@@ -8,7 +8,19 @@ import numpy as np
 import optype.numpy as onp
 import optype.numpy.compat as npc
 
-__all__ = ["ODR", "Data", "Model", "OdrError", "OdrStop", "OdrWarning", "Output", "RealData", "odr", "odr_error", "odr_stop"]
+__all__ = [
+    "ODR",
+    "Data",
+    "Model",
+    "OdrError",
+    "OdrStop",
+    "OdrWarning",
+    "Output",
+    "RealData",
+    "odr",
+    "odr_error",
+    "odr_stop",
+]
 
 # Technically this can be `np.floating | np.integer | np.bool`, but that'd
 # force users to explicitly narrow the type in many places. In practice,
@@ -19,7 +31,9 @@ _ToFloatScalar: TypeAlias = np.float64 | Any
 _Float1D: TypeAlias = onp.Array1D[np.float64]
 _Float2D: TypeAlias = onp.Array2D[np.float64]
 _FloatND: TypeAlias = onp.ArrayND[np.float64]
-_FCN: TypeAlias = Callable[Concatenate[_Float1D, _FloatND, ...], onp.ArrayND[_ToFloatScalar]]
+_FCN: TypeAlias = Callable[
+    Concatenate[_Float1D, _FloatND, ...], onp.ArrayND[_ToFloatScalar]
+]
 
 _01: TypeAlias = Literal[0, 1]  # noqa: PYI042
 _012: TypeAlias = Literal[0, 1, 2]  # noqa: PYI042

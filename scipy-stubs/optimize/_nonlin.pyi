@@ -42,7 +42,9 @@ _JacobianMethod: TypeAlias = Literal[
     "excitingmixing",
     "linearmixing",
 ]  # fmt: skip
-_KrylovMethod: TypeAlias = Literal["lgmres", "gmres", "bicgstab", "cgs", "minres", "tfqmr"]
+_KrylovMethod: TypeAlias = Literal[
+    "lgmres", "gmres", "bicgstab", "cgs", "minres", "tfqmr"
+]
 _ReductionMethod: TypeAlias = Literal["restart", "simple", "svd"]
 _LineSearch: TypeAlias = Literal["armijo", "wolfe"]
 
@@ -79,10 +81,22 @@ class _SupportsJacobian(Protocol[_InexactT_co]):
 
 @type_check_only
 class _JacobianKwargs(TypedDict, Generic[_InexactT_co], total=False):
-    solve: Callable[[_InexactND], onp.Array2D[_InexactT_co]] | Callable[[_InexactND, onp.ToFloat], onp.Array2D[_InexactT_co]]
-    rsolve: Callable[[_InexactND], onp.Array2D[_InexactT_co]] | Callable[[_InexactND, onp.ToFloat], onp.Array2D[_InexactT_co]]
-    matvec: Callable[[_InexactND], onp.Array1D[_InexactT_co]] | Callable[[_InexactND, onp.ToFloat], onp.Array2D[_InexactT_co]]
-    rmatvec: Callable[[_InexactND], onp.Array1D[_InexactT_co]] | Callable[[_InexactND, onp.ToFloat], onp.Array1D[_InexactT_co]]
+    solve: (
+        Callable[[_InexactND], onp.Array2D[_InexactT_co]]
+        | Callable[[_InexactND, onp.ToFloat], onp.Array2D[_InexactT_co]]
+    )
+    rsolve: (
+        Callable[[_InexactND], onp.Array2D[_InexactT_co]]
+        | Callable[[_InexactND, onp.ToFloat], onp.Array2D[_InexactT_co]]
+    )
+    matvec: (
+        Callable[[_InexactND], onp.Array1D[_InexactT_co]]
+        | Callable[[_InexactND, onp.ToFloat], onp.Array2D[_InexactT_co]]
+    )
+    rmatvec: (
+        Callable[[_InexactND], onp.Array1D[_InexactT_co]]
+        | Callable[[_InexactND, onp.ToFloat], onp.Array1D[_InexactT_co]]
+    )
     matmat: Callable[[_InexactND], onp.Array2D[_InexactT_co]]
     update: Callable[[_InexactND, onp.ArrayND[_InexactT_co]], None]
     todense: Callable[[], onp.Array2D[_InexactT_co]]
@@ -137,14 +151,28 @@ class Jacobian(Generic[_InexactT_co]):  # undocumented
     @abc.abstractmethod
     def solve(self, /, v: _InexactND, tol: float = 0) -> onp.Array2D[_InexactT_co]: ...
     # `x` and `F` are 1-d
-    def setup(self: Jacobian[_InexactT], /, x: _InexactND, F: onp.ArrayND[_InexactT], func: _ResidFunc) -> None: ...
-    def update(self: Jacobian[_InexactT], /, x: _InexactND, F: onp.ArrayND[_InexactT]) -> None: ...  # does nothing
+    def setup(
+        self: Jacobian[_InexactT],
+        /,
+        x: _InexactND,
+        F: onp.ArrayND[_InexactT],
+        func: _ResidFunc,
+    ) -> None: ...
+    def update(
+        self: Jacobian[_InexactT], /, x: _InexactND, F: onp.ArrayND[_InexactT]
+    ) -> None: ...  # does nothing
     def aspreconditioner(self, /) -> InverseJacobian: ...
 
 class InverseJacobian(Generic[_InexactT_co]):
     jacobian: Jacobian[_InexactT_co]
-    matvec: Callable[[_InexactND], onp.Array1D[_InexactT_co]] | Callable[[_InexactND, onp.ToFloat], onp.Array1D[_InexactT_co]]
-    rmatvec: Callable[[_InexactND], onp.Array1D[_InexactT_co]] | Callable[[_InexactND, onp.ToFloat], onp.Array1D[_InexactT_co]]
+    matvec: (
+        Callable[[_InexactND], onp.Array1D[_InexactT_co]]
+        | Callable[[_InexactND, onp.ToFloat], onp.Array1D[_InexactT_co]]
+    )
+    rmatvec: (
+        Callable[[_InexactND], onp.Array1D[_InexactT_co]]
+        | Callable[[_InexactND, onp.ToFloat], onp.Array1D[_InexactT_co]]
+    )
 
     @property
     def shape(self, /) -> tuple[int, int]: ...
@@ -156,15 +184,25 @@ class InverseJacobian(Generic[_InexactT_co]):
     def __class_getitem__(cls, arg: object, /) -> types.GenericAlias: ...
     def __init__(self, /, jacobian: Jacobian[_InexactT_co]) -> None: ...
 
-class GenericBroyden(Jacobian[_InexactT_co], Generic[_InexactT_co], metaclass=abc.ABCMeta):
+class GenericBroyden(
+    Jacobian[_InexactT_co], Generic[_InexactT_co], metaclass=abc.ABCMeta
+):
     alpha: Final[float | None]
     last_x: _Inexact1D
     last_f: float
 
     @override
-    def setup(self, /, x0: _InexactND, f0: _InexactND, func: _ResidFunc) -> None: ...  # pyright: ignore[reportIncompatibleMethodOverride] # pyrefly: ignore[bad-param-name-override] # ty: ignore[invalid-method-override]
+    def setup(
+        self, /, x0: _InexactND, f0: _InexactND, func: _ResidFunc
+    ) -> (
+        None
+    ): ...  # pyright: ignore[reportIncompatibleMethodOverride] # pyrefly: ignore[bad-param-name-override] # ty: ignore[invalid-method-override]
     @override
-    def update(self, /, x: _InexactND, f: _InexactND) -> None: ...  # pyright: ignore[reportIncompatibleMethodOverride] # pyrefly: ignore[bad-param-name-override] # ty: ignore[invalid-method-override]
+    def update(
+        self, /, x: _InexactND, f: _InexactND
+    ) -> (
+        None
+    ): ...  # pyright: ignore[reportIncompatibleMethodOverride] # pyrefly: ignore[bad-param-name-override] # ty: ignore[invalid-method-override]
 
 class LowRankMatrix(Generic[_InexactT_co]):
     dtype: np.dtype[_InexactT_co]
@@ -176,8 +214,12 @@ class LowRankMatrix(Generic[_InexactT_co]):
 
     @classmethod
     def __class_getitem__(cls, arg: object, /) -> types.GenericAlias: ...
-    def __init__(self, /, alpha: float, n: int, dtype: np.dtype[_InexactT_co]) -> None: ...
-    def __array__(self, /, dtype: None = None, copy: None = None) -> onp.Array2D[_InexactT_co]: ...
+    def __init__(
+        self, /, alpha: float, n: int, dtype: np.dtype[_InexactT_co]
+    ) -> None: ...
+    def __array__(
+        self, /, dtype: None = None, copy: None = None
+    ) -> onp.Array2D[_InexactT_co]: ...
     def solve(self, /, v: _InexactND, tol: float = 0) -> onp.Array2D[_InexactT_co]: ...
     def rsolve(self, /, v: _InexactND, tol: float = 0) -> onp.Array2D[_InexactT_co]: ...
     def matvec(self, /, v: _InexactND) -> onp.Array1D[_InexactT_co]: ...
@@ -193,12 +235,24 @@ class BroydenFirst(GenericBroyden[_InexactT_co], Generic[_InexactT_co]):
     Gm: LowRankMatrix[_InexactT_co] | None
 
     def __init__(
-        self, /, alpha: float | None = None, reduction_method: _ReductionMethod = "restart", max_rank: int | None = None
+        self,
+        /,
+        alpha: float | None = None,
+        reduction_method: _ReductionMethod = "restart",
+        max_rank: int | None = None,
     ) -> None: ...
     @override
-    def setup(self, /, x: _InexactND, F: _InexactND, func: _ResidFunc) -> None: ...  # pyright: ignore[reportIncompatibleMethodOverride] # pyrefly: ignore[bad-param-name-override] # ty: ignore[invalid-method-override]
+    def setup(
+        self, /, x: _InexactND, F: _InexactND, func: _ResidFunc
+    ) -> (
+        None
+    ): ...  # pyright: ignore[reportIncompatibleMethodOverride] # pyrefly: ignore[bad-param-name-override] # ty: ignore[invalid-method-override]
     @override
-    def solve(self, /, f: _InexactND, tol: float = 0) -> onp.ArrayND[_InexactT_co]: ...  # pyright: ignore[reportIncompatibleMethodOverride] # pyrefly: ignore[bad-param-name-override] # ty: ignore[invalid-method-override]
+    def solve(
+        self, /, f: _InexactND, tol: float = 0
+    ) -> onp.ArrayND[
+        _InexactT_co
+    ]: ...  # pyright: ignore[reportIncompatibleMethodOverride] # pyrefly: ignore[bad-param-name-override] # ty: ignore[invalid-method-override]
     def rsolve(self, /, f: _InexactND, tol: float = 0) -> onp.ArrayND[_InexactT_co]: ...
     def matvec(self, /, f: _InexactND) -> onp.Array1D[_InexactT_co]: ...
     def rmatvec(self, /, f: _InexactND) -> onp.Array1D[_InexactT_co]: ...
@@ -213,9 +267,15 @@ class Anderson(GenericBroyden[_InexactT_co], Generic[_InexactT_co]):
     df: list[onp.Array1D[_InexactT_co]]
     gamma: onp.ArrayND[_InexactT_co] | None
 
-    def __init__(self, /, alpha: float | None = None, w0: float = 0.01, M: float = 5) -> None: ...
+    def __init__(
+        self, /, alpha: float | None = None, w0: float = 0.01, M: float = 5
+    ) -> None: ...
     @override
-    def solve(self, /, f: _InexactND, tol: float = 0) -> onp.Array2D[_InexactT_co]: ...  # pyright: ignore[reportIncompatibleMethodOverride] # pyrefly: ignore[bad-param-name-override] # ty: ignore[invalid-method-override]
+    def solve(
+        self, /, f: _InexactND, tol: float = 0
+    ) -> onp.Array2D[
+        _InexactT_co
+    ]: ...  # pyright: ignore[reportIncompatibleMethodOverride] # pyrefly: ignore[bad-param-name-override] # ty: ignore[invalid-method-override]
     def matvec(self, /, f: _InexactND) -> onp.Array1D[_InexactT_co]: ...
 
 class DiagBroyden(GenericBroyden[_InexactT_co], Generic[_InexactT_co]):
@@ -223,9 +283,17 @@ class DiagBroyden(GenericBroyden[_InexactT_co], Generic[_InexactT_co]):
 
     def __init__(self, /, alpha: float | None = None) -> None: ...
     @override
-    def setup(self, /, x: _InexactND, F: _InexactND, func: _ResidFunc) -> None: ...  # pyright: ignore[reportIncompatibleMethodOverride] # pyrefly: ignore[bad-param-name-override] # ty: ignore[invalid-method-override]
+    def setup(
+        self, /, x: _InexactND, F: _InexactND, func: _ResidFunc
+    ) -> (
+        None
+    ): ...  # pyright: ignore[reportIncompatibleMethodOverride] # pyrefly: ignore[bad-param-name-override] # ty: ignore[invalid-method-override]
     @override
-    def solve(self, /, f: _InexactND, tol: float = 0) -> onp.Array2D[_InexactT_co]: ...  # pyright: ignore[reportIncompatibleMethodOverride] # pyrefly: ignore[bad-param-name-override] # ty: ignore[invalid-method-override]
+    def solve(
+        self, /, f: _InexactND, tol: float = 0
+    ) -> onp.Array2D[
+        _InexactT_co
+    ]: ...  # pyright: ignore[reportIncompatibleMethodOverride] # pyrefly: ignore[bad-param-name-override] # ty: ignore[invalid-method-override]
     def rsolve(self, /, f: _InexactND, tol: float = 0) -> onp.Array2D[_InexactT_co]: ...
     def matvec(self, /, f: _InexactND) -> onp.Array1D[_InexactT_co]: ...
     def rmatvec(self, /, f: _InexactND) -> onp.Array1D[_InexactT_co]: ...
@@ -234,7 +302,11 @@ class DiagBroyden(GenericBroyden[_InexactT_co], Generic[_InexactT_co]):
 class LinearMixing(GenericBroyden[_InexactT_co], Generic[_InexactT_co]):
     def __init__(self, /, alpha: float | None = None) -> None: ...
     @override
-    def solve(self, /, f: _InexactND, tol: float = 0) -> onp.Array2D[_InexactT_co]: ...  # pyright: ignore[reportIncompatibleMethodOverride] # pyrefly: ignore[bad-param-name-override] # ty: ignore[invalid-method-override]
+    def solve(
+        self, /, f: _InexactND, tol: float = 0
+    ) -> onp.Array2D[
+        _InexactT_co
+    ]: ...  # pyright: ignore[reportIncompatibleMethodOverride] # pyrefly: ignore[bad-param-name-override] # ty: ignore[invalid-method-override]
     def rsolve(self, /, f: _InexactND, tol: float = 0) -> onp.Array2D[_InexactT_co]: ...
     def matvec(self, /, f: _InexactND) -> onp.Array1D[_InexactT_co]: ...
     def rmatvec(self, /, f: _InexactND) -> onp.Array1D[_InexactT_co]: ...
@@ -244,11 +316,21 @@ class ExcitingMixing(GenericBroyden[_InexactT_co], Generic[_InexactT_co]):
     alphamax: Final[float]
     beta: onp.Array1D[_InexactT_co] | None
 
-    def __init__(self, /, alpha: float | None = None, alphamax: float = 1.0) -> None: ...
+    def __init__(
+        self, /, alpha: float | None = None, alphamax: float = 1.0
+    ) -> None: ...
     @override
-    def setup(self, /, x: _InexactND, F: _InexactND, func: _ResidFunc) -> None: ...  # pyright: ignore[reportIncompatibleMethodOverride] # pyrefly: ignore[bad-param-name-override] # ty: ignore[invalid-method-override]
+    def setup(
+        self, /, x: _InexactND, F: _InexactND, func: _ResidFunc
+    ) -> (
+        None
+    ): ...  # pyright: ignore[reportIncompatibleMethodOverride] # pyrefly: ignore[bad-param-name-override] # ty: ignore[invalid-method-override]
     @override
-    def solve(self, /, f: _InexactND, tol: float = 0) -> onp.Array2D[_InexactT_co]: ...  # pyright: ignore[reportIncompatibleMethodOverride] # pyrefly: ignore[bad-param-name-override] # ty: ignore[invalid-method-override]
+    def solve(
+        self, /, f: _InexactND, tol: float = 0
+    ) -> onp.Array2D[
+        _InexactT_co
+    ]: ...  # pyright: ignore[reportIncompatibleMethodOverride] # pyrefly: ignore[bad-param-name-override] # ty: ignore[invalid-method-override]
     def rsolve(self, /, f: _InexactND, tol: float = 0) -> onp.Array2D[_InexactT_co]: ...
     def matvec(self, /, f: _InexactND) -> onp.Array1D[_InexactT_co]: ...
     def rmatvec(self, /, f: _InexactND) -> onp.Array1D[_InexactT_co]: ...
@@ -275,11 +357,23 @@ class KrylovJacobian(Jacobian[_InexactT_co], Generic[_InexactT_co]):
     ) -> None: ...
     def matvec(self, /, v: _InexactND) -> onp.Array2D[_InexactT_co]: ...
     @override
-    def solve(self, /, rhs: _InexactND, tol: float = 0) -> onp.Array2D[_InexactT_co]: ...  # pyright: ignore[reportIncompatibleMethodOverride] # pyrefly: ignore[bad-param-name-override] # ty: ignore[invalid-method-override]
+    def solve(
+        self, /, rhs: _InexactND, tol: float = 0
+    ) -> onp.Array2D[
+        _InexactT_co
+    ]: ...  # pyright: ignore[reportIncompatibleMethodOverride] # pyrefly: ignore[bad-param-name-override] # ty: ignore[invalid-method-override]
     @override
-    def update(self, /, x: _InexactND, f: _InexactND) -> None: ...  # pyright: ignore[reportIncompatibleMethodOverride] # pyrefly: ignore[bad-param-name-override] # ty: ignore[invalid-method-override]
+    def update(
+        self, /, x: _InexactND, f: _InexactND
+    ) -> (
+        None
+    ): ...  # pyright: ignore[reportIncompatibleMethodOverride] # pyrefly: ignore[bad-param-name-override] # ty: ignore[invalid-method-override]
     @override
-    def setup(self, /, x: _InexactND, f: _InexactND, func: _ResidFunc) -> None: ...  # pyright: ignore[reportIncompatibleMethodOverride] # pyrefly: ignore[bad-param-name-override] # ty: ignore[invalid-method-override]
+    def setup(
+        self, /, x: _InexactND, f: _InexactND, func: _ResidFunc
+    ) -> (
+        None
+    ): ...  # pyright: ignore[reportIncompatibleMethodOverride] # pyrefly: ignore[bad-param-name-override] # ty: ignore[invalid-method-override]
 
 # undocumented
 @overload

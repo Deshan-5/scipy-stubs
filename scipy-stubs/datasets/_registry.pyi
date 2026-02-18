@@ -6,7 +6,10 @@ class _MethodRegistry(TypedDict):
     electrocardiogram: list[L["ecg.dat"]]
     face: list[L["face.dat"]]
 
-_DataRegistry = TypedDict("_DataRegistry", {"ascent.dat": LiteralString, "ecg.dat": LiteralString, "face.dat": LiteralString})
+_DataRegistry = TypedDict(
+    "_DataRegistry",
+    {"ascent.dat": LiteralString, "ecg.dat": LiteralString, "face.dat": LiteralString},
+)
 
 registry: Final[_DataRegistry] = ...
 registry_urls: Final[_DataRegistry] = ...

@@ -6,7 +6,12 @@ import optype.numpy as onp
 
 import scipy.stats as stats
 
-__all__ = ["DiscreteAliasUrn", "NumericalInversePolynomial", "TransformedDensityRejection", "UNURANError"]
+__all__ = [
+    "DiscreteAliasUrn",
+    "NumericalInversePolynomial",
+    "TransformedDensityRejection",
+    "UNURANError",
+]
 
 @type_check_only
 class _HasSupport(Protocol):
@@ -55,10 +60,16 @@ class UError(NamedTuple):
 
 class Method:
     @overload
-    def rvs(self, /, size: None = None, random_state: onp.random.ToRNG | None = None) -> float | int: ...
+    def rvs(
+        self, /, size: None = None, random_state: onp.random.ToRNG | None = None
+    ) -> float | int: ...
     @overload
-    def rvs(self, /, size: int | tuple[int, ...]) -> onp.ArrayND[np.float64 | np.int_]: ...
-    def set_random_state(self, /, random_state: onp.random.ToRNG | None = None) -> None: ...
+    def rvs(
+        self, /, size: int | tuple[int, ...]
+    ) -> onp.ArrayND[np.float64 | np.int_]: ...
+    def set_random_state(
+        self, /, random_state: onp.random.ToRNG | None = None
+    ) -> None: ...
 
 class TransformedDensityRejection(Method):
     def __new__(
@@ -83,7 +94,9 @@ class TransformedDensityRejection(Method):
     @overload
     def ppf_hat(self, /, u: onp.ToFloat) -> float: ...
     @overload
-    def ppf_hat(self, /, u: onp.ToScalar | onp.ToArrayND) -> float | onp.ArrayND[np.float64]: ...
+    def ppf_hat(
+        self, /, u: onp.ToScalar | onp.ToArrayND
+    ) -> float | onp.ArrayND[np.float64]: ...
 
 class SimpleRatioUniforms(Method):
     def __new__(
@@ -114,10 +127,16 @@ class NumericalInversePolynomial(_PPFMethodMixin, Method):
     @overload
     def cdf(self, /, x: onp.ToFloat) -> float: ...
     @overload
-    def cdf(self, /, x: onp.ToFloat | onp.ToFloatND) -> float | onp.ArrayND[np.float64]: ...
+    def cdf(
+        self, /, x: onp.ToFloat | onp.ToFloatND
+    ) -> float | onp.ArrayND[np.float64]: ...
     def u_error(self, /, sample_size: int = 100_000) -> UError: ...
     def qrvs(
-        self, /, size: int | tuple[int, ...] | None = None, d: int | None = None, qmc_engine: stats.qmc.QMCEngine | None = None
+        self,
+        /,
+        size: int | tuple[int, ...] | None = None,
+        d: int | None = None,
+        qmc_engine: stats.qmc.QMCEngine | None = None,
     ) -> float | onp.ArrayND[np.float64]: ...
 
 class NumericalInverseHermite(_PPFMethodMixin, Method):
@@ -138,7 +157,11 @@ class NumericalInverseHermite(_PPFMethodMixin, Method):
     def midpoint_error(self, /) -> float: ...
     def u_error(self, /, sample_size: int = 100_000) -> UError: ...
     def qrvs(
-        self, /, size: int | tuple[int, ...] | None = None, d: int | None = None, qmc_engine: stats.qmc.QMCEngine | None = None
+        self,
+        /,
+        size: int | tuple[int, ...] | None = None,
+        d: int | None = None,
+        qmc_engine: stats.qmc.QMCEngine | None = None,
     ) -> float | onp.ArrayND[np.float64]: ...
 
 class DiscreteAliasUrn(Method):

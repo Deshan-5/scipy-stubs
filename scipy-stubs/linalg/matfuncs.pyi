@@ -29,7 +29,13 @@ __all__ = [
 ]
 
 @deprecated("will be removed in SciPy v2.0.0")
-def norm(a: object, ord: object = None, axis: object = None, keepdims: object = False, check_finite: object = True) -> object: ...
+def norm(
+    a: object,
+    ord: object = None,
+    axis: object = None,
+    keepdims: object = False,
+    check_finite: object = True,
+) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
 def svd(
     a: object,
@@ -89,7 +95,11 @@ def khatri_rao(a: object, b: object) -> object: ...
 def sqrtm(A: object, disp: object = ..., blocksize: object = ...) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
 def expm_frechet(
-    A: object, E: object, method: object = None, compute_expm: object = True, check_finite: object = True
+    A: object,
+    E: object,
+    method: object = None,
+    compute_expm: object = True,
+    check_finite: object = True,
 ) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
 def expm_cond(A: object, check_finite: object = True) -> object: ...

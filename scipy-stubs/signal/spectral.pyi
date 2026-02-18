@@ -18,9 +18,13 @@ __all__ = [
 ]
 
 @deprecated("will be removed in SciPy v2.0.0")
-def check_COLA(window: object, nperseg: object, noverlap: object, tol: object = 1e-10) -> object: ...
+def check_COLA(
+    window: object, nperseg: object, noverlap: object, tol: object = 1e-10
+) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
-def check_NOLA(window: object, nperseg: object, noverlap: object, tol: object = 1e-10) -> object: ...
+def check_NOLA(
+    window: object, nperseg: object, noverlap: object, tol: object = 1e-10
+) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
 def coherence(
     x: object,

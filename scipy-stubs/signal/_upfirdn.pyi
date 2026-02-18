@@ -15,9 +15,21 @@ _int64_t: TypeAlias = int | np.int64  # noqa: PYI042
 ###
 
 class _UpFIRDn:  # undocumented
-    def __init__(self, /, h: onp.ArrayND[npc.floating], x_dtype: np.dtype[npc.floating], up: int, down: int) -> None: ...
+    def __init__(
+        self,
+        /,
+        h: onp.ArrayND[npc.floating],
+        x_dtype: np.dtype[npc.floating],
+        up: int,
+        down: int,
+    ) -> None: ...
     def apply_filter(
-        self, /, x: onp.ArrayND[npc.number], axis: int = -1, mode: _FIRMode = "constant", cval: int = 0
+        self,
+        /,
+        x: onp.ArrayND[npc.number],
+        axis: int = -1,
+        mode: _FIRMode = "constant",
+        cval: int = 0,
     ) -> onp.ArrayND[npc.floating]: ...
 
 # The mypy `overload-overlap` errors are false positives
@@ -103,4 +115,6 @@ def upfirdn(
 ) -> onp.ArrayND[Incomplete]: ...
 
 # originally defined in `scipy/signal/_upfirdn_apply.pyx` (as `(((in_len - 1) * up + len_h) - 1) // down + 1`)
-def _output_len(len_h: _int64_t, in_len: _int64_t, up: _int64_t, down: _int64_t) -> int: ...  # undocumented
+def _output_len(
+    len_h: _int64_t, in_len: _int64_t, up: _int64_t, down: _int64_t
+) -> int: ...  # undocumented

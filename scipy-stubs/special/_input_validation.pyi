@@ -1,3 +1,5 @@
 from typing import SupportsIndex
 
-def _nonneg_int_or_fail(n: SupportsIndex, var_name: str, strict: bool = True) -> int: ...  # undocumented
+def _nonneg_int_or_fail(
+    n: SupportsIndex, var_name: str, strict: bool = True
+) -> int: ...  # undocumented

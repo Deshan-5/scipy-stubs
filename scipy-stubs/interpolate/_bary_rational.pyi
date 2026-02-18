@@ -11,7 +11,9 @@ __all__ = ["AAA", "FloaterHormannInterpolator"]
 _ScalarT = TypeVar("_ScalarT", bound=npc.inexact)
 _ScalarT_co = TypeVar("_ScalarT_co", bound=npc.inexact, default=Any, covariant=True)
 _ShapeT = TypeVar("_ShapeT", bound=tuple[int, ...])
-_ShapeT_co = TypeVar("_ShapeT_co", bound=tuple[int, ...], default=tuple[Any, ...], covariant=True)
+_ShapeT_co = TypeVar(
+    "_ShapeT_co", bound=tuple[int, ...], default=tuple[Any, ...], covariant=True
+)
 
 ###
 
@@ -23,31 +25,47 @@ class _BarycentricRational(Generic[_ScalarT_co, _ShapeT_co]):
     def __class_getitem__(cls, arg: object, /) -> types.GenericAlias: ...
 
     #
-    def __init__(self, /, x: onp.ToComplex1D, y: onp.ToComplexND, axis: int = 0) -> None: ...
+    def __init__(
+        self, /, x: onp.ToComplex1D, y: onp.ToComplexND, axis: int = 0
+    ) -> None: ...
 
     #
     @overload
     def __call__(
-        self: _BarycentricRational[_ScalarT, tuple[int]], /, z: onp.ArrayND[_ScalarT, _ShapeT]
+        self: _BarycentricRational[_ScalarT, tuple[int]],
+        /,
+        z: onp.ArrayND[_ScalarT, _ShapeT],
     ) -> onp.ArrayND[_ScalarT, _ShapeT]: ...
     @overload
     def __call__(self, /, z: onp.ToInt) -> onp.ArrayND[_ScalarT_co, _ShapeT_co]: ...
     @overload
-    def __call__(self: _BarycentricRational[np.float64], /, z: onp.ToFloat64) -> onp.ArrayND[np.float64, _ShapeT_co]: ...
+    def __call__(
+        self: _BarycentricRational[np.float64], /, z: onp.ToFloat64
+    ) -> onp.ArrayND[np.float64, _ShapeT_co]: ...
     @overload
-    def __call__(self: _BarycentricRational[np.float32], /, z: onp.ToFloat32) -> onp.ArrayND[np.float32, _ShapeT_co]: ...
+    def __call__(
+        self: _BarycentricRational[np.float32], /, z: onp.ToFloat32
+    ) -> onp.ArrayND[np.float32, _ShapeT_co]: ...
     @overload
-    def __call__(self: _BarycentricRational[np.float32], /, z: onp.ToJustFloat64) -> onp.ArrayND[np.float64, _ShapeT_co]: ...
+    def __call__(
+        self: _BarycentricRational[np.float32], /, z: onp.ToJustFloat64
+    ) -> onp.ArrayND[np.float64, _ShapeT_co]: ...
     @overload
     def __call__(
         self: _BarycentricRational[np.float32], /, z: onp.ToJustComplex128
     ) -> onp.ArrayND[np.complex128, _ShapeT_co]: ...
     @overload
-    def __call__(self: _BarycentricRational[npc.floating80], /, z: onp.ToFloat) -> onp.ArrayND[np.longdouble, _ShapeT_co]: ...
+    def __call__(
+        self: _BarycentricRational[npc.floating80], /, z: onp.ToFloat
+    ) -> onp.ArrayND[np.longdouble, _ShapeT_co]: ...
     @overload
-    def __call__(self: _BarycentricRational[np.complex128], /, z: onp.ToComplex128) -> onp.ArrayND[np.complex128, _ShapeT_co]: ...
+    def __call__(
+        self: _BarycentricRational[np.complex128], /, z: onp.ToComplex128
+    ) -> onp.ArrayND[np.complex128, _ShapeT_co]: ...
     @overload
-    def __call__(self: _BarycentricRational[np.complex64], /, z: onp.ToComplex64) -> onp.ArrayND[np.complex64, _ShapeT_co]: ...
+    def __call__(
+        self: _BarycentricRational[np.complex64], /, z: onp.ToComplex64
+    ) -> onp.ArrayND[np.complex64, _ShapeT_co]: ...
     @overload
     def __call__(
         self: _BarycentricRational[np.complex64], /, z: onp.ToJustComplex128
@@ -57,62 +75,106 @@ class _BarycentricRational(Generic[_ScalarT_co, _ShapeT_co]):
         self: _BarycentricRational[npc.complexfloating160], /, z: onp.ToComplex
     ) -> onp.ArrayND[np.clongdouble, _ShapeT_co]: ...
     @overload
-    def __call__(self: _BarycentricRational[npc.floating], /, z: onp.ToFloat) -> onp.ArrayND[npc.floating, _ShapeT_co]: ...
+    def __call__(
+        self: _BarycentricRational[npc.floating], /, z: onp.ToFloat
+    ) -> onp.ArrayND[npc.floating, _ShapeT_co]: ...
     @overload
     def __call__(
         self: _BarycentricRational[npc.complexfloating], /, z: onp.ToComplex
     ) -> onp.ArrayND[npc.complexfloating, _ShapeT_co]: ...
     @overload
-    def __call__(self, /, z: onp.ToJustComplex) -> onp.ArrayND[npc.complexfloating, _ShapeT_co]: ...
+    def __call__(
+        self, /, z: onp.ToJustComplex
+    ) -> onp.ArrayND[npc.complexfloating, _ShapeT_co]: ...
     @overload
     def __call__(self, /, z: onp.ToIntND) -> onp.ArrayND[_ScalarT_co]: ...
     @overload
-    def __call__(self: _BarycentricRational[np.float64], /, z: onp.ToFloat64_ND) -> onp.ArrayND[np.float64]: ...
+    def __call__(
+        self: _BarycentricRational[np.float64], /, z: onp.ToFloat64_ND
+    ) -> onp.ArrayND[np.float64]: ...
     @overload
-    def __call__(self: _BarycentricRational[np.float32], /, z: onp.ToFloat32_ND) -> onp.ArrayND[np.float32]: ...
+    def __call__(
+        self: _BarycentricRational[np.float32], /, z: onp.ToFloat32_ND
+    ) -> onp.ArrayND[np.float32]: ...
     @overload
-    def __call__(self: _BarycentricRational[np.float32], /, z: onp.ToJustFloat64_ND) -> onp.ArrayND[np.float64]: ...
+    def __call__(
+        self: _BarycentricRational[np.float32], /, z: onp.ToJustFloat64_ND
+    ) -> onp.ArrayND[np.float64]: ...
     @overload
-    def __call__(self: _BarycentricRational[np.float32], /, z: onp.ToJustComplex128_ND) -> onp.ArrayND[np.complex128]: ...
+    def __call__(
+        self: _BarycentricRational[np.float32], /, z: onp.ToJustComplex128_ND
+    ) -> onp.ArrayND[np.complex128]: ...
     @overload
-    def __call__(self: _BarycentricRational[npc.floating80], /, z: onp.ToFloatND) -> onp.ArrayND[np.longdouble]: ...
+    def __call__(
+        self: _BarycentricRational[npc.floating80], /, z: onp.ToFloatND
+    ) -> onp.ArrayND[np.longdouble]: ...
     @overload
-    def __call__(self: _BarycentricRational[np.complex128], /, z: onp.ToComplex128_ND) -> onp.ArrayND[np.complex128]: ...
+    def __call__(
+        self: _BarycentricRational[np.complex128], /, z: onp.ToComplex128_ND
+    ) -> onp.ArrayND[np.complex128]: ...
     @overload
-    def __call__(self: _BarycentricRational[np.complex64], /, z: onp.ToComplex64_ND) -> onp.ArrayND[np.complex64]: ...
+    def __call__(
+        self: _BarycentricRational[np.complex64], /, z: onp.ToComplex64_ND
+    ) -> onp.ArrayND[np.complex64]: ...
     @overload
-    def __call__(self: _BarycentricRational[np.complex64], /, z: onp.ToJustComplex128_ND) -> onp.ArrayND[np.complex128]: ...
+    def __call__(
+        self: _BarycentricRational[np.complex64], /, z: onp.ToJustComplex128_ND
+    ) -> onp.ArrayND[np.complex128]: ...
     @overload
-    def __call__(self: _BarycentricRational[npc.complexfloating160], /, z: onp.ToComplexND) -> onp.ArrayND[np.clongdouble]: ...
+    def __call__(
+        self: _BarycentricRational[npc.complexfloating160], /, z: onp.ToComplexND
+    ) -> onp.ArrayND[np.clongdouble]: ...
     @overload
-    def __call__(self: _BarycentricRational[npc.floating], /, z: onp.ToFloatND) -> onp.ArrayND[npc.floating]: ...
+    def __call__(
+        self: _BarycentricRational[npc.floating], /, z: onp.ToFloatND
+    ) -> onp.ArrayND[npc.floating]: ...
     @overload
-    def __call__(self: _BarycentricRational[npc.complexfloating], /, z: onp.ToComplexND) -> onp.ArrayND[npc.complexfloating]: ...
+    def __call__(
+        self: _BarycentricRational[npc.complexfloating], /, z: onp.ToComplexND
+    ) -> onp.ArrayND[npc.complexfloating]: ...
     @overload
-    def __call__(self, /, z: onp.ToJustComplexND) -> onp.ArrayND[npc.complexfloating]: ...
+    def __call__(
+        self, /, z: onp.ToJustComplexND
+    ) -> onp.ArrayND[npc.complexfloating]: ...
 
     #
     def residues(self, /) -> onp.ArrayND[_ScalarT_co, _ShapeT_co]: ...
 
     #
     @overload
-    def poles(self: _BarycentricRational[npc.inexact64 | np.float16, _ShapeT], /) -> onp.ArrayND[np.complex128, _ShapeT]: ...
+    def poles(
+        self: _BarycentricRational[npc.inexact64 | np.float16, _ShapeT], /
+    ) -> onp.ArrayND[np.complex128, _ShapeT]: ...
     @overload
-    def poles(self: _BarycentricRational[npc.inexact32, _ShapeT], /) -> onp.ArrayND[np.complex64, _ShapeT]: ...
+    def poles(
+        self: _BarycentricRational[npc.inexact32, _ShapeT], /
+    ) -> onp.ArrayND[np.complex64, _ShapeT]: ...
     @overload
-    def poles(self: _BarycentricRational[npc.inexact80, _ShapeT], /) -> onp.ArrayND[np.clongdouble, _ShapeT]: ...
+    def poles(
+        self: _BarycentricRational[npc.inexact80, _ShapeT], /
+    ) -> onp.ArrayND[np.clongdouble, _ShapeT]: ...
     @overload
-    def poles(self: _BarycentricRational[npc.inexact, _ShapeT], /) -> onp.ArrayND[npc.complexfloating, _ShapeT]: ...
+    def poles(
+        self: _BarycentricRational[npc.inexact, _ShapeT], /
+    ) -> onp.ArrayND[npc.complexfloating, _ShapeT]: ...
 
     #
     @overload
-    def roots(self: _BarycentricRational[npc.inexact64 | np.float16, _ShapeT], /) -> onp.ArrayND[np.complex128, _ShapeT]: ...
+    def roots(
+        self: _BarycentricRational[npc.inexact64 | np.float16, _ShapeT], /
+    ) -> onp.ArrayND[np.complex128, _ShapeT]: ...
     @overload
-    def roots(self: _BarycentricRational[npc.inexact32, _ShapeT], /) -> onp.ArrayND[np.complex64, _ShapeT]: ...
+    def roots(
+        self: _BarycentricRational[npc.inexact32, _ShapeT], /
+    ) -> onp.ArrayND[np.complex64, _ShapeT]: ...
     @overload
-    def roots(self: _BarycentricRational[npc.inexact80, _ShapeT], /) -> onp.ArrayND[np.clongdouble, _ShapeT]: ...
+    def roots(
+        self: _BarycentricRational[npc.inexact80, _ShapeT], /
+    ) -> onp.ArrayND[np.clongdouble, _ShapeT]: ...
     @overload
-    def roots(self: _BarycentricRational[npc.inexact, _ShapeT], /) -> onp.ArrayND[npc.complexfloating, _ShapeT]: ...
+    def roots(
+        self: _BarycentricRational[npc.inexact, _ShapeT], /
+    ) -> onp.ArrayND[npc.complexfloating, _ShapeT]: ...
 
 class AAA(_BarycentricRational[_ScalarT_co, tuple[int]], Generic[_ScalarT_co]):
     weights: onp.Array1D[_ScalarT_co]
@@ -127,8 +189,12 @@ class AAA(_BarycentricRational[_ScalarT_co, tuple[int]], Generic[_ScalarT_co]):
     def __init__(
         self: AAA[np.float64],
         /,
-        x: onp.ToArray1D[float, npc.floating64 | npc.floating16 | npc.integer | np.bool_],
-        y: onp.ToArray1D[float, npc.floating64 | npc.floating16 | npc.integer | np.bool_],
+        x: onp.ToArray1D[
+            float, npc.floating64 | npc.floating16 | npc.integer | np.bool_
+        ],
+        y: onp.ToArray1D[
+            float, npc.floating64 | npc.floating16 | npc.integer | np.bool_
+        ],
         *,
         rtol: float | None = None,
         max_terms: int = 100,
@@ -199,13 +265,19 @@ class AAA(_BarycentricRational[_ScalarT_co, tuple[int]], Generic[_ScalarT_co]):
     #
     def clean_up(self, /, cleanup_tol: float = 1e-13) -> int: ...
 
-class FloaterHormannInterpolator(_BarycentricRational[_ScalarT_co, _ShapeT_co], Generic[_ScalarT_co, _ShapeT_co]):
+class FloaterHormannInterpolator(
+    _BarycentricRational[_ScalarT_co, _ShapeT_co], Generic[_ScalarT_co, _ShapeT_co]
+):
     @overload
     def __init__(
         self: FloaterHormannInterpolator[np.float64, tuple[int]],
         /,
-        points: onp.ToArray1D[float, npc.floating64 | npc.floating16 | npc.integer | np.bool_],
-        values: onp.ToArrayStrict1D[float, npc.floating64 | npc.floating16 | npc.integer | np.bool_],
+        points: onp.ToArray1D[
+            float, npc.floating64 | npc.floating16 | npc.integer | np.bool_
+        ],
+        values: onp.ToArrayStrict1D[
+            float, npc.floating64 | npc.floating16 | npc.integer | np.bool_
+        ],
         *,
         d: int = 3,
         axis: int = 0,
@@ -261,4 +333,12 @@ class FloaterHormannInterpolator(_BarycentricRational[_ScalarT_co, _ShapeT_co], 
         axis: int = 0,
     ) -> None: ...
     @overload
-    def __init__(self, /, points: onp.ToComplex1D, values: onp.ToComplexND, *, d: int = 3, axis: int = 0) -> None: ...
+    def __init__(
+        self,
+        /,
+        points: onp.ToComplex1D,
+        values: onp.ToComplexND,
+        *,
+        d: int = 3,
+        axis: int = 0,
+    ) -> None: ...

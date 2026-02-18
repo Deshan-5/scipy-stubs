@@ -34,15 +34,27 @@ def norm(
 ) -> np.float64: ...
 @overload  # inexact32, axis: None = ...
 def norm(
-    a: npc.inexact32, ord: _Order | None = None, axis: None = None, keepdims: op.CanBool = False, check_finite: onp.ToBool = True
+    a: npc.inexact32,
+    ord: _Order | None = None,
+    axis: None = None,
+    keepdims: op.CanBool = False,
+    check_finite: onp.ToBool = True,
 ) -> np.float32: ...
 @overload  # longdouble, axis: None = ...
 def norm(
-    a: npc.inexact80, ord: _Order | None = None, axis: None = None, keepdims: op.CanBool = False, check_finite: onp.ToBool = True
+    a: npc.inexact80,
+    ord: _Order | None = None,
+    axis: None = None,
+    keepdims: op.CanBool = False,
+    check_finite: onp.ToBool = True,
 ) -> np.longdouble: ...
 @overload  # scalar array, axis: None = ..., keepdims: False = ...
 def norm(
-    a: onp.CanArrayND[_SubScalar] | onp.SequenceND[onp.CanArrayND[_SubScalar]] | onp.SequenceND[_SubScalar],
+    a: (
+        onp.CanArrayND[_SubScalar]
+        | onp.SequenceND[onp.CanArrayND[_SubScalar]]
+        | onp.SequenceND[_SubScalar]
+    ),
     ord: _Order | None = None,
     axis: None = None,
     keepdims: onp.ToFalse = False,
@@ -67,7 +79,10 @@ def norm(
 ) -> onp.ArrayND[np.float64, _ShapeT]: ...
 @overload  # float64-coercible array-like, keepdims: True (positional)
 def norm(
-    a: onp.SequenceND[onp.CanArrayND[_SubScalar]] | onp.SequenceND[complex | _SubScalar],
+    a: (
+        onp.SequenceND[onp.CanArrayND[_SubScalar]]
+        | onp.SequenceND[complex | _SubScalar]
+    ),
     ord: _Order | None,
     axis: _Axis | None,
     keepdims: onp.ToTrue,
@@ -75,7 +90,10 @@ def norm(
 ) -> onp.ArrayND[np.float64]: ...
 @overload  # float64-coercible array-like, keepdims: True (keyword)
 def norm(
-    a: onp.SequenceND[onp.CanArrayND[_SubScalar]] | onp.SequenceND[complex | _SubScalar],
+    a: (
+        onp.SequenceND[onp.CanArrayND[_SubScalar]]
+        | onp.SequenceND[complex | _SubScalar]
+    ),
     ord: _Order | None = None,
     axis: _Axis | None = None,
     *,
@@ -160,7 +178,11 @@ def norm(
 ) -> np.float64: ...
 @overload  # array-like, keepdims: True (positional)
 def norm(
-    a: onp.ToComplexND, ord: _Order | None, axis: _Axis | None, keepdims: onp.ToTrue, check_finite: onp.ToBool = True
+    a: onp.ToComplexND,
+    ord: _Order | None,
+    axis: _Axis | None,
+    keepdims: onp.ToTrue,
+    check_finite: onp.ToBool = True,
 ) -> onp.ArrayND[npc.floating, _WorkaroundForPyright]: ...
 @overload  # array-like, keepdims: True (keyword)
 def norm(
@@ -181,4 +203,6 @@ def norm(
 ) -> npc.floating | onp.ArrayND[npc.floating, _WorkaroundForPyright]: ...
 
 #
-def _datacopied(arr: onp.ArrayND[Any], original: onp.CanArrayND[Any]) -> bool: ...  # undocumented
+def _datacopied(
+    arr: onp.ArrayND[Any], original: onp.CanArrayND[Any]
+) -> bool: ...  # undocumented

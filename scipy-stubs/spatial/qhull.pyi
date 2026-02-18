@@ -11,7 +11,14 @@ from ._qhull import (
     Voronoi as _Voronoi,
 )
 
-__all__ = ["ConvexHull", "Delaunay", "HalfspaceIntersection", "QhullError", "Voronoi", "tsearch"]
+__all__ = [
+    "ConvexHull",
+    "Delaunay",
+    "HalfspaceIntersection",
+    "QhullError",
+    "Voronoi",
+    "tsearch",
+]
 
 @deprecated("will be removed in SciPy v2.0.0")
 class QhullError(_QhullError): ...

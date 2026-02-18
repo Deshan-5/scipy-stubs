@@ -24,9 +24,19 @@ def _minimize_trust_krylov(
     fun: Callable[Concatenate[onp.Array1D[np.float64], ...], onp.ToFloat],
     x0: onp.ToFloat1D,
     args: tuple[object, ...] = (),
-    jac: Callable[Concatenate[onp.Array1D[np.float64], ...], onp.ToFloat1D] | None = None,
-    hess: Callable[Concatenate[onp.Array1D[np.float64], ...], onp.ToFloat2D] | None = None,
-    hessp: Callable[Concatenate[onp.Array1D[np.float64], onp.Array1D[np.float64], ...], onp.ToFloat1D] | None = None,
+    jac: (
+        Callable[Concatenate[onp.Array1D[np.float64], ...], onp.ToFloat1D] | None
+    ) = None,
+    hess: (
+        Callable[Concatenate[onp.Array1D[np.float64], ...], onp.ToFloat2D] | None
+    ) = None,
+    hessp: (
+        Callable[
+            Concatenate[onp.Array1D[np.float64], onp.Array1D[np.float64], ...],
+            onp.ToFloat1D,
+        ]
+        | None
+    ) = None,
     inexact: onp.ToBool = True,
     **trust_region_options: Unpack[_TrustRegionOptions],
 ) -> OptimizeResult: ...

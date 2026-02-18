@@ -11,6 +11,8 @@ _XPT_co = TypeVar("_XPT_co", default=ModuleType, covariant=True)
 
 ###
 
-class GaussLegendreQuadrature(FixedRule[_XPT_co, np.float64], Generic[_XPT_co]):  # undocumented
+class GaussLegendreQuadrature(
+    FixedRule[_XPT_co, np.float64], Generic[_XPT_co]
+):  # undocumented
     npoints: int
     def __init__(self, /, npoints: int, xp: _XPT_co | None = None) -> None: ...

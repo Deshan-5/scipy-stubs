@@ -18,7 +18,13 @@ def dblquad(
     epsrel: object = 1.49e-8,
 ) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
-def nquad(func: object, ranges: object, args: object = None, opts: object = None, full_output: object = False) -> object: ...
+def nquad(
+    func: object,
+    ranges: object,
+    args: object = None,
+    opts: object = None,
+    full_output: object = False,
+) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
 def quad(
     func: object,

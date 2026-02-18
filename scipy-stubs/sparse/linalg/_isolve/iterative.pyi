@@ -22,7 +22,9 @@ _FloatT = TypeVar("_FloatT", bound=_Float, default=np.float64)
 _ComplexT = TypeVar("_ComplexT", bound=_Complex)
 _ScalarT = TypeVar("_ScalarT", bound=npc.number | np.bool_)
 
-_ToLinearOperator: TypeAlias = onp.CanArrayND[_ScalarT] | _spbase[_ScalarT] | LinearOperator[_ScalarT]
+_ToLinearOperator: TypeAlias = (
+    onp.CanArrayND[_ScalarT] | _spbase[_ScalarT] | LinearOperator[_ScalarT]
+)
 
 _Ignored: TypeAlias = object
 _Callback: TypeAlias = Callable[[onp.Array1D[_ScalarT]], _Ignored]
@@ -131,7 +133,9 @@ def gmres(
     restart: int | None = None,
     maxiter: int | None = None,
     M: _ToLinearOperator[_ToFloat] | None = None,
-    callback: Callable[[float], _Ignored] | Callable[[np.float64], _Ignored] | None = None,
+    callback: (
+        Callable[[float], _Ignored] | Callable[[np.float64], _Ignored] | None
+    ) = None,
     callback_type: Literal["pr_norm", "legacy"] | None = None,
 ) -> tuple[onp.Array1D[_FloatT], int]: ...
 @overload  # real, callback_type: {"x"}
@@ -159,7 +163,9 @@ def gmres(
     restart: int | None = None,
     maxiter: int | None = None,
     M: _ToLinearOperator[_ToFloat] | None = None,
-    callback: Callable[[float], _Ignored] | Callable[[np.float64], _Ignored] | None = None,
+    callback: (
+        Callable[[float], _Ignored] | Callable[[np.float64], _Ignored] | None
+    ) = None,
     callback_type: Literal["pr_norm", "legacy"] | None = None,
 ) -> tuple[onp.Array1D[_ComplexT], int]: ...
 @overload  # complex, callback_type: {"x"}

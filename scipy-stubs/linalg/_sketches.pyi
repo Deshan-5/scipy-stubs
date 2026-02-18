@@ -17,7 +17,9 @@ _ToSparse: TypeAlias = _spbase[_ScalarT] | sparray[_ScalarT] | spmatrix[_ScalarT
 
 ###
 
-def cwt_matrix(n_rows: _ToInt, n_columns: _ToInt, rng: onp.random.ToRNG | None = None) -> csc_matrix[np.int_]: ...
+def cwt_matrix(
+    n_rows: _ToInt, n_columns: _ToInt, rng: onp.random.ToRNG | None = None
+) -> csc_matrix[np.int_]: ...
 
 #
 @overload
@@ -78,7 +80,11 @@ def clarkson_woodruff_transform(
 ) -> onp.ArrayND[Any]: ...
 @overload
 def clarkson_woodruff_transform(
-    input_matrix: onp.ToIntND, sketch_size: _ToInt, rng: onp.random.ToRNG | None = None, *, seed: onp.random.ToRNG | None = None
+    input_matrix: onp.ToIntND,
+    sketch_size: _ToInt,
+    rng: onp.random.ToRNG | None = None,
+    *,
+    seed: onp.random.ToRNG | None = None,
 ) -> onp.ArrayND[np.int_]: ...
 @overload
 def clarkson_woodruff_transform(

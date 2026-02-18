@@ -24,7 +24,9 @@ class MissingModule:  # undocumented
     def __init__(self, /, name: str) -> None: ...
 
 #
-def check_version(module: ModuleType | MissingModule, min_ver: str) -> pytest.MarkDecorator: ...  # undocumented
+def check_version(
+    module: ModuleType | MissingModule, min_ver: str
+) -> pytest.MarkDecorator: ...  # undocumented
 
 #
 def with_special_errors(func: _FuncT) -> _FuncT: ...  # undocumented
@@ -36,7 +38,9 @@ def assert_func_equal(
     points: Generator[object] | onp.ToArrayND,
     rtol: float | None = None,
     atol: float | None = None,
-    param_filter: Callable[..., bool] | tuple[Callable[..., bool] | None, ...] | None = None,
+    param_filter: (
+        Callable[..., bool] | tuple[Callable[..., bool] | None, ...] | None
+    ) = None,
     knownfailure: str | None = None,
     vectorized: bool = True,
     dtype: onp.ToDType | None = None,  # unused
@@ -104,5 +108,9 @@ class FuncData(Generic[_ScalarT_co]):  # undocumented
     #
     def get_tolerances(self, /, dtype: onp.ToDType) -> tuple[float, float]: ...
     def check(
-        self, /, data: onp.ArrayND | None = None, dtype: onp.ToDType | None = None, dtypes: Sequence[onp.ToDType] | None = None
+        self,
+        /,
+        data: onp.ArrayND | None = None,
+        dtype: onp.ToDType | None = None,
+        dtypes: Sequence[onp.ToDType] | None = None,
     ) -> None: ...

@@ -21,20 +21,39 @@ __all__ = ["bsr_array", "bsr_matrix", "isspmatrix_bsr"]
 
 _T = TypeVar("_T")
 _ScalarT = TypeVar("_ScalarT", bound=npc.number | np.bool_)
-_ScalarT_co = TypeVar("_ScalarT_co", bound=npc.number | np.bool_, default=Any, covariant=True)
+_ScalarT_co = TypeVar(
+    "_ScalarT_co", bound=npc.number | np.bool_, default=Any, covariant=True
+)
 
 _ToMatrixPy: TypeAlias = Sequence[_T] | Sequence[Sequence[_T]]
-_ToMatrix: TypeAlias = _spbase[_ScalarT] | onp.CanArrayND[_ScalarT] | Sequence[onp.CanArrayND[_ScalarT]] | _ToMatrixPy[_ScalarT]
-
-_ToData2 = TypeAliasType("_ToData2", tuple[onp.ArrayND[_ScalarT], onp.ArrayND[npc.integer]], type_params=(_ScalarT,))
-_ToData3 = TypeAliasType(
-    "_ToData3", tuple[onp.ArrayND[_ScalarT], onp.ArrayND[npc.integer], onp.ArrayND[npc.integer]], type_params=(_ScalarT,)
+_ToMatrix: TypeAlias = (
+    _spbase[_ScalarT]
+    | onp.CanArrayND[_ScalarT]
+    | Sequence[onp.CanArrayND[_ScalarT]]
+    | _ToMatrixPy[_ScalarT]
 )
-_ToData = TypeAliasType("_ToData", _ToData2[_ScalarT] | _ToData3[_ScalarT], type_params=(_ScalarT,))
+
+_ToData2 = TypeAliasType(
+    "_ToData2",
+    tuple[onp.ArrayND[_ScalarT], onp.ArrayND[npc.integer]],
+    type_params=(_ScalarT,),
+)
+_ToData3 = TypeAliasType(
+    "_ToData3",
+    tuple[onp.ArrayND[_ScalarT], onp.ArrayND[npc.integer], onp.ArrayND[npc.integer]],
+    type_params=(_ScalarT,),
+)
+_ToData = TypeAliasType(
+    "_ToData", _ToData2[_ScalarT] | _ToData3[_ScalarT], type_params=(_ScalarT,)
+)
 
 ###
 
-class _bsr_base(_cs_matrix[_ScalarT_co, tuple[int, int]], _minmax_mixin[_ScalarT_co, tuple[int, int]], Generic[_ScalarT_co]):
+class _bsr_base(
+    _cs_matrix[_ScalarT_co, tuple[int, int]],
+    _minmax_mixin[_ScalarT_co, tuple[int, int]],
+    Generic[_ScalarT_co],
+):
     _format: ClassVar = "bsr"
 
     data: onp.Array3D[_ScalarT_co]
@@ -70,7 +89,9 @@ class _bsr_base(_cs_matrix[_ScalarT_co, tuple[int, int]], _minmax_mixin[_ScalarT
     @override
     def __setitem__(self, key: Never, val: object, /) -> Never: ...  # type: ignore[override]  # pyright: ignore[reportIncompatibleMethodOverride]  # ty: ignore[invalid-method-override]
 
-class bsr_array(_bsr_base[_ScalarT_co], sparray[_ScalarT_co, tuple[int, int]], Generic[_ScalarT_co]):
+class bsr_array(
+    _bsr_base[_ScalarT_co], sparray[_ScalarT_co, tuple[int, int]], Generic[_ScalarT_co]
+):
     # NOTE: These four methods do not exist at runtime.
     # See the relevant comment in `sparse._base._spbase` for more information.
     @override
@@ -78,7 +99,9 @@ class bsr_array(_bsr_base[_ScalarT_co], sparray[_ScalarT_co, tuple[int, int]], G
     def __assoc_stacked__(self, /) -> coo_array[_ScalarT_co, tuple[int, int]]: ...
     @override
     @type_check_only
-    def __assoc_stacked_as__(self, sctype: _ScalarT, /) -> coo_array[_ScalarT, tuple[int, int]]: ...
+    def __assoc_stacked_as__(
+        self, sctype: _ScalarT, /
+    ) -> coo_array[_ScalarT, tuple[int, int]]: ...
     @override
     @type_check_only
     def __assoc_as_float32__(self, /) -> bsr_array[np.float32]: ...

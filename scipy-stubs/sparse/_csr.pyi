@@ -18,14 +18,26 @@ __all__ = ["csr_array", "csr_matrix", "isspmatrix_csr"]
 
 _T = TypeVar("_T")
 _ScalarT = TypeVar("_ScalarT", bound=npc.number | np.bool_)
-_ScalarT_co = TypeVar("_ScalarT_co", bound=npc.number | np.bool_, default=Any, covariant=True)
-_ShapeT_co = TypeVar("_ShapeT_co", bound=tuple[int] | tuple[int, int], default=tuple[int, int], covariant=True)
+_ScalarT_co = TypeVar(
+    "_ScalarT_co", bound=npc.number | np.bool_, default=Any, covariant=True
+)
+_ShapeT_co = TypeVar(
+    "_ShapeT_co",
+    bound=tuple[int] | tuple[int, int],
+    default=tuple[int, int],
+    covariant=True,
+)
 
 # workaround for the typing-spec non-conformance regarding overload behavior of mypy and pyright
 _NeitherD: TypeAlias = tuple[Never] | tuple[Never, Never]
 
 _ToMatrixPy: TypeAlias = Sequence[_T] | Sequence[Sequence[_T]]
-_ToMatrix: TypeAlias = _spbase[_ScalarT] | onp.CanArrayND[_ScalarT] | Sequence[onp.CanArrayND[_ScalarT]] | _ToMatrixPy[_ScalarT]
+_ToMatrix: TypeAlias = (
+    _spbase[_ScalarT]
+    | onp.CanArrayND[_ScalarT]
+    | Sequence[onp.CanArrayND[_ScalarT]]
+    | _ToMatrixPy[_ScalarT]
+)
 
 _ToData = TypeAliasType(
     "_ToData",
@@ -54,15 +66,23 @@ class _csr_base(_cs_matrix[_ScalarT_co, _ShapeT_co], Generic[_ScalarT_co, _Shape
     @overload
     def count_nonzero(self, /, axis: None = None) -> np.intp: ...
     @overload
-    def count_nonzero(self: _csr_base[Any, _NeitherD], /, axis: op.CanIndex) -> onp.Array1D[np.intp] | Any: ...
+    def count_nonzero(
+        self: _csr_base[Any, _NeitherD], /, axis: op.CanIndex
+    ) -> onp.Array1D[np.intp] | Any: ...
     @overload
     def count_nonzero(self: csr_array[Any, tuple[int]], /, axis: op.CanIndex) -> np.intp: ...  # type: ignore[misc]
     @overload
-    def count_nonzero(self: _csr_base[Any, tuple[int, int]], /, axis: op.CanIndex) -> onp.Array1D[np.intp]: ...
+    def count_nonzero(
+        self: _csr_base[Any, tuple[int, int]], /, axis: op.CanIndex
+    ) -> onp.Array1D[np.intp]: ...
     @overload
     def count_nonzero(self: csr_array[Any, Any], /, axis: op.CanIndex) -> onp.Array1D[np.intp] | Any: ...  # type: ignore[misc]
 
-class csr_array(_csr_base[_ScalarT_co, _ShapeT_co], sparray[_ScalarT_co, _ShapeT_co], Generic[_ScalarT_co, _ShapeT_co]):
+class csr_array(
+    _csr_base[_ScalarT_co, _ShapeT_co],
+    sparray[_ScalarT_co, _ShapeT_co],
+    Generic[_ScalarT_co, _ShapeT_co],
+):
     # NOTE: These four methods do not exist at runtime.
     # See the relevant comment in `sparse._base._spbase` for more information.
     @override
@@ -70,7 +90,9 @@ class csr_array(_csr_base[_ScalarT_co, _ShapeT_co], sparray[_ScalarT_co, _ShapeT
     def __assoc_stacked__(self, /) -> csr_array[_ScalarT_co, tuple[int, int]]: ...
     @override
     @type_check_only
-    def __assoc_stacked_as__(self, sctype: _ScalarT, /) -> csr_array[_ScalarT, tuple[int, int]]: ...
+    def __assoc_stacked_as__(
+        self, sctype: _ScalarT, /
+    ) -> csr_array[_ScalarT, tuple[int, int]]: ...
     @override
     @type_check_only
     def __assoc_as_float32__(self, /) -> csr_array[np.float32, _ShapeT_co]: ...
@@ -83,7 +105,9 @@ class csr_array(_csr_base[_ScalarT_co, _ShapeT_co], sparray[_ScalarT_co, _ShapeT
     def __init__(
         self,
         /,
-        arg1: _spbase[_ScalarT_co, _ShapeT_co] | onp.CanArrayND[_ScalarT_co, _ShapeT_co],
+        arg1: (
+            _spbase[_ScalarT_co, _ShapeT_co] | onp.CanArrayND[_ScalarT_co, _ShapeT_co]
+        ),
         shape: _ShapeT_co | None = None,
         dtype: onp.ToDType[_ScalarT_co] | None = None,
         copy: bool = False,
@@ -105,7 +129,10 @@ class csr_array(_csr_base[_ScalarT_co, _ShapeT_co], sparray[_ScalarT_co, _ShapeT
     def __init__(
         self: csr_array[_ScalarT, tuple[int, int]],
         /,
-        arg1: onp.ToArray2D[_ScalarT, _ScalarT] | _ToData[onp.ToArray1D[_ScalarT, _ScalarT]],
+        arg1: (
+            onp.ToArray2D[_ScalarT, _ScalarT]
+            | _ToData[onp.ToArray1D[_ScalarT, _ScalarT]]
+        ),
         shape: _ToShape2D | None = None,
         dtype: onp.ToDType[_ScalarT] | None = None,
         copy: bool = False,
@@ -425,7 +452,10 @@ class csr_array(_csr_base[_ScalarT_co, _ShapeT_co], sparray[_ScalarT_co, _ShapeT
     @override  # type: ignore[override]
     @overload
     def transpose(  # pyrefly: ignore[bad-override]
-        self: csr_array[_ScalarT, tuple[int, int]], /, axes: tuple[Literal[1, -1], Literal[0]] | None = None, copy: bool = False
+        self: csr_array[_ScalarT, tuple[int, int]],
+        /,
+        axes: tuple[Literal[1, -1], Literal[0]] | None = None,
+        copy: bool = False,
     ) -> csc_array[_ScalarT]: ...
     @overload
     def transpose(  # pyright: ignore[reportIncompatibleMethodOverride]  # ty: ignore[invalid-method-override]
@@ -557,7 +587,10 @@ class csr_matrix(_csr_base[_ScalarT_co], spmatrix[_ScalarT_co], Generic[_ScalarT
     #
     @override
     def transpose(  # type: ignore[override]
-        self, /, axes: tuple[Literal[1, -1], Literal[0]] | None = None, copy: bool = False
+        self,
+        /,
+        axes: tuple[Literal[1, -1], Literal[0]] | None = None,
+        copy: bool = False,
     ) -> csc_matrix[_ScalarT_co]: ...
 
     #

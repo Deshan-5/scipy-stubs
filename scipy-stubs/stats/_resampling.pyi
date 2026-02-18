@@ -71,7 +71,11 @@ class MonteCarloMethod(ResamplingMethod):
 @dataclass
 class PermutationMethod(ResamplingMethod):
     # this is a workaround for the horrible way in which `rng` is declared at runtime
-    __match_args__: ClassVar[tuple[str, ...]] = "n_resamples", "batch", "rng"  # pyright: ignore[reportIncompatibleVariableOverride]  # pyrefly: ignore[bad-override]
+    __match_args__: ClassVar[tuple[str, ...]] = (
+        "n_resamples",
+        "batch",
+        "rng",
+    )  # pyright: ignore[reportIncompatibleVariableOverride]  # pyrefly: ignore[bad-override]
 
     @property
     def rng(self, /) -> onp.random.ToRNG | None: ...
@@ -92,7 +96,9 @@ class PermutationMethod(ResamplingMethod):
         rng: onp.random.ToRNG | None = None,
     ) -> None: ...
     @overload
-    @deprecated("`random_state` is deprecated, use `rng` instead")  # this is a reasonable lie
+    @deprecated(
+        "`random_state` is deprecated, use `rng` instead"
+    )  # this is a reasonable lie
     def __init__(
         self,
         /,
@@ -103,7 +109,9 @@ class PermutationMethod(ResamplingMethod):
         rng: onp.random.ToRNG | None = None,
     ) -> None: ...
     @overload
-    @deprecated("`random_state` is deprecated, use `rng` instead")  # this is a reasonable lie
+    @deprecated(
+        "`random_state` is deprecated, use `rng` instead"
+    )  # this is a reasonable lie
     def __init__(
         self,
         /,
@@ -117,7 +125,12 @@ class PermutationMethod(ResamplingMethod):
 @dataclass(match_args=False)
 class BootstrapMethod(ResamplingMethod):
     # this is a workaround for the horrible way in which `rng` is declared at runtime
-    __match_args__: ClassVar[tuple[str, ...]] = "n_resamples", "batch", "rng", "method"  # pyright: ignore[reportIncompatibleVariableOverride]  # pyrefly: ignore[bad-override]
+    __match_args__: ClassVar[tuple[str, ...]] = (
+        "n_resamples",
+        "batch",
+        "rng",
+        "method",
+    )  # pyright: ignore[reportIncompatibleVariableOverride]  # pyrefly: ignore[bad-override]
 
     method: _BootstrapMethod = "BCa"
 
@@ -141,7 +154,9 @@ class BootstrapMethod(ResamplingMethod):
         rng: onp.random.ToRNG | None = None,
     ) -> None: ...
     @overload
-    @deprecated("`random_state` is deprecated, use `rng` instead")  # this is a reasonable lie
+    @deprecated(
+        "`random_state` is deprecated, use `rng` instead"
+    )  # this is a reasonable lie
     def __init__(
         self,
         /,
@@ -153,7 +168,9 @@ class BootstrapMethod(ResamplingMethod):
         rng: onp.random.ToRNG | None = None,
     ) -> None: ...
     @overload
-    @deprecated("`random_state` is deprecated, use `rng` instead")  # this is a reasonable lie
+    @deprecated(
+        "`random_state` is deprecated, use `rng` instead"
+    )  # this is a reasonable lie
     def __init__(
         self,
         /,

@@ -5,7 +5,9 @@ from typing import TypeVar
 import numpy as np
 import optype.numpy as onp
 
-_dz = TypeVar("_dz", np.float64, np.complex128)  # static-typing analogue of the `cdef fused dz: ...`
+_dz = TypeVar(
+    "_dz", np.float64, np.complex128
+)  # static-typing analogue of the `cdef fused dz: ...`
 
 def levinson(
     a: onp.ArrayND[_dz],  # shape: (2n - 1,)

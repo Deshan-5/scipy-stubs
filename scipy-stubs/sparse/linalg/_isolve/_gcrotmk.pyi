@@ -20,7 +20,9 @@ _ComplexT = TypeVar("_ComplexT", bound=_Complex, default=np.complex128)
 _NumericT = TypeVar("_NumericT", bound=npc.number | np.bool_)
 
 _ToInt: TypeAlias = npc.integer | np.bool_
-_ToLinearOperator: TypeAlias = onp.CanArrayND[_NumericT] | _spbase[_NumericT] | LinearOperator[_NumericT]
+_ToLinearOperator: TypeAlias = (
+    onp.CanArrayND[_NumericT] | _spbase[_NumericT] | LinearOperator[_NumericT]
+)
 
 _Ignored: TypeAlias = object
 _Callback: TypeAlias = Callable[[onp.Array1D[_NumericT]], _Ignored]
@@ -42,7 +44,12 @@ def gcrotmk(
     callback: _Callback[_FloatT] | None = None,
     m: int = 20,
     k: int | None = None,
-    CU: Sequence[tuple[Sequence[onp.ArrayND[_Float]], Sequence[onp.ArrayND[_Float]] | None]] | None = None,
+    CU: (
+        Sequence[
+            tuple[Sequence[onp.ArrayND[_Float]], Sequence[onp.ArrayND[_Float]] | None]
+        ]
+        | None
+    ) = None,
     discard_C: onp.ToBool = False,
     truncate: _Truncate = "oldest",
 ) -> tuple[onp.Array1D[_FloatT], int]: ...
@@ -59,7 +66,14 @@ def gcrotmk(
     callback: _Callback[_ComplexT] | None = None,
     m: int = 20,
     k: int | None = None,
-    CU: Sequence[tuple[Sequence[onp.ArrayND[_Inexact]], Sequence[onp.ArrayND[_Inexact]] | None]] | None = None,
+    CU: (
+        Sequence[
+            tuple[
+                Sequence[onp.ArrayND[_Inexact]], Sequence[onp.ArrayND[_Inexact]] | None
+            ]
+        ]
+        | None
+    ) = None,
     discard_C: onp.ToBool = False,
     truncate: _Truncate = "oldest",
 ) -> tuple[onp.Array1D[_ComplexT], int]: ...

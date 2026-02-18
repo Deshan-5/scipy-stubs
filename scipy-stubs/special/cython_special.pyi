@@ -17,7 +17,9 @@ _X_fc: TypeAlias = complex | npc.inexact64
 class _BaseCythonFunctionOrMethod(Protocol):
     __name__: LiteralString
     __qualname__: str  # cannot be `LiteralString` (blame typeshed)
-    __module__: str  # cannot be `Literal["scipy.special.cython_special"]` (blame typeshed)
+    __module__: (
+        str  # cannot be `Literal["scipy.special.cython_special"]` (blame typeshed)
+    )
 
     __annotations__: dict[str, Any]
     __defaults__: tuple[()] | tuple[Literal[0]] | None
@@ -95,7 +97,9 @@ class _CythonFunctionOrMethod_4f(_BaseCythonFunctionOrMethod, Protocol):
 
 @type_check_only
 class _CythonFunctionOrMethod_4fc(_BaseCythonFunctionOrMethod, Protocol):
-    def __call__(self, /, x0: _X_fc, x1: _X_fc, x2: _X_fc, x3: _X_fc) -> float | complex: ...
+    def __call__(
+        self, /, x0: _X_fc, x1: _X_fc, x2: _X_fc, x3: _X_fc
+    ) -> float | complex: ...
 
 @type_check_only
 class _CythonFunctionOrMethod_4_poly(_BaseCythonFunctionOrMethod, Protocol):

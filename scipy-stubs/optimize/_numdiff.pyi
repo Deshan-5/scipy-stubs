@@ -27,7 +27,9 @@ class _InfoDict(TypedDict):
 
 ###
 
-def group_columns(A: _ToFloatMatrix, order: onp.ToInt | Iterable[onp.ToInt] = 0) -> onp.Array1D[np.intp]: ...
+def group_columns(
+    A: _ToFloatMatrix, order: onp.ToInt | Iterable[onp.ToInt] = 0
+) -> onp.Array1D[np.intp]: ...
 
 #
 @overload  # sparsity: None (default), as_linear_operator: False (default), full_output: False (default)

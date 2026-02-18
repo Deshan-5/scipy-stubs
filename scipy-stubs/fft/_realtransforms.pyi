@@ -10,14 +10,19 @@ from scipy._typing import AnyShape
 
 __all__ = ["dct", "dctn", "dst", "dstn", "idct", "idctn", "idst", "idstn"]
 
-_DTypeT = TypeVar("_DTypeT", bound=np.dtype[np.float32 | np.float64 | npc.floating80 | npc.complexfloating])
+_DTypeT = TypeVar(
+    "_DTypeT",
+    bound=np.dtype[np.float32 | np.float64 | npc.floating80 | npc.complexfloating],
+)
 _ShapeT = TypeVar("_ShapeT", bound=tuple[int, ...])
 
 # workaround for a strange bug in pyright's overlapping overload detection with `numpy<2.1`
 _WorkaroundForPyright: TypeAlias = tuple[int] | tuple[Any, ...]
 
 _ToIntOrND: TypeAlias = onp.ToInt | onp.ToIntND
-_FloatND: TypeAlias = onp.ArrayND[np.float32 | np.float64 | np.longdouble, _WorkaroundForPyright]
+_FloatND: TypeAlias = onp.ArrayND[
+    np.float32 | np.float64 | np.longdouble, _WorkaroundForPyright
+]
 
 ###
 # NOTE: These have (almost) identical signatures, so be sure to keep them in sync.

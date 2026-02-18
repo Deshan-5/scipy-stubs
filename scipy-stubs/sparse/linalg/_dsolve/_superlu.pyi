@@ -10,14 +10,21 @@ import optype.numpy.compat as npc
 
 from scipy.sparse import csc_array, csc_matrix, csr_matrix
 
-_InexactT_co = TypeVar("_InexactT_co", bound=np.float32 | np.float64 | np.complex64 | np.complex128, default=Any, covariant=True)
+_InexactT_co = TypeVar(
+    "_InexactT_co",
+    bound=np.float32 | np.float64 | np.complex64 | np.complex128,
+    default=Any,
+    covariant=True,
+)
 
 _Int1D: TypeAlias = onp.Array1D[np.int32]
 _Float1D: TypeAlias = onp.Array1D[np.float64]
 _Float2D: TypeAlias = onp.Array2D[np.float64]
 _Complex1D: TypeAlias = onp.Array1D[np.complex128]
 _Complex2D: TypeAlias = onp.Array2D[np.complex128]
-_Inexact2D: TypeAlias = onp.Array2D[np.float32 | np.float64 | np.complex64 | np.complex128]
+_Inexact2D: TypeAlias = onp.Array2D[
+    np.float32 | np.float64 | np.complex64 | np.complex128
+]
 
 _Real: TypeAlias = npc.integer | npc.floating
 
@@ -47,9 +54,13 @@ class SuperLU(Generic[_InexactT_co]):
     @overload
     def solve(self, /, rhs: onp.ArrayND[_Real]) -> onp.ArrayND[np.float64]: ...
     @overload
-    def solve(self, /, rhs: onp.ArrayND[npc.complexfloating]) -> onp.ArrayND[np.complex128]: ...
+    def solve(
+        self, /, rhs: onp.ArrayND[npc.complexfloating]
+    ) -> onp.ArrayND[np.complex128]: ...
     @overload
-    def solve(self, /, rhs: onp.ArrayND[npc.number]) -> onp.ArrayND[np.float64 | np.complex128]: ...
+    def solve(
+        self, /, rhs: onp.ArrayND[npc.number]
+    ) -> onp.ArrayND[np.float64 | np.complex128]: ...
 
 def gssv(
     N: op.CanIndex,

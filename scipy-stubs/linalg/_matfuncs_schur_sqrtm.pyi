@@ -3,7 +3,9 @@ from typing import Literal, TypeVar
 import numpy as np
 import optype.numpy as onp
 
-_InexactT = TypeVar("_InexactT", bound=np.float32 | np.float64 | np.complex64 | np.complex128)
+_InexactT = TypeVar(
+    "_InexactT", bound=np.float32 | np.float64 | np.complex64 | np.complex128
+)
 _ShapeT = TypeVar("_ShapeT", bound=tuple[int, ...])
 
 ###

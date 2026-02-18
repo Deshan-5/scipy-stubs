@@ -8,7 +8,15 @@ __all__ = ["Rbf"]
 
 _Mode: TypeAlias = Literal["1-D", "N-D"]
 _Function: TypeAlias = (
-    Literal["multiquadric", "inverse", "gaussian", "linear", "cubic", "quintic", "thin_plate"]
+    Literal[
+        "multiquadric",
+        "inverse",
+        "gaussian",
+        "linear",
+        "cubic",
+        "quintic",
+        "thin_plate",
+    ]
     | Callable[[Rbf, float], onp.ToFloat]
 )
 
@@ -40,4 +48,6 @@ class Rbf:
         norm: str | Callable[..., onp.ToFloat2D] = ...,
         mode: _Mode = ...,
     ) -> None: ...
-    def __call__(self, /, *args: onp.ToFloat | onp.ToFloatND) -> onp.ArrayND[np.float64]: ...
+    def __call__(
+        self, /, *args: onp.ToFloat | onp.ToFloatND
+    ) -> onp.ArrayND[np.float64]: ...

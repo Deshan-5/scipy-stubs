@@ -112,16 +112,22 @@ def chirp(
 ) -> onp.Array: ...
 
 #
-def sweep_poly(t: _ToFloat0ND, poly: onp.ToFloatND | np.poly1d, phi: onp.ToFloat = 0) -> _FloatND: ...
+def sweep_poly(
+    t: _ToFloat0ND, poly: onp.ToFloatND | np.poly1d, phi: onp.ToFloat = 0
+) -> _FloatND: ...
 
 #
 @overload  # dtype is not given
 def unit_impulse(
-    shape: AnyShape, idx: op.CanIndex | Iterable[op.CanIndex] | Literal["mid"] | None = None, dtype: type[float] = ...
+    shape: AnyShape,
+    idx: op.CanIndex | Iterable[op.CanIndex] | Literal["mid"] | None = None,
+    dtype: type[float] = ...,
 ) -> _FloatND: ...
 @overload  # dtype is given
 def unit_impulse(
-    shape: AnyShape, idx: op.CanIndex | Iterable[op.CanIndex] | Literal["mid"] | None, dtype: _DTypeLike[_SCT]
+    shape: AnyShape,
+    idx: op.CanIndex | Iterable[op.CanIndex] | Literal["mid"] | None,
+    dtype: _DTypeLike[_SCT],
 ) -> onp.ArrayND[_SCT]: ...
 
 # Overloads for gausspulse when `t` is `"cutoff"`
@@ -160,7 +166,13 @@ def gausspulse(
 ) -> tuple[np.float64, np.float64]: ...
 @overload  # retquad: False (positional), retenv: False (positional)
 def gausspulse(
-    t: onp.ToFloat, fc: onp.ToFloat, bw: onp.ToFloat, bwr: onp.ToFloat, tpr: onp.ToFloat, retquad: onp.ToFalse, retenv: onp.ToTrue
+    t: onp.ToFloat,
+    fc: onp.ToFloat,
+    bw: onp.ToFloat,
+    bwr: onp.ToFloat,
+    tpr: onp.ToFloat,
+    retquad: onp.ToFalse,
+    retenv: onp.ToTrue,
 ) -> tuple[np.float64, np.float64]: ...
 @overload  # retquad: True (positional), retenv: False = ...
 def gausspulse(
@@ -185,7 +197,13 @@ def gausspulse(
 ) -> tuple[np.float64, np.float64]: ...
 @overload  # retquad: True (positional), retenv: True (positional/keyword)
 def gausspulse(
-    t: onp.ToFloat, fc: onp.ToFloat, bw: onp.ToFloat, bwr: onp.ToFloat, tpr: onp.ToFloat, retquad: onp.ToTrue, retenv: onp.ToTrue
+    t: onp.ToFloat,
+    fc: onp.ToFloat,
+    bw: onp.ToFloat,
+    bwr: onp.ToFloat,
+    tpr: onp.ToFloat,
+    retquad: onp.ToTrue,
+    retenv: onp.ToTrue,
 ) -> tuple[np.float64, np.float64, np.float64]: ...
 @overload  # retquad: True (keyword), retenv: True
 def gausspulse(

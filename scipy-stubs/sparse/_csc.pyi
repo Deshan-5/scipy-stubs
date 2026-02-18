@@ -42,11 +42,17 @@ _ToCSC = TypeAliasType(
     type_params=(_ScalarT,),
 )
 _ToAnyCSC = TypeAliasType(
-    "_ToAnyCSC", _ToShape2D | _Sparse2D[_Scalar] | onp.ToArray2D[complex, _Scalar] | _RawCSC[onp.ToComplex1D]
+    "_ToAnyCSC",
+    _ToShape2D
+    | _Sparse2D[_Scalar]
+    | onp.ToArray2D[complex, _Scalar]
+    | _RawCSC[onp.ToComplex1D],
 )
 _ToBoolCSC: TypeAlias = _Seq2D[bool] | _RawCSC[Sequence[bool]]
 _ToIntCSC: TypeAlias = _Seq2D[op.JustInt] | _RawCSC[Sequence[op.JustInt]]
-_ToFloatCSC: TypeAlias = _Seq2D[op.JustFloat] | _RawCSC[Sequence[op.JustFloat]] | _ToShape2D
+_ToFloatCSC: TypeAlias = (
+    _Seq2D[op.JustFloat] | _RawCSC[Sequence[op.JustFloat]] | _ToShape2D
+)
 _ToComplexCSC: TypeAlias = _Seq2D[op.JustComplex] | _RawCSC[Sequence[op.JustComplex]]
 
 ###
@@ -67,7 +73,10 @@ class _csc_base(_cs_matrix[_ScalarT_co, tuple[int, int]], Generic[_ScalarT_co]):
     #
     @override
     def transpose(  # type: ignore[override]
-        self, /, axes: tuple[Literal[1, -1], Literal[0]] | None = None, copy: bool = False
+        self,
+        /,
+        axes: tuple[Literal[1, -1], Literal[0]] | None = None,
+        copy: bool = False,
     ) -> _csr_base[_ScalarT_co, tuple[int, int]]: ...
 
     #
@@ -77,7 +86,9 @@ class _csc_base(_cs_matrix[_ScalarT_co, tuple[int, int]], Generic[_ScalarT_co]):
     @overload
     def count_nonzero(self, /, axis: op.CanIndex) -> onp.Array1D[np.intp]: ...
 
-class csc_array(_csc_base[_ScalarT_co], sparray[_ScalarT_co, tuple[int, int]], Generic[_ScalarT_co]):
+class csc_array(
+    _csc_base[_ScalarT_co], sparray[_ScalarT_co, tuple[int, int]], Generic[_ScalarT_co]
+):
     # NOTE: These four methods do not exist at runtime.
     # See the relevant comment in `sparse._base._spbase` for more information.
     @override
@@ -263,7 +274,10 @@ class csc_array(_csc_base[_ScalarT_co], sparray[_ScalarT_co, tuple[int, int]], G
     #
     @override
     def transpose(  # type: ignore[override]
-        self, /, axes: tuple[Literal[1, -1], Literal[0]] | None = None, copy: bool = False
+        self,
+        /,
+        axes: tuple[Literal[1, -1], Literal[0]] | None = None,
+        copy: bool = False,
     ) -> csr_array[_ScalarT_co, tuple[int, int]]: ...
 
 class csc_matrix(_csc_base[_ScalarT_co], spmatrix[_ScalarT_co], Generic[_ScalarT_co]):
@@ -452,7 +466,10 @@ class csc_matrix(_csc_base[_ScalarT_co], spmatrix[_ScalarT_co], Generic[_ScalarT
     #
     @override
     def transpose(  # type: ignore[override]
-        self, /, axes: tuple[Literal[1, -1], Literal[0]] | None = None, copy: bool = False
+        self,
+        /,
+        axes: tuple[Literal[1, -1], Literal[0]] | None = None,
+        copy: bool = False,
     ) -> csr_matrix[_ScalarT_co]: ...
 
     #

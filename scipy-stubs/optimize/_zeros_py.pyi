@@ -11,7 +11,9 @@ from ._typing import MethodRootScalar
 
 __all__ = ["RootResults", "bisect", "brenth", "brentq", "newton", "ridder", "toms748"]
 
-_Flag: TypeAlias = Literal["converged", "sign error", "convergence error", "value error", "No error"]
+_Flag: TypeAlias = Literal[
+    "converged", "sign error", "convergence error", "value error", "No error"
+]
 _FlagKey: TypeAlias = Literal[0, -1, -2, -3, -4, 1]
 
 _Float: TypeAlias = float | np.float64
@@ -23,7 +25,10 @@ _RT = TypeVar("_RT", bound=_Floating)
 _RT_co = TypeVar("_RT_co", bound=_Floating, default=_Float, covariant=True)
 _ToFloatT = TypeVar("_ToFloatT", bound=onp.ToFloat | onp.ToFloatND, default=onp.ToFloat)
 
-_Fun0D: TypeAlias = Callable[Concatenate[float, ...], onp.ToFloat] | Callable[Concatenate[np.float64, ...], onp.ToFloat]
+_Fun0D: TypeAlias = (
+    Callable[Concatenate[float, ...], onp.ToFloat]
+    | Callable[Concatenate[np.float64, ...], onp.ToFloat]
+)
 _Fun1D: TypeAlias = Callable[Concatenate[onp.Array1D[np.float64], ...], _ToFloatT]
 
 _State: TypeAlias = tuple[_FlagKey, _Float]
@@ -48,7 +53,13 @@ class RootResults(OptimizeResult, Generic[_RT_co]):
     method: Final[MethodRootScalar]
 
     def __init__(
-        self, /, root: _RT_co, iterations: int, function_calls: int, flag: _FlagKey, method: MethodRootScalar
+        self,
+        /,
+        root: _RT_co,
+        iterations: int,
+        function_calls: int,
+        flag: _FlagKey,
+        method: MethodRootScalar,
     ) -> None: ...
 
 # undocumented
@@ -70,14 +81,20 @@ class TOMS748Solver:
     maxiter: int
 
     def __init__(self, /) -> None: ...
-    def configure(self, /, xtol: _Float, rtol: _Float, maxiter: int, disp: bool, k: int) -> None: ...
+    def configure(
+        self, /, xtol: _Float, rtol: _Float, maxiter: int, disp: bool, k: int
+    ) -> None: ...
     def _callf(self, /, x: _Float, error: bool = True) -> onp.ToFloat: ...
     @overload
-    def get_result(self, /, x: _T, flag: Literal[0] = 0) -> tuple[_T, int, int, Literal[0]]: ...
+    def get_result(
+        self, /, x: _T, flag: Literal[0] = 0
+    ) -> tuple[_T, int, int, Literal[0]]: ...
     @overload
     def get_result(self, /, x: _T, flag: _KT) -> tuple[_T, int, int, _KT]: ...
     def _update_bracket(self, /, c: _Float, fc: _Float) -> _Bracket: ...
-    def start(self, /, f: _Fun0D, a: _Float, b: _Float, args: tuple[object, ...] = ()) -> _State: ...
+    def start(
+        self, /, f: _Fun0D, a: _Float, b: _Float, args: tuple[object, ...] = ()
+    ) -> _State: ...
     def get_status(self, /) -> _State: ...
     def iterate(self, /) -> _State: ...
     def solve(
@@ -95,7 +112,9 @@ class TOMS748Solver:
     ) -> _State: ...
 
 # undocumented
-def _update_bracket(ab: list[_Float] | _Bracket, fab: list[_Float] | _Bracket, c: _Float, fc: _Float) -> _Bracket: ...
+def _update_bracket(
+    ab: list[_Float] | _Bracket, fab: list[_Float] | _Bracket, c: _Float, fc: _Float
+) -> _Bracket: ...
 
 # undocumented
 @overload

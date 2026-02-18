@@ -273,13 +273,19 @@ def _norm_isf(q: onp.ToFloat) -> np.float64: ...
 def _norm_isf(q: onp.ToFloatND) -> onp.ArrayND[np.float64]: ...  # undocumented
 
 #
-def _beta_mle_a(a: onp.ToFloat, b: onp.ToFloat, n: int, s1: onp.ToFloat) -> np.float64: ...  # undocumented
-def _beta_mle_ab(theta: onp.Array1D[np.float64], n: int, s1: onp.ToFloat, s2: onp.ToFloat) -> np.float64: ...  # undocumented
+def _beta_mle_a(
+    a: onp.ToFloat, b: onp.ToFloat, n: int, s1: onp.ToFloat
+) -> np.float64: ...  # undocumented
+def _beta_mle_ab(
+    theta: onp.Array1D[np.float64], n: int, s1: onp.ToFloat, s2: onp.ToFloat
+) -> np.float64: ...  # undocumented
 def _digammainv(y: onp.ToFloat) -> np.float64: ...  # undocumented
 def _average_with_log_weights(
     x: onp.ToFloat | onp.ToFloatND, logweights: onp.ToFloat | onp.ToFloatND
 ) -> np.float64: ...  # undocumented
-def _lognorm_logpdf(x: onp.ToFloat | onp.ToFloatND, s: onp.ToFloat) -> onp.ArrayND[np.float64]: ...  # undocumented
+def _lognorm_logpdf(
+    x: onp.ToFloat | onp.ToFloatND, s: onp.ToFloat
+) -> onp.ArrayND[np.float64]: ...  # undocumented
 def _ncx2_log_pdf(
     x: onp.ToFloat | onp.ToFloatND, df: onp.ToFloat, nc: onp.ToFloat
 ) -> onp.ArrayND[np.float64]: ...  # undocumented
@@ -432,7 +438,9 @@ class rv_histogram(rv_continuous):
     def __init__(
         self,
         /,
-        histogram: tuple[onp.ArrayND[npc.floating | npc.integer], onp.ArrayND[npc.number]],
+        histogram: tuple[
+            onp.ArrayND[npc.floating | npc.integer], onp.ArrayND[npc.number]
+        ],
         *args: float | str | onp.random.ToRNG | None,
         density: bool | None = None,
         **kwargs: float | str | onp.random.ToRNG | None,

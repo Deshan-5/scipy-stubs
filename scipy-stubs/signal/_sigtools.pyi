@@ -13,7 +13,10 @@ _Mode: TypeAlias = Literal[0, 1, 2]
 
 # defined in scipy/signal/_correlate_nd.cc
 def _correlateND(
-    x: onp.ArrayND[_NumberT], y: onp.ArrayND[_NumberT], out: onp.ArrayND[_NumberT], mode: _Mode = 2
+    x: onp.ArrayND[_NumberT],
+    y: onp.ArrayND[_NumberT],
+    out: onp.ArrayND[_NumberT],
+    mode: _Mode = 2,
 ) -> onp.ArrayND[_NumberT]: ...
 
 # defined in scipy/signal/_sigtoolsmodule.cc
@@ -49,4 +52,6 @@ def _remez(
 
 #
 # defined in scipy/signal/_sigtoolsmodule.cc
-def _medfilt2d(image: onp.Array2D[_ImageScalarT], size: tuple[int, int]) -> onp.Array2D[_ImageScalarT]: ...
+def _medfilt2d(
+    image: onp.Array2D[_ImageScalarT], size: tuple[int, int]
+) -> onp.Array2D[_ImageScalarT]: ...

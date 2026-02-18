@@ -13,7 +13,9 @@ __all__ = ["netcdf_file", "netcdf_variable"]
 
 ###
 
-_ShapeT_co = TypeVar("_ShapeT_co", covariant=True, bound=tuple[int, ...], default=tuple[Any, ...])
+_ShapeT_co = TypeVar(
+    "_ShapeT_co", covariant=True, bound=tuple[int, ...], default=tuple[Any, ...]
+)
 _ScalarT = TypeVar("_ScalarT", bound=np.generic)
 _ScalarT_co = TypeVar("_ScalarT_co", covariant=True, bound=np.generic, default=Any)
 
@@ -98,7 +100,9 @@ class netcdf_file(ExitMixin):
         self, /, name: str, type: onp.ToDType[_ScalarT], dimensions: Sequence[str]
     ) -> NetCDFVariable[tuple[Any, ...], _ScalarT]: ...
     @overload
-    def createVariable(self, /, name: str, type: npt.DTypeLike, dimensions: Sequence[str]) -> NetCDFVariable: ...
+    def createVariable(
+        self, /, name: str, type: npt.DTypeLike, dimensions: Sequence[str]
+    ) -> NetCDFVariable: ...
 
     #
     def flush(self, /) -> None: ...
@@ -134,7 +138,10 @@ class netcdf_variable(Generic[_ShapeT_co, _ScalarT_co]):
         self, /, index: SupportsIndex | slice | tuple[SupportsIndex | slice, ...]
     ) -> _ScalarT | onp.ArrayND[_ScalarT]: ...
     def __setitem__(
-        self: netcdf_variable[tuple[int, ...], _ScalarT], /, index: object, data: _ScalarT | onp.ArrayND[_ScalarT]
+        self: netcdf_variable[tuple[int, ...], _ScalarT],
+        /,
+        index: object,
+        data: _ScalarT | onp.ArrayND[_ScalarT],
     ) -> None: ...
 
     #

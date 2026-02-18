@@ -76,11 +76,18 @@ __all__ = [
 _SCT = TypeVar("_SCT", bound=np.generic, default=np.float64)
 _SCT_f = TypeVar("_SCT_f", bound=npc.floating, default=np.float64)
 _SCT_bifc = TypeVar("_SCT_bifc", bound=npc.number | np.bool_, default=np.float64)
-_SCT_bifcmO = TypeVar("_SCT_bifcmO", bound=npc.number | np.timedelta64 | np.bool_ | np.object_)
+_SCT_bifcmO = TypeVar(
+    "_SCT_bifcmO", bound=npc.number | np.timedelta64 | np.bool_ | np.object_
+)
 
 _MArrayOrND: TypeAlias = _SCT | onp.MArray[_SCT]
 
-_NDT_f_co = TypeVar("_NDT_f_co", covariant=True, bound=float | _MArrayOrND[npc.floating], default=onp.MArray[np.float64])
+_NDT_f_co = TypeVar(
+    "_NDT_f_co",
+    covariant=True,
+    bound=float | _MArrayOrND[npc.floating],
+    default=onp.MArray[np.float64],
+)
 _NDT_fc_co = TypeVar(
     "_NDT_fc_co",
     covariant=True,
@@ -124,7 +131,9 @@ class ModeResult(NamedTuple):
 
 class DescribeResult(NamedTuple):
     nobs: np.int_ | onp.ArrayND[np.int_]
-    minmax: tuple[onp.MArray[npc.floating | npc.integer], onp.MArray[npc.floating | npc.integer]]
+    minmax: tuple[
+        onp.MArray[npc.floating | npc.integer], onp.MArray[npc.floating | npc.integer]
+    ]
     mean: npc.floating
     variance: npc.floating
     skewness: npc.floating
@@ -134,11 +143,21 @@ class PointbiserialrResult(NamedTuple):
     correlation: np.float64
     pvalue: np.float64
 
-class Ttest_relResult(_TestResult[_NDT_f_co, _NDT_fc_co], Generic[_NDT_f_co, _NDT_fc_co]): ...
-class Ttest_indResult(_TestResult[_NDT_f_co, _NDT_fc_co], Generic[_NDT_f_co, _NDT_fc_co]): ...
-class Ttest_1sampResult(_TestResult[_NDT_f_co, _NDT_fc_co], Generic[_NDT_f_co, _NDT_fc_co]): ...
-class SkewtestResult(_TestResult[_NDT_f_co, _NDT_fc_co], Generic[_NDT_f_co, _NDT_fc_co]): ...
-class KurtosistestResult(_TestResult[_NDT_f_co, _NDT_fc_co], Generic[_NDT_f_co, _NDT_fc_co]): ...
+class Ttest_relResult(
+    _TestResult[_NDT_f_co, _NDT_fc_co], Generic[_NDT_f_co, _NDT_fc_co]
+): ...
+class Ttest_indResult(
+    _TestResult[_NDT_f_co, _NDT_fc_co], Generic[_NDT_f_co, _NDT_fc_co]
+): ...
+class Ttest_1sampResult(
+    _TestResult[_NDT_f_co, _NDT_fc_co], Generic[_NDT_f_co, _NDT_fc_co]
+): ...
+class SkewtestResult(
+    _TestResult[_NDT_f_co, _NDT_fc_co], Generic[_NDT_f_co, _NDT_fc_co]
+): ...
+class KurtosistestResult(
+    _TestResult[_NDT_f_co, _NDT_fc_co], Generic[_NDT_f_co, _NDT_fc_co]
+): ...
 class NormaltestResult(_TestResult[_NDT_f_co, _NDT_f_co], Generic[_NDT_f_co]): ...
 class MannwhitneyuResult(_TestResult[np.float64, np.float64]): ...
 class F_onewayResult(_TestResult[np.float64, np.float64]): ...
@@ -158,16 +177,24 @@ class SenSeasonalSlopesResult(BaseBunch[onp.MArray[np.float64], np.float64]):
 # TODO(jorenham): Overloads for specific dtypes
 
 def argstoarray(*args: onp.ToFloatND) -> onp.MArray[np.float64]: ...
-def find_repeats(arr: onp.ToFloatND) -> tuple[onp.ArrayND[np.float64], onp.ArrayND[np.intp]]: ...
-def count_tied_groups(x: onp.ToFloatND, use_missing: bool = False) -> dict[np.intp, np.intp]: ...
-def rankdata(data: onp.ToFloatND, axis: op.CanIndex | None = None, use_missing: bool = False) -> onp.ArrayND[np.float64]: ...
+def find_repeats(
+    arr: onp.ToFloatND,
+) -> tuple[onp.ArrayND[np.float64], onp.ArrayND[np.intp]]: ...
+def count_tied_groups(
+    x: onp.ToFloatND, use_missing: bool = False
+) -> dict[np.intp, np.intp]: ...
+def rankdata(
+    data: onp.ToFloatND, axis: op.CanIndex | None = None, use_missing: bool = False
+) -> onp.ArrayND[np.float64]: ...
 def mode(a: onp.ToFloatND, axis: op.CanIndex | None = 0) -> ModeResult: ...
 
 #
 @overload
 def msign(x: _ArrayLike[_SCT_bifcmO]) -> onp.ArrayND[_SCT_bifcmO]: ...
 @overload
-def msign(x: onp.ToComplexND) -> onp.ArrayND[npc.number | np.timedelta64 | np.bool_ | np.object_]: ...
+def msign(
+    x: onp.ToComplexND,
+) -> onp.ArrayND[npc.number | np.timedelta64 | np.bool_ | np.object_]: ...
 
 #
 def pearsonr(x: onp.ToFloatND, y: onp.ToFloatND) -> tuple[np.float64, np.float64]: ...
@@ -189,18 +216,28 @@ def kendalltau(
 ) -> SignificanceResult: ...
 def kendalltau_seasonal(x: onp.ToFloatND) -> _KendallTauSeasonalResult: ...
 def pointbiserialr(x: onp.ToFloatND, y: onp.ToFloatND) -> PointbiserialrResult: ...
-def linregress(x: onp.ToFloatND, y: onp.ToFloatND | None = None) -> LinregressResult: ...
+def linregress(
+    x: onp.ToFloatND, y: onp.ToFloatND | None = None
+) -> LinregressResult: ...
 def theilslopes(
-    y: onp.ToFloatND, x: onp.ToFloatND | None = None, alpha: onp.ToJustFloat = 0.95, method: _TheilSlopesMethod = "separate"
+    y: onp.ToFloatND,
+    x: onp.ToFloatND | None = None,
+    alpha: onp.ToJustFloat = 0.95,
+    method: _TheilSlopesMethod = "separate",
 ) -> TheilslopesResult: ...
 def siegelslopes(
-    y: onp.ToFloatND, x: onp.ToFloatND | None = None, method: _SiegelSlopesMethod = "hierarchical"
+    y: onp.ToFloatND,
+    x: onp.ToFloatND | None = None,
+    method: _SiegelSlopesMethod = "hierarchical",
 ) -> SiegelslopesResult: ...
 def sen_seasonal_slopes(x: onp.ToFloatND) -> SenSeasonalSlopesResult: ...
 
 #
 def ttest_1samp(
-    a: onp.ToFloatND, popmean: onp.ToFloat | onp.ToFloatND, axis: op.CanIndex | None = 0, alternative: Alternative = "two-sided"
+    a: onp.ToFloatND,
+    popmean: onp.ToFloat | onp.ToFloatND,
+    axis: op.CanIndex | None = 0,
+    alternative: Alternative = "two-sided",
 ) -> Ttest_1sampResult: ...
 def ttest_ind(
     a: onp.ToFloatND,
@@ -210,10 +247,17 @@ def ttest_ind(
     alternative: Alternative = "two-sided",
 ) -> Ttest_indResult: ...
 def ttest_rel(
-    a: onp.ToFloatND, b: onp.ToFloatND, axis: op.CanIndex | None = 0, alternative: Alternative = "two-sided"
+    a: onp.ToFloatND,
+    b: onp.ToFloatND,
+    axis: op.CanIndex | None = 0,
+    alternative: Alternative = "two-sided",
 ) -> Ttest_relResult: ...
-def mannwhitneyu(x: onp.ToFloatND, y: onp.ToFloatND, use_continuity: op.CanBool = True) -> MannwhitneyuResult: ...
-def kruskal(arg0: onp.ToFloatND, arg1: onp.ToFloatND, /, *args: onp.ToFloatND) -> KruskalResult: ...
+def mannwhitneyu(
+    x: onp.ToFloatND, y: onp.ToFloatND, use_continuity: op.CanBool = True
+) -> MannwhitneyuResult: ...
+def kruskal(
+    arg0: onp.ToFloatND, arg1: onp.ToFloatND, /, *args: onp.ToFloatND
+) -> KruskalResult: ...
 
 #
 @overload
@@ -235,7 +279,10 @@ def ks_1samp(
 
 #
 def ks_2samp(
-    data1: onp.ToFloatND, data2: onp.ToFloatND, alternative: Alternative = "two-sided", method: _KSMethod = "auto"
+    data1: onp.ToFloatND,
+    data2: onp.ToFloatND,
+    alternative: Alternative = "two-sided",
+    method: _KSMethod = "auto",
 ) -> KstestResult: ...
 
 #
@@ -497,7 +544,10 @@ def tmin(
 ) -> _MArrayOrND[np.int_]: ...
 @overload
 def tmin(
-    a: onp.SequenceND[float], lowerlimit: onp.ToFloat | None = None, axis: op.CanIndex | None = 0, inclusive: onp.ToBool = True
+    a: onp.SequenceND[float],
+    lowerlimit: onp.ToFloat | None = None,
+    axis: op.CanIndex | None = 0,
+    inclusive: onp.ToBool = True,
 ) -> _MArrayOrND[np.float64 | np.int_]: ...
 @overload
 def tmin(
@@ -508,7 +558,10 @@ def tmin(
 ) -> _MArrayOrND[np.complex128 | np.float64 | np.int_]: ...
 @overload
 def tmin(
-    a: _ArrayLike[_SCT_bifc], lowerlimit: onp.ToComplex | None = None, axis: op.CanIndex | None = 0, inclusive: onp.ToBool = True
+    a: _ArrayLike[_SCT_bifc],
+    lowerlimit: onp.ToComplex | None = None,
+    axis: op.CanIndex | None = 0,
+    inclusive: onp.ToBool = True,
 ) -> _MArrayOrND[_SCT_bifc]: ...
 
 #
@@ -521,7 +574,10 @@ def tmax(
 ) -> _MArrayOrND[np.int_]: ...
 @overload
 def tmax(
-    a: onp.SequenceND[float], upperlimit: onp.ToFloat | None = None, axis: op.CanIndex | None = 0, inclusive: onp.ToBool = True
+    a: onp.SequenceND[float],
+    upperlimit: onp.ToFloat | None = None,
+    axis: op.CanIndex | None = 0,
+    inclusive: onp.ToBool = True,
 ) -> _MArrayOrND[np.float64 | np.int_]: ...
 @overload
 def tmax(
@@ -532,7 +588,10 @@ def tmax(
 ) -> _MArrayOrND[np.complex128 | np.float64 | np.int_]: ...
 @overload
 def tmax(
-    a: _ArrayLike[_SCT_bifc], upperlimit: onp.ToComplex | None = None, axis: op.CanIndex | None = 0, inclusive: onp.ToBool = True
+    a: _ArrayLike[_SCT_bifc],
+    upperlimit: onp.ToComplex | None = None,
+    axis: op.CanIndex | None = 0,
+    inclusive: onp.ToBool = True,
 ) -> _MArrayOrND[_SCT_bifc]: ...
 
 #
@@ -583,42 +642,74 @@ def winsorize(
 ) -> onp.MArray[np.complex128 | npc.floating | np.int_]: ...
 
 # TODO(jorenham): Overloads for complex array-likes
-def moment(a: onp.ToFloatND, moment: onp.ToInt | onp.ToIntND = 1, axis: op.CanIndex | None = 0) -> _MArrayOrND[npc.floating]: ...
-def variation(a: onp.ToFloatND, axis: op.CanIndex | None = 0, ddof: onp.ToInt = 0) -> _MArrayOrND[npc.floating]: ...
-def skew(a: onp.ToFloatND, axis: op.CanIndex | None = 0, bias: op.CanBool = True) -> _MArrayOrND[npc.floating]: ...
-def kurtosis(
-    a: onp.ToFloatND, axis: op.CanIndex | None = 0, fisher: op.CanBool = True, bias: op.CanBool = True
+def moment(
+    a: onp.ToFloatND, moment: onp.ToInt | onp.ToIntND = 1, axis: op.CanIndex | None = 0
 ) -> _MArrayOrND[npc.floating]: ...
-def describe(a: onp.ToFloatND, axis: op.CanIndex | None = 0, ddof: onp.ToInt = 0, bias: op.CanBool = True) -> DescribeResult: ...
+def variation(
+    a: onp.ToFloatND, axis: op.CanIndex | None = 0, ddof: onp.ToInt = 0
+) -> _MArrayOrND[npc.floating]: ...
+def skew(
+    a: onp.ToFloatND, axis: op.CanIndex | None = 0, bias: op.CanBool = True
+) -> _MArrayOrND[npc.floating]: ...
+def kurtosis(
+    a: onp.ToFloatND,
+    axis: op.CanIndex | None = 0,
+    fisher: op.CanBool = True,
+    bias: op.CanBool = True,
+) -> _MArrayOrND[npc.floating]: ...
+def describe(
+    a: onp.ToFloatND,
+    axis: op.CanIndex | None = 0,
+    ddof: onp.ToInt = 0,
+    bias: op.CanBool = True,
+) -> DescribeResult: ...
 
 #
 @overload
-def stde_median(data: onp.ToFloatND, axis: op.CanIndex | None = None) -> _MArrayOrND[npc.floating]: ...
+def stde_median(
+    data: onp.ToFloatND, axis: op.CanIndex | None = None
+) -> _MArrayOrND[npc.floating]: ...
 @overload
-def stde_median(data: onp.ToComplexND, axis: op.CanIndex | None = None) -> _MArrayOrND[npc.inexact]: ...
+def stde_median(
+    data: onp.ToComplexND, axis: op.CanIndex | None = None
+) -> _MArrayOrND[npc.inexact]: ...
 
 #
 @overload
 def skewtest(
-    a: onp.ToFloatND, axis: op.CanIndex | None = 0, alternative: Alternative = "two-sided"
+    a: onp.ToFloatND,
+    axis: op.CanIndex | None = 0,
+    alternative: Alternative = "two-sided",
 ) -> SkewtestResult[_MArrayOrND[np.float64], _MArrayOrND[np.float64]]: ...
 @overload
 def skewtest(
-    a: onp.ToComplexND, axis: op.CanIndex | None = 0, alternative: Alternative = "two-sided"
-) -> SkewtestResult[_MArrayOrND[np.float64], _MArrayOrND[np.float64 | np.complex128]]: ...
+    a: onp.ToComplexND,
+    axis: op.CanIndex | None = 0,
+    alternative: Alternative = "two-sided",
+) -> SkewtestResult[
+    _MArrayOrND[np.float64], _MArrayOrND[np.float64 | np.complex128]
+]: ...
 
 #
 @overload
 def kurtosistest(
-    a: onp.ToFloatND, axis: op.CanIndex | None = 0, alternative: Alternative = "two-sided"
+    a: onp.ToFloatND,
+    axis: op.CanIndex | None = 0,
+    alternative: Alternative = "two-sided",
 ) -> KurtosistestResult[_MArrayOrND[np.float64], _MArrayOrND[np.float64]]: ...
 @overload
 def kurtosistest(
-    a: onp.ToComplexND, axis: op.CanIndex | None = 0, alternative: Alternative = "two-sided"
-) -> KurtosistestResult[_MArrayOrND[np.float64], _MArrayOrND[np.float64 | np.complex128]]: ...
+    a: onp.ToComplexND,
+    axis: op.CanIndex | None = 0,
+    alternative: Alternative = "two-sided",
+) -> KurtosistestResult[
+    _MArrayOrND[np.float64], _MArrayOrND[np.float64 | np.complex128]
+]: ...
 
 #
-def normaltest(a: onp.ToFloatND, axis: op.CanIndex | None = 0) -> NormaltestResult[_MArrayOrND[np.float64]]: ...
+def normaltest(
+    a: onp.ToFloatND, axis: op.CanIndex | None = 0
+) -> NormaltestResult[_MArrayOrND[np.float64]]: ...
 
 #
 def mquantiles(
@@ -640,23 +731,36 @@ def scoreatpercentile(
 ) -> onp.MArray[np.float64]: ...
 
 #
-def plotting_positions(data: onp.ToFloatND, alpha: onp.ToFloat = 0.4, beta: onp.ToFloat = 0.4) -> onp.MArray[np.float64]: ...
+def plotting_positions(
+    data: onp.ToFloatND, alpha: onp.ToFloat = 0.4, beta: onp.ToFloat = 0.4
+) -> onp.MArray[np.float64]: ...
 
 #
-def obrientransform(arg0: onp.ToFloatND, /, *args: onp.ToFloatND) -> onp.MArray[np.float64]: ...
+def obrientransform(
+    arg0: onp.ToFloatND, /, *args: onp.ToFloatND
+) -> onp.MArray[np.float64]: ...
 
 #
-def sem(a: onp.ToFloatND, axis: op.CanIndex | None = 0, ddof: onp.ToInt = 1) -> np.float64 | onp.MArray[np.float64]: ...
+def sem(
+    a: onp.ToFloatND, axis: op.CanIndex | None = 0, ddof: onp.ToInt = 1
+) -> np.float64 | onp.MArray[np.float64]: ...
 
 #
-def f_oneway(arg0: onp.ToFloatND, arg1: onp.ToFloatND, /, *args: onp.ToFloatND) -> F_onewayResult: ...
+def f_oneway(
+    arg0: onp.ToFloatND, arg1: onp.ToFloatND, /, *args: onp.ToFloatND
+) -> F_onewayResult: ...
 
 #
-def friedmanchisquare(arg0: onp.ToFloatND, *args: onp.ToFloatND) -> FriedmanchisquareResult: ...
+def friedmanchisquare(
+    arg0: onp.ToFloatND, *args: onp.ToFloatND
+) -> FriedmanchisquareResult: ...
 
 #
 def brunnermunzel(
-    x: onp.ToFloatND, y: onp.ToFloatND, alternative: Alternative = "two-sided", distribution: Literal["t", "normal"] = "t"
+    x: onp.ToFloatND,
+    y: onp.ToFloatND,
+    alternative: Alternative = "two-sided",
+    distribution: Literal["t", "normal"] = "t",
 ) -> BrunnerMunzelResult: ...
 
 #

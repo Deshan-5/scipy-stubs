@@ -4,11 +4,19 @@ import abc
 from typing import Any, Generic, Literal, Self, TypeAlias, final, type_check_only
 from typing_extensions import TypeVar, TypeVarTuple
 
-__all__ = "Alternative", "BaseBunch", "BunchMixin", "NanPolicy", "PowerDivergenceStatistic"
+__all__ = (
+    "Alternative",
+    "BaseBunch",
+    "BunchMixin",
+    "NanPolicy",
+    "PowerDivergenceStatistic",
+)
 
 _Ts = TypeVarTuple("_Ts")
 _ValueT = TypeVar("_ValueT")
-_TupleT_co = TypeVar("_TupleT_co", bound=tuple[Any, ...], default=tuple[Any, ...], covariant=True)
+_TupleT_co = TypeVar(
+    "_TupleT_co", bound=tuple[Any, ...], default=tuple[Any, ...], covariant=True
+)
 
 Alternative: TypeAlias = Literal["two-sided", "less", "greater"]
 NanPolicy: TypeAlias = Literal["raise", "propagate", "omit"]
@@ -38,7 +46,9 @@ class BunchMixin(Generic[_TupleT_co]):
     @abc.abstractmethod  # (self, /, {fields}, *, {extra_fields}) -> None
     def __init__(self, /) -> None: ...
     @final
-    def __getnewargs_ex__(self: BunchMixin[tuple[_ValueT, ...]], /) -> tuple[_TupleT_co, dict[str, _ValueT]]: ...
+    def __getnewargs_ex__(
+        self: BunchMixin[tuple[_ValueT, ...]], /
+    ) -> tuple[_TupleT_co, dict[str, _ValueT]]: ...
 
     # NOTE: `._fields` and `._extra_fields` are mutually exclusive (i.e. disjoint)
     @property

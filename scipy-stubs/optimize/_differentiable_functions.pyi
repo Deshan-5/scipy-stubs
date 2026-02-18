@@ -12,11 +12,15 @@ from scipy.sparse import csr_array, sparray, spmatrix
 from scipy.sparse.linalg import LinearOperator
 
 _XT = TypeVar("_XT", bound=npc.floating, default=npc.floating)
-_XT_contra = TypeVar("_XT_contra", bound=npc.floating, default=npc.floating, contravariant=True)
+_XT_contra = TypeVar(
+    "_XT_contra", bound=npc.floating, default=npc.floating, contravariant=True
+)
 _VT = TypeVar("_VT")
 _RT = TypeVar("_RT")
 
-_ToFloat64Vec: TypeAlias = Sequence[float | np.float64 | npc.integer | np.bool_] | onp.CanArrayND[np.float64]
+_ToFloat64Vec: TypeAlias = (
+    Sequence[float | np.float64 | npc.integer | np.bool_] | onp.CanArrayND[np.float64]
+)
 _ToJac: TypeAlias = onp.ToFloat2D | spmatrix | sparray
 _ToHess: TypeAlias = _ToJac | LinearOperator
 
@@ -30,7 +34,9 @@ _JacFun: TypeAlias = Callable[Concatenate[onp.Array1D[_XT], ...], _ToJac]
 _HessFun: TypeAlias = Callable[Concatenate[onp.Array1D[_XT], ...], _ToHess]
 
 _FDMethod: TypeAlias = Literal["2-point", "3-point", "cs"]
-_FDBounds: TypeAlias = onp.ToFloat1D | onp.ToFloat2D  # len-2 array-like of scalar- or vector-likes
+_FDBounds: TypeAlias = (
+    onp.ToFloat1D | onp.ToFloat2D
+)  # len-2 array-like of scalar- or vector-likes
 
 _ToGradFun: TypeAlias = _VectorFun[_XT_contra] | _FDMethod
 _ToJacFun: TypeAlias = _JacFun[_XT_contra] | _FDMethod
@@ -38,7 +44,9 @@ _ToHessFun: TypeAlias = _HessFun[_XT_contra] | _FDMethod | HessianUpdateStrategy
 
 @type_check_only
 class _DoesMap(Protocol):
-    def __call__(self, func: Callable[[_VT], _RT], iterable: Iterable[_VT], /) -> Iterable[_RT]: ...
+    def __call__(
+        self, func: Callable[[_VT], _RT], iterable: Iterable[_VT], /
+    ) -> Iterable[_RT]: ...
 
 _Workers: TypeAlias = int | _DoesMap
 
@@ -123,7 +131,9 @@ class ScalarFunction(Generic[_XT_contra]):
     def fun(self, /, x: onp.ToFloat1D) -> float | npc.floating: ...
     def grad(self, /, x: onp.ToFloat1D) -> _Vec: ...
     def hess(self, /, x: onp.ToFloat1D) -> _Hess: ...
-    def fun_and_grad(self, /, x: onp.ToFloat1D) -> tuple[float | npc.floating, _Vec]: ...
+    def fun_and_grad(
+        self, /, x: onp.ToFloat1D
+    ) -> tuple[float | npc.floating, _Vec]: ...
 
 class VectorFunction(Generic[_XT_contra]):
     xp: Final[ModuleType]
@@ -223,7 +233,11 @@ class LinearVectorFunction(Generic[_XT_contra]):
     ) -> None: ...
     @overload
     def __init__(
-        self, /, A: onp.ToFloat2D | spmatrix | sparray, x0: _Vec[_XT_contra] | onp.ToFloat1D, sparse_jacobian: onp.ToBool | None
+        self,
+        /,
+        A: onp.ToFloat2D | spmatrix | sparray,
+        x0: _Vec[_XT_contra] | onp.ToFloat1D,
+        sparse_jacobian: onp.ToBool | None,
     ) -> None: ...
 
     #
@@ -236,6 +250,16 @@ class LinearVectorFunction(Generic[_XT_contra]):
 
 class IdentityVectorFunction(LinearVectorFunction[_XT_contra]):
     @overload
-    def __init__(self: IdentityVectorFunction[np.float64], /, x0: _ToFloat64Vec, sparse_jacobian: onp.ToBool | None) -> None: ...
+    def __init__(
+        self: IdentityVectorFunction[np.float64],
+        /,
+        x0: _ToFloat64Vec,
+        sparse_jacobian: onp.ToBool | None,
+    ) -> None: ...
     @overload
-    def __init__(self, /, x0: onp.CanArrayND[_XT_contra] | onp.ToFloat1D, sparse_jacobian: onp.ToBool | None) -> None: ...
+    def __init__(
+        self,
+        /,
+        x0: onp.CanArrayND[_XT_contra] | onp.ToFloat1D,
+        sparse_jacobian: onp.ToBool | None,
+    ) -> None: ...

@@ -81,7 +81,12 @@ def binary_opening(
 #
 @deprecated("will be removed in SciPy v2.0.0")
 def binary_fill_holes(
-    input: object, structure: object = None, output: object = None, origin: object = 0, *, axes: tuple[int, ...] | None = None
+    input: object,
+    structure: object = None,
+    output: object = None,
+    origin: object = 0,
+    *,
+    axes: tuple[int, ...] | None = None,
 ) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
 def binary_hit_or_miss(
@@ -248,6 +253,8 @@ def black_tophat(
 
 #
 @deprecated("will be removed in SciPy v2.0.0")
-def iterate_structure(structure: object, iterations: object, origin: object = None) -> object: ...
+def iterate_structure(
+    structure: object, iterations: object, origin: object = None
+) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
 def generate_binary_structure(rank: object, connectivity: object) -> object: ...

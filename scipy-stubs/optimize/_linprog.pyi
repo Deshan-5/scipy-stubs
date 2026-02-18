@@ -31,7 +31,9 @@ class _OptionsHighsDS(_OptionsCommon, TypedDict, total=False):
     time_limit: _Float  # default: np.finfo(float).max
     dual_feasibility_tolerance: _Float  # default: 1e-7
     primal_feasibility_tolerance: _Float  # default: 1e-7
-    simplex_dual_edge_weight_strategy: Literal["dantzig", "devex", "steepest", "steepest-devex"] | None  # default: None
+    simplex_dual_edge_weight_strategy: (
+        Literal["dantzig", "devex", "steepest", "steepest-devex"] | None
+    )  # default: None
 
 # highs-ips
 @type_check_only
@@ -61,7 +63,9 @@ class _OptionsInteriorPoint(_OptionsCommonLegacy, TypedDict, total=False):
     cholsky: onp.ToBool  # default: True
     pc: onp.ToBool  # default: True
     ip: onp.ToBool  # default: False
-    perm_spec: Literal["NATURAL", "MMD_ATA", "MMD_AT_PLUS_A", "COLAMD"] | None  # default: "MMD_AT_PLUS_A"
+    perm_spec: (
+        Literal["NATURAL", "MMD_ATA", "MMD_AT_PLUS_A", "COLAMD"] | None
+    )  # default: "MMD_AT_PLUS_A"
 
 # revised simplex (legacy, see https://github.com/scipy/scipy/issues/15707)
 @type_check_only
@@ -106,7 +110,9 @@ class _OptimizeResultHighs(OptimizeResult):
 ###
 
 __docformat__: Final = "restructuredtext en"  # undocumented
-LINPROG_METHODS: Final[Sequence[MethodLinprog | MethodLinprogLegacy]] = ...  # undocumented
+LINPROG_METHODS: Final[Sequence[MethodLinprog | MethodLinprogLegacy]] = (
+    ...
+)  # undocumented
 
 def linprog_verbose_callback(res: OptimizeResult) -> None: ...
 def linprog_terse_callback(res: OptimizeResult) -> None: ...
@@ -157,7 +163,9 @@ def linprog(
     integrality: _Max3 | Sequence[_Max3] | onp.CanArrayND[npc.integer] | None = None,
 ) -> _OptimizeResultHighs: ...
 @overload  # interior-point (legacy, see https://github.com/scipy/scipy/issues/15707)
-@deprecated("`method='interior-point'` is deprecated and will be removed in SciPy 1.17. Please use one of the HIGHS solvers.")
+@deprecated(
+    "`method='interior-point'` is deprecated and will be removed in SciPy 1.17. Please use one of the HIGHS solvers."
+)
 def linprog(
     c: onp.ToFloat1D,
     A_ub: onp.ToFloat2D | None = None,
@@ -173,7 +181,9 @@ def linprog(
     integrality: _Max3 | Sequence[_Max3] | onp.CanArrayND[npc.integer] | None = None,
 ) -> OptimizeResult: ...
 @overload  # revised simplex (legacy, see https://github.com/scipy/scipy/issues/15707)
-@deprecated("`method='revised simplex'` is deprecated and will be removed in SciPy 1.17. Please use one of the HIGHS solvers.")
+@deprecated(
+    "`method='revised simplex'` is deprecated and will be removed in SciPy 1.17. Please use one of the HIGHS solvers."
+)
 def linprog(
     c: onp.ToFloat1D,
     A_ub: onp.ToFloat2D | None = None,
@@ -189,7 +199,9 @@ def linprog(
     integrality: _Max3 | Sequence[_Max3] | onp.CanArrayND[npc.integer] | None = None,
 ) -> OptimizeResult: ...
 @overload  # simplex (legacy, see https://github.com/scipy/scipy/issues/15707)
-@deprecated("`method='simplex'` is deprecated and will be removed in SciPy 1.17. Please use one of the HIGHS solvers.")
+@deprecated(
+    "`method='simplex'` is deprecated and will be removed in SciPy 1.17. Please use one of the HIGHS solvers."
+)
 def linprog(
     c: onp.ToFloat1D,
     A_ub: onp.ToFloat2D | None = None,

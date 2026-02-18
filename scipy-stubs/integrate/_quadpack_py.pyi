@@ -23,10 +23,20 @@ _FloatLike: TypeAlias = float | npc.floating
 _ComplexLike: TypeAlias = complex | npc.inexact
 
 # NOTE: Technically allowing `x: float64` here is type-unsafe. But in practice that isn't likely to be a problem at all.
-_QuadFunc10: TypeAlias = Callable[[float], _T] | Callable[[np.float64], _T] | LowLevelCallable
-_QuadFunc1N: TypeAlias = Callable[Concatenate[float, ...], _T] | Callable[Concatenate[np.float64, ...], _T] | LowLevelCallable
+_QuadFunc10: TypeAlias = (
+    Callable[[float], _T] | Callable[[np.float64], _T] | LowLevelCallable
+)
+_QuadFunc1N: TypeAlias = (
+    Callable[Concatenate[float, ...], _T]
+    | Callable[Concatenate[np.float64, ...], _T]
+    | LowLevelCallable
+)
 
-_QuadFunc20: TypeAlias = Callable[[float, float], _FloatLike] | Callable[[np.float64, np.float64], _FloatLike] | LowLevelCallable
+_QuadFunc20: TypeAlias = (
+    Callable[[float, float], _FloatLike]
+    | Callable[[np.float64, np.float64], _FloatLike]
+    | LowLevelCallable
+)
 _QuadFunc2N: TypeAlias = (
     Callable[Concatenate[float, float, ...], _FloatLike]
     | Callable[Concatenate[np.float64, np.float64, ...], _FloatLike]
@@ -50,8 +60,14 @@ _QuadFuncN: TypeAlias = (
     | LowLevelCallable
 )  # fmt: skip
 
-_GHFunc: TypeAlias = _FloatLike | Callable[[float], _FloatLike] | Callable[[np.float64], _FloatLike]
-_QRFunc: TypeAlias = _FloatLike | Callable[[float, float], _FloatLike] | Callable[[np.float64, np.float64], _FloatLike]
+_GHFunc: TypeAlias = (
+    _FloatLike | Callable[[float], _FloatLike] | Callable[[np.float64], _FloatLike]
+)
+_QRFunc: TypeAlias = (
+    _FloatLike
+    | Callable[[float, float], _FloatLike]
+    | Callable[[np.float64, np.float64], _FloatLike]
+)
 
 @type_check_only
 class _QuadOutput1C_1(TypedDict):
@@ -116,11 +132,22 @@ class _NQuad(Generic[_BT_co]):
     opts: list[_OptFunc]
     full_output: _BT_co
 
-    def __init__(self, /, func: _QuadFuncN, ranges: list[_RangeFunc], opts: list[_OptFunc], full_output: _BT_co) -> None: ...
+    def __init__(
+        self,
+        /,
+        func: _QuadFuncN,
+        ranges: list[_RangeFunc],
+        opts: list[_OptFunc],
+        full_output: _BT_co,
+    ) -> None: ...
     @overload
-    def integrate(self: _NQuad[Literal[False]], /, *args: object) -> tuple[float, float]: ...
+    def integrate(
+        self: _NQuad[Literal[False]], /, *args: object
+    ) -> tuple[float, float]: ...
     @overload
-    def integrate(self: _NQuad[Literal[True]], /, *args: object) -> tuple[float, float, _QuadOutputNC]: ...
+    def integrate(
+        self: _NQuad[Literal[True]], /, *args: object
+    ) -> tuple[float, float, _QuadOutputNC]: ...
 
 class IntegrationWarning(UserWarning): ...
 
@@ -458,7 +485,12 @@ def nquad(
     func: _QuadFuncN,
     ranges: _SizedIterable[_QuadRange | _RangeCallable[float]],
     args: Iterable[object] | None = None,
-    opts: QuadOpts | Callable[..., QuadOpts] | Iterable[QuadOpts | Callable[..., QuadOpts]] | None = None,
+    opts: (
+        QuadOpts
+        | Callable[..., QuadOpts]
+        | Iterable[QuadOpts | Callable[..., QuadOpts]]
+        | None
+    ) = None,
     full_output: onp.ToFalse = False,
 ) -> tuple[float, float]: ...
 @overload

@@ -14,9 +14,16 @@ _ToFloat2: TypeAlias = tuple[onp.ToFloat, onp.ToFloat]
 _ToFloat3: TypeAlias = tuple[onp.ToFloat, onp.ToFloat, onp.ToFloat]
 
 _RT = TypeVar("_RT", bound=onp.ToFloat | _ToFloat2 | _ToFloat3)
-_RT2_co = TypeVar("_RT2_co", bound=_ToFloat2 | _ToFloat3, default=_ToFloat2 | _ToFloat3, covariant=True)
+_RT2_co = TypeVar(
+    "_RT2_co",
+    bound=_ToFloat2 | _ToFloat3,
+    default=_ToFloat2 | _ToFloat3,
+    covariant=True,
+)
 
-_Fun: TypeAlias = Callable[Concatenate[float, ...], _RT] | Callable[Concatenate[np.float64, ...], _RT]
+_Fun: TypeAlias = (
+    Callable[Concatenate[float, ...], _RT] | Callable[Concatenate[np.float64, ...], _RT]
+)
 _Fun1: TypeAlias = _Fun[onp.ToFloat]
 _Fun2: TypeAlias = _Fun[_ToFloat2]
 _Fun3: TypeAlias = _Fun[_ToFloat3]
@@ -34,7 +41,9 @@ class MemoizeDer(Generic[_RT2_co]):  # undocumented
     def __init__(self, /, fun: _Fun[_RT2_co]) -> None: ...
     def __call__(self, /, x: onp.ToFloat, *args: object) -> onp.ToFloat: ...
     def fprime(self, /, x: onp.ToFloat, *args: object) -> onp.ToFloat: ...
-    def fprime2(self: MemoizeDer[_ToFloat3], /, x: onp.ToFloat, *args: object) -> onp.ToFloat: ...
+    def fprime2(
+        self: MemoizeDer[_ToFloat3], /, x: onp.ToFloat, *args: object
+    ) -> onp.ToFloat: ...
     def ncalls(self, /) -> int: ...
 
 @overload  # bisect | brentq | brenth | ridder | toms748  (positional)

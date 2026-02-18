@@ -5,7 +5,15 @@ from typing_extensions import deprecated
 
 from . import _eigen
 
-__all__ = ["ArpackError", "ArpackNoConvergence", "eigs", "eigsh", "lobpcg", "svds", "test"]
+__all__ = [
+    "ArpackError",
+    "ArpackNoConvergence",
+    "eigs",
+    "eigsh",
+    "lobpcg",
+    "svds",
+    "test",
+]
 
 test: ModuleType
 

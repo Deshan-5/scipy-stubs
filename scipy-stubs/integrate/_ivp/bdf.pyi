@@ -12,10 +12,15 @@ from scipy.sparse import csc_matrix, sparray, spmatrix
 ###
 
 _NumberT = TypeVar("_NumberT", bound=npc.number)
-_InexactT = TypeVar("_InexactT", bound=np.float64 | np.complex128, default=np.float64 | Any)
+_InexactT = TypeVar(
+    "_InexactT", bound=np.float64 | np.complex128, default=np.float64 | Any
+)
 
 _LU: TypeAlias = tuple[onp.ArrayND[npc.inexact], onp.ArrayND[npc.integer]]
-_FuncLU: TypeAlias = Callable[[onp.ArrayND[np.float64]], _LU] | Callable[[onp.ArrayND[np.complex128]], _LU]
+_FuncLU: TypeAlias = (
+    Callable[[onp.ArrayND[np.float64]], _LU]
+    | Callable[[onp.ArrayND[np.complex128]], _LU]
+)
 _FuncSolveLU: TypeAlias = Callable[[_LU, onp.ArrayND], onp.ArrayND[npc.inexact]]
 
 _Sparse2D: TypeAlias = spmatrix[_NumberT] | sparray[_NumberT, tuple[int, int]]
@@ -67,7 +72,9 @@ class BDF(OdeSolver[_InexactT], Generic[_InexactT]):
         max_step: float = ...,  # = np.inf
         rtol: float = 1e-3,
         atol: float = 1e-6,
-        jac: _ToJacReal | Callable[[float, onp.ArrayND[np.float64]], _ToJacReal] | None = None,
+        jac: (
+            _ToJacReal | Callable[[float, onp.ArrayND[np.float64]], _ToJacReal] | None
+        ) = None,
         jac_sparsity: _ToJacReal | None = None,
         vectorized: bool = False,
         first_step: float | None = None,
@@ -84,7 +91,11 @@ class BDF(OdeSolver[_InexactT], Generic[_InexactT]):
         max_step: float = ...,  # = np.inf
         rtol: float = 1e-3,
         atol: float = 1e-6,
-        jac: _ToJacComplex | Callable[[float, onp.ArrayND[np.complex128]], _ToJacComplex] | None = None,
+        jac: (
+            _ToJacComplex
+            | Callable[[float, onp.ArrayND[np.complex128]], _ToJacComplex]
+            | None
+        ) = None,
         jac_sparsity: _ToJacComplex | None = None,
         vectorized: bool = False,
         first_step: float | None = None,
@@ -96,7 +107,15 @@ class BdfDenseOutput(DenseOutput[np.float64]):
     t_shift: onp.ArrayND[np.float64]
     denom: onp.ArrayND[np.float64]
     D: onp.ArrayND[np.float64]
-    def __init__(self, /, t_old: float, t: float, h: float, order: int, D: onp.ArrayND[np.float64]) -> None: ...
+    def __init__(
+        self,
+        /,
+        t_old: float,
+        t: float,
+        h: float,
+        order: int,
+        D: onp.ArrayND[np.float64],
+    ) -> None: ...
 
 def compute_R(order: int, factor: float) -> onp.ArrayND[np.float64]: ...
 def change_D(D: onp.ArrayND[np.float64], order: int, factor: float) -> None: ...

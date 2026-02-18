@@ -42,8 +42,12 @@ class _CApiDict(TypedDict):
 
 __pyx_capi__: Final[_CApiDict] = ...  # undocumented
 
-def von_mises_cdf(k_obj: onp.ToFloatND, x_obj: onp.ToFloatND) -> onp.ArrayND[np.float64]: ...  # undocumented
-def _kendall_dis(x: onp.Array1D[np.intp], y: onp.Array1D[np.intp]) -> int: ...  # undocumented
+def von_mises_cdf(
+    k_obj: onp.ToFloatND, x_obj: onp.ToFloatND
+) -> onp.ArrayND[np.float64]: ...  # undocumented
+def _kendall_dis(
+    x: onp.Array1D[np.intp], y: onp.Array1D[np.intp]
+) -> int: ...  # undocumented
 def _toint64(x: onp.ToIntND) -> onp.Array1D[np.int64]: ...  # undocumented
 def _weightedrankedtau(
     x: onp.Array1D[_Ordered],
@@ -52,7 +56,9 @@ def _weightedrankedtau(
     weigher: Callable[[float], onp.ToFloat],
     additive: bool,
 ) -> np.float64: ...  # undocumented
-def _rank_distance_matrix(distx: onp.Array2D[npc.floating | npc.integer]) -> onp.Array2D[np.intp]: ...  # undocumented
+def _rank_distance_matrix(
+    distx: onp.Array2D[npc.floating | npc.integer],
+) -> onp.Array2D[np.intp]: ...  # undocumented
 
 #
 @overload
@@ -71,7 +77,10 @@ def _center_distance_matrix(
 #
 @overload
 def _transform_distance_matrix(
-    distx: _Dist2D, disty: _Dist2D, global_corr: _GlobalCorr = "mgc", is_ranked: onp.ToTrue = True
+    distx: _Dist2D,
+    disty: _Dist2D,
+    global_corr: _GlobalCorr = "mgc",
+    is_ranked: onp.ToTrue = True,
 ) -> dict[str, onp.Array2D[np.float64] | onp.Array2D[np.intp]]: ...
 @overload
 def _transform_distance_matrix(
@@ -79,12 +88,19 @@ def _transform_distance_matrix(
 ) -> dict[str, onp.Array2D[np.float64] | onp.Array1D[np.float64]]: ...
 @overload
 def _transform_distance_matrix(
-    distx: _Dist2D, disty: _Dist2D, global_corr: _GlobalCorr = "mgc", *, is_ranked: onp.ToFalse
+    distx: _Dist2D,
+    disty: _Dist2D,
+    global_corr: _GlobalCorr = "mgc",
+    *,
+    is_ranked: onp.ToFalse,
 ) -> dict[str, onp.Array2D[np.float64] | onp.Array1D[np.float64]]: ...  # undocumented
 
 #
 def _local_covariance(
-    distx: _Dist2D, disty: _Dist2D, rank_distx: onp.ArrayND[_AsReal], rank_disty: onp.ArrayND[_AsReal]
+    distx: _Dist2D,
+    disty: _Dist2D,
+    rank_distx: onp.ArrayND[_AsReal],
+    rank_disty: onp.ArrayND[_AsReal],
 ) -> onp.Array2D[np.float64]: ...  # undocumented
 def _local_correlations(
     distx: _Dist2D, disty: _Dist2D, global_corr: _GlobalCorr = "mgc"
@@ -92,8 +108,12 @@ def _local_correlations(
 def geninvgauss_logpdf(x: float, p: float, b: float) -> float: ...  # undocumented
 def _studentized_range_cdf_logconst(k: float, df: float) -> float: ...  # undocumented
 def _studentized_range_pdf_logconst(k: float, df: float) -> float: ...  # undocumented
-def genhyperbolic_pdf(x: float, p: float, a: float, b: float) -> float: ...  # undocumented
-def genhyperbolic_logpdf(x: float, p: float, a: float, b: float) -> float: ...  # undocumented
+def genhyperbolic_pdf(
+    x: float, p: float, a: float, b: float
+) -> float: ...  # undocumented
+def genhyperbolic_logpdf(
+    x: float, p: float, a: float, b: float
+) -> float: ...  # undocumented
 
 # NOTE: There are two false positive `overload-overlap` mypy errors that only occur with `numpy>=2.2`.
 # mypy: disable-error-code=overload-overlap

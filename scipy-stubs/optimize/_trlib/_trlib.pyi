@@ -20,7 +20,10 @@ class TRLIBQuadraticSubproblem(BaseQuadraticSubproblem):  # undocumented
         fun: Callable[[onp.Array1D[np.float64]], onp.ToFloat],
         jac: Callable[[onp.Array1D[np.float64]], onp.ToFloat1D],
         hess: Callable[[onp.Array1D[np.float64]], onp.ToFloat2D] | None,
-        hessp: Callable[[onp.Array1D[np.float64], onp.Array1D[np.float64]], onp.ToFloat1D] | None,
+        hessp: (
+            Callable[[onp.Array1D[np.float64], onp.Array1D[np.float64]], onp.ToFloat1D]
+            | None
+        ),
         tol_rel_i: onp.ToFloat = -2.0,
         tol_rel_b: onp.ToFloat = -3.0,
         disp: onp.ToBool = False,

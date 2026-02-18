@@ -6,4 +6,17 @@ from .lsqr import lsqr
 from .minres import minres
 from .tfqmr import tfqmr
 
-__all__ = ["bicg", "bicgstab", "cg", "cgs", "gcrotmk", "gmres", "lgmres", "lsmr", "lsqr", "minres", "qmr", "tfqmr"]
+__all__ = [
+    "bicg",
+    "bicgstab",
+    "cg",
+    "cgs",
+    "gcrotmk",
+    "gmres",
+    "lgmres",
+    "lsmr",
+    "lsqr",
+    "minres",
+    "qmr",
+    "tfqmr",
+]

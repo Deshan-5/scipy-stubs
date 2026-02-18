@@ -9,7 +9,18 @@ import optype.numpy.compat as npc
 
 from .windows._windows import _ToWindow
 
-__all__ = ["check_COLA", "check_NOLA", "coherence", "csd", "istft", "lombscargle", "periodogram", "spectrogram", "stft", "welch"]
+__all__ = [
+    "check_COLA",
+    "check_NOLA",
+    "coherence",
+    "csd",
+    "istft",
+    "lombscargle",
+    "periodogram",
+    "spectrogram",
+    "stft",
+    "welch",
+]
 
 ###
 
@@ -22,10 +33,14 @@ _complex128_nd: TypeAlias = onp.ArrayND[np.complex128]  # noqa: PYI042
 _complex160_nd: TypeAlias = onp.ArrayND[np.complex192 | np.complex256]  # noqa: PYI042
 
 _ToInexact32ND: TypeAlias = onp.ToArrayND[npc.inexact32, npc.inexact32 | npc.floating16]
-_ToInexact64ND: TypeAlias = onp.ToArrayND[complex, npc.inexact64 | npc.integer | np.bool_]
+_ToInexact64ND: TypeAlias = onp.ToArrayND[
+    complex, npc.inexact64 | npc.integer | np.bool_
+]
 _ToInexact80ND: TypeAlias = onp.ToArrayND[npc.inexact80, npc.inexact80]
 
-_Detrend: TypeAlias = Literal["literal", "constant", False] | Callable[[onp.ArrayND], onp.ArrayND]
+_Detrend: TypeAlias = (
+    Literal["literal", "constant", False] | Callable[[onp.ArrayND], onp.ArrayND]
+)
 _Scaling: TypeAlias = Literal["density", "spectrum"]
 _LegacyScaling: TypeAlias = Literal["psd", "spectrum"]
 _Average: TypeAlias = Literal["mean", "median"]
@@ -308,8 +323,12 @@ def spectrogram(
 ) -> tuple[_float64_1d, _float64_1d, onp.Array]: ...
 
 #
-def check_COLA(window: _ToWindow, nperseg: int, noverlap: int, tol: float = 1e-10) -> np.bool_: ...
-def check_NOLA(window: _ToWindow, nperseg: int, noverlap: int, tol: float = 1e-10) -> np.bool_: ...
+def check_COLA(
+    window: _ToWindow, nperseg: int, noverlap: int, tol: float = 1e-10
+) -> np.bool_: ...
+def check_NOLA(
+    window: _ToWindow, nperseg: int, noverlap: int, tol: float = 1e-10
+) -> np.bool_: ...
 
 #
 @overload  # c128

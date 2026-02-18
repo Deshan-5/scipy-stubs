@@ -10,8 +10,16 @@ __all__ = ["ODEintWarning", "odeint"]
 _Ts = TypeVarTuple("_Ts")
 _R = TypeVar("_R")
 
-_FuncYT = TypeAliasType("_FuncYT", Callable[[onp.Array1D[np.float64], float, *_Ts], _R], type_params=(_Ts, _R))
-_FuncTY = TypeAliasType("_FuncTY", Callable[[float, onp.Array1D[np.float64], *_Ts], _R], type_params=(_Ts, _R))
+_FuncYT = TypeAliasType(
+    "_FuncYT",
+    Callable[[onp.Array1D[np.float64], float, *_Ts], _R],
+    type_params=(_Ts, _R),
+)
+_FuncTY = TypeAliasType(
+    "_FuncTY",
+    Callable[[float, onp.Array1D[np.float64], *_Ts], _R],
+    type_params=(_Ts, _R),
+)
 
 @type_check_only
 class _InfoDict(TypedDict):

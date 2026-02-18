@@ -16,13 +16,19 @@ _PyScalarT = TypeVar("_PyScalarT")
 _AsF32: TypeAlias = np.float16 | np.float32
 _AsF64: TypeAlias = np.float64 | npc.integer | np.bool_
 
-_DifferentialMethod: TypeAlias = Literal["vasicek", "van es", "ebrahimi", "correa", "auto"]
+_DifferentialMethod: TypeAlias = Literal[
+    "vasicek", "van es", "ebrahimi", "correa", "auto"
+]
 
 _ToArrayMaxND = TypeAliasType(
-    "_ToArrayMaxND", onp.ToArrayND[_PyScalarT, _ScalarT] | _PyScalarT | _ScalarT, type_params=(_ScalarT, _PyScalarT)
+    "_ToArrayMaxND",
+    onp.ToArrayND[_PyScalarT, _ScalarT] | _PyScalarT | _ScalarT,
+    type_params=(_ScalarT, _PyScalarT),
 )
 _ToArrayMax1D = TypeAliasType(
-    "_ToArrayMax1D", onp.ToArrayStrict1D[_PyScalarT, _ScalarT] | _PyScalarT | _ScalarT, type_params=(_ScalarT, _PyScalarT)
+    "_ToArrayMax1D",
+    onp.ToArrayStrict1D[_PyScalarT, _ScalarT] | _PyScalarT | _ScalarT,
+    type_params=(_ScalarT, _PyScalarT),
 )
 _ToArrayMax2D = TypeAliasType(
     "_ToArrayMax2D",
@@ -143,7 +149,13 @@ def entropy(
 @overload  # 3d float64 | int -> 2d float64
 def entropy(
     pk: onp.ToArrayStrict3D[float, _AsF64],
-    qk: onp.ToFloat64Strict3D | onp.ToFloat64Strict2D | onp.ToFloat64Strict1D | onp.ToFloat64 | None = None,
+    qk: (
+        onp.ToFloat64Strict3D
+        | onp.ToFloat64Strict2D
+        | onp.ToFloat64Strict1D
+        | onp.ToFloat64
+        | None
+    ) = None,
     base: float | None = None,
     axis: int = 0,
     *,
@@ -152,7 +164,12 @@ def entropy(
 ) -> onp.Array2D[np.float64]: ...
 @overload
 def entropy(
-    pk: onp.ToFloat64Strict3D | onp.ToFloat64Strict2D | onp.ToFloat64Strict1D | onp.ToFloat64,
+    pk: (
+        onp.ToFloat64Strict3D
+        | onp.ToFloat64Strict2D
+        | onp.ToFloat64Strict1D
+        | onp.ToFloat64
+    ),
     qk: onp.ToArrayStrict3D[float, _AsF64],
     base: float | None = None,
     axis: int = 0,

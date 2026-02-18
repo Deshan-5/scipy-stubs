@@ -11,25 +11,47 @@ from ._base import _spbase, sparray
 from ._coo import coo_array
 from ._matrix import spmatrix
 
-_ScalarT_co = TypeVar("_ScalarT_co", bound=npc.number | np.bool_, default=Any, covariant=True)
-_ShapeT_co = TypeVar("_ShapeT_co", bound=tuple[int, *tuple[int, ...]], default=tuple[Any, ...], covariant=True)
+_ScalarT_co = TypeVar(
+    "_ScalarT_co", bound=npc.number | np.bool_, default=Any, covariant=True
+)
+_ShapeT_co = TypeVar(
+    "_ShapeT_co",
+    bound=tuple[int, *tuple[int, ...]],
+    default=tuple[Any, ...],
+    covariant=True,
+)
 
 _Self2T = TypeVar("_Self2T", bound=IndexMixin[Any, _2D])
 _SelfMatrixT = TypeVar("_SelfMatrixT", bound=spmatrix)
 
-_ToNumber: TypeAlias = op.CanComplex | op.CanFloat | op.CanInt | op.CanIndex | str | Buffer
+_ToNumber: TypeAlias = (
+    op.CanComplex | op.CanFloat | op.CanInt | op.CanIndex | str | Buffer
+)
 
 _1D: TypeAlias = tuple[int]  # noqa: PYI042
 _2D: TypeAlias = tuple[int, int]  # noqa: PYI042
 
 _ToIndex1: TypeAlias = op.CanIndex | tuple[op.CanIndex]
 _ToIndex2: TypeAlias = tuple[op.CanIndex, op.CanIndex]
-_ToIndex1Of2: TypeAlias = _ToIndex1 | tuple[op.CanIndex, _ToSlice | onp.ToInt1D] | tuple[_ToSlice | onp.ToInt1D, op.CanIndex]
+_ToIndex1Of2: TypeAlias = (
+    _ToIndex1
+    | tuple[op.CanIndex, _ToSlice | onp.ToInt1D]
+    | tuple[_ToSlice | onp.ToInt1D, op.CanIndex]
+)
 _ToIndex2Of2: TypeAlias = tuple[onp.ToInt1D, onp.ToInt1D]
 
 _ToSlice: TypeAlias = slice | EllipsisType
-_ToSlice1: TypeAlias = _ToSlice | onp.ToInt1D | tuple[op.CanIndex, None] | tuple[None, op.CanIndex]
-_ToSlice2: TypeAlias = _ToSlice | _spbase[np.bool_, _2D] | list[np.bool_] | list[bool] | list[int] | onp.ToBool2D
+_ToSlice1: TypeAlias = (
+    _ToSlice | onp.ToInt1D | tuple[op.CanIndex, None] | tuple[None, op.CanIndex]
+)
+_ToSlice2: TypeAlias = (
+    _ToSlice
+    | _spbase[np.bool_, _2D]
+    | list[np.bool_]
+    | list[bool]
+    | list[int]
+    | onp.ToBool2D
+)
 
 ###
 
@@ -39,7 +61,9 @@ class IndexMixin(Generic[_ScalarT_co, _ShapeT_co]):
     @overload
     def __getitem__(self: IndexMixin[Any, _1D], ix: op.CanIndex, /) -> _ScalarT_co: ...
     @overload
-    def __getitem__(self: IndexMixin[Any, _1D], ix: None, /) -> coo_array[_ScalarT_co, tuple[int, int]]: ...
+    def __getitem__(
+        self: IndexMixin[Any, _1D], ix: None, /
+    ) -> coo_array[_ScalarT_co, tuple[int, int]]: ...
     @overload
     def __getitem__(self: IndexMixin[Any, _2D], ix: _ToIndex2, /) -> _ScalarT_co: ...
     @overload
@@ -57,6 +81,10 @@ class IndexMixin(Generic[_ScalarT_co, _ShapeT_co]):
 
     #
     @overload
-    def __setitem__(self: IndexMixin[Any, _1D], ix: _ToIndex1, x: _ToNumber, /) -> None: ...
+    def __setitem__(
+        self: IndexMixin[Any, _1D], ix: _ToIndex1, x: _ToNumber, /
+    ) -> None: ...
     @overload
-    def __setitem__(self: IndexMixin[Any, _2D], ix: _ToIndex1Of2 | _ToIndex2, x: _ToNumber, /) -> None: ...
+    def __setitem__(
+        self: IndexMixin[Any, _2D], ix: _ToIndex1Of2 | _ToIndex2, x: _ToNumber, /
+    ) -> None: ...

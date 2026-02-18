@@ -5,7 +5,15 @@ from typing_extensions import deprecated
 
 import numpy as np
 
-__all__ = ["MatReadError", "MatReadWarning", "MatWriteError", "MatlabFunction", "MatlabObject", "mat_struct", "varmats_from_mat"]
+__all__ = [
+    "MatReadError",
+    "MatReadWarning",
+    "MatWriteError",
+    "MatlabFunction",
+    "MatlabObject",
+    "mat_struct",
+    "varmats_from_mat",
+]
 
 @deprecated("will be removed in SciPy v2.0.0")
 class MatReadError(Exception): ...
@@ -21,7 +29,9 @@ class MatlabObject(np.ndarray[tuple[int, ...], np.dtype[np.generic]]):
     def __new__(cls, input_array: object, classname: object = None) -> Self: ...
 
 @deprecated("will be removed in SciPy v2.0.0")
-class MatlabFunction(MatlabObject):  # pyright: ignore[reportDeprecated]  # ty: ignore[deprecated]
+class MatlabFunction(
+    MatlabObject
+):  # pyright: ignore[reportDeprecated]  # ty: ignore[deprecated]
     def __new__(cls, input_array: object) -> Self: ...
 
 @deprecated("will be removed in SciPy v2.0.0")

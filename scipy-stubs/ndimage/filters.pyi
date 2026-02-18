@@ -172,7 +172,12 @@ def generic_laplace(
 ) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
 def laplace(
-    input: object, output: object = None, mode: object = "reflect", cval: object = 0.0, *, axes: tuple[int, ...] | None = None
+    input: object,
+    output: object = None,
+    mode: object = "reflect",
+    cval: object = 0.0,
+    *,
+    axes: tuple[int, ...] | None = None,
 ) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
 def maximum_filter(
@@ -278,6 +283,18 @@ def uniform_filter1d(
     origin: object = 0,
 ) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
-def prewitt(input: object, axis: object = -1, output: object = None, mode: object = "reflect", cval: object = 0.0) -> object: ...
+def prewitt(
+    input: object,
+    axis: object = -1,
+    output: object = None,
+    mode: object = "reflect",
+    cval: object = 0.0,
+) -> object: ...
 @deprecated("will be removed in SciPy v2.0.0")
-def sobel(input: object, axis: object = -1, output: object = None, mode: object = "reflect", cval: object = 0.0) -> object: ...
+def sobel(
+    input: object,
+    axis: object = -1,
+    output: object = None,
+    mode: object = "reflect",
+    cval: object = 0.0,
+) -> object: ...

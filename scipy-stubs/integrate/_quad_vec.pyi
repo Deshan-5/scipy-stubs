@@ -14,7 +14,9 @@ _VT = TypeVar("_VT", default=Any)
 _NDT_co = TypeVar("_NDT_co", bound=_FloatingND, default=_FloatingND, covariant=True)
 _InexactT = TypeVar("_InexactT", bound=npc.inexact)
 _InexactT_co = TypeVar("_InexactT_co", bound=npc.inexact, default=Any, covariant=True)
-_ShapeT_co = TypeVar("_ShapeT_co", bound=tuple[int, ...], default=tuple[Any, ...], covariant=True)
+_ShapeT_co = TypeVar(
+    "_ShapeT_co", bound=tuple[int, ...], default=tuple[Any, ...], covariant=True
+)
 
 _Floating: TypeAlias = float | npc.floating
 _FloatingND: TypeAlias = onp.ArrayND[npc.floating] | _Floating
@@ -26,7 +28,9 @@ _Quadrature: TypeAlias = Literal["gk21", "gk15", "trapezoid"]
 
 @type_check_only
 class _DoesMap(Protocol):
-    def __call__(self, func: Callable[[_S], _T], iterable: op.CanIter[op.CanNext[_S]], /) -> op.CanIter[op.CanIterSelf[_T]]: ...
+    def __call__(
+        self, func: Callable[[_S], _T], iterable: op.CanIter[op.CanNext[_S]], /
+    ) -> op.CanIter[op.CanIterSelf[_T]]: ...
 
 @type_check_only
 class _InfiniteFunc(Protocol[_NDT_co]):
@@ -43,7 +47,9 @@ class LRUDict(collections.OrderedDict[tuple[float, float], _VT], Generic[_VT]):
 
 # undocumented
 class SemiInfiniteFunc(_InfiniteFunc[_NDT_co], Generic[_NDT_co]):
-    def __init__(self, /, func: Callable[[float], _NDT_co], start: float, infty: bool) -> None: ...
+    def __init__(
+        self, /, func: Callable[[float], _NDT_co], start: float, infty: bool
+    ) -> None: ...
 
 # undocumented
 class DoubleInfiniteFunc(_InfiniteFunc, Generic[_NDT_co]):

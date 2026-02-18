@@ -28,7 +28,9 @@ _ScalarFloat_co: TypeAlias = npc.floating | _ScalarInt_co
 
 _ScalarLikeInt_co: TypeAlias = int | _ScalarInt_co
 _ScalarLikeFloat_co: TypeAlias = float | _ScalarFloat_co
-_VectorLikeFloat_co: TypeAlias = Sequence[_ScalarLikeFloat_co] | onp.CanArray1D[_ScalarFloat_co]
+_VectorLikeFloat_co: TypeAlias = (
+    Sequence[_ScalarLikeFloat_co] | onp.CanArray1D[_ScalarFloat_co]
+)
 
 _ShapeT = TypeVar("_ShapeT", bound=tuple[int, ...])
 _SCT_float = TypeVar("_SCT_float", bound=_ScalarFloat_co)
@@ -50,7 +52,10 @@ def eqp_kktfact(
     H: _SparseArray, c: _VectorLikeFloat_co, A: _SparseArray, b: _VectorLikeFloat_co
 ) -> tuple[_VectorF8, _VectorF8]: ...
 def sphere_intersections(
-    z: _VectorLikeFloat_co, d: _VectorLikeFloat_co, trust_radius: _ScalarLikeFloat_co, entire_line: _ScalarB1 = False
+    z: _VectorLikeFloat_co,
+    d: _VectorLikeFloat_co,
+    trust_radius: _ScalarLikeFloat_co,
+    entire_line: _ScalarB1 = False,
 ) -> tuple[_ScalarF8, _ScalarF8, _ScalarB1]: ...
 def box_intersections(
     z: _VectorLikeFloat_co,
@@ -91,10 +96,14 @@ def box_sphere_intersections(
     extra_info: onp.ToTrue,
 ) -> tuple[_ScalarF8, _ScalarF8, _ScalarB1, _SphereInfoDict, _SphereInfoDict]: ...
 def inside_box_boundaries(
-    x: onp.Array[_ShapeT, _ScalarFloat_co], lb: onp.Array[_ShapeT, _ScalarFloat_co], ub: onp.Array[_ShapeT, _ScalarFloat_co]
+    x: onp.Array[_ShapeT, _ScalarFloat_co],
+    lb: onp.Array[_ShapeT, _ScalarFloat_co],
+    ub: onp.Array[_ShapeT, _ScalarFloat_co],
 ) -> np.bool_: ...
 def reinforce_box_boundaries(
-    x: onp.Array[_ShapeT, _SCT_float], lb: onp.Array[_ShapeT, _SCT_float], ub: onp.Array[_ShapeT, _SCT_float]
+    x: onp.Array[_ShapeT, _SCT_float],
+    lb: onp.Array[_ShapeT, _SCT_float],
+    ub: onp.Array[_ShapeT, _SCT_float],
 ) -> onp.Array[_ShapeT, _SCT_float]: ...
 def modified_dogleg(
     A: LinearOperator | _SparseArray | onp.ArrayND[_ScalarFloat_co],

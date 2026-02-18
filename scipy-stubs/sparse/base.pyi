@@ -4,7 +4,13 @@ from typing_extensions import deprecated
 
 from . import _base, _matrix
 
-__all__ = ["SparseEfficiencyWarning", "SparseWarning", "issparse", "isspmatrix", "spmatrix"]
+__all__ = [
+    "SparseEfficiencyWarning",
+    "SparseWarning",
+    "issparse",
+    "isspmatrix",
+    "spmatrix",
+]
 
 @deprecated("will be removed in SciPy v2.0.0")
 class SparseWarning(_base.SparseWarning): ...

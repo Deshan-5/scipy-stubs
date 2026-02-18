@@ -23,9 +23,16 @@ __all__ = ["dok_array", "dok_matrix", "isspmatrix_dok"]
 
 _T = TypeVar("_T")
 _ScalarT = TypeVar("_ScalarT", bound=npc.number | np.bool_)
-_ScalarT_co = TypeVar("_ScalarT_co", bound=npc.number | np.bool_, default=Any, covariant=True)
+_ScalarT_co = TypeVar(
+    "_ScalarT_co", bound=npc.number | np.bool_, default=Any, covariant=True
+)
 _ShapeT = TypeVar("_ShapeT", bound=tuple[int] | tuple[int, int])
-_ShapeT_co = TypeVar("_ShapeT_co", bound=tuple[int] | tuple[int, int], default=tuple[int, int], covariant=True)
+_ShapeT_co = TypeVar(
+    "_ShapeT_co",
+    bound=tuple[int] | tuple[int, int],
+    default=tuple[int, int],
+    covariant=True,
+)
 
 _1D: TypeAlias = tuple[int]  # noqa: PYI042
 _2D: TypeAlias = tuple[int, int]  # noqa: PYI042
@@ -33,7 +40,12 @@ _2D: TypeAlias = tuple[int, int]  # noqa: PYI042
 _NoD: TypeAlias = tuple[Never] | tuple[Never, Never]
 _AnyD: TypeAlias = tuple[Any, ...]
 
-_ToMatrix: TypeAlias = _spbase[_ScalarT] | onp.CanArrayND[_ScalarT] | Sequence[onp.CanArrayND[_ScalarT]] | _ToMatrixPy[_ScalarT]
+_ToMatrix: TypeAlias = (
+    _spbase[_ScalarT]
+    | onp.CanArrayND[_ScalarT]
+    | Sequence[onp.CanArrayND[_ScalarT]]
+    | _ToMatrixPy[_ScalarT]
+)
 _ToMatrixPy: TypeAlias = Sequence[_T] | Sequence[Sequence[_T]]
 
 _ToKey1D: TypeAlias = onp.ToJustInt | tuple[onp.ToJustInt]
@@ -84,7 +96,9 @@ class _dok_base(  # pyright: ignore[reportIncompatibleMethodOverride]
     @override
     def __len__(self, /) -> int: ...
     @override
-    def __delitem__(self: _dok_base[Any, _ShapeT], key: _ShapeT, /) -> None: ...  # pyrefly: ignore[bad-override]
+    def __delitem__(
+        self: _dok_base[Any, _ShapeT], key: _ShapeT, /
+    ) -> None: ...  # pyrefly: ignore[bad-override]
 
     #
     @override
@@ -93,7 +107,9 @@ class _dok_base(  # pyright: ignore[reportIncompatibleMethodOverride]
         self: _dok_base[_ScalarT, _ShapeT], key: _ShapeT, default: _T, /
     ) -> _ScalarT | _T: ...
     @overload
-    def setdefault(self: _dok_base[_ScalarT, _ShapeT], key: _ShapeT, default: None = None, /) -> _ScalarT | None: ...  # pyright: ignore[reportIncompatibleMethodOverride]
+    def setdefault(
+        self: _dok_base[_ScalarT, _ShapeT], key: _ShapeT, default: None = None, /
+    ) -> _ScalarT | None: ...  # pyright: ignore[reportIncompatibleMethodOverride]
 
     #
     @override
@@ -102,21 +118,45 @@ class _dok_base(  # pyright: ignore[reportIncompatibleMethodOverride]
         self: _dok_base[_ScalarT, _ShapeT], /, key: _ShapeT, default: _T
     ) -> _ScalarT | _T: ...
     @overload
-    def get(self: _dok_base[_ScalarT, _ShapeT], /, key: _ShapeT, default: float = 0.0) -> _ScalarT | float: ...  # pyright: ignore[reportIncompatibleMethodOverride] # ty: ignore[invalid-method-override]
+    def get(
+        self: _dok_base[_ScalarT, _ShapeT], /, key: _ShapeT, default: float = 0.0
+    ) -> (
+        _ScalarT | float
+    ): ...  # pyright: ignore[reportIncompatibleMethodOverride] # ty: ignore[invalid-method-override]
 
     #
     @override
-    def __or__(self, other: Never, /) -> Never: ...  # pyright: ignore[reportIncompatibleMethodOverride] # pyrefly: ignore[bad-override] # ty: ignore[invalid-method-override]
+    def __or__(
+        self, other: Never, /
+    ) -> (
+        Never
+    ): ...  # pyright: ignore[reportIncompatibleMethodOverride] # pyrefly: ignore[bad-override] # ty: ignore[invalid-method-override]
     @override
-    def __ror__(self, other: Never, /) -> Never: ...  # pyright: ignore[reportIncompatibleMethodOverride] # pyrefly: ignore[bad-override] # ty: ignore[invalid-method-override]
+    def __ror__(
+        self, other: Never, /
+    ) -> (
+        Never
+    ): ...  # pyright: ignore[reportIncompatibleMethodOverride] # pyrefly: ignore[bad-override] # ty: ignore[invalid-method-override]
     @override
-    def __ior__(self, other: Never, /) -> Self: ...  # pyright: ignore[reportIncompatibleMethodOverride] # pyrefly: ignore[bad-override] # ty: ignore[invalid-method-override]
+    def __ior__(
+        self, other: Never, /
+    ) -> (
+        Self
+    ): ...  # pyright: ignore[reportIncompatibleMethodOverride] # pyrefly: ignore[bad-override] # ty: ignore[invalid-method-override]
     @override
-    def update(self, /, val: Never) -> Never: ...  # pyright: ignore[reportIncompatibleMethodOverride] # pyrefly: ignore[bad-override] # ty: ignore[invalid-method-override]
+    def update(
+        self, /, val: Never
+    ) -> (
+        Never
+    ): ...  # pyright: ignore[reportIncompatibleMethodOverride] # pyrefly: ignore[bad-override] # ty: ignore[invalid-method-override]
 
     #
     @override
-    def count_nonzero(self, /, axis: None = None) -> int: ...  # pyright: ignore[reportIncompatibleMethodOverride] # pyrefly: ignore[bad-override] # ty: ignore[invalid-method-override]
+    def count_nonzero(
+        self, /, axis: None = None
+    ) -> (
+        int
+    ): ...  # pyright: ignore[reportIncompatibleMethodOverride] # pyrefly: ignore[bad-override] # ty: ignore[invalid-method-override]
 
     #
     @override
@@ -127,29 +167,46 @@ class _dok_base(  # pyright: ignore[reportIncompatibleMethodOverride]
     ) -> _dok_base[np.bool_, _2D]: ...
     @overload
     @classmethod
-    def fromkeys(cls: type[_dok_base[np.bool_, _1D]], iterable: _ToKeys1, v: onp.ToBool, /) -> _dok_base[np.bool_, _1D]: ...
-    @overload
-    @classmethod
-    def fromkeys(cls: type[_dok_base[_ScalarT, _2D]], iterable: _ToKeys2, v: _ScalarT, /) -> _dok_base[_ScalarT, _2D]: ...
-    @overload
-    @classmethod
-    def fromkeys(cls: type[_dok_base[_ScalarT, _1D]], iterable: _ToKeys1, v: _ScalarT, /) -> _dok_base[_ScalarT, _1D]: ...
-    @overload
-    @classmethod
-    def fromkeys(cls: type[_dok_base[np.int_, _2D]], iterable: _ToKeys2, v: op.JustInt = 1, /) -> _dok_base[np.int_, _2D]: ...
-    @overload
-    @classmethod
-    def fromkeys(cls: type[_dok_base[np.int_, _1D]], iterable: _ToKeys1, v: op.JustInt = 1, /) -> _dok_base[np.int_, _1D]: ...
-    @overload
-    @classmethod
-    def fromkeys(cls: type[_dok_base[np.float64, _2D]], iterable: _ToKeys2, v: op.JustFloat, /) -> _dok_base[np.float64, _2D]: ...
-    @overload
-    @classmethod
-    def fromkeys(cls: type[_dok_base[np.float64, _1D]], iterable: _ToKeys1, v: op.JustFloat, /) -> _dok_base[np.float64, _1D]: ...
+    def fromkeys(
+        cls: type[_dok_base[np.bool_, _1D]], iterable: _ToKeys1, v: onp.ToBool, /
+    ) -> _dok_base[np.bool_, _1D]: ...
     @overload
     @classmethod
     def fromkeys(
-        cls: type[_dok_base[np.complex128, _NoD]], iterable: _ToKeys, v: op.JustComplex, /
+        cls: type[_dok_base[_ScalarT, _2D]], iterable: _ToKeys2, v: _ScalarT, /
+    ) -> _dok_base[_ScalarT, _2D]: ...
+    @overload
+    @classmethod
+    def fromkeys(
+        cls: type[_dok_base[_ScalarT, _1D]], iterable: _ToKeys1, v: _ScalarT, /
+    ) -> _dok_base[_ScalarT, _1D]: ...
+    @overload
+    @classmethod
+    def fromkeys(
+        cls: type[_dok_base[np.int_, _2D]], iterable: _ToKeys2, v: op.JustInt = 1, /
+    ) -> _dok_base[np.int_, _2D]: ...
+    @overload
+    @classmethod
+    def fromkeys(
+        cls: type[_dok_base[np.int_, _1D]], iterable: _ToKeys1, v: op.JustInt = 1, /
+    ) -> _dok_base[np.int_, _1D]: ...
+    @overload
+    @classmethod
+    def fromkeys(
+        cls: type[_dok_base[np.float64, _2D]], iterable: _ToKeys2, v: op.JustFloat, /
+    ) -> _dok_base[np.float64, _2D]: ...
+    @overload
+    @classmethod
+    def fromkeys(
+        cls: type[_dok_base[np.float64, _1D]], iterable: _ToKeys1, v: op.JustFloat, /
+    ) -> _dok_base[np.float64, _1D]: ...
+    @overload
+    @classmethod
+    def fromkeys(
+        cls: type[_dok_base[np.complex128, _NoD]],
+        iterable: _ToKeys,
+        v: op.JustComplex,
+        /,
     ) -> _dok_base[np.complex128, _AnyD]: ...
     @overload
     @classmethod
@@ -157,11 +214,18 @@ class _dok_base(  # pyright: ignore[reportIncompatibleMethodOverride]
     @overload
     @classmethod
     def fromkeys(  # pyright: ignore[reportIncompatibleMethodOverride]
-        cls: type[_dok_base[np.complex128, _1D]], iterable: _ToKeys1, v: op.JustComplex, /
+        cls: type[_dok_base[np.complex128, _1D]],
+        iterable: _ToKeys1,
+        v: op.JustComplex,
+        /,
     ) -> _dok_base[np.complex128, _1D]: ...
 
 #
-class dok_array(_dok_base[_ScalarT_co, _ShapeT_co], sparray[_ScalarT_co, _ShapeT_co], Generic[_ScalarT_co, _ShapeT_co]):
+class dok_array(
+    _dok_base[_ScalarT_co, _ShapeT_co],
+    sparray[_ScalarT_co, _ShapeT_co],
+    Generic[_ScalarT_co, _ShapeT_co],
+):
     # NOTE: These four methods do not exist at runtime.
     # See the relevant comment in `sparse._base._spbase` for more information.
     @override
@@ -181,7 +245,9 @@ class dok_array(_dok_base[_ScalarT_co, _ShapeT_co], sparray[_ScalarT_co, _ShapeT
     def __init__(
         self,
         /,
-        arg1: _spbase[_ScalarT_co, _ShapeT_co] | onp.CanArrayND[_ScalarT_co, _ShapeT_co],
+        arg1: (
+            _spbase[_ScalarT_co, _ShapeT_co] | onp.CanArrayND[_ScalarT_co, _ShapeT_co]
+        ),
         shape: _ShapeT_co | None = None,
         dtype: onp.ToDType[_ScalarT_co] | None = None,
         copy: bool = False,
@@ -203,7 +269,9 @@ class dok_array(_dok_base[_ScalarT_co, _ShapeT_co], sparray[_ScalarT_co, _ShapeT
     def __init__(
         self: dok_array[_ScalarT, _2D],
         /,
-        arg1: Sequence[Sequence[_ScalarT] | onp.CanArrayND[_ScalarT]],  # assumes max. 2-d
+        arg1: Sequence[
+            Sequence[_ScalarT] | onp.CanArrayND[_ScalarT]
+        ],  # assumes max. 2-d
         shape: _ToShape2D | None = None,
         dtype: onp.ToDType[_ScalarT] | None = None,
         copy: bool = False,
@@ -522,9 +590,13 @@ class dok_array(_dok_base[_ScalarT_co, _ShapeT_co], sparray[_ScalarT_co, _ShapeT
     #
     @overload
     # pyrefly: ignore[bad-override]
-    def __getitem__(self, key: onp.CanArrayND[np.bool_ | npc.integer] | list[int] | slice, /) -> Self: ...
+    def __getitem__(
+        self, key: onp.CanArrayND[np.bool_ | npc.integer] | list[int] | slice, /
+    ) -> Self: ...
     @overload
-    def __getitem__(self: dok_array[_ScalarT, _ShapeT], key: _spbase[np.bool_, _ShapeT], /) -> dok_array[_ScalarT, _ShapeT]: ...
+    def __getitem__(
+        self: dok_array[_ScalarT, _ShapeT], key: _spbase[np.bool_, _ShapeT], /
+    ) -> dok_array[_ScalarT, _ShapeT]: ...
     @overload
     def __getitem__(self: dok_array[_ScalarT, _NoD], key: _ToKey1D, /) -> Any: ...
     @overload
@@ -532,7 +604,11 @@ class dok_array(_dok_base[_ScalarT_co, _ShapeT_co], sparray[_ScalarT_co, _ShapeT
     @overload
     def __getitem__(self: dok_array[_ScalarT, _1D], key: _ToKey1D, /) -> _ScalarT: ...
     @overload
-    def __getitem__(self: dok_array[_ScalarT, _2D], key: _ToKey1D, /) -> coo_array[_ScalarT, _1D]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
+    def __getitem__(
+        self: dok_array[_ScalarT, _2D], key: _ToKey1D, /
+    ) -> coo_array[
+        _ScalarT, _1D
+    ]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
 
     # NOTE: This horrible code duplication is required due to the lack of higher-kinded typing (HKT) support.
     # https://github.com/python/typing/issues/548
@@ -544,28 +620,44 @@ class dok_array(_dok_base[_ScalarT_co, _ShapeT_co], sparray[_ScalarT_co, _ShapeT
     ) -> dok_array[np.bool_, _AnyD]: ...
     @overload
     @classmethod
-    def fromkeys(cls: type[dok_array[np.bool_, _2D]], iterable: _ToKeys2, v: onp.ToBool, /) -> dok_array[np.bool_, _2D]: ...
+    def fromkeys(
+        cls: type[dok_array[np.bool_, _2D]], iterable: _ToKeys2, v: onp.ToBool, /
+    ) -> dok_array[np.bool_, _2D]: ...
     @overload
     @classmethod
-    def fromkeys(cls: type[dok_array[np.bool_, _1D]], iterable: _ToKeys1, v: onp.ToBool, /) -> dok_array[np.bool_, _1D]: ...
+    def fromkeys(
+        cls: type[dok_array[np.bool_, _1D]], iterable: _ToKeys1, v: onp.ToBool, /
+    ) -> dok_array[np.bool_, _1D]: ...
     @overload
     @classmethod
-    def fromkeys(cls: type[dok_array[_ScalarT, _NoD]], iterable: _ToKeys, v: _ScalarT, /) -> dok_array[_ScalarT, _AnyD]: ...
+    def fromkeys(
+        cls: type[dok_array[_ScalarT, _NoD]], iterable: _ToKeys, v: _ScalarT, /
+    ) -> dok_array[_ScalarT, _AnyD]: ...
     @overload
     @classmethod
-    def fromkeys(cls: type[dok_array[_ScalarT, _2D]], iterable: _ToKeys2, v: _ScalarT, /) -> dok_array[_ScalarT, _2D]: ...
+    def fromkeys(
+        cls: type[dok_array[_ScalarT, _2D]], iterable: _ToKeys2, v: _ScalarT, /
+    ) -> dok_array[_ScalarT, _2D]: ...
     @overload
     @classmethod
-    def fromkeys(cls: type[dok_array[_ScalarT, _1D]], iterable: _ToKeys1, v: _ScalarT, /) -> dok_array[_ScalarT, _1D]: ...
+    def fromkeys(
+        cls: type[dok_array[_ScalarT, _1D]], iterable: _ToKeys1, v: _ScalarT, /
+    ) -> dok_array[_ScalarT, _1D]: ...
     @overload
     @classmethod
-    def fromkeys(cls: type[dok_array[np.int_, _NoD]], iterable: _ToKeys, v: op.JustInt = 1, /) -> dok_array[np.int_, _AnyD]: ...
+    def fromkeys(
+        cls: type[dok_array[np.int_, _NoD]], iterable: _ToKeys, v: op.JustInt = 1, /
+    ) -> dok_array[np.int_, _AnyD]: ...
     @overload
     @classmethod
-    def fromkeys(cls: type[dok_array[np.int_, _2D]], iterable: _ToKeys2, v: op.JustInt = 1, /) -> dok_array[np.int_, _2D]: ...
+    def fromkeys(
+        cls: type[dok_array[np.int_, _2D]], iterable: _ToKeys2, v: op.JustInt = 1, /
+    ) -> dok_array[np.int_, _2D]: ...
     @overload
     @classmethod
-    def fromkeys(cls: type[dok_array[np.int_, _1D]], iterable: _ToKeys1, v: op.JustInt = 1, /) -> dok_array[np.int_, _1D]: ...
+    def fromkeys(
+        cls: type[dok_array[np.int_, _1D]], iterable: _ToKeys1, v: op.JustInt = 1, /
+    ) -> dok_array[np.int_, _1D]: ...
     @overload
     @classmethod
     def fromkeys(
@@ -573,28 +665,43 @@ class dok_array(_dok_base[_ScalarT_co, _ShapeT_co], sparray[_ScalarT_co, _ShapeT
     ) -> dok_array[np.float64, _AnyD]: ...
     @overload
     @classmethod
-    def fromkeys(cls: type[dok_array[np.float64, _2D]], iterable: _ToKeys2, v: op.JustFloat, /) -> dok_array[np.float64, _2D]: ...
-    @overload
-    @classmethod
-    def fromkeys(cls: type[dok_array[np.float64, _1D]], iterable: _ToKeys1, v: op.JustFloat, /) -> dok_array[np.float64, _1D]: ...
+    def fromkeys(
+        cls: type[dok_array[np.float64, _2D]], iterable: _ToKeys2, v: op.JustFloat, /
+    ) -> dok_array[np.float64, _2D]: ...
     @overload
     @classmethod
     def fromkeys(
-        cls: type[dok_array[np.complex128, _NoD]], iterable: _ToKeys, v: op.JustComplex, /
+        cls: type[dok_array[np.float64, _1D]], iterable: _ToKeys1, v: op.JustFloat, /
+    ) -> dok_array[np.float64, _1D]: ...
+    @overload
+    @classmethod
+    def fromkeys(
+        cls: type[dok_array[np.complex128, _NoD]],
+        iterable: _ToKeys,
+        v: op.JustComplex,
+        /,
     ) -> dok_array[np.complex128, _AnyD]: ...
     @overload
     @classmethod
     def fromkeys(
-        cls: type[dok_array[np.complex128, _2D]], iterable: _ToKeys2, v: op.JustComplex, /
+        cls: type[dok_array[np.complex128, _2D]],
+        iterable: _ToKeys2,
+        v: op.JustComplex,
+        /,
     ) -> dok_array[np.complex128, _2D]: ...
     @overload
     @classmethod
     def fromkeys(  # pyright: ignore[reportIncompatibleMethodOverride] # ty: ignore[invalid-method-override]
-        cls: type[dok_array[np.complex128, _1D]], iterable: _ToKeys1, v: op.JustComplex, /
+        cls: type[dok_array[np.complex128, _1D]],
+        iterable: _ToKeys1,
+        v: op.JustComplex,
+        /,
     ) -> dok_array[np.complex128, _1D]: ...
 
 #
-class dok_matrix(_dok_base[_ScalarT_co, _2D], spmatrix[_ScalarT_co], Generic[_ScalarT_co]):
+class dok_matrix(
+    _dok_base[_ScalarT_co, _2D], spmatrix[_ScalarT_co], Generic[_ScalarT_co]
+):
     # NOTE: These four methods do not exist at runtime.
     # See the relevant comment in `sparse._base._spbase` for more information.
     @override
@@ -717,10 +824,22 @@ class dok_matrix(_dok_base[_ScalarT_co, _2D], spmatrix[_ScalarT_co], Generic[_Sc
     #
     @overload
     def __getitem__(  # pyrefly: ignore[bad-override]
-        self, key: _ToKey1D | onp.CanArrayND[np.bool_ | npc.integer] | _spbase[np.bool_, _2D] | list[int] | slice, /
+        self,
+        key: (
+            _ToKey1D
+            | onp.CanArrayND[np.bool_ | npc.integer]
+            | _spbase[np.bool_, _2D]
+            | list[int]
+            | slice
+        ),
+        /,
     ) -> Self: ...
     @overload
-    def __getitem__(self, key: _ToKey2D, /) -> _ScalarT_co: ...  # pyright: ignore[reportIncompatibleMethodOverride] # ty: ignore[invalid-method-override]
+    def __getitem__(
+        self, key: _ToKey2D, /
+    ) -> (
+        _ScalarT_co
+    ): ...  # pyright: ignore[reportIncompatibleMethodOverride] # ty: ignore[invalid-method-override]
 
     #
     @overload
@@ -730,16 +849,26 @@ class dok_matrix(_dok_base[_ScalarT_co, _2D], spmatrix[_ScalarT_co], Generic[_Sc
     ) -> dok_matrix[np.bool_]: ...
     @overload
     @classmethod
-    def fromkeys(cls: type[dok_matrix[_ScalarT]], iterable: _ToKeys2, v: _ScalarT, /) -> dok_matrix[_ScalarT]: ...
+    def fromkeys(
+        cls: type[dok_matrix[_ScalarT]], iterable: _ToKeys2, v: _ScalarT, /
+    ) -> dok_matrix[_ScalarT]: ...
     @overload
     @classmethod
-    def fromkeys(cls: type[dok_matrix[np.int_]], iterable: _ToKeys2, v: op.JustInt = 1, /) -> dok_matrix[np.int_]: ...
+    def fromkeys(
+        cls: type[dok_matrix[np.int_]], iterable: _ToKeys2, v: op.JustInt = 1, /
+    ) -> dok_matrix[np.int_]: ...
     @overload
     @classmethod
-    def fromkeys(cls: type[dok_matrix[np.float64]], iterable: _ToKeys2, v: op.JustFloat, /) -> dok_matrix[np.float64]: ...
+    def fromkeys(
+        cls: type[dok_matrix[np.float64]], iterable: _ToKeys2, v: op.JustFloat, /
+    ) -> dok_matrix[np.float64]: ...
     @overload
     @classmethod
-    def fromkeys(cls: type[dok_matrix[np.complex128]], iterable: _ToKeys2, v: op.JustComplex, /) -> dok_matrix[np.complex128]: ...  # pyright: ignore[reportIncompatibleMethodOverride] # ty: ignore[invalid-method-override]
+    def fromkeys(
+        cls: type[dok_matrix[np.complex128]], iterable: _ToKeys2, v: op.JustComplex, /
+    ) -> dok_matrix[
+        np.complex128
+    ]: ...  # pyright: ignore[reportIncompatibleMethodOverride] # ty: ignore[invalid-method-override]
 
 #
 def isspmatrix_dok(x: object) -> TypeIs[dok_matrix]: ...

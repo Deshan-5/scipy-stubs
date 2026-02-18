@@ -10,7 +10,9 @@ from scipy._lib._util import _RichResult
 
 _T = TypeVar("_T")
 _ShapeT = TypeVar("_ShapeT", bound=tuple[int, ...], default=tuple[int, ...])
-_ShapeT_co = TypeVar("_ShapeT_co", bound=tuple[int, ...], default=tuple[int, ...], covariant=True)
+_ShapeT_co = TypeVar(
+    "_ShapeT_co", bound=tuple[int, ...], default=tuple[int, ...], covariant=True
+)
 
 _Bracket: TypeAlias = tuple[_T, _T]
 
@@ -32,7 +34,16 @@ class _FindResult(_RichResult, Generic[_ShapeT_co]):
     nit: onp.ArrayND[np.int32, _ShapeT_co]
     bracket: _Bracket[onp.ArrayND[np.float64, _ShapeT_co]]
     f_bracket: _Bracket[onp.ArrayND[np.float64, _ShapeT_co]]
-    _order_keys: Final = ["success", "status", "x", "f_x", "nfev", "nit", "bracket", "f_bracket"]
+    _order_keys: Final = [
+        "success",
+        "status",
+        "x",
+        "f_x",
+        "nfev",
+        "nit",
+        "bracket",
+        "f_bracket",
+    ]
 
 @type_check_only
 @final
@@ -60,7 +71,9 @@ def find_root(
 ) -> _FindResult[_ShapeT]: ...
 @overload
 def find_root(
-    f: Callable[Concatenate[onp.ArrayND[np.float64, _ShapeT], ...], onp.ArrayND[npc.floating]],
+    f: Callable[
+        Concatenate[onp.ArrayND[np.float64, _ShapeT], ...], onp.ArrayND[npc.floating]
+    ],
     init: _Bracket[onp.ToFloat] | _Bracket[onp.ToFloatND],
     /,
     *,
@@ -74,7 +87,10 @@ def find_root(
 @overload
 def find_minimum(
     f: Callable[[onp.ArrayND[np.float64, _ShapeT]], onp.ArrayND[npc.floating]],
-    init: tuple[onp.ToFloat, onp.ToFloat, onp.ToFloat] | tuple[onp.ToFloatND, onp.ToFloatND, onp.ToFloatND],
+    init: (
+        tuple[onp.ToFloat, onp.ToFloat, onp.ToFloat]
+        | tuple[onp.ToFloatND, onp.ToFloatND, onp.ToFloatND]
+    ),
     /,
     *,
     args: tuple[()] = (),
@@ -84,8 +100,13 @@ def find_minimum(
 ) -> _FindResult[_ShapeT]: ...
 @overload
 def find_minimum(
-    f: Callable[Concatenate[onp.ArrayND[np.float64, _ShapeT], ...], onp.ArrayND[npc.floating]],
-    init: tuple[onp.ToFloat, onp.ToFloat, onp.ToFloat] | tuple[onp.ToFloatND, onp.ToFloatND, onp.ToFloatND],
+    f: Callable[
+        Concatenate[onp.ArrayND[np.float64, _ShapeT], ...], onp.ArrayND[npc.floating]
+    ],
+    init: (
+        tuple[onp.ToFloat, onp.ToFloat, onp.ToFloat]
+        | tuple[onp.ToFloatND, onp.ToFloatND, onp.ToFloatND]
+    ),
     /,
     *,
     args: tuple[object, ...],
@@ -109,7 +130,9 @@ def bracket_root(
 ) -> _BracketResult[_ShapeT]: ...
 @overload
 def bracket_root(
-    f: Callable[Concatenate[onp.ArrayND[np.float64, _ShapeT], ...], onp.ArrayND[npc.floating]],
+    f: Callable[
+        Concatenate[onp.ArrayND[np.float64, _ShapeT], ...], onp.ArrayND[npc.floating]
+    ],
     xl0: onp.ToFloat | onp.ToFloatND,
     xr0: onp.ToFloat | onp.ToFloatND | None = None,
     *,
@@ -136,7 +159,9 @@ def bracket_minimum(
 ) -> _BracketResult[_ShapeT]: ...
 @overload
 def bracket_minimum(
-    f: Callable[Concatenate[onp.ArrayND[np.float64, _ShapeT], ...], onp.ArrayND[npc.floating]],
+    f: Callable[
+        Concatenate[onp.ArrayND[np.float64, _ShapeT], ...], onp.ArrayND[npc.floating]
+    ],
     xm0: onp.ToFloat | onp.ToFloatND,
     *,
     xl0: onp.ToFloat | onp.ToFloatND | None = None,

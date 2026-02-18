@@ -28,7 +28,11 @@ _Float2D: TypeAlias = onp.Array2D[np.float64]
 
 _RT = TypeVar("_RT")
 # NOTE: `ABCPolyBase` is required to work around https://github.com/scipy/scipy-stubs/issues/465
-_Fun0D: TypeAlias = Callable[Concatenate[float, ...], _RT] | Callable[Concatenate[np.float64, ...], _RT] | ABCPolyBase
+_Fun0D: TypeAlias = (
+    Callable[Concatenate[float, ...], _RT]
+    | Callable[Concatenate[np.float64, ...], _RT]
+    | ABCPolyBase
+)
 _Fun1D: TypeAlias = Callable[Concatenate[_Float1D, ...], _RT]
 _Fun1Dp: TypeAlias = Callable[Concatenate[_Float1D, _Float1D, ...], _RT]
 
@@ -38,8 +42,12 @@ _ToBracket: TypeAlias = _Tuple2[onp.ToFloat] | _Tuple3[onp.ToFloat]
 _ToBound: TypeAlias = _Tuple2[onp.ToFloat]
 _Ignored: TypeAlias = object
 
-_MinimizeScalarResultT = TypeVar("_MinimizeScalarResultT", bound=_MinimizeScalarResultBase)
-_MinimizeScalarResultT_co = TypeVar("_MinimizeScalarResultT_co", bound=_MinimizeScalarResultBase, covariant=True)
+_MinimizeScalarResultT = TypeVar(
+    "_MinimizeScalarResultT", bound=_MinimizeScalarResultBase
+)
+_MinimizeScalarResultT_co = TypeVar(
+    "_MinimizeScalarResultT_co", bound=_MinimizeScalarResultBase, covariant=True
+)
 
 @type_check_only
 class _CallbackResult(Protocol):
@@ -51,12 +59,20 @@ class _CallbackVector(Protocol):
 
 @type_check_only
 class _MinimizeMethodFun(Protocol):
-    def __call__(self, fun: _Fun1D[onp.ToFloat], x0: onp.ToFloat1D, /, args: _Args) -> OptimizeResult: ...
+    def __call__(
+        self, fun: _Fun1D[onp.ToFloat], x0: onp.ToFloat1D, /, args: _Args
+    ) -> OptimizeResult: ...
 
 @type_check_only
 class _MinimizeScalarMethodFun(Protocol[_MinimizeScalarResultT_co]):
     def __call__(
-        self, fun: _Fun0D[onp.ToFloat], /, *, args: _Args, bracket: _ToBracket, bound: _ToBound
+        self,
+        fun: _Fun0D[onp.ToFloat],
+        /,
+        *,
+        args: _Args,
+        bracket: _ToBracket,
+        bound: _ToBound,
     ) -> _MinimizeScalarResultT_co: ...
 
 @type_check_only
@@ -126,7 +142,9 @@ class _MinimizeOptions(TypedDict, total=False):
     initial_constr_penalty: _Floating
     initial_barrier_parameter: _Floating
     initial_barrier_tolerance: _Floating
-    factorization_method: Literal["NormalEquation", "AugmentedSystem", "QRFactorization", "SVDFactorization"]
+    factorization_method: Literal[
+        "NormalEquation", "AugmentedSystem", "QRFactorization", "SVDFactorization"
+    ]
     verbose: Literal[0, 1, 2, 3]
     # dogleg, trust-ncg, trust-exact, TNC
     eta: _Floating
@@ -143,11 +161,15 @@ class _MinimizeScalarOptionsCommon(TypedDict, total=False):
     disp: Literal[0, 1, 2, 3]
 
 @type_check_only
-class _MinimizeScalarOptionsBracketed(_MinimizeScalarOptionsCommon, TypedDict, total=False):
+class _MinimizeScalarOptionsBracketed(
+    _MinimizeScalarOptionsCommon, TypedDict, total=False
+):
     xtol: _Floating
 
 @type_check_only
-class _MinimizeScalarOptionsBounded(_MinimizeScalarOptionsCommon, TypedDict, total=False):
+class _MinimizeScalarOptionsBounded(
+    _MinimizeScalarOptionsCommon, TypedDict, total=False
+):
     xatol: _Floating
 
 @type_check_only
@@ -301,5 +323,9 @@ def minimize_scalar(
 ) -> _MinimizeScalarResultT: ...
 
 # undocumented
-def standardize_bounds(bounds: Bounds, x0: onp.ToFloat1D, meth: MethodMimimize) -> Bounds | list[Bound]: ...
-def standardize_constraints(constraints: Constraints, x0: onp.ToFloat1D, meth: MethodMimimize) -> list[Constraint]: ...
+def standardize_bounds(
+    bounds: Bounds, x0: onp.ToFloat1D, meth: MethodMimimize
+) -> Bounds | list[Bound]: ...
+def standardize_constraints(
+    constraints: Constraints, x0: onp.ToFloat1D, meth: MethodMimimize
+) -> list[Constraint]: ...

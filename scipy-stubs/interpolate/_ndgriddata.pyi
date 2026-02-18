@@ -8,11 +8,18 @@ import optype.numpy as onp
 from ._interpnd import CloughTocher2DInterpolator, LinearNDInterpolator, NDInterpolatorBase
 from scipy.spatial._ckdtree import cKDTree
 
-__all__ = ["CloughTocher2DInterpolator", "LinearNDInterpolator", "NearestNDInterpolator", "griddata"]
+__all__ = [
+    "CloughTocher2DInterpolator",
+    "LinearNDInterpolator",
+    "NearestNDInterpolator",
+    "griddata",
+]
 
 ###
 
-_CT_co = TypeVar("_CT_co", bound=np.float64 | np.complex128, default=np.float64, covariant=True)
+_CT_co = TypeVar(
+    "_CT_co", bound=np.float64 | np.complex128, default=np.float64, covariant=True
+)
 
 _Method: TypeAlias = Literal["nearest", "linear", "cubic"]
 _ToXi: TypeAlias = onp.ToFloat2D | tuple[onp.ToFloat1D | onp.ToFloat2D, ...]

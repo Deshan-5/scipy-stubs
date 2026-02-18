@@ -17,9 +17,16 @@ __all__ = [
 ]
 
 _XT = TypeVar("_XT", bound=npc.integer | npc.floating)
-_XT_co = TypeVar("_XT_co", bound=npc.integer | npc.floating, default=Any, covariant=True)
+_XT_co = TypeVar(
+    "_XT_co", bound=npc.integer | npc.floating, default=Any, covariant=True
+)
 _YT = TypeVar("_YT", bound=np.float64 | np.complex128)
-_YT_co = TypeVar("_YT_co", bound=np.float64 | np.complex128, default=np.float64 | np.complex128, covariant=True)
+_YT_co = TypeVar(
+    "_YT_co",
+    bound=np.float64 | np.complex128,
+    default=np.float64 | np.complex128,
+    covariant=True,
+)
 
 _MultiIndex: TypeAlias = SupportsIndex | tuple[SupportsIndex, ...]
 
@@ -43,14 +50,29 @@ class _Interpolator1D(Generic[_YT_co]):  # undocumented
 
     #
     @overload  # no yi (default); unknown dtype
-    def __init__(self, /, xi: onp.ToFloatND | None = None, yi: None = None, axis: int | None = None) -> None: ...
+    def __init__(
+        self,
+        /,
+        xi: onp.ToFloatND | None = None,
+        yi: None = None,
+        axis: int | None = None,
+    ) -> None: ...
     @overload  # floating yi (positional)
     def __init__(
-        self: _Interpolator1D[np.float64], /, xi: onp.ToFloatND | None, yi: onp.ToFloatND, axis: int | None = None
+        self: _Interpolator1D[np.float64],
+        /,
+        xi: onp.ToFloatND | None,
+        yi: onp.ToFloatND,
+        axis: int | None = None,
     ) -> None: ...
     @overload  # floating yi (keyword)
     def __init__(
-        self: _Interpolator1D[np.float64], /, xi: onp.ToFloatND | None = None, *, yi: onp.ToFloatND, axis: int | None = None
+        self: _Interpolator1D[np.float64],
+        /,
+        xi: onp.ToFloatND | None = None,
+        *,
+        yi: onp.ToFloatND,
+        axis: int | None = None,
     ) -> None: ...
     @overload  # complex yi (positional)
     def __init__(
@@ -74,13 +96,17 @@ class _Interpolator1D(Generic[_YT_co]):  # undocumented
     def __call__(self, /, x: onp.ToFloat | onp.ToFloatND) -> onp.ArrayND[_YT_co]: ...
 
     #
-    def _evaluate(self, /, x: onp.ToFloat1D) -> onp.ArrayND[_YT_co]: ...  # undocumented, not implemented
+    def _evaluate(
+        self, /, x: onp.ToFloat1D
+    ) -> onp.ArrayND[_YT_co]: ...  # undocumented, not implemented
     @final
     def _prepare_x(
         self, /, x: onp.ToFloat | onp.ToFloatND
     ) -> tuple[onp.Array1D[Incomplete], tuple[int, ...]]: ...  # undocumented
     @final
-    def _finish_y(self, /, y: onp.Array2D[_YT_co], x_shape: tuple[int, ...]) -> onp.ArrayND[_YT_co]: ...  # undocumented
+    def _finish_y(
+        self, /, y: onp.Array2D[_YT_co], x_shape: tuple[int, ...]
+    ) -> onp.ArrayND[_YT_co]: ...  # undocumented
 
     #
     @overload
@@ -89,35 +115,57 @@ class _Interpolator1D(Generic[_YT_co]):  # undocumented
     ) -> onp.Array2D[_YT_co]: ...  # undocumented
     @overload
     def _reshape_yi(
-        self: _Interpolator1D[np.complex128], /, yi: onp.ToJustComplexND, check: bool = False
+        self: _Interpolator1D[np.complex128],
+        /,
+        yi: onp.ToJustComplexND,
+        check: bool = False,
     ) -> onp.Array2D[_YT_co]: ...  # undocumented
 
     #
     @overload
     def _set_yi(
-        self: _Interpolator1D[np.float64], /, yi: onp.ToFloatND, xi: onp.ToFloatND | None = None, axis: int | None = None
+        self: _Interpolator1D[np.float64],
+        /,
+        yi: onp.ToFloatND,
+        xi: onp.ToFloatND | None = None,
+        axis: int | None = None,
     ) -> None: ...  # undocumented
     @overload
     def _set_yi(
-        self: _Interpolator1D[np.complex128], /, yi: onp.ToJustComplexND, xi: onp.ToFloatND | None = None, axis: int | None = None
+        self: _Interpolator1D[np.complex128],
+        /,
+        yi: onp.ToJustComplexND,
+        xi: onp.ToFloatND | None = None,
+        axis: int | None = None,
     ) -> None: ...  # undocumented
 
     #
     @final
     def _set_dtype(
-        self: _Interpolator1D[_YT], /, dtype: np.dtype[_YT] | type[_YT], union: bool = False
+        self: _Interpolator1D[_YT],
+        /,
+        dtype: np.dtype[_YT] | type[_YT],
+        union: bool = False,
     ) -> None: ...  # undocumented
 
-class _Interpolator1DWithDerivatives(_Interpolator1D[_YT_co], Generic[_YT_co]):  # undocumented
-    def derivatives(self, /, x: onp.ToFloat | onp.ToFloatND, der: _MultiIndex | None = None) -> onp.ArrayND[_YT_co]: ...
-    def derivative(self, /, x: onp.ToFloat | onp.ToFloatND, der: SupportsIndex = 1) -> onp.ArrayND[_YT_co]: ...
+class _Interpolator1DWithDerivatives(
+    _Interpolator1D[_YT_co], Generic[_YT_co]
+):  # undocumented
+    def derivatives(
+        self, /, x: onp.ToFloat | onp.ToFloatND, der: _MultiIndex | None = None
+    ) -> onp.ArrayND[_YT_co]: ...
+    def derivative(
+        self, /, x: onp.ToFloat | onp.ToFloatND, der: SupportsIndex = 1
+    ) -> onp.ArrayND[_YT_co]: ...
     def _evaluate_derivatives(
         self, /, x: onp.ToFloat1D, der: int | None = None
     ) -> onp.ArrayND[_YT_co]: ...  # undocumented, not implemented
 
 # NOTE: `KroghInterpolator` is not generic at runtime (`scipy<1.17`):
 # https://github.com/scipy/scipy-stubs/issues/653
-class KroghInterpolator(_Interpolator1DWithDerivatives[_YT_co], Generic[_YT_co, _XT_co]):
+class KroghInterpolator(
+    _Interpolator1DWithDerivatives[_YT_co], Generic[_YT_co, _XT_co]
+):
     xi: onp.Array1D[_XT_co]
     yi: onp.Array2D[_YT_co]
     c: onp.Array2D[_YT_co]  # undocumented
@@ -142,26 +190,44 @@ class KroghInterpolator(_Interpolator1DWithDerivatives[_YT_co], Generic[_YT_co, 
     ) -> None: ...
     @overload  # xi: i64, yi: f64
     def __init__(
-        self: KroghInterpolator[np.float64, np.float64], /, xi: onp.ToJustInt64_1D, yi: onp.ToFloatND, axis: int = 0
+        self: KroghInterpolator[np.float64, np.float64],
+        /,
+        xi: onp.ToJustInt64_1D,
+        yi: onp.ToFloatND,
+        axis: int = 0,
     ) -> None: ...
     @overload  # xi: i64, yi: c128
     def __init__(
-        self: KroghInterpolator[np.complex128, np.float64], /, xi: onp.ToJustInt64_1D, yi: onp.ToJustComplexND, axis: int = 0
+        self: KroghInterpolator[np.complex128, np.float64],
+        /,
+        xi: onp.ToJustInt64_1D,
+        yi: onp.ToJustComplexND,
+        axis: int = 0,
     ) -> None: ...
     @overload  # xi: f64, yi: f64
     def __init__(
-        self: KroghInterpolator[np.float64, np.float64], /, xi: onp.ToJustFloat64_1D, yi: onp.ToFloatND, axis: int = 0
+        self: KroghInterpolator[np.float64, np.float64],
+        /,
+        xi: onp.ToJustFloat64_1D,
+        yi: onp.ToFloatND,
+        axis: int = 0,
     ) -> None: ...
     @overload  # xi: f64, yi: c128
     def __init__(
-        self: KroghInterpolator[np.complex128, np.float64], /, xi: onp.ToJustFloat64_1D, yi: onp.ToJustComplexND, axis: int = 0
+        self: KroghInterpolator[np.complex128, np.float64],
+        /,
+        xi: onp.ToJustFloat64_1D,
+        yi: onp.ToJustComplexND,
+        axis: int = 0,
     ) -> None: ...
 
     #
     @override
     def _evaluate(self, /, x: onp.ToFloat1D) -> onp.Array2D[_YT_co]: ...  # undocumented
     @override
-    def _evaluate_derivatives(self, /, x: onp.ToFloat1D, der: int | None = None) -> onp.Array3D[_YT_co]: ...  # undocumented
+    def _evaluate_derivatives(
+        self, /, x: onp.ToFloat1D, der: int | None = None
+    ) -> onp.Array3D[_YT_co]: ...  # undocumented
 
 # NOTE: `BarycentricInterpolator` is not generic at runtime (`scipy<1.17`):
 # https://github.com/scipy/scipy-stubs/issues/653
@@ -201,15 +267,35 @@ class BarycentricInterpolator(_Interpolator1DWithDerivatives[_YT_co], Generic[_Y
 
     #
     @overload
-    def set_yi(self: BarycentricInterpolator[np.float64], /, yi: onp.ToFloatND, axis: int | None = None) -> None: ...
+    def set_yi(
+        self: BarycentricInterpolator[np.float64],
+        /,
+        yi: onp.ToFloatND,
+        axis: int | None = None,
+    ) -> None: ...
     @overload
-    def set_yi(self: BarycentricInterpolator[np.complex128], /, yi: onp.ToJustComplexND, axis: int | None = None) -> None: ...
+    def set_yi(
+        self: BarycentricInterpolator[np.complex128],
+        /,
+        yi: onp.ToJustComplexND,
+        axis: int | None = None,
+    ) -> None: ...
 
     #
     @overload
-    def add_xi(self: BarycentricInterpolator[np.float64], /, xi: onp.ToFloat1D, yi: onp.ToFloat2D | None = None) -> None: ...
+    def add_xi(
+        self: BarycentricInterpolator[np.float64],
+        /,
+        xi: onp.ToFloat1D,
+        yi: onp.ToFloat2D | None = None,
+    ) -> None: ...
     @overload
-    def add_xi(self: BarycentricInterpolator[np.complex128], /, xi: onp.ToFloat1D, yi: onp.ToComplex2D | None = None) -> None: ...
+    def add_xi(
+        self: BarycentricInterpolator[np.complex128],
+        /,
+        xi: onp.ToFloat1D,
+        yi: onp.ToComplex2D | None = None,
+    ) -> None: ...
 
     #
     @override
@@ -218,20 +304,34 @@ class BarycentricInterpolator(_Interpolator1DWithDerivatives[_YT_co], Generic[_Y
     ) -> onp.Array2D[_YT_co] | onp.Array3D[_YT_co]: ...  # undocumented
 
 #
-def _isscalar(x: object) -> TypeIs[np.generic | complex | str | bytes | _HasShape0]: ...  # undocumented
+def _isscalar(
+    x: object,
+) -> TypeIs[np.generic | complex | str | bytes | _HasShape0]: ...  # undocumented
 
 #
 @overload
 def krogh_interpolate(
-    xi: onp.ToFloat1D, yi: onp.ToFloatND, x: onp.ToFloat | onp.ToFloat1D, der: int | list[int] | None = 0, axis: int = 0
+    xi: onp.ToFloat1D,
+    yi: onp.ToFloatND,
+    x: onp.ToFloat | onp.ToFloat1D,
+    der: int | list[int] | None = 0,
+    axis: int = 0,
 ) -> onp.ArrayND[np.float64]: ...
 @overload
 def krogh_interpolate(
-    xi: onp.ToFloat1D, yi: onp.ToJustComplexND, x: onp.ToFloat | onp.ToFloat1D, der: int | list[int] | None = 0, axis: int = 0
+    xi: onp.ToFloat1D,
+    yi: onp.ToJustComplexND,
+    x: onp.ToFloat | onp.ToFloat1D,
+    der: int | list[int] | None = 0,
+    axis: int = 0,
 ) -> onp.ArrayND[np.complex128]: ...
 @overload
 def krogh_interpolate(
-    xi: onp.ToFloat1D, yi: onp.ToComplexND, x: onp.ToFloat | onp.ToFloat1D, der: int | list[int] | None = 0, axis: int = 0
+    xi: onp.ToFloat1D,
+    yi: onp.ToComplexND,
+    x: onp.ToFloat | onp.ToFloat1D,
+    der: int | list[int] | None = 0,
+    axis: int = 0,
 ) -> onp.ArrayND[np.float64 | np.complex128]: ...
 
 #

@@ -19,7 +19,9 @@ class LSODA(OdeSolver[np.float64]):
         max_step: float = ...,
         rtol: onp.ToFloat | onp.ToFloat1D = 0.001,
         atol: onp.ToFloat | onp.ToFloat1D = 1e-06,
-        jac: Callable[[float, onp.Array1D[np.float64]], onp.Array2D[np.float64]] | None = None,
+        jac: (
+            Callable[[float, onp.Array1D[np.float64]], onp.Array2D[np.float64]] | None
+        ) = None,
         lband: int | None = None,
         uband: int | None = None,
         vectorized: bool = False,
@@ -31,4 +33,12 @@ class LsodaDenseOutput(DenseOutput[np.float64]):
     yh: onp.Array1D[np.float64]
     p: onp.Array1D[np.intp]
 
-    def __init__(self, /, t_old: float, t: float, h: float, order: int, yh: onp.Array1D[np.float64]) -> None: ...
+    def __init__(
+        self,
+        /,
+        t_old: float,
+        t: float,
+        h: float,
+        order: int,
+        yh: onp.Array1D[np.float64],
+    ) -> None: ...

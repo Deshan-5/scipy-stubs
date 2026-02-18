@@ -32,13 +32,19 @@ class MGCResult(BaseBunch[np.float64, np.float64, _MGCDict]):
     def mgc_dict(self, /) -> _MGCDict: ...
 
     #
-    def __new__(_cls, statistic: np.float64, pvalue: np.float64, mgc_dict: _MGCDict) -> Self: ...
-    def __init__(self, /, statistic: np.float64, pvalue: np.float64, mgc_dict: _MGCDict) -> None: ...
+    def __new__(
+        _cls, statistic: np.float64, pvalue: np.float64, mgc_dict: _MGCDict
+    ) -> Self: ...
+    def __init__(
+        self, /, statistic: np.float64, pvalue: np.float64, mgc_dict: _MGCDict
+    ) -> None: ...
 
 def multiscale_graphcorr(
     x: onp.ArrayND[npc.floating | npc.integer | np.bool_],
     y: onp.ArrayND[npc.floating | npc.integer | np.bool_],
-    compute_distance: Callable[[onp.ArrayND[np.float64]], onp.ArrayND[npc.floating]] = ...,
+    compute_distance: Callable[
+        [onp.ArrayND[np.float64]], onp.ArrayND[npc.floating]
+    ] = ...,
     reps: int = 1000,
     workers: int | Callable[[Callable[[_T], _R], Iterable[_T]], Sequence[_R]] = 1,
     is_twosamp: bool = False,

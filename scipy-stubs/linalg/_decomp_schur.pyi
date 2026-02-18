@@ -17,7 +17,9 @@ _InexactND: TypeAlias = onp.ArrayND[npc.inexact]
 _OutputReal: TypeAlias = Literal["real", "r"]
 _OutputComplex: TypeAlias = Literal["complex", "c"]
 
-_Sort: TypeAlias = Literal["lhp", "rhp", "iuc", "ouc"] | Callable[[float, float], onp.ToBool]
+_Sort: TypeAlias = (
+    Literal["lhp", "rhp", "iuc", "ouc"] | Callable[[float, float], onp.ToBool]
+)
 
 ###
 
@@ -80,4 +82,6 @@ def schur(
 ) -> _Tuple2i[_ComplexND]: ...
 
 #
-def rsf2csf(T: onp.ToFloatND, Z: onp.ToComplexND, check_finite: onp.ToBool = True) -> tuple[_ComplexND, _ComplexND]: ...
+def rsf2csf(
+    T: onp.ToFloatND, Z: onp.ToComplexND, check_finite: onp.ToBool = True
+) -> tuple[_ComplexND, _ComplexND]: ...

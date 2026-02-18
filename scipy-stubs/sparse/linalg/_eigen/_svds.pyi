@@ -32,4 +32,6 @@ def svds(
     options: Mapping[str, object] | None = None,
     *,
     random_state: onp.random.ToRNG | None = None,
-) -> tuple[onp.Array2D[_SCT], onp.ArrayND[np.float32 | np.float64], onp.ArrayND[_SCT]]: ...
+) -> tuple[
+    onp.Array2D[_SCT], onp.ArrayND[np.float32 | np.float64], onp.ArrayND[_SCT]
+]: ...

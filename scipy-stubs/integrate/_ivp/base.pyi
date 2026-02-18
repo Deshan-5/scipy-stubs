@@ -7,11 +7,17 @@ import numpy as np
 import optype.numpy as onp
 import optype.numpy.compat as npc
 
-_ScalarT = TypeVar("_ScalarT", bound=np.float64 | np.complex128, default=np.float64 | Any)
-_ScalarT_co = TypeVar("_ScalarT_co", bound=npc.inexact, default=np.float64 | Any, covariant=True)
+_ScalarT = TypeVar(
+    "_ScalarT", bound=np.float64 | np.complex128, default=np.float64 | Any
+)
+_ScalarT_co = TypeVar(
+    "_ScalarT_co", bound=npc.inexact, default=np.float64 | Any, covariant=True
+)
 
 _ToFunReal: TypeAlias = Callable[[float, onp.ArrayND[np.float64]], onp.ToFloatND]
-_ToFunComplex: TypeAlias = Callable[[float, onp.ArrayND[np.complex128]], onp.ToComplexND]
+_ToFunComplex: TypeAlias = Callable[
+    [float, onp.ArrayND[np.complex128]], onp.ToComplexND
+]
 
 @overload
 def check_arguments(
@@ -92,4 +98,6 @@ class DenseOutput(Generic[_ScalarT_co]):
 class ConstantDenseOutput(DenseOutput[_ScalarT_co], Generic[_ScalarT_co]):
     value: onp.ArrayND[_ScalarT_co]
 
-    def __init__(self, /, t_old: float, t: float, value: onp.ArrayND[_ScalarT_co]) -> None: ...
+    def __init__(
+        self, /, t_old: float, t: float, value: onp.ArrayND[_ScalarT_co]
+    ) -> None: ...

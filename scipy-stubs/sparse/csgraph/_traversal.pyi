@@ -24,39 +24,70 @@ DTYPE: Final[type[np.float64]] = ...
 ITYPE: Final[type[np.int32]] = ...
 
 def connected_components(
-    csgraph: _ToGraph, directed: bool = True, connection: Literal["weak", "strong"] = "weak", return_labels: bool = True
+    csgraph: _ToGraph,
+    directed: bool = True,
+    connection: Literal["weak", "strong"] = "weak",
+    return_labels: bool = True,
 ) -> tuple[int, _Int1D]: ...
 
 #
 @overload
-def breadth_first_tree(csgraph: _Graph[_RealT], i_start: int, directed: bool = True) -> csr_array[_RealT, tuple[int, int]]: ...
+def breadth_first_tree(
+    csgraph: _Graph[_RealT], i_start: int, directed: bool = True
+) -> csr_array[_RealT, tuple[int, int]]: ...
 @overload
-def breadth_first_tree(csgraph: _ToGraph, i_start: int, directed: bool = True) -> csr_array[_Real, tuple[int, int]]: ...
+def breadth_first_tree(
+    csgraph: _ToGraph, i_start: int, directed: bool = True
+) -> csr_array[_Real, tuple[int, int]]: ...
 
 #
 @overload
-def depth_first_tree(csgraph: _Graph[_RealT], i_start: int, directed: bool = True) -> csr_array[_RealT, tuple[int, int]]: ...
+def depth_first_tree(
+    csgraph: _Graph[_RealT], i_start: int, directed: bool = True
+) -> csr_array[_RealT, tuple[int, int]]: ...
 @overload
-def depth_first_tree(csgraph: _ToGraph, i_start: int, directed: bool = True) -> csr_array[_Real, tuple[int, int]]: ...
+def depth_first_tree(
+    csgraph: _ToGraph, i_start: int, directed: bool = True
+) -> csr_array[_Real, tuple[int, int]]: ...
 
 #
 @overload
 def breadth_first_order(
-    csgraph: _ToGraph, i_start: int, directed: bool = True, return_predecessors: onp.ToTrue = True
+    csgraph: _ToGraph,
+    i_start: int,
+    directed: bool = True,
+    return_predecessors: onp.ToTrue = True,
 ) -> _Pair[_Int1D]: ...
 @overload
-def breadth_first_order(csgraph: _ToGraph, i_start: int, directed: bool, return_predecessors: onp.ToFalse) -> _Int1D: ...
+def breadth_first_order(
+    csgraph: _ToGraph, i_start: int, directed: bool, return_predecessors: onp.ToFalse
+) -> _Int1D: ...
 @overload
 def breadth_first_order(
-    csgraph: _ToGraph, i_start: int, directed: bool = True, *, return_predecessors: onp.ToFalse
+    csgraph: _ToGraph,
+    i_start: int,
+    directed: bool = True,
+    *,
+    return_predecessors: onp.ToFalse,
 ) -> _Int1D: ...
 
 #
 @overload
 def depth_first_order(
-    csgraph: _ToGraph, i_start: int, directed: bool = True, return_predecessors: onp.ToTrue = True
+    csgraph: _ToGraph,
+    i_start: int,
+    directed: bool = True,
+    return_predecessors: onp.ToTrue = True,
 ) -> _Pair[_Int1D]: ...
 @overload
-def depth_first_order(csgraph: _ToGraph, i_start: int, directed: bool, return_predecessors: onp.ToFalse) -> _Int1D: ...
+def depth_first_order(
+    csgraph: _ToGraph, i_start: int, directed: bool, return_predecessors: onp.ToFalse
+) -> _Int1D: ...
 @overload
-def depth_first_order(csgraph: _ToGraph, i_start: int, directed: bool = True, *, return_predecessors: onp.ToFalse) -> _Int1D: ...
+def depth_first_order(
+    csgraph: _ToGraph,
+    i_start: int,
+    directed: bool = True,
+    *,
+    return_predecessors: onp.ToFalse,
+) -> _Int1D: ...
