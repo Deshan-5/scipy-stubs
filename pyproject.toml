@@ -177,7 +177,7 @@ project-includes = ["scipy-stubs", "scripts", "tests"]
 
 [tool.pyrefly.errors]
 implicit-any = "error"
-# missing-override-decorator = "error"  # TODO
+missing-override-decorator = "error"
 unannotated-parameter = "error"
 unannotated-return = "error"
 unused-ignore = "error"

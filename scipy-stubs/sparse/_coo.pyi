@@ -715,6 +715,7 @@ class coo_matrix(_coo_base[_ScalarT_co, tuple[int, int]], spmatrix[_ScalarT_co],
     ) -> None: ...
 
     #
+    @override
     @overload
     def getnnz(self, /, axis: None = None) -> int: ...
     @overload
