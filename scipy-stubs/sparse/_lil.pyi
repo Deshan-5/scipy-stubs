@@ -70,6 +70,7 @@ class _lil_base(_spbase[_ScalarT_co, tuple[int, int]], IndexMixin[_ScalarT_co, t
     def resize(self, /, *shape: int) -> None: ...  # pyright: ignore[reportIncompatibleMethodOverride]  # pyrefly: ignore[bad-override]
 
     # NOTE: Adding `@override` here will crash stubtest (mypy 1.15.0)
+    @override
     @overload
     def count_nonzero(self, /, axis: None = None) -> np.intp: ...
     @overload
@@ -486,6 +487,7 @@ class lil_matrix(_lil_base[_ScalarT_co], spmatrix[_ScalarT_co], Generic[_ScalarT
     def getrow(self, /, i: onp.ToJustInt) -> csr_matrix[_ScalarT_co]: ...
 
     # NOTE: using `@override` together with `@overload` causes stubtest to crash...
+    @override
     @overload
     def getnnz(self, /, axis: None = None) -> int: ...
     @overload

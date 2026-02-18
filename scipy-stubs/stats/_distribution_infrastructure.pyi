@@ -318,12 +318,14 @@ _ToQRNG: TypeAlias = QMCEngine | onp.random.ToRNG | None
 
 @type_check_only
 class _BaseDistribution(_ProbabilityDistribution[_XT_co], Generic[_XT_co, _ShapeT0_co]):
+    @override
     @overload
     def support(self: _BaseDist0[_XT], /) -> _Tuple2[_XT]: ...
     @overload
     def support(self: _BaseDistribution[_XT, _ShapeT1], /) -> _Tuple2[onp.Array[_ShapeT1, _XT]]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
 
     #
+    @override
     @overload
     def median(self: _BaseDist0[_XT], /, *, method: _MedianMethod | None = None) -> _XT: ...
     @overload
@@ -332,6 +334,7 @@ class _BaseDistribution(_ProbabilityDistribution[_XT_co], Generic[_XT_co, _Shape
     ) -> onp.Array[_ShapeT1, _XT]: ...
 
     #
+    @override
     @overload
     def mode(self: _BaseDist0[_XT], /, *, method: _ModeMethod | None = None) -> _XT: ...
     @overload
@@ -340,6 +343,7 @@ class _BaseDistribution(_ProbabilityDistribution[_XT_co], Generic[_XT_co, _Shape
     ) -> onp.Array[_ShapeT1, _XT]: ...
 
     #
+    @override
     @overload
     def sample(
         self: _BaseDist0[_XT], /, shape: tuple[()] = (), *, method: _SampleMethod | None = None, rng: _ToQRNG = None
@@ -376,6 +380,7 @@ class _BaseDistribution(_ProbabilityDistribution[_XT_co], Generic[_XT_co, _Shape
     ) -> _XT_co | onp.ArrayND[_XT_co, _ShapeT1] | onp.ArrayND[_XT_co]: ...  # first union type is needed on `numpy<2.1`
 
     #
+    @override
     @overload
     def mean(self: _BaseDist0[_XT], /, *, method: _RMomentMethod | None = None) -> _XT: ...
     @overload
@@ -384,6 +389,7 @@ class _BaseDistribution(_ProbabilityDistribution[_XT_co], Generic[_XT_co, _Shape
     ) -> onp.ArrayND[_XT, _ShapeT1]: ...
 
     #
+    @override
     @overload
     def variance(self: _BaseDist0[_XT], /, *, method: _CMomentMethod | None = None) -> _XT: ...
     @overload
@@ -392,6 +398,7 @@ class _BaseDistribution(_ProbabilityDistribution[_XT_co], Generic[_XT_co, _Shape
     ) -> onp.ArrayND[_XT, _ShapeT1]: ...
 
     #
+    @override
     @overload
     def standard_deviation(self: _BaseDist0[_XT], /, *, method: _CMomentMethod | None = None) -> _XT: ...
     @overload
@@ -400,6 +407,7 @@ class _BaseDistribution(_ProbabilityDistribution[_XT_co], Generic[_XT_co, _Shape
     ) -> onp.ArrayND[_XT, _ShapeT1]: ...
 
     #
+    @override
     @overload
     def skewness(self: _BaseDist0[_XT], /, *, method: _SMomentMethod | None = None) -> _XT: ...
     @overload
@@ -408,6 +416,7 @@ class _BaseDistribution(_ProbabilityDistribution[_XT_co], Generic[_XT_co, _Shape
     ) -> onp.ArrayND[_XT, _ShapeT1]: ...
 
     #
+    @override
     @overload
     def kurtosis(
         self: _BaseDist0[_XT], /, *, method: _SMomentMethod | None = None, convention: _KurtosisConvention = "non-excess"
@@ -422,6 +431,7 @@ class _BaseDistribution(_ProbabilityDistribution[_XT_co], Generic[_XT_co, _Shape
     ) -> onp.ArrayND[_XT, _ShapeT1]: ...
 
     #
+    @override
     @overload
     def moment(
         self: _BaseDist0, /, order: onp.ToInt = 1, kind: L["raw"] = "raw", *, method: _RMomentMethod | None = None
@@ -482,12 +492,14 @@ class _BaseDistribution(_ProbabilityDistribution[_XT_co], Generic[_XT_co, _Shape
     ) -> _FloatND[_ShapeT1]: ...
 
     #
+    @override
     @overload
     def entropy(self: _BaseDist0, /, *, method: _EntropyMethod | None = None) -> _Float: ...
     @overload
     def entropy(self: _BaseDistribution[Any, _ShapeT1], /, *, method: _EntropyMethod | None = None) -> _FloatND[_ShapeT1]: ...
 
     #
+    @override
     @overload
     def logentropy(self: _BaseDist0, /, *, method: _EntropyMethod | None = None) -> _Complex: ...
     @overload
@@ -498,6 +510,7 @@ class _BaseDistribution(_ProbabilityDistribution[_XT_co], Generic[_XT_co, _Shape
     #
     # TODO(jorenham): Adjust these, depending on the result of https://github.com/scipy/scipy/issues/22145
     # NOTE: The signatures of `pdf`, `logpdf`, `pmf`, and `logpmf` are equivalent
+    @override
     @overload  # self: T1-d, x: 0-d
     def pdf(
         self: _BaseDistribution[Any, _ShapeT1], x: onp.ToFloat, /, *, method: _PXFMethod | None = None
@@ -532,6 +545,7 @@ class _BaseDistribution(_ProbabilityDistribution[_XT_co], Generic[_XT_co, _Shape
     def pdf(self: _BaseDist1N, x: _ToFloat0ND, /, *, method: _PXFMethod | None = None) -> _FloatND: ...
 
     #
+    @override
     @overload  # self: T1-d, x: 0-d
     def logpdf(
         self: _BaseDistribution[Any, _ShapeT1], x: onp.ToFloat, /, *, method: _PXFMethod | None = None
@@ -566,6 +580,7 @@ class _BaseDistribution(_ProbabilityDistribution[_XT_co], Generic[_XT_co, _Shape
     def logpdf(self: _BaseDist1N, x: _ToFloat0ND, /, *, method: _PXFMethod | None = None) -> _FloatND: ...
 
     #
+    @override
     @overload  # self: T1-d, x: 0-d
     def pmf(
         self: _BaseDistribution[Any, _ShapeT1], x: onp.ToFloat, /, *, method: _PXFMethod | None = None
@@ -600,6 +615,7 @@ class _BaseDistribution(_ProbabilityDistribution[_XT_co], Generic[_XT_co, _Shape
     def pmf(self: _BaseDist1N, x: _ToFloat0ND, /, *, method: _PXFMethod | None = None) -> _FloatND: ...
 
     #
+    @override
     @overload  # self: T1-d, x: 0-d
     def logpmf(
         self: _BaseDistribution[Any, _ShapeT1], x: onp.ToFloat, /, *, method: _PXFMethod | None = None
@@ -635,6 +651,7 @@ class _BaseDistribution(_ProbabilityDistribution[_XT_co], Generic[_XT_co, _Shape
 
     #
     # NOTE: Apart from the `method` type, the signatures of `[log]cdf` and `[log]ccdf` are equivalent
+    @override
     @overload  # self: T1-d, x: 0-d, y?: 0-d
     def cdf(
         self: _BaseDistribution[Any, _ShapeT1],
@@ -725,6 +742,7 @@ class _BaseDistribution(_ProbabilityDistribution[_XT_co], Generic[_XT_co, _Shape
     ) -> _FloatND: ...
 
     #
+    @override
     @overload  # self: T1-d, x: 0-d, y?: 0-d
     def logcdf(
         self: _BaseDistribution[Any, _ShapeT1],
@@ -829,6 +847,7 @@ class _BaseDistribution(_ProbabilityDistribution[_XT_co], Generic[_XT_co, _Shape
     ) -> _FloatND: ...
 
     #
+    @override
     @overload  # self: T1-d, x: 0-d, y?: 0-d
     def ccdf(
         self: _BaseDistribution[Any, _ShapeT1],
@@ -921,6 +940,7 @@ class _BaseDistribution(_ProbabilityDistribution[_XT_co], Generic[_XT_co, _Shape
     ) -> _FloatND: ...
 
     #
+    @override
     @overload  # self: T1-d, x: 0-d, y?: 0-d
     def logccdf(
         self: _BaseDistribution[Any, _ShapeT1],
@@ -1025,6 +1045,7 @@ class _BaseDistribution(_ProbabilityDistribution[_XT_co], Generic[_XT_co, _Shape
     ) -> _FloatND: ...
 
     # NOTE: Apart from the `method` type, the signatures of `i[log]cdf` and `i[log]ccdf` are equivalent to those of `[log]pdf`
+    @override
     @overload  # self: T1-d, p: 0-d
     def icdf(
         self: _BaseDistribution[Any, _ShapeT1], p: onp.ToFloat, /, *, method: _ICDFMethod | None = None
@@ -1057,7 +1078,9 @@ class _BaseDistribution(_ProbabilityDistribution[_XT_co], Generic[_XT_co, _Shape
     def icdf(self: _BaseDist3, p: onp.ToFloatND, /, *, method: _ICDFMethod | None = None) -> _Float3ND: ...
     @overload  # self: >=1-d
     def icdf(self: _BaseDist1N, p: _ToFloat0ND, /, *, method: _ICDFMethod | None = None) -> _FloatND: ...
+
     #
+    @override
     @overload  # self: T1-d, logp: 0-d
     def ilogcdf(
         self: _BaseDistribution[Any, _ShapeT1], logp: onp.ToFloat, /, *, method: _ICDFMethod | None = None
@@ -1092,6 +1115,7 @@ class _BaseDistribution(_ProbabilityDistribution[_XT_co], Generic[_XT_co, _Shape
     def ilogcdf(self: _BaseDist1N, logp: _ToFloat0ND, /, *, method: _ICDFMethod | None = None) -> _FloatND: ...
 
     #
+    @override
     @overload  # self: T1-d, p: 0-d
     def iccdf(
         self: _BaseDistribution[Any, _ShapeT1], p: onp.ToFloat, /, *, method: _ICDFMethod | None = None
@@ -1124,7 +1148,9 @@ class _BaseDistribution(_ProbabilityDistribution[_XT_co], Generic[_XT_co, _Shape
     def iccdf(self: _BaseDist3, p: onp.ToFloatND, /, *, method: _ICDFMethod | None = None) -> _Float3ND: ...
     @overload  # self: >=1-d
     def iccdf(self: _BaseDist1N, p: _ToFloat0ND, /, *, method: _ICDFMethod | None = None) -> _FloatND: ...
+
     #
+    @override
     @overload  # self: T1-d, logp: 0-d
     def ilogccdf(
         self: _BaseDistribution[Any, _ShapeT1], logp: onp.ToFloat, /, *, method: _ICDFMethod | None = None

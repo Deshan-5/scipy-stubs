@@ -358,6 +358,7 @@ class ZerosPolesGain(LinearTimeInvariant[_ZerosT_co, _PolesT_co, _DTT_co], Gener
     @override
     def zeros(self, /) -> _Array12D[_ZerosT_co]: ...
     @zeros.setter
+    @override
     def zeros(self, zeros: _ToComplex12D, /) -> None: ...
 
     #
@@ -365,6 +366,7 @@ class ZerosPolesGain(LinearTimeInvariant[_ZerosT_co, _PolesT_co, _DTT_co], Gener
     @override
     def poles(self, /) -> onp.Array1D[_PolesT_co]: ...
     @poles.setter
+    @override
     def poles(self, gain: onp.ToFloat1D, /) -> None: ...
 
     #
