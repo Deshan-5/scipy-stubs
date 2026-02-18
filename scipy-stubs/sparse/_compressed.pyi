@@ -1,4 +1,3 @@
-import abc
 from typing import Any, Generic, Literal, Self, SupportsIndex
 from typing_extensions import TypeVar, override
 
@@ -29,7 +28,6 @@ class _cs_matrix(
 
     @property
     @override
-    @abc.abstractmethod
     def format(self, /) -> Literal["bsr", "csc", "csr"]: ...
 
     #

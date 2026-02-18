@@ -1,4 +1,3 @@
-import abc
 from collections.abc import Sequence
 from typing import Any, Generic, Literal, Never, Protocol, Self, SupportsIndex, final, overload, type_check_only
 from typing_extensions import TypeVar, override
@@ -50,7 +49,6 @@ class _data_matrix(_spbase[_ScalarT_co, _ShapeT_co], Generic[_ScalarT_co, _Shape
 
     #
     @property
-    @abc.abstractmethod
     @override
     def format(self, /) -> Literal["bsr", "coo", "csc", "csr", "dia"]: ...
 

@@ -176,6 +176,7 @@ reportUnusedExpression = false
 project-includes = ["scipy-stubs", "scripts", "tests"]
 
 [tool.pyrefly.errors]
+implicit-abstract-class = "error"
 implicit-any = "error"
 missing-override-decorator = "error"
 unannotated-parameter = "error"

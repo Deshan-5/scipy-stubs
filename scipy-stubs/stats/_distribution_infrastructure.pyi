@@ -176,7 +176,7 @@ class _Domain(abc.ABC, Generic[_XT_co]):
     @abc.abstractmethod
     def get_numerical_endpoints(self, /, x: _ParamValues) -> tuple[onp.ArrayND[_OutFloat], onp.ArrayND[_OutFloat]]: ...
 
-class _Interval(_Domain[_XT_co], Generic[_XT_co]):
+class _Interval(_Domain[_XT_co], Generic[_XT_co]):  # pyrefly: ignore[implicit-abstract-class]
     @override
     @abc.abstractmethod
     def __str__(self, /) -> str: ...
