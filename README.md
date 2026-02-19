@@ -282,6 +282,21 @@ See the `scipy` columns below for which classes are subscriptable at runtime.
 | `CensoredData[X: f64 \| c128, L: f64 \| c128, R: f64 \| c128, I: f64 \| c128]` | `>=1.17.0.2`  | `>=1.18` | [docs](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.CensoredData.html) |
 | `gaussian_kde[T: floating]`                                                    | `>=1.17.0.2`  | `>=1.18` | [docs](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.gaussian_kde.html) |
 
+### `scipy.stats` Classes
+
+| Class                           | Description                                                | SciPy Reference                                                                                         |
+| ------------------------------- | ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| `RelativeRiskResult`            | Result of `scipy.stats.contingency.relative_risk`          | [Docs](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.contingency.relative_risk.html) |
+| `BinomTestResult`               | Result of `scipy.stats.binomtest`                          | [Docs](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.binomtest.html)                 |
+| `TukeyHSDResult`                | Result of `scipy.stats.tukey_hsd`                          | [Docs](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.tukey_hsd.html)                 |
+| `DunnettResult`                 | Result object returned by `scipy.stats.dunnett`            | [Docs](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.dunnett.html)                   |
+| `PearsonRResult`                | Result of `scipy.stats.pearsonr`                           | [Docs](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.pearsonr.html)                  |
+| `FitResult`                     | Result of fitting a discrete or continuous distribution    | [Docs](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.rv_continuous.fit.html)         |
+| `OddsRatioResult`               | Result of `scipy.stats.contingency.odds_ratio`             | [Docs](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.contingency.odds_ratio.html)    |
+| `TtestResult`                   | Result of a t-test                                         | [Docs](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.TtestResult.html)               |
+| `ECDFResult`                    | Result object returned by `scipy.stats.ecdf`               | [Docs](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.ecdf.html)                      |
+| `EmpiricalDistributionFunction` | An empirical distribution function from `scipy.stats.ecdf` | [Docs](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.ecdf.html)                      |
+
 ## Contributing
 
 We welcome contributions from the community! There are many ways to help improve `scipy-stubs`:
