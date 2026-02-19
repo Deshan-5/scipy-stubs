@@ -14,6 +14,7 @@ class MatrixRankWarning(_dsolve.MatrixRankWarning): ...
 
 @final
 @deprecated("will be removed in SciPy v2.0.0")
+# pyrefly: ignore [invalid-inheritance]
 class SuperLU(_dsolve.SuperLU): ...  # type: ignore[misc]  # pyright: ignore[reportGeneralTypeIssues]  # ty: ignore[subclass-of-final-class]
 
 @deprecated("will be removed in SciPy v2.0.0")

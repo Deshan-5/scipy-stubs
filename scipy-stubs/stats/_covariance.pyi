@@ -57,16 +57,19 @@ class CovViaDiagonal(Covariance[_ScalarT_co], Generic[_ScalarT_co]):
     def __init__(self, /, diagonal: onp.ToArray1D[_ScalarT_co, _ScalarT_co]) -> None: ...
 
 class CovViaPrecision(Covariance[np.float64]):
+    # pyrefly: ignore [bad-override]
     __class_getitem__: ClassVar[None] = None  # type:ignore[assignment]  # pyright:ignore[reportIncompatibleMethodOverride]
 
     def __init__(self, /, precision: onp.ToFloat2D, covariance: onp.ToFloat2D | None = None) -> None: ...
 
 class CovViaCholesky(Covariance[np.float64]):
+    # pyrefly: ignore [bad-override]
     __class_getitem__: ClassVar[None] = None  # type:ignore[assignment]  # pyright:ignore[reportIncompatibleMethodOverride]
 
     def __init__(self, /, cholesky: onp.ToFloat2D) -> None: ...
 
 class CovViaEigendecomposition(Covariance[np.float64]):
+    # pyrefly: ignore [bad-override]
     __class_getitem__: ClassVar[None] = None  # type:ignore[assignment]  # pyright:ignore[reportIncompatibleMethodOverride]
 
     def __init__(self, /, eigendecomposition: tuple[onp.ToFloat1D, onp.ToFloat2D]) -> None: ...
@@ -85,6 +88,7 @@ class _PSD(Protocol):
     def pinv(self, /) -> onp.ArrayND[npc.floating]: ...
 
 class CovViaPSD(Covariance[np.float64]):
+    # pyrefly: ignore [bad-override]
     __class_getitem__: ClassVar[None] = None  # type:ignore[assignment]  # pyright:ignore[reportIncompatibleMethodOverride]
 
     _LP: Final[onp.ArrayND[np.float64]]

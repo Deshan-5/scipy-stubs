@@ -31,8 +31,11 @@ assert_type(res_f2_approx[0], np.ndarray[tuple[int], np.dtype[np.float64]])
 assert_type(res_f2_approx[1], float)
 
 fmin_l_bfgs_b(fg0, f64_1d)
+# pyrefly: ignore [no-matching-overload]
 fmin_l_bfgs_b(fg0, f64_1d, fprime=g0)  # type: ignore[arg-type]  # pyright: ignore[reportArgumentType, reportCallIssue]
+# pyrefly: ignore [no-matching-overload]
 fmin_l_bfgs_b(fg0, f64_1d, (1,))  # type: ignore[call-overload]  # pyright: ignore[reportArgumentType, reportCallIssue]
+# pyrefly: ignore [no-matching-overload]
 fmin_l_bfgs_b(f0, f64_1d)  # type: ignore[arg-type]  # pyright: ignore[reportArgumentType, reportCallIssue]
 fmin_l_bfgs_b(f0, f64_1d, fprime=g0)
 fmin_l_bfgs_b(f0, f64_1d, approx_grad=1)

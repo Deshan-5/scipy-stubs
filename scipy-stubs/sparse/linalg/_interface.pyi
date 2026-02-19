@@ -488,6 +488,7 @@ class MatrixLinearOperator(LinearOperator[_SCT_co], Generic[_SCT_co]):
 
 @final
 class _AdjointMatrixOperator(MatrixLinearOperator[_SCT_co], Generic[_SCT_co]):
+    # pyrefly: ignore [bad-override]
     args: tuple[MatrixLinearOperator[_SCT_co]]  # type: ignore[assignment]  # pyright: ignore[reportIncompatibleVariableOverride]
 
     @property

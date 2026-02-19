@@ -142,11 +142,13 @@ assert_type(optimal_leaf_ordering(f64_2d, f64_1d), onp.Array2D[np.float64])
 assert_type(is_valid_im(f64_2d), bool)
 assert_type(is_valid_im(c128_2d), bool)
 assert_type(is_valid_im(f64_2d, throw=True), bool)
+# pyrefly: ignore [no-matching-overload]
 is_valid_im(c128_2d, throw=True)  # type:ignore[call-overload]  # pyright:ignore[reportArgumentType, reportCallIssue]
 # is_valid_linkage
 assert_type(is_valid_linkage(f64_2d), bool)
 assert_type(is_valid_linkage(c128_2d), bool)
 assert_type(is_valid_linkage(f64_2d, throw=True), bool)
+# pyrefly: ignore [no-matching-overload]
 is_valid_linkage(c128_2d, throw=True)  # type:ignore[call-overload]  # pyright:ignore[reportArgumentType, reportCallIssue]
 # is_isomorphic
 assert_type(is_isomorphic(f64_1d, f64_1d), bool)
@@ -188,31 +190,37 @@ assert_type(np.int64(2) in disjoint_set_i64, bool)
 
 # __getitem__ returns an element of the universal set
 assert_type(disjoint_set_str["a"], str)
+# pyrefly: ignore [bad-index]
 disjoint_set_str[1]  # type: ignore[index]  # pyright: ignore[reportArgumentType]
 assert_type(disjoint_set_i64[np.int64(1)], np.int64)
 
 # add accepts an element of type T and adds it to the data structure (i.e. returns None)
 assert_type(disjoint_set_str.add("a"), None)
+# pyrefly: ignore [bad-argument-type]
 disjoint_set_str.add(1)  # type: ignore[arg-type]  # pyright: ignore[reportArgumentType]
 assert_type(disjoint_set_i64.add(np.int64(1)), None)
 
 # merge accepts two elements of type T and returns a boolean indicating if they belonged to the same subset
 assert_type(disjoint_set_str.merge("a", "b"), bool)
+# pyrefly: ignore [bad-argument-type]
 disjoint_set_str.merge(1, 2)  # type: ignore[arg-type]  # pyright: ignore[reportArgumentType]
 assert_type(disjoint_set_i64.merge(np.int64(1), np.int64(2)), bool)
 
 # connected accepts two elements of type T and returns a boolean indicating if they belonged to the same subset
 assert_type(disjoint_set_str.connected("a", "b"), bool)
+# pyrefly: ignore [bad-argument-type]
 disjoint_set_str.connected(1, 2)  # type: ignore[arg-type]  # pyright: ignore[reportArgumentType]
 assert_type(disjoint_set_i64.connected(np.int64(1), np.int64(2)), bool)
 
 # subset accepts one element of type T and returns its containing subset.
 assert_type(disjoint_set_str.subset("a"), set[str])
+# pyrefly: ignore [bad-argument-type]
 disjoint_set_str.subset(1)  # type: ignore[arg-type]  # pyright: ignore[reportArgumentType]
 assert_type(disjoint_set_i64.subset(np.int64(1)), set[np.int64])
 
 # subset_size accepts one element of type T and returns the *size* of its subset.
 assert_type(disjoint_set_str.subset_size("a"), int)
+# pyrefly: ignore [bad-argument-type]
 disjoint_set_str.subset_size(1)  # type: ignore[arg-type]  # pyright: ignore[reportArgumentType]
 assert_type(disjoint_set_i64.subset_size(np.int64(1)), int)
 

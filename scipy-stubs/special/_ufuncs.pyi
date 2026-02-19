@@ -568,6 +568,7 @@ class _Kw52f(_KwBase, TypedDict, total=False):
 ###
 
 @type_check_only  # https://github.com/astral-sh/ty/issues/2275
+# pyrefly: ignore [invalid-inheritance]
 class _UFunc(np.ufunc, Generic[_NameT_co, _IdentityT_co]):  # type: ignore[misc]  # pyright: ignore[reportGeneralTypeIssues]  # ty: ignore[subclass-of-final-class]
     @property
     @override

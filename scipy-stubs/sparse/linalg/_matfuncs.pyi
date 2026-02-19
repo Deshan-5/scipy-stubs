@@ -23,12 +23,14 @@ UPPER_TRIANGULAR: Final[_Structure] = "upper_triangular"
 class MatrixPowerOperator(LinearOperator[_SCT_co], Generic[_SCT_co]):
     @property
     @override
+    # pyrefly: ignore [bad-override]
     def T(self, /) -> Self: ...  # type: ignore[override]  # pyright: ignore[reportIncompatibleMethodOverride]
     def __init__(self, /, A: onp.Array2D[_SCT_co] | _spbase, p: int, structure: _Structure | None = None) -> None: ...
 
 class ProductOperator(LinearOperator[_SCT_co], Generic[_SCT_co]):
     @property
     @override
+    # pyrefly: ignore [bad-override]
     def T(self, /) -> Self: ...  # type: ignore[override]  # pyright: ignore[reportIncompatibleMethodOverride]
     def __init__(self, /, *args: onp.Array2D[_SCT_co] | _spbase, structure: _Structure | None = None) -> None: ...
 

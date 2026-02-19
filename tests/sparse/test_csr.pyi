@@ -23,7 +23,9 @@ arr_f32_1d: np.ndarray[tuple[int], np.dtype[np.float32]]
 ###
 # NOTE: Keep these tests in sync with the `dok` tests.
 
+# pyrefly: ignore [no-matching-overload]
 csr_array(1)  # type: ignore[call-overload]  # pyright: ignore[reportArgumentType, reportCallIssue]
+# pyrefly: ignore [no-matching-overload]
 csr_matrix(1)  # type: ignore[call-overload]  # pyright: ignore[reportArgumentType, reportCallIssue]
 
 assert_type(csr_array((2,)), csr_array[np.float64, tuple[int]])
@@ -87,9 +89,13 @@ assert_type(csr_array((seq_bool, (seq_int, seq_int))), csr_array[np.bool_])
 assert_type(csr_array((seq_int, (seq_int, seq_int))), csr_array[np.int64])
 assert_type(csr_array((seq_float, (seq_int, seq_int))), csr_array[np.float64])
 assert_type(csr_array((seq_complex, (seq_int, seq_int))), csr_array[np.complex128])
+# pyrefly: ignore [no-matching-overload]
 csr_array((seq_seq_bool, (seq_int, seq_int)))  # type: ignore[type-var] # pyright: ignore[reportArgumentType, reportCallIssue]
+# pyrefly: ignore [no-matching-overload]
 csr_array((seq_seq_int, (seq_int, seq_int)))  # type: ignore[type-var] # pyright: ignore[reportArgumentType, reportCallIssue]
+# pyrefly: ignore [no-matching-overload]
 csr_array((seq_seq_float, (seq_int, seq_int)))  # type: ignore[type-var] # pyright: ignore[reportArgumentType, reportCallIssue]
+# pyrefly: ignore [no-matching-overload]
 csr_array((seq_seq_complex, (seq_int, seq_int)))  # type: ignore[type-var] # pyright: ignore[reportArgumentType, reportCallIssue]
 
 assert_type(csr_matrix((arr_f32_nd, (seq_int, seq_int))), csr_matrix[np.float32])
@@ -98,9 +104,13 @@ assert_type(csr_matrix((seq_bool, (seq_int, seq_int))), csr_matrix[np.bool_])
 assert_type(csr_matrix((seq_int, (seq_int, seq_int))), csr_matrix[np.int64])
 assert_type(csr_matrix((seq_float, (seq_int, seq_int))), csr_matrix[np.float64])
 assert_type(csr_matrix((seq_complex, (seq_int, seq_int))), csr_matrix[np.complex128])
+# pyrefly: ignore [no-matching-overload]
 csr_matrix((seq_seq_bool, (seq_int, seq_int)))  # type: ignore[arg-type] # pyright: ignore[reportArgumentType, reportCallIssue]
+# pyrefly: ignore [no-matching-overload]
 csr_matrix((seq_seq_int, (seq_int, seq_int)))  # type: ignore[arg-type] # pyright: ignore[reportArgumentType, reportCallIssue]
+# pyrefly: ignore [no-matching-overload]
 csr_matrix((seq_seq_float, (seq_int, seq_int)))  # type: ignore[arg-type] # pyright: ignore[reportArgumentType, reportCallIssue]
+# pyrefly: ignore [no-matching-overload]
 csr_matrix((seq_seq_complex, (seq_int, seq_int)))  # type: ignore[arg-type] # pyright: ignore[reportArgumentType, reportCallIssue]
 
 ###
@@ -131,7 +141,9 @@ assert_type(csr_mat.getnnz(1), _Index1D)
 assert_type(csr_mat.getnnz(0), _Index1D)
 assert_type(csr_mat.getnnz(-1), _Index1D)
 assert_type(csr_mat.getnnz(-2), _Index1D)
+# pyrefly: ignore [no-matching-overload]
 csr_mat.getnnz(2)  # type: ignore[call-overload]  # pyright: ignore[reportArgumentType, reportCallIssue]
+# pyrefly: ignore [no-matching-overload]
 csr_mat.getnnz(-3)  # type: ignore[call-overload]  # pyright: ignore[reportArgumentType, reportCallIssue]
 
 assert_type(isspmatrix(csr_arr), bool)
@@ -149,6 +161,7 @@ assert_type(csr_vec[0, None], csr_array[ScalarType, tuple[int]])
 assert_type(csr_vec[None, 0], csr_array[ScalarType, tuple[int]])
 assert_type(csr_vec[None], coo_array[ScalarType, tuple[int, int]])
 
+# pyrefly: ignore [bad-index]
 csr_arr[None]  # type: ignore[call-overload]  # pyright: ignore[reportArgumentType, reportCallIssue]
 assert_type(csr_arr[0, 0], ScalarType)
 assert_type(csr_arr[0], coo_array[ScalarType, tuple[int]])
@@ -163,6 +176,7 @@ assert_type(csr_arr[0, None], csr_array[ScalarType, tuple[int, int]])
 assert_type(csr_arr[None, 0], csr_array[ScalarType, tuple[int, int]])
 assert_type(csr_arr[seq_int, seq_int], np.ndarray[tuple[int], np.dtype[ScalarType]])
 
+# pyrefly: ignore [bad-index]
 csr_mat[None]  # type: ignore[call-overload]  # pyright: ignore[reportArgumentType, reportCallIssue]
 assert_type(csr_mat[0, 0], ScalarType)
 assert_type(csr_mat[0], csr_matrix[ScalarType])

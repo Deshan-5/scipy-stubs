@@ -67,9 +67,11 @@ assert_type(resample_poly(i8_1d, num, num), onp.Array1D[np.float64])
 assert_type(resample_poly(f16_1d, num, num), onp.Array1D[np.float32])
 assert_type(resample_poly(f32_1d, num, num), onp.Array1D[np.float32])
 assert_type(resample_poly(f64_1d, num, num), onp.Array1D[np.float64])
+# pyrefly: ignore [no-matching-overload]
 resample_poly(f80_1d, num, num)  # type: ignore[type-var]  # pyright: ignore[reportArgumentType, reportCallIssue]
 assert_type(resample_poly(c64_1d, num, num), onp.Array1D[np.complex64])
 assert_type(resample_poly(c128_1d, num, num), onp.Array1D[np.complex128])
+# pyrefly: ignore [no-matching-overload]
 resample_poly(c160_1d, num, num)  # type: ignore[type-var]  # pyright: ignore[reportArgumentType, reportCallIssue]
 
 assert_type(resample_poly(py_i_2d, num, num), onp.ArrayND[np.float64])
@@ -77,8 +79,10 @@ assert_type(resample_poly(py_f_2d, num, num), onp.ArrayND[np.float64])
 assert_type(resample_poly(i8_2d, num, num), onp.Array2D[np.float64])
 assert_type(resample_poly(f16_2d, num, num), onp.Array2D[np.float32])
 assert_type(resample_poly(f32_2d, num, num), onp.Array2D[np.float32])
+# pyrefly: ignore [no-matching-overload]
 resample_poly(f80_2d, num, num)  # type: ignore[type-var]  # pyright: ignore[reportArgumentType, reportCallIssue]
 assert_type(resample_poly(f64_2d, num, num), onp.Array2D[np.float64])
 assert_type(resample_poly(c64_2d, num, num), onp.Array2D[np.complex64])
 assert_type(resample_poly(c128_2d, num, num), onp.Array2D[np.complex128])
+# pyrefly: ignore [no-matching-overload]
 resample_poly(c160_2d, num, num)  # type: ignore[type-var]  # pyright: ignore[reportArgumentType, reportCallIssue]

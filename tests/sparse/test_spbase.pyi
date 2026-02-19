@@ -85,7 +85,9 @@ assert_type(csr_mat + 0, sparse.csr_matrix[ScalarType])
 assert_type(csr_mat - 0, sparse.csr_matrix[ScalarType])
 assert_type(csr_mat * 3, sparse.csr_matrix[ScalarType])
 assert_type(csr_mat**3, sparse.csr_matrix[ScalarType])
+# pyrefly: ignore [unsupported-operation]
 csr_mat + 1  # type: ignore[operator]  # pyright: ignore[reportOperatorIssue]
+# pyrefly: ignore [unsupported-operation]
 csr_mat - 1  # type: ignore[operator]  # pyright: ignore[reportOperatorIssue]
 assert_type(csr_mat + csr_mat, sparse.csr_matrix[ScalarType])
 assert_type(csr_mat - csr_mat, sparse.csr_matrix[ScalarType])
@@ -103,7 +105,9 @@ assert_type(csr_arr + 0, sparse.csr_array[ScalarType])
 assert_type(csr_arr - 0, sparse.csr_array[ScalarType])
 assert_type(csr_arr * 3, sparse.csr_array[ScalarType])
 assert_type(csr_arr**3, sparse.csr_array[ScalarType])
+# pyrefly: ignore [unsupported-operation]
 csr_arr + 1  # type: ignore[operator]  # pyright: ignore[reportOperatorIssue]
+# pyrefly: ignore [unsupported-operation]
 csr_arr - 1  # type: ignore[operator]  # pyright: ignore[reportOperatorIssue]
 assert_type(csr_arr + csr_arr, sparse.csr_array[ScalarType])
 assert_type(csr_arr - csr_arr, sparse.csr_array[ScalarType])

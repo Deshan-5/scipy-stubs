@@ -29,7 +29,9 @@ assert_type(sparse.save_npz("", coo_mat), None)
 assert_type(sparse.save_npz("", csc_mat), None)
 assert_type(sparse.save_npz("", csr_mat), None)
 assert_type(sparse.save_npz("", dia_mat), None)
+# pyrefly: ignore [bad-argument-type]
 sparse.save_npz("", dok_mat)  # type: ignore[arg-type]  # pyright: ignore[reportArgumentType]
+# pyrefly: ignore [bad-argument-type]
 sparse.save_npz("", lil_mat)  # type: ignore[arg-type]  # pyright: ignore[reportArgumentType]
 
 assert_type(sparse.save_npz("", bsr_arr), None)
@@ -37,9 +39,12 @@ assert_type(sparse.save_npz("", coo_arr), None)
 assert_type(sparse.save_npz("", csc_arr), None)
 assert_type(sparse.save_npz("", csr_arr), None)
 assert_type(sparse.save_npz("", dia_arr), None)
+# pyrefly: ignore [bad-argument-type]
 sparse.save_npz("", dok_arr)  # type: ignore[arg-type]  # pyright: ignore[reportArgumentType]
+# pyrefly: ignore [bad-argument-type]
 sparse.save_npz("", lil_arr)  # type: ignore[arg-type]  # pyright: ignore[reportArgumentType]
 
+# pyrefly: ignore [bad-argument-type]
 sparse.save_npz(b"", coo_arr)  # type: ignore[arg-type]  # pyright: ignore[reportArgumentType]
 assert_type(sparse.save_npz(Path(), coo_arr), None)
 assert_type(sparse.save_npz(io.BytesIO(), coo_arr), None)
