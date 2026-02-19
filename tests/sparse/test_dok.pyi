@@ -21,7 +21,9 @@ seq_seq_complex: list[list[complex]]
 ###
 # NOTE: Keep these tests in sync with the `csr` tests.
 
+# pyrefly: ignore [no-matching-overload]
 dok_array(1)  # type: ignore[call-overload]  # pyright: ignore[reportArgumentType, reportCallIssue]
+# pyrefly: ignore [no-matching-overload]
 dok_matrix(1)  # type: ignore[call-overload]  # pyright: ignore[reportArgumentType, reportCallIssue]
 
 assert_type(dok_array((2,)), dok_array[np.float64, tuple[int]])
@@ -55,6 +57,7 @@ assert_type(len(dok_mat), int)
 assert_type(dok_vec[0], ScalarType)
 assert_type(dok_arr[0], coo_array[ScalarType, tuple[int]])
 assert_type(dok_mat[0], dok_matrix[ScalarType])
+# pyrefly: ignore [bad-index]
 dok_vec[0, 0]  # type: ignore[index]  # pyright: ignore[reportArgumentType, reportCallIssue]
 assert_type(dok_arr[0, 0], ScalarType)
 assert_type(dok_mat[0, 0], ScalarType)
@@ -70,15 +73,22 @@ assert_type(dok_mat.ndim, Literal[2])
 # .count_nonzero() (defined in `_dok_base`), so no need to check for `dok_matrix`
 assert_type(dok_vec.count_nonzero(), int)
 assert_type(dok_arr.count_nonzero(), int)
+# pyrefly: ignore [bad-argument-type]
 dok_vec.count_nonzero(0)  # type: ignore[arg-type]  # pyright: ignore[reportArgumentType]
+# pyrefly: ignore [bad-argument-type]
 dok_arr.count_nonzero(0)  # type: ignore[arg-type]  # pyright: ignore[reportArgumentType]
+# pyrefly: ignore [bad-argument-type]
 dok_vec.count_nonzero(axis=0)  # type: ignore[arg-type]  # pyright: ignore[reportArgumentType]
+# pyrefly: ignore [bad-argument-type]
 dok_arr.count_nonzero(axis=0)  # type: ignore[arg-type]  # pyright: ignore[reportArgumentType]
 
 # .get()
 assert_type(dok_vec.get((0,)), ScalarType | float)
+# pyrefly: ignore [no-matching-overload]
 dok_arr.get((0,))  # type: ignore[arg-type]  # pyright: ignore[reportArgumentType]
+# pyrefly: ignore [no-matching-overload]
 dok_mat.get((0,))  # type: ignore[arg-type]  # pyright: ignore[reportArgumentType]
+# pyrefly: ignore [no-matching-overload]
 dok_vec.get((0, 1))  # type: ignore[arg-type]  # pyright: ignore[reportArgumentType]
 assert_type(dok_arr.get((0, 0)), ScalarType | float)
 assert_type(dok_mat.get((0, 0)), ScalarType | float)

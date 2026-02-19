@@ -72,11 +72,13 @@ class CubicHermiteSpline(PPoly[_CT_co]):
     ) -> None: ...
 
 class PchipInterpolator(CubicHermiteSpline[np.float64]):
+    # pyrefly: ignore [bad-override]
     __class_getitem__: ClassVar[None] = None  # type:ignore[assignment]  # pyright:ignore[reportIncompatibleMethodOverride]
 
     def __init__(self, /, x: onp.ToFloat1D, y: onp.ToFloatND, axis: _ToAxis = 0, extrapolate: bool | None = None) -> None: ...
 
 class Akima1DInterpolator(CubicHermiteSpline[np.float64]):
+    # pyrefly: ignore [bad-override]
     __class_getitem__: ClassVar[None] = None  # type:ignore[assignment]  # pyright:ignore[reportIncompatibleMethodOverride]
 
     def __init__(
@@ -92,12 +94,15 @@ class Akima1DInterpolator(CubicHermiteSpline[np.float64]):
 
     # the following (class)methods will raise `NotImplementedError` when called
     @override
+    # pyrefly: ignore [bad-override]
     def extend(self, /, c: Never, x: Never, right: bool = True) -> Never: ...  # type: ignore[override]  # pyright: ignore[reportIncompatibleMethodOverride]
     @classmethod
     @override
+    # pyrefly: ignore [bad-override]
     def from_spline(cls, tck: Never, extrapolate: None = None) -> Never: ...  # type: ignore[override]  # pyright: ignore[reportIncompatibleMethodOverride]  # ty: ignore[invalid-method-override]
     @classmethod
     @override
+    # pyrefly: ignore [bad-override]
     def from_bernstein_basis(cls, bp: Never, extrapolate: None = None) -> Never: ...  # type: ignore[override]  # pyright: ignore[reportIncompatibleMethodOverride]  # ty: ignore[invalid-method-override]
 
 class CubicSpline(CubicHermiteSpline[_CT_co], Generic[_CT_co]):

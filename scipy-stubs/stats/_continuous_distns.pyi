@@ -328,7 +328,7 @@ class moyal_gen(_rv_continuous_0): ...
 
 class norm_gen(_rv_continuous_0):
     @override
-    def fit(  # type: ignore[override]  # pyright: ignore[reportIncompatibleMethodOverride]
+    def fit(  # type: ignore[override] # pyright: ignore[reportIncompatibleMethodOverride] # pyrefly: ignore [bad-override]
         self,
         /,
         data: onp.ToFloat64_ND | CensoredData[np.float64],

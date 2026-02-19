@@ -21,8 +21,11 @@ assert_type(d.uniform(0, [0.5, 2]).mean(), _FloatND)
 assert_type(d.uniform().expect(), _Float)
 assert_type(d.uniform(0).expect(), _Float)
 assert_type(d.uniform(0.5, 2).expect(), _Float)
+# pyrefly: ignore [bad-argument-type]
 d.uniform([0, -1]).expect()  # type: ignore[misc]  # pyright: ignore[reportUnknownMemberType, reportAttributeAccessIssue]
+# pyrefly: ignore [bad-argument-type]
 d.uniform([0, 0.5], 2).expect()  # type: ignore[misc]  # pyright: ignore[reportUnknownMemberType, reportAttributeAccessIssue]
+# pyrefly: ignore [bad-argument-type]
 d.uniform(0, [0.5, 2]).expect()  # type: ignore[misc]  # pyright: ignore[reportUnknownMemberType, reportAttributeAccessIssue]
 ###
 
@@ -38,6 +41,7 @@ assert_type(d.bernoulli([0, 0.5]).mean(), _FloatND)
 assert_type(d.bernoulli(0.5).mean(), _Float)
 assert_type(d.bernoulli(0.5, 1).mean(), _Float)
 assert_type(d.bernoulli(0.5, loc=1).mean(), _Float)
+# pyrefly: ignore [bad-argument-type]
 d.bernoulli([0, 0.5]).expect()  # type: ignore[misc]  # pyright: ignore[reportUnknownMemberType, reportAttributeAccessIssue]
 ###
 
